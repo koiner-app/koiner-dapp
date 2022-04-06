@@ -5,7 +5,7 @@
         <q-toolbar-title>
           <koiner-logo />
         </q-toolbar-title>
-        <div>Not connected</div>
+        <user-menu />
       </q-toolbar>
     </q-header>
 
@@ -32,10 +32,11 @@ import { defineComponent, ref } from 'vue';
 import KoinerLogo from 'components/KoinerLogo.vue';
 import MainNavigation from 'components/MainNavigation.vue';
 import Ticker from 'components/TickerComponent.vue';
+import UserMenu from 'components/UserMenu.vue';
 
 export default defineComponent({
   name: 'MainLayout',
-  components: { MainNavigation, Ticker, KoinerLogo },
+  components: { UserMenu, MainNavigation, Ticker, KoinerLogo },
   setup() {
     const leftDrawerOpen = ref(false);
 
