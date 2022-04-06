@@ -1,0 +1,153 @@
+a {
+  text-decoration: none;
+  color: darken($primary, 14);
+}
+
+.q-page {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+.q-header,
+.q-footer {
+  .q-toolbar {
+    background: #0b0e11 !important;
+    min-height: 44px;
+
+    .q-toolbar__title {
+      font-size: 12px;
+    }
+  }
+}
+.q-footer {
+  .q-toolbar {
+    min-height: 32px;
+    background-color: #000000;
+    color: rgba(255, 255, 255, 0.7);
+  }
+}
+
+.q-drawer {
+  .mini-icon {
+    //font-size: 2rem;
+  }
+
+  .q-drawer__content {
+    background-color: #181a20 !important;
+    color: #848e9c !important;
+    &:hover {
+      color: #bc4e74;
+    }
+  }
+
+  &.q-drawer--mini {
+    width: 65px !important;
+
+    .q-list {
+      margin-top: 1rem;
+    }
+
+    .q-item {
+      margin-bottom: 1rem;
+    }
+
+    .q-item__label {
+      display: block !important;
+      color: #848e9c !important;
+      padding: 0 4px;
+      font-size: 0.65rem;
+      text-align: center;
+      text-overflow: unset;
+      white-space: break-spaces;
+    }
+    .q-icon {
+      margin: 0 auto;
+    }
+  }
+}
+
+.tickers {
+  position: relative;
+
+  > .v-icon {
+    font-size: 0.75rem !important;
+    position: absolute !important;
+    left: 8px;
+    margin-top: 2px;
+  }
+  > div {
+    margin-left: 24px;
+  }
+}
+
+.divider--extra-small,
+.divider--small {
+  position: relative;
+  margin: 0 14px !important;
+}
+
+.red--text {
+  color: #f44336 !important;
+  caret-color: #f44336 !important;
+}
+
+.green--text {
+  color: #4caf50 !important;
+  caret-color: #4caf50 !important;
+}
+
+.ticker {
+  font-size: 0.75rem;
+  cursor: default;
+
+  .ticker-item {
+    span {
+      margin: 0 3px;
+    }
+  }
+}
+
+.search-bar {
+  width: 300px;
+  display: inline-block;
+  transform: translateX(calc(50vw - 150px));
+
+  .q-field__control {
+    height: 28px !important;
+
+    .q-field__native {
+      padding: 0;
+      line-height: 1;
+    }
+    .q-field__label {
+      top: 5px;
+      font-size: 0.75rem;
+    }
+  }
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px rgba(221, 221, 221, 0.3);
+  border-radius: 6px;
+}
+
+/* Handle */
+.q-scrollarea__thumb--v,
+::-webkit-scrollbar-thumb {
+  background: $primary;
+  border-radius: 6px;
+  width: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: $primary;
+}
+
+@import 'includes/table';
