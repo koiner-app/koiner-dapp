@@ -16,10 +16,6 @@ declare module '@vue/runtime-core' {
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 const kondor = window.kondor;
-console.log('kondor?');
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-console.log(kondor);
 
 export default boot(({ app }) => {
   app.config.globalProperties.$kondor = kondor;
