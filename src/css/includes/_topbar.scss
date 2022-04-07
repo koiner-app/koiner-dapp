@@ -1,0 +1,61 @@
+.koiner-topbar {
+  top: 44px;
+  left: 65px;
+  z-index: 999;
+  background: #ffffff;
+  padding: 0 1rem 0 6.5rem;
+  border-bottom: 1px solid #edeae9;
+  min-height: 4.375rem;
+
+  .q-tab {
+    text-transform: none;
+    padding: 0;
+    margin: 0 1rem;
+
+    &:first-of-type {
+      margin-left: 0;
+    }
+
+    &:focus,
+    &.q-manual-focusable--focused,
+    &:hover {
+      > .q-focus-helper {
+        opacity: 0 !important;
+      }
+    }
+
+    .q-tab__label {
+      font-size: 0.875rem;
+    }
+  }
+
+  .topbar-icon {
+    font-size: 4rem;
+    position: absolute;
+    left: 1rem;
+    top: 10px;
+    color: lighten($primary, 35%);
+  }
+
+  .topbar-header {
+    min-height: 2.25rem;
+  }
+
+  .selected-item {
+    line-height: 1;
+    display: inline-block;
+    margin-top: 1.25rem;
+    font-size: 1.125rem;
+    font-weight: bold;
+  }
+
+  .action-menu,
+  .favorite-icon {
+    transform: translateY(-2px);
+  }
+
+  .favorite-icon {
+    color: #ffcf21;
+    margin-left: 0.5rem;
+  }
+}

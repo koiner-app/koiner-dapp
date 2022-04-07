@@ -4,7 +4,9 @@ import { kondor } from 'boot/kondor';
 
 export const useAccountStore = defineStore({
   id: 'account',
+  persist: true,
   state: () => ({
+    name: 'User',
     addresses: [] as string[],
     connected: false,
   }),
@@ -16,13 +18,14 @@ export const useAccountStore = defineStore({
   actions: {
     logout() {
       this.$patch({
+        name: 'User',
         addresses: [],
         connected: false,
       });
     },
 
     /**
-     * Attempt to login a user using Kondor wallet
+     * Attempt to login user using Kondor wallet
      */
     async login() {
       const accounts = await kondor.getAccounts();

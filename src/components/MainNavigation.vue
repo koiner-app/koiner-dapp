@@ -27,6 +27,16 @@ export default defineComponent({
       link: ref('/'),
       menuItems: [
         {
+          name: 'Chain',
+          to: '/blocks',
+          icon: 'token',
+        },
+        {
+          name: 'Tokens',
+          to: '/tokens',
+          icon: 'toll',
+        },
+        {
           name: 'Lockups',
           to: '/lockups',
           icon: 'lock',

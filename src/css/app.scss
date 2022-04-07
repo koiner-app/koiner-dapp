@@ -11,7 +11,8 @@ a {
 .q-header,
 .q-footer {
   .q-toolbar {
-    background: #0b0e11 !important;
+    //background: #0b0e11 !important;
+    background: darken(#28283f, 10%) !important;
     min-height: 44px;
 
     .q-toolbar__title {
@@ -22,7 +23,8 @@ a {
 .q-footer {
   .q-toolbar {
     min-height: 32px;
-    background-color: #000000;
+    //background-color: #000000;
+    background: darken(#28283f, 10%) !important;
     color: rgba(255, 255, 255, 0.7);
   }
 }
@@ -33,7 +35,8 @@ a {
   }
 
   .q-drawer__content {
-    background-color: #181a20 !important;
+    //background-color: #181a20 !important;
+    background-color: darken(#28283f, 10%) !important;
     color: #848e9c !important;
     &:hover {
       color: #bc4e74;
@@ -140,14 +143,17 @@ a {
 /* Handle */
 .q-scrollarea__thumb--v,
 ::-webkit-scrollbar-thumb {
-  background: $primary;
+  //background: $primary;
+  background: #fcfeff;
   border-radius: 6px;
   width: 5px;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: $primary;
+  //background: $primary;
+  background: #fcfeff;
 }
 
+@import 'includes/topbar';
 @import 'includes/table';

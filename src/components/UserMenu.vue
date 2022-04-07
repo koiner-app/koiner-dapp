@@ -2,38 +2,47 @@
   <div v-if="!account.connected">
     <span @click="account.login()">Connect wallet</span>
   </div>
-  <q-list
-    v-if="account.connected"
-    bordered
-    padding
-    class="rounded-borders text-primary bottom-nav cursor-pointer"
-  >
-    <q-item v-if="account" flat class="full-width">
-      <q-menu anchor="bottom right" self="bottom left">
-        <div class="row no-wrap q-pa-md">
-          <div class="column items-center">
-            <div class="text-subtitle1 q-mt-md q-mb-lg">
-              Address: {{ account.address }}
-            </div>
+  <q-btn v-if="account.connected" flat dense size="md" class="action-menu">
+    <q-icon name="account_circle"></q-icon>
+    <q-menu anchor="bottom left" self="top left">
+      <q-item clickable to="/account">
+        <q-item-section>Account</q-item-section>
+      </q-item>
 
-            <q-btn
-              v-close-popup
-              color="primary"
-              label="Logout"
-              push
-              size="sm"
-              @click="account.logout"
-            />
-          </div>
-        </div>
-      </q-menu>
-      <q-item-section avatar>
-        <q-avatar size="2rem" color="primary" text-color="white">
-          <span style="font-size: 0.75rem">ME</span>
-        </q-avatar>
-      </q-item-section>
-    </q-item>
-  </q-list>
+      <q-separator />
+
+      <q-item clickable>
+        <q-item-section>Addresses: <br />{{ account.address }}</q-item-section>
+      </q-item>
+
+      <q-separator />
+
+      <q-item clickable>
+        <q-item-section>Add address</q-item-section>
+      </q-item>
+
+      <q-separator />
+
+      <q-item clickable>
+        <q-item-section>Export settings</q-item-section>
+      </q-item>
+
+      <q-separator />
+
+      <q-item clickable>
+        <q-item-section>
+          <q-btn
+            v-close-popup
+            color="primary"
+            label="Logout"
+            push
+            size="sm"
+            @click="account.logout"
+          />
+        </q-item-section>
+      </q-item>
+    </q-menu>
+  </q-btn>
 </template>
 
 <script lang="ts">
