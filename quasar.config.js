@@ -28,7 +28,7 @@ module.exports = configure(function (/* ctx */) {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     // https://v2.quasar.dev/quasar-cli-vite/boot-files
-    boot: ['i18n', 'axios', 'kondor'],
+    boot: ['i18n', 'axios', 'kondor', 'villus'],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#css
     css: ['app.scss'],
@@ -89,7 +89,36 @@ module.exports = configure(function (/* ctx */) {
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#devServer
     devServer: {
-      // https: true
+      https: false,
+      port: 9000,
+      allowedHosts: ['api.koinos.io', 'api.koiner.io'],
+      proxy: {
+        '/graphql': {
+          target: 'https://api.koiner.app',
+          changeOrigin: true,
+          pathRewrite: {
+            '^/graphql': '',
+          },
+        },
+        '/jsonrpc': {
+          target: 'http://api.koinos.io:8080',
+          changeOrigin: true,
+          pathRewrite: {
+            '^/jsonrpc': '',
+          },
+        },
+      },
+      // before (app) {
+      //   // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
+      //   app.options('*', cors())
+      //   // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
+      //   app.use(cors())
+      // },
+      headers: {
+        'Access-Control-Allow-Methods': '*',
+        // 'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+        'Access-Control-Allow-Origin': '*',
+      },
       open: true, // opens browser window automatically
     },
 

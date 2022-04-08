@@ -1,0 +1,465 @@
+# This file was generated based on ".graphqlconfig". Do not edit manually.
+
+schema {
+    query: Query
+}
+
+union ContractOperationDetailsUnion = Krc20Operation | UnknownContractOperation
+
+union OperationDetailsUnion = ContractOperation | SystemCallOperation | SystemContractOperation | UploadContractOperation
+
+type Address {
+    "Timestamp as to when this entity was created"
+    createdAt: DateTime!
+    "Globally unique identifier for this entity"
+    id: ID!
+    krc20Operations(after: String, before: String, filter: Krc20OperationsFilter, first: Int = 30, sort: [Krc20OperationsSortInput!] = [{direction: desc, field: createdAt}]): Krc20OperationsConnection!
+    stats: AddressStatistics!
+    transactions(after: String, before: String, filter: TransactionsFilter, first: Int = 30, sort: [TransactionsSortInput!] = [{direction: desc, field: createdAt}]): TransactionsConnection!
+    "Timestamp as to when this entity was last updated"
+    updatedAt: DateTime!
+}
+
+type AddressEdge {
+    cursor: String!
+    node: Address!
+}
+
+type AddressStatistics {
+    contractCount: Int!
+    operationCount: Int!
+    transactionCount: Int!
+}
+
+type AddressesConnection {
+    edges: [AddressEdge!]
+    nodes: [Address!]
+    pageInfo: PageInfo!
+    totalCount: Int!
+}
+
+type Block {
+    "Timestamp as to when this entity was created"
+    createdAt: DateTime!
+    header: BlockHeader!
+    "Globally unique identifier for this entity"
+    id: ID!
+    signature: String!
+    transactionCount: Float!
+    transactions(after: String, before: String, filter: TransactionsFilter, first: Int = 30, sort: [TransactionsSortInput!] = [{direction: desc, field: createdAt}]): TransactionsConnection!
+    "Timestamp as to when this entity was last updated"
+    updatedAt: DateTime!
+}
+
+type BlockEdge {
+    cursor: String!
+    node: Block!
+}
+
+type BlockHeader {
+    height: Float!
+    previous: String!
+    previousStateMerkleRoot: String
+    signer: String!
+    timestamp: Float!
+    transactionMerkleRoot: String
+}
+
+type BlocksConnection {
+    edges: [BlockEdge!]
+    nodes: [Block!]
+    pageInfo: PageInfo!
+    totalCount: Int!
+}
+
+type Contract {
+    abi: String
+    blockHeight: Float!
+    "Timestamp as to when this entity was created"
+    createdAt: DateTime!
+    "Globally unique identifier for this entity"
+    id: ID!
+    operationIndex: Float!
+    transactionId: String!
+    "Timestamp as to when this entity was last updated"
+    updatedAt: DateTime!
+}
+
+type ContractEdge {
+    cursor: String!
+    node: Contract!
+}
+
+type ContractOperation {
+    args: String!
+    contractId: String!
+    contractStandardType: ContractStandardType
+    "Timestamp as to when this entity was created"
+    createdAt: DateTime!
+    details: ContractOperationDetailsUnion!
+    entryPoint: Float!
+    "Globally unique identifier for this entity"
+    id: ID!
+    "Timestamp as to when this entity was last updated"
+    updatedAt: DateTime!
+}
+
+type ContractsConnection {
+    edges: [ContractEdge!]
+    nodes: [Contract!]
+    pageInfo: PageInfo!
+    totalCount: Int!
+}
+
+type Krc20Contract {
+    blockHeight: Float!
+    "Timestamp as to when this entity was created"
+    createdAt: DateTime!
+    decimals: Float!
+    "Globally unique identifier for this entity"
+    id: ID!
+    name: String!
+    operationIndex: Float!
+    operations(after: String, before: String, filter: Krc20OperationsFilter, first: Int = 30, sort: [Krc20OperationsSortInput!] = [{direction: desc, field: createdAt}]): Krc20OperationsConnection!
+    symbol: String!
+    transactionId: String!
+    "Timestamp as to when this entity was last updated"
+    updatedAt: DateTime!
+}
+
+type Krc20ContractEdge {
+    cursor: String!
+    node: Krc20Contract!
+}
+
+type Krc20ContractsConnection {
+    edges: [Krc20ContractEdge!]
+    nodes: [Krc20Contract!]
+    pageInfo: PageInfo!
+    totalCount: Int!
+}
+
+type Krc20Operation {
+    "Timestamp as to when this entity was created"
+    createdAt: DateTime!
+    from: String
+    "Globally unique identifier for this entity"
+    id: ID!
+    operation: String!
+    to: String!
+    "Timestamp as to when this entity was last updated"
+    updatedAt: DateTime!
+    value: String!
+}
+
+type Krc20OperationEdge {
+    cursor: String!
+    node: Krc20Operation!
+}
+
+type Krc20OperationsConnection {
+    edges: [Krc20OperationEdge!]
+    nodes: [Krc20Operation!]
+    pageInfo: PageInfo!
+    totalCount: Int!
+}
+
+type Operation {
+    blockHeight: Float!
+    "Timestamp as to when this entity was created"
+    createdAt: DateTime!
+    details: OperationDetailsUnion!
+    "Globally unique identifier for this entity"
+    id: ID!
+    index: Float!
+    transactionId: String!
+    type: OperationType!
+    "Timestamp as to when this entity was last updated"
+    updatedAt: DateTime!
+}
+
+type OperationEdge {
+    cursor: String!
+    node: Operation!
+}
+
+type OperationsConnection {
+    edges: [OperationEdge!]
+    nodes: [Operation!]
+    pageInfo: PageInfo!
+    totalCount: Int!
+}
+
+type PageInfo {
+    endCursor: String
+    hasNextPage: Boolean!
+    hasPreviousPage: Boolean!
+    startCursor: String
+}
+
+type Query {
+    address(id: ID!): Address!
+    addresses(after: String, before: String, filter: AddressesFilter, first: Int = 30, sort: [AddressesSortInput!] = [{direction: desc, field: createdAt}]): AddressesConnection!
+    block(height: ID!): Block!
+    blocks(after: String, before: String, filter: BlocksFilter, first: Int = 30, sort: [BlocksSortInput!] = [{direction: desc, field: height}]): BlocksConnection!
+    contract(id: ID!): Contract!
+    contracts(after: String, before: String, filter: ContractsFilter, first: Int = 30, sort: [ContractsSortInput!] = [{direction: desc, field: blockHeight}]): ContractsConnection!
+    krc20Contract(id: ID!): Krc20Contract!
+    krc20Contracts(after: String, before: String, filter: Krc20ContractsFilter, first: Int = 30, sort: [Krc20ContractsSortInput!] = [{direction: desc, field: blockHeight}]): Krc20ContractsConnection!
+    krc20Operation(id: ID!): Krc20Operation!
+    krc20Operations(after: String, before: String, filter: Krc20OperationsFilter, first: Int = 30, sort: [Krc20OperationsSortInput!] = [{direction: desc, field: createdAt}]): Krc20OperationsConnection!
+    operation(id: ID!): Operation!
+    operations(after: String, before: String, filter: OperationsFilter, first: Int = 30, sort: [OperationsSortInput!] = [{direction: desc, field: createdAt}]): OperationsConnection!
+    transaction(id: ID!): Transaction!
+    transactions(after: String, before: String, filter: TransactionsFilter, first: Int = 30, sort: [TransactionsSortInput!] = [{direction: desc, field: createdAt}]): TransactionsConnection!
+}
+
+type SystemCallOperation {
+    callId: Float!
+    contractId: String!
+    "Timestamp as to when this entity was created"
+    createdAt: DateTime!
+    "Globally unique identifier for this entity"
+    id: ID!
+    "Timestamp as to when this entity was last updated"
+    updatedAt: DateTime!
+}
+
+type SystemContractOperation {
+    contractId: String!
+    "Timestamp as to when this entity was created"
+    createdAt: DateTime!
+    "Globally unique identifier for this entity"
+    id: ID!
+    systemContract: Boolean!
+    "Timestamp as to when this entity was last updated"
+    updatedAt: DateTime!
+}
+
+type Transaction {
+    blockHeight: Float!
+    "Timestamp as to when this entity was created"
+    createdAt: DateTime!
+    header: TransactionHeader!
+    "Globally unique identifier for this entity"
+    id: ID!
+    index: Float!
+    operationCount: Float!
+    operations: [Operation!]!
+    signature: String!
+    "Timestamp as to when this entity was last updated"
+    updatedAt: DateTime!
+}
+
+type TransactionEdge {
+    cursor: String!
+    node: Transaction!
+}
+
+type TransactionHeader {
+    nonce: String
+    operationMerkleRoot: String
+    payer: String!
+    rcLimit: String!
+}
+
+type TransactionsConnection {
+    edges: [TransactionEdge!]
+    nodes: [Transaction!]
+    pageInfo: PageInfo!
+    totalCount: Int!
+}
+
+type UnknownContractOperation {
+    unknownOperation: Boolean!
+}
+
+type UploadContractOperation {
+    abi: String
+    bytecode: String!
+    contractId: String!
+    "Timestamp as to when this entity was created"
+    createdAt: DateTime!
+    "Globally unique identifier for this entity"
+    id: ID!
+    "Timestamp as to when this entity was last updated"
+    updatedAt: DateTime!
+}
+
+"Sort field"
+enum AddressesSortField {
+    createdAt
+    id
+}
+
+"Sort field"
+enum BlocksSortField {
+    height
+    id
+}
+
+"Token Standard type"
+enum ContractStandardType {
+    krc20
+}
+
+"Sort field"
+enum ContractsSortField {
+    blockHeight
+    id
+}
+
+"Sort direction"
+enum Direction {
+    asc
+    desc
+}
+
+"Sort field"
+enum Krc20ContractsSortField {
+    blockHeight
+    id
+}
+
+"Sort field"
+enum Krc20OperationsSortField {
+    createdAt
+    id
+}
+
+"Operation type"
+enum OperationType {
+    contractOperation
+    systemCall
+    systemContractOperation
+    uploadContract
+}
+
+"Sort field"
+enum OperationsSortField {
+    createdAt
+    id
+}
+
+"Sort field"
+enum TransactionsSortField {
+    createdAt
+    id
+}
+
+"A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format."
+scalar DateTime
+
+input AddressesFilter {
+    AND: [AddressesFilter!]
+    OR: [AddressesFilter!]
+    contractCount: NumericFilter
+    id: StringFilter
+    operationCount: NumericFilter
+    transactionCount: NumericFilter
+}
+
+input AddressesSortInput {
+    direction: Direction!
+    field: AddressesSortField!
+}
+
+input BlocksFilter {
+    AND: [BlocksFilter!]
+    OR: [BlocksFilter!]
+    height: NumericFilter
+    id: StringFilter
+    signer: StringFilter
+    timestamp: NumericFilter
+    transactionCount: NumericFilter
+}
+
+input BlocksSortInput {
+    direction: Direction!
+    field: BlocksSortField!
+}
+
+input ContractsFilter {
+    AND: [ContractsFilter!]
+    OR: [ContractsFilter!]
+    blockHeight: StringFilter
+    id: StringFilter
+    transactionId: StringFilter
+}
+
+input ContractsSortInput {
+    direction: Direction!
+    field: ContractsSortField!
+}
+
+input Krc20ContractsFilter {
+    AND: [Krc20ContractsFilter!]
+    OR: [Krc20ContractsFilter!]
+    name: StringFilter
+    symbol: StringFilter
+}
+
+input Krc20ContractsSortInput {
+    direction: Direction!
+    field: Krc20ContractsSortField!
+}
+
+input Krc20OperationsFilter {
+    AND: [Krc20OperationsFilter!]
+    OR: [Krc20OperationsFilter!]
+    contractId: StringFilter
+    from: StringFilter
+    operation: StringFilter
+    to: StringFilter
+    value: StringFilter
+}
+
+input Krc20OperationsSortInput {
+    direction: Direction!
+    field: Krc20OperationsSortField!
+}
+
+input NumericFilter {
+    equals: Float
+    gt: Float
+    gte: Float
+    lt: Float
+    lte: Float
+}
+
+input OperationsFilter {
+    AND: [OperationsFilter!]
+    OR: [OperationsFilter!]
+    blockHeight: NumericFilter
+    id: StringFilter
+    operationIndex: NumericFilter
+    transactionId: StringFilter
+    type: StringFilter
+}
+
+input OperationsSortInput {
+    direction: Direction!
+    field: OperationsSortField!
+}
+
+input StringFilter {
+    contains: String
+    equals: String
+}
+
+input TransactionsFilter {
+    AND: [TransactionsFilter!]
+    OR: [TransactionsFilter!]
+    blockHeight: NumericFilter
+    id: StringFilter
+    nonce: StringFilter
+    operationCount: NumericFilter
+    payer: StringFilter
+    rcLimit: StringFilter
+    transactionIndex: NumericFilter
+}
+
+input TransactionsSortInput {
+    direction: Direction!
+    field: TransactionsSortField!
+}
