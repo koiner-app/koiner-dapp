@@ -73,6 +73,11 @@ module.exports = configure(function (/* ctx */) {
       // extendViteConf (viteConf) {},
       // viteVuePluginOptions: {},
 
+      alias: {
+        '@appvise': path.resolve(__dirname, './src/@appvise'),
+        '@koiner': path.resolve(__dirname, './src/@koiner'),
+      },
+
       vitePlugins: [
         [
           '@intlify/vite-plugin-vue-i18n',
