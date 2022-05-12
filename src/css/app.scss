@@ -143,16 +143,23 @@ a {
 /* Handle */
 .q-scrollarea__thumb--v,
 ::-webkit-scrollbar-thumb {
-  //background: $primary;
-  background: #fcfeff;
+  background: lighten($primary, 40%);
   border-radius: 6px;
   width: 5px;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  //background: $primary;
-  background: #fcfeff;
+  background: lighten($primary, 40%);
+}
+
+.truncated-id {
+  max-width: 171px !important;
+  display: inline-block;
+  vertical-align: bottom;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 @import 'includes/topbar';

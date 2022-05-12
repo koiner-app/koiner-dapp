@@ -28,7 +28,7 @@ export default defineComponent({
       menuItems: [
         {
           name: 'Chain',
-          to: '/blocks',
+          to: '/chain',
           icon: 'token',
         },
         {

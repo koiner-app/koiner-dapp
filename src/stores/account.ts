@@ -1,5 +1,5 @@
 // @ts-check
-import { defineStore, acceptHMRUpdate } from 'pinia';
+import { defineStore } from 'pinia';
 import { kondor } from 'boot/kondor';
 
 export const useAccountStore = defineStore({
@@ -7,6 +7,7 @@ export const useAccountStore = defineStore({
   persist: true,
   state: () => ({
     name: 'User',
+    tokenWatchlist: [] as string[],
     addresses: [] as string[],
     connected: false,
   }),
@@ -19,9 +20,14 @@ export const useAccountStore = defineStore({
     logout() {
       this.$patch({
         name: 'User',
+        tokenWatchlist: [],
         addresses: [],
         connected: false,
       });
+    },
+
+    addTokenToWatchlist(id: string) {
+      this.tokenWatchlist.push(id);
     },
 
     /**
@@ -39,7 +45,3 @@ export const useAccountStore = defineStore({
     },
   },
 });
-
-if (import.meta.hot) {
-  import.meta.hot.accept(acceptHMRUpdate(useAccountStore, import.meta.hot));
-}

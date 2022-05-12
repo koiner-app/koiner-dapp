@@ -10,7 +10,12 @@
 
         <global-actions-menu />
 
-        <q-btn v-if="account.connected" flat dense size="md" :to="`/addresses/${account.address}`"
+        <q-btn
+          v-if="account.connected"
+          flat
+          dense
+          size="md"
+          :to="`/addresses/${account.address}`"
           ><q-icon name="account_balance_wallet"
         /></q-btn>
 

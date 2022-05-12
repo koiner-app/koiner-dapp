@@ -1,5 +1,5 @@
 .koiner-topbar {
-  top: 44px;
+  top: 2.75rem;
   left: 65px;
   z-index: 999;
   background: #ffffff;
@@ -58,4 +58,8 @@
     color: #ffcf21;
     margin-left: 0.5rem;
   }
+}
+
+.koiner-topbar-page {
+  padding-top: 5rem !important;
 }
