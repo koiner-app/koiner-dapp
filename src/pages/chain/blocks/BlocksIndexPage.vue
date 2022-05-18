@@ -1,5 +1,5 @@
 <template>
-  <q-page class="row items-center justify-evenly">
+  <q-page class="row items-baseline justify-evenly">
     <q-card
       class="table-card shadow-1"
       style="

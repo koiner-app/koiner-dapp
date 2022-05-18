@@ -1,5 +1,5 @@
 <template>
-  <q-page class="row items-center justify-evenly">
+  <q-page class="row items-baseline justify-evenly">
     <h1>History</h1>
   </q-page>
 </template>

@@ -79,9 +79,21 @@ const routes: RouteRecordRaw[] = [
             component: () => import('pages/chain/blocks/BlocksIndexPage.vue'),
           },
           {
-            name: 'block',
-            path: '/blocks/:id',
-            component: () => import('pages/chain/blocks/id/BlockPage.vue'),
+            path: '/blocks',
+            component: () => import('layouts/chain/BlockLayout.vue'),
+            children: [
+              {
+                name: 'block',
+                path: '/blocks/:height',
+                component: () => import('pages/chain/blocks/id/BlockPage.vue'),
+              },
+              {
+                name: 'block.transactions',
+                path: '/blocks/:height/transactions',
+                component: () =>
+                  import('pages/chain/blocks/id/BlockTransactionsPage.vue'),
+              },
+            ],
           },
         ],
       },

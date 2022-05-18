@@ -1,7 +1,6 @@
 <template>
   <q-page class="row items-baseline justify-evenly">
-    <q-card
-      v-if="id && typeof id === 'string'"
+    <q-card v-if="height"
       class="table-card shadow-1"
       style="
         max-width: 1288px;
@@ -11,11 +10,11 @@
     >
       <q-card-section>
         <div class="row no-wrap items-center">
-          <div class="text-h6">Operations</div>
+          <div class="text-h6">Transactions</div>
           <q-space />
         </div>
 
-        <token-operations-table-view :contract-id="id.toString()" />
+        <transactions-table-view :block-height="height" />
       </q-card-section>
     </q-card>
   </q-page>
@@ -24,22 +23,22 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref, Ref } from 'vue';
 import { useRoute } from 'vue-router';
-import TokenOperationsTableView from '@koiner/contract/token/search/table/token-operations-table-view.vue';
+import TransactionsTableView from '@koiner/chain/transaction/search/table/transactions-table-view.vue';
 
 export default defineComponent({
-  name: 'TokenTokenOperationsPage',
-  components: { TokenOperationsTableView },
+  name: 'BlockTransactionsPage',
+  components: { TransactionsTableView },
 
   setup() {
-    let id: Ref<string | string[] | undefined> = ref();
+    let height: Ref<number | undefined> = ref();
     const route = useRoute();
 
     onMounted(async () => {
-      id.value = route.params.id;
+      height.value = parseInt(route.params.height.toString());
     });
 
     return {
-      id,
+      height,
     };
   },
 });

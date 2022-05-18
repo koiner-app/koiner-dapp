@@ -1,6 +1,6 @@
 <template>
   <q-page class="row q-pa-lg items-center justify-evenly">
-    <q-card class="q-pa-md my-card" style="min-width: 440px">
+    <q-card class="q-pa-md table-card" style="min-width: 440px">
       <q-card-section>
         <div class="text-h6">Lockup tokens</div>
       </q-card-section>
@@ -36,7 +36,8 @@
           lazy-rules
           :rules="[
             (val) =>
-              (val && val.length > 0) || 'Please enter address of token you want to lockup',
+              (val && val.length > 0) ||
+              'Please enter address of token you want to lockup',
           ]"
         />
 
