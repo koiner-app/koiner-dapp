@@ -33,7 +33,7 @@ export default defineComponent({
         },
         {
           name: 'Chain',
-          to: '/chain',
+          to: '/blocks',
           icon: 'token',
         },
         {

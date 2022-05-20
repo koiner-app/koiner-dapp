@@ -7,7 +7,6 @@
 
     <div class="topbar-navigation">
       <q-tabs dense align="left" style="width: 100%">
-        <q-route-tab :ripple="false" label="Overview" to="/chain" exact />
         <q-route-tab :ripple="false" label="Blocks" to="/blocks" exact />
         <q-route-tab
           :ripple="false"
