@@ -108,6 +108,30 @@ const routes: RouteRecordRaw[] = [
         ],
       },
 
+      // Events
+      {
+        path: '/events',
+        component: () => import('layouts/chain/ChainLayout.vue'),
+        children: [
+          {
+            name: 'events',
+            path: '',
+            component: () => import('pages/chain/events/EventsIndexPage.vue'),
+          },
+          {
+            path: '/events',
+            component: () => import('layouts/chain/EventLayout.vue'),
+            children: [
+              {
+                name: 'event',
+                path: '/events/:id',
+                component: () => import('pages/chain/events/id/EventPage.vue'),
+              },
+            ],
+          },
+        ],
+      },
+
       // Transactions
       {
         path: '/transactions',

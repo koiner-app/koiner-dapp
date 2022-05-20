@@ -14,13 +14,20 @@
           to="/transactions"
           exact
         />
-        <q-route-tab :ripple="false" label="Addresses" to="/addresses" exact />
+        <q-route-tab
+          :ripple="false"
+          label="Events"
+          to="/events"
+          exact
+        />
         <q-route-tab
           :ripple="false"
           label="Operations"
           to="/operations"
           exact
         />
+        <q-route-tab :ripple="false" label="Addresses" to="/addresses" exact />
+
       </q-tabs>
     </div>
   </div>
