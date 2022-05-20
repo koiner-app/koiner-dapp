@@ -12,6 +12,10 @@ const routes: RouteRecordRaw[] = [
         component: () => import('pages/TransferPage.vue'),
       },
       { path: '', component: () => import('pages/IndexPage.vue') },
+      {
+        path: 'dashboard',
+        component: () => import('pages/dashboard/DashboardIndexPage.vue'),
+      },
 
       // Address
       {
