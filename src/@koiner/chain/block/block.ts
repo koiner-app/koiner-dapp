@@ -24,5 +24,5 @@ export interface Block {
   receipt: BlockReceipt;
   signature: string;
   transactionCount: number;
-  reward: BlockReward;
+  reward?: BlockReward;
 }

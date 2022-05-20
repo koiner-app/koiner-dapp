@@ -43,6 +43,11 @@ const gqlGetBlocks = gql`
             signer
           }
           transactionCount
+          reward {
+            producerId
+            value
+            contractId
+          }
         }
         __typename
       }
@@ -68,6 +73,11 @@ const gqlSubscribeToNewBlocks = gql`
         signer
       }
       transactionCount
+      reward {
+        producerId
+        value
+        contractId
+      }
     }
   }
 `;

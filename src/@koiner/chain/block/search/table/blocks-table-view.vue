@@ -22,6 +22,16 @@
         </q-tooltip>
       </span>
     </template>
+    <template #[`transactionCount`]="{ result }">
+      <router-link :to="`/blocks/${result.item.header.height}/transactions`">{{
+          result.item.transactionCount
+        }}</router-link>
+    </template>
+    <template #[`producer`]="{ result }">
+      <span v-if="result.item.reward">
+        <address-link :address="result.item.reward.producerId" />
+      </span>
+    </template>
   </search-table>
 </template>
 
@@ -35,9 +45,11 @@ import { BlockSearchProvider } from '@koiner/chain/block/search/block-search-pro
 import { SimpleSearchManager } from '@appvise/search-manager';
 import { timeAgo } from '@koiner/utils/date';
 import { date } from 'quasar';
+import AddressLink from '@koiner/chain/address/AddressLink.vue';
 
 export default defineComponent({
   components: {
+    AddressLink,
     SearchTable,
   },
 
