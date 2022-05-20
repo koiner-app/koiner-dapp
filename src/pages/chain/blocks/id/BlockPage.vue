@@ -58,10 +58,18 @@
             </q-item-section>
             <q-item-section>
               <div>
-                <q-badge color="secondary" text-color="black"
-                  >{{ block.transactionCount }} transaction
-                  {{ block.transactionCount > 1 ? 's' : '' }}</q-badge
+                <q-btn
+                  :to="`/blocks/${height}/transactions`"
+                  flat
+                  class="q-pa-none"
+                  style="min-height: auto"
                 >
+                  <q-badge color="secondary" text-color="black"
+                    >{{ block.transactionCount }} transaction
+                    {{ block.transactionCount > 1 ? 's' : '' }}</q-badge
+                  >
+                </q-btn>
+
                 and 4 contract internal transactions in this block
               </div>
             </q-item-section>
@@ -86,8 +94,7 @@
             </q-item-section>
             <q-item-section>
               {{ block.reward.value }} {{ block.reward.contractId }}
-            </q-item-section
-            >
+            </q-item-section>
           </q-item>
 
           <q-separator inset="item" />
@@ -158,7 +165,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref, Ref } from 'vue';
+import { defineComponent, onMounted, ref, Ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import gql from 'graphql-tag';
 import { useAccountStore } from 'stores/account';
@@ -200,7 +207,7 @@ const gqlGetBlock = gql`
 
 export default defineComponent({
   name: 'BlockPage',
-  components: {AddressLink},
+  components: { AddressLink },
   setup() {
     let height: Ref<string | string[] | undefined> = ref();
     const route = useRoute();
@@ -242,7 +249,7 @@ export default defineComponent({
               producerId: data.reward.producerId,
               value: data.reward.value,
               contractId: data.reward.contractId,
-            }
+            },
           } as Block;
         });
     };
@@ -251,6 +258,15 @@ export default defineComponent({
       height.value = route.params.height;
       executeQuery();
     });
+
+    watch(
+      () => route.params.height,
+      async (newHeight) => {
+        block.value = undefined;
+        height.value = newHeight;
+        executeQuery();
+      }
+    );
 
     return {
       height,
