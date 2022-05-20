@@ -27,6 +27,11 @@ export default defineComponent({
       link: ref('/'),
       menuItems: [
         {
+          name: 'Dashboard',
+          to: '/dashboard',
+          icon: 'dashboard',
+        },
+        {
           name: 'Chain',
           to: '/chain',
           icon: 'token',
@@ -35,6 +40,11 @@ export default defineComponent({
           name: 'Tokens',
           to: '/tokens',
           icon: 'toll',
+        },
+        {
+          name: 'Contracts',
+          to: '/contracts',
+          icon: 'document_scanner',
         },
         {
           name: 'Lockups',
