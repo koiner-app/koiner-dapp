@@ -118,6 +118,37 @@ const routes: RouteRecordRaw[] = [
         ],
       },
 
+      // Contracts
+      {
+        path: '/contracts',
+        component: () => import('layouts/contracts/ContractsLayout.vue'),
+        children: [
+          {
+            name: 'contracts',
+            path: '',
+            component: () => import('pages/contracts/ContractsIndexPage.vue'),
+          },
+          {
+            name: 'contracts.operations',
+            path: '/contracts/operations',
+            component: () =>
+              import('pages/contracts/ContractsOperationsPage.vue'),
+          },
+          {
+            name: 'contracts.standards',
+            path: '/contracts/standards',
+            component: () =>
+              import('pages/contracts/ContractStandardsPage.vue'),
+          },
+          // {
+          //   name: 'contract',
+          //   path: '/contracts/:id',
+          //   component: () =>
+          //     import('pages/chain/contracts/id/ContractPage.vue'),
+          // },
+        ],
+      },
+
       // Operations
       {
         path: '/operations',
