@@ -8,7 +8,7 @@
     class="q-ml-md global-search"
   >
     <template v-slot:prepend>
-      <q-icon name="search" />
+      <q-icon name="search" size="xs" style="margin-top: -8px;" />
     </template>
     <template v-slot:append>
       <q-icon
