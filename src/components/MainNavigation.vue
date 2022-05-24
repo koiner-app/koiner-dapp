@@ -46,11 +46,6 @@ export default defineComponent({
           to: '/contracts',
           icon: 'document_scanner',
         },
-        {
-          name: 'Lockups',
-          to: '/lockups',
-          icon: 'lock',
-        },
       ],
     };
   },
