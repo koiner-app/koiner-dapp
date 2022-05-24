@@ -39,12 +39,6 @@
           :to="`/addresses/${id}/history`"
           exact
         />
-        <q-route-tab
-          :ripple="false"
-          label="Vault"
-          :to="`/addresses/${id}/vault`"
-          exact
-        />
       </q-tabs>
     </div>
   </div>
