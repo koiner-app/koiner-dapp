@@ -255,6 +255,12 @@ const routes: RouteRecordRaw[] = [
             component: () =>
               import('pages/tokens/default/id/TokenOperationsPage.vue'),
           },
+          {
+            name: 'token-token.balances',
+            path: '/tokens/:id/holders',
+            component: () =>
+              import('pages/tokens/default/id/TokenBalancesPage.vue'),
+          },
         ],
       },
 

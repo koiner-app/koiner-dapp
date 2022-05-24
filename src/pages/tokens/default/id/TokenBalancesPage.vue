@@ -11,11 +11,11 @@
     >
       <q-card-section>
         <div class="row no-wrap items-center">
-          <div class="text-h6">Tokens</div>
+          <div class="text-h6">Balances</div>
           <q-space />
         </div>
 
-        <token-balances-table-view :address-id="id.toString()" />
+        <token-balances-table-view :contract-id="id.toString()" />
       </q-card-section>
     </q-card>
   </q-page>
@@ -27,7 +27,7 @@ import { useRoute } from 'vue-router';
 import TokenBalancesTableView from '@koiner/contract/token/search/table/token-balances-table-view.vue';
 
 export default defineComponent({
-  name: 'WalletPage',
+  name: 'TokenTokenBalancesPage',
   components: { TokenBalancesTableView },
 
   setup() {

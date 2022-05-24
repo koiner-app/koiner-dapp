@@ -7,63 +7,65 @@ import {
   SearchResult,
 } from '@appvise/search-manager';
 import { FilterTransformer } from '@appvise/graphql/transformer/filter-transformer';
-import { TokenOperation } from '@koiner/contract/token/token-operation';
+import { TokenBalance } from '@koiner/contract/token/token-balance';
 import gql from 'graphql-tag';
 import { ApolloClient } from '@apollo/client/core';
 import { useApolloClient } from '@vue/apollo-composable';
 
-const gqlGetTokenOperations = gql`
-  query getTokenOperations(
-    $after: String
-    $before: String
-    $first: Int!
-    $filter: TokenOperationsFilter
-    $sort: [TokenOperationsSortInput!]
-  ) {
-    tokenOperations(
-      after: $after
-      before: $before
-      first: $first
-      filter: $filter
-      sort: $sort
+const gqlGetTokenBalances = (includeContract: boolean) => {
+  const contract = includeContract
+    ? 'contract { id name decimals symbol }'
+    : '';
+
+  return gql`
+    query getTokenBalances(
+      $after: String
+      $before: String
+      $first: Int!
+      $filter: TokenBalancesFilter
+      $sort: [TokenBalancesSortInput!]
     ) {
-      totalCount
-      edges {
-        cursor
-        node {
-          id
-          transactionId
-          from
-          to
-          value
-          name
+      tokenBalances(
+        after: $after
+        before: $before
+        first: $first
+        filter: $filter
+        sort: $sort
+      ) {
+        totalCount
+        edges {
+          cursor
+          node {
+            id
+            addressId
+            balance
+            ${contract}
+          }
+          __typename
         }
-        __typename
-      }
-      pageInfo {
-        hasNextPage
-        hasPreviousPage
-        startCursor
-        endCursor
+        pageInfo {
+          hasNextPage
+          hasPreviousPage
+          startCursor
+          endCursor
+        }
       }
     }
-  }
-`;
+  `;
+};
 
-export class TokenOperationSearchProvider
-  implements SearchProvider<TokenOperation>
+export class TokenBalanceSearchProvider
+  implements SearchProvider<TokenBalance>
 {
   private client: ApolloClient<any>;
-  constructor() {
+  constructor(private readonly includeContract: boolean) {
     this.client = useApolloClient().client;
   }
 
-  public search(
-    request: SearchRequest
-  ): Promise<SearchResponse<TokenOperation>> {
+  public search(request: SearchRequest): Promise<SearchResponse<TokenBalance>> {
     return this.client
       .query({
-        query: gqlGetTokenOperations,
+        query: gqlGetTokenBalances(this.includeContract),
         variables: {
           before: request.before,
           after: request.after,
@@ -75,7 +77,7 @@ export class TokenOperationSearchProvider
         },
       })
       .then((response: any) => {
-        const data = response.data.tokenOperations;
+        const data = response.data.tokenBalances;
 
         return new SearchResponse(
           // @ts-ignore
@@ -83,7 +85,7 @@ export class TokenOperationSearchProvider
             return {
               cursor: edge.cursor,
               item: edge.node,
-            } as SearchResult<TokenOperation>;
+            } as SearchResult<TokenBalance>;
           }),
           data.pageInfo as PageInfo,
           data.totalCount

@@ -38,6 +38,12 @@
           :to="`/tokens/${id}/operations`"
           exact
         />
+        <q-route-tab
+          :ripple="false"
+          label="Holders"
+          :to="`/tokens/${id}/holders`"
+          exact
+        />
       </q-tabs>
     </div>
   </div>
