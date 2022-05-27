@@ -2,6 +2,10 @@ import { RouteRecordRaw } from 'vue-router';
 
 const routes: RouteRecordRaw[] = [
   {
+    path: '/health',
+    component: () => import('pages/HealthCheckPage.vue'),
+  },
+  {
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [
