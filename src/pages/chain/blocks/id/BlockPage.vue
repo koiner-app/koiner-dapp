@@ -57,7 +57,7 @@
               <q-item-label>Transactions</q-item-label>
             </q-item-section>
             <q-item-section>
-              <div>
+              <div v-if="block.transactionCount > 0">
                 <q-btn
                   :to="`/blocks/${height}/transactions`"
                   flat
@@ -72,12 +72,15 @@
 
                 and 4 contract internal transactions in this block
               </div>
+              <div v-else>
+                <q-badge color="grey" text-color="black">No transactions</q-badge>
+              </div>
             </q-item-section>
           </q-item>
 
-          <q-separator inset="item" />
+          <q-separator v-if="block.reward" inset="item" />
 
-          <q-item>
+          <q-item v-if="block.reward">
             <q-item-section class="col-2 gt-sm">
               <q-item-label>Produced by:</q-item-label>
             </q-item-section>
@@ -86,9 +89,9 @@
             </q-item-section>
           </q-item>
 
-          <q-separator inset="item" />
+          <q-separator v-if="block.reward" inset="item" />
 
-          <q-item>
+          <q-item v-if="block.reward">
             <q-item-section class="col-2 gt-sm">
               <q-item-label>Block Reward:</q-item-label>
             </q-item-section>
@@ -245,11 +248,13 @@ export default defineComponent({
             },
             signature: data.signature,
             transactionCount: data.transactionCount,
-            reward: {
-              producerId: data.reward.producerId,
-              value: data.reward.value,
-              contractId: data.reward.contractId,
-            },
+            reward: data.reward
+              ? {
+                  producerId: data.reward.producerId,
+                  value: data.reward.value,
+                  contractId: data.reward.contractId,
+                }
+              : undefined,
           } as Block;
         });
     };
