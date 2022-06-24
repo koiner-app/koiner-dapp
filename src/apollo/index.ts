@@ -11,13 +11,18 @@ export /* async */ function getClientOptions(
 ) {
   // Create an http link:
   const httpLink = createHttpLink({
-    uri: process.env.GRAPHQL_URI || 'http://api.docker/graphql',
+    uri: process.env.GRAPHQL_URI || 'http://gateway.docker:3000/graphql',
+    // uri: process.env.GRAPHQL_URI || 'https://api.dev.koiner.app/graphql',
   });
 
   // Create a WebSocket link:
   const wsLink = new GraphQLWsLink(
     createClient({
-      url: 'ws://api.docker/graphql',
+      url: 'ws://gateway.docker:3000/graphql',
+      // url: 'wss://api.dev.koiner.app/graphql',
+
+      // Required because server will fail otherwise
+      connectionParams: {},
     })
   );
 

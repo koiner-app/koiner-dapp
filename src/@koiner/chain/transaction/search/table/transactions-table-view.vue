@@ -25,7 +25,7 @@ import SearchTable from '@appvise/component/search/table/search-table.vue';
 import { Transaction } from '@koiner/chain/transaction/transaction';
 import { TransactionsTableBoard } from '@koiner/chain/transaction/search/table/transactions-table-board';
 import { TransactionSearchProvider } from '@koiner/chain/transaction/search/transaction-search-provider';
-import {SearchRequest, SimpleSearchManager} from '@appvise/search-manager';
+import {SearchRequest, SimpleSearchManager} from '@appvise/search-manager-bak';
 
 export default defineComponent({
   components: {

@@ -24,7 +24,7 @@ import SearchTable from '@appvise/component/search/table/search-table.vue';
 import { Address } from '@koiner/chain/address/address';
 import { AddressesTableBoard } from '@koiner/chain/address/search/table/addresses-table-board';
 import { AddressSearchProvider } from '@koiner/chain/address/search/address-search-provider';
-import { SimpleSearchManager } from '@appvise/search-manager';
+import { SimpleSearchManager } from '@appvise/search-manager-bak';
 
 export default defineComponent({
   components: {

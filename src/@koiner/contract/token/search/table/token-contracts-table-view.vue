@@ -19,7 +19,7 @@ import SearchTable from '@appvise/component/search/table/search-table.vue';
 import { TokenContract } from '@koiner/contract/token/token-contract';
 import { TokenContractsTableBoard } from '@koiner/contract/token/search/table/token-contracts-table-board';
 import { TokenContractSearchProvider } from '@koiner/contract/token/search/token-contract-search-provider';
-import { SimpleSearchManager } from '@appvise/search-manager';
+import { SimpleSearchManager } from '@appvise/search-manager-bak';
 
 export default defineComponent({
   components: {

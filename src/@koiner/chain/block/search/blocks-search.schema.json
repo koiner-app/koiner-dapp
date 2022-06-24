@@ -1,0 +1,25 @@
+{
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "height": {
+      "type": "number"
+    },
+    "timestamp": {
+      "type": "number"
+    },
+    "transactionCount": {
+      "type": "number"
+    },
+    "reward": {
+      "type": "object",
+      "properties": {
+        "producerId": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

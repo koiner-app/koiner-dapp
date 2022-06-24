@@ -6,7 +6,7 @@ import {
   SearchRequest,
   SearchResponse,
   SearchResult,
-} from '@appvise/search-manager';
+} from '@appvise/search-manager-bak';
 import { FilterTransformer } from '@appvise/graphql/transformer/filter-transformer';
 import { Operation } from '@koiner/chain/operation/operation';
 import gql from 'graphql-tag';

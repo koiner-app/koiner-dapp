@@ -25,7 +25,7 @@ import SearchTable from '@appvise/component/search/table/search-table.vue';
 import { Operation } from '@koiner/chain/operation/operation';
 import { OperationsTableBoard } from '@koiner/chain/operation/search/table/operations-table-board';
 import { OperationSearchProvider } from '@koiner/chain/operation/search/operation-search-provider';
-import { SearchRequest, SimpleSearchManager } from '@appvise/search-manager';
+import { SearchRequest, SimpleSearchManager } from '@appvise/search-manager-bak';
 
 export default defineComponent({
   components: {

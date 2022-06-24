@@ -24,7 +24,7 @@ import SearchTable from '@appvise/component/search/table/search-table.vue';
 import { Contract } from '@koiner/contract/contract/contract';
 import { ContractsTableBoard } from '@koiner/contract/contract/search/table/contracts-table-board';
 import { ContractSearchProvider } from '@koiner/contract/contract/search/contract-search-provider';
-import { SimpleSearchManager } from '@appvise/search-manager';
+import { SimpleSearchManager } from '@appvise/search-manager-bak';
 
 export default defineComponent({
   components: {

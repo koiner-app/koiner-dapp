@@ -14,7 +14,10 @@
           <q-space />
         </div>
 
-        <blocks-table-view />
+        <blocks-search-view
+          @on-scroll="onScroll"
+          :scroll-position="searchStore.blocks.position"
+        />
       </q-card-section>
     </q-card>
   </q-page>
@@ -22,10 +25,24 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import BlocksTableView from '@koiner/chain/block/search/table/blocks-table-view.vue';
+import BlocksSearchView from '@koiner/chain/block/search/blocks-search-view.vue';
+import { useSearchStore } from 'stores/search';
 
 export default defineComponent({
   name: 'BlocksIndexPage',
-  components: { BlocksTableView },
+  components: { BlocksSearchView },
+
+  setup() {
+    const searchStore = useSearchStore();
+
+    const onScroll = (newScrollPosition: number) => {
+      searchStore.blocks.position = newScrollPosition;
+    };
+
+    return {
+      onScroll,
+      searchStore,
+    };
+  },
 });
 </script>

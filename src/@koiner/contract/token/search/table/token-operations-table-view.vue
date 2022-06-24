@@ -29,7 +29,7 @@ import SearchTable from '@appvise/component/search/table/search-table.vue';
 import { TokenOperation } from '@koiner/contract/token/token-operation';
 import { TokenOperationsTableBoard } from '@koiner/contract/token/search/table/token-operations-table-board';
 import { TokenOperationSearchProvider } from '@koiner/contract/token/search/token-operation-search-provider';
-import { SearchRequest, SimpleSearchManager } from '@appvise/search-manager';
+import { SearchRequest, SimpleSearchManager } from '@appvise/search-manager-bak';
 import AddressLink from '@koiner/chain/address/AddressLink.vue';
 
 export default defineComponent({

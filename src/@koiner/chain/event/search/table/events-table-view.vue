@@ -31,7 +31,7 @@ import SearchTable from '@appvise/component/search/table/search-table.vue';
 import { Event } from '@koiner/chain/event/event';
 import { EventsTableBoard } from '@koiner/chain/event/search/table/events-table-board';
 import { EventSearchProvider } from '@koiner/chain/event/search/event-search-provider';
-import { SearchRequest, SimpleSearchManager } from '@appvise/search-manager';
+import { SearchRequest, SimpleSearchManager } from '@appvise/search-manager-bak';
 
 export default defineComponent({
   components: {

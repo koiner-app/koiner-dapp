@@ -5,7 +5,8 @@ export class SearchResponse<T> {
   constructor(
     public results: SearchResult<T>[],
     public pageInfo: PageInfo,
-    public totalCount?: number
+    public totalCount?: number,
+    public errors?: any
   ) {}
 
   static clone<T>(response: SearchResponse<T>): SearchResponse<T> {

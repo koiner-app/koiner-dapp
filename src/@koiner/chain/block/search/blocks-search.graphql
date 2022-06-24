@@ -1,0 +1,42 @@
+query BlocksSearch(
+  $after: String
+  $before: String
+  $first: Int
+  $filter: BlocksFilter
+  $sort: [BlocksSortInput!]
+) {
+  blocks(
+    after: $after
+    before: $before
+    first: $first
+    filter: $filter
+    sort: $sort
+  ) {
+    totalCount
+    edges {
+      cursor
+      node {
+        id
+        header {
+          height
+          previous
+          timestamp
+          previousStateMerkleRoot
+          signer
+        }
+        reward {
+          value
+          producerId
+        }
+        transactionCount
+      }
+      __typename
+    }
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+  }
+}

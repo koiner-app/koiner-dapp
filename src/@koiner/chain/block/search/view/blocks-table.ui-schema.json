@@ -1,0 +1,62 @@
+{
+  "type": "object",
+  "elements": [
+    {
+      "type": "TableView",
+      "elements": [
+        {
+          "type": "Attribute",
+          "label": "Height",
+          "scope": "#/properties/height",
+          "options": {
+            "mapping": "header.height"
+          }
+        },
+        {
+          "type": "Attribute",
+          "label": "Age",
+          "scope": "#/properties/timestamp",
+          "options": {
+            "mapping": "header.timestamp"
+          }
+        },
+        {
+          "type": "Attribute",
+          "label": "Transactions",
+          "scope": "#/properties/transactionCount"
+        },
+        {
+          "type": "Attribute",
+          "label": "Block reward",
+          "scope": "#/properties/reward",
+          "options": {
+            "format": "blockReward"
+          }
+        },
+        {
+          "type": "AttributeGroup",
+          "label": "Actions",
+          "scope": "actions",
+          "elements": [
+            {
+              "type": "Attribute",
+              "label": "Actions",
+              "scope": "#/properties/height",
+              "options": {
+                "route": "block",
+                "icon": "link",
+                "format": "button",
+                "button": {
+                  "size": "xs",
+                  "flat": true,
+                  "dense": true,
+                  "round": true
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -31,7 +31,7 @@ module.exports = configure(function (ctx) {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     // https://v2.quasar.dev/quasar-cli-webpack/boot-files
-    boot: ['apollo', 'i18n', 'kondor'],
+    boot: ['apollo', 'i18n', 'urql', 'kondor'],
 
     // https://v2.quasar.dev/quasar-cli-webpack/quasar-config-js#Property%3A-css
     css: ['app.scss'],
@@ -97,14 +97,16 @@ module.exports = configure(function (ctx) {
       proxy: {
         '/graphql': {
           // target: 'https://api.koiner.app',
-          target: 'http://api.docker',
+          // target: 'https://api.dev.koiner.app',
+          target: 'http://gateway.docker:3000',
           changeOrigin: true,
           pathRewrite: {
             '^/graphql': '',
           },
         },
         '/jsonrpc': {
-          target: 'http://api.koinos.io:8080',
+          // target: 'http://api.koinos.io:8080',
+          target: 'https://jsonrpc.dev.koiner.app',
           changeOrigin: true,
           pathRewrite: {
             '^/jsonrpc': '',
@@ -171,9 +173,9 @@ module.exports = configure(function (ctx) {
       // chainWebpackCustomSW (/* chain */) {},
 
       manifest: {
-        name: 'Quasar App',
-        short_name: 'Quasar App',
-        description: '',
+        name: 'Koiner',
+        short_name: 'Koiner',
+        description: 'Koinos Blockchain analytics',
         display: 'standalone',
         orientation: 'portrait',
         background_color: '#ffffff',
@@ -236,7 +238,7 @@ module.exports = configure(function (ctx) {
       builder: {
         // https://www.electron.build/configuration/configuration
 
-        appId: 'quasar-project',
+        appId: 'koiner',
       },
 
       // "chain" is a webpack-chain object https://github.com/neutrinojs/webpack-chain

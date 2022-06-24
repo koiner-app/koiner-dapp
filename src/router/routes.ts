@@ -92,7 +92,7 @@ const routes: RouteRecordRaw[] = [
             children: [
               {
                 name: 'block',
-                path: '/blocks/:height',
+                path: '/blocks/:id',
                 component: () => import('pages/chain/blocks/id/BlockPage.vue'),
               },
               {

@@ -25,7 +25,7 @@ import SearchTable from '@appvise/component/search/table/search-table.vue';
 import { ContractOperation } from '@koiner/contract/contract/contract-operation';
 import { ContractOperationsTableBoard } from '@koiner/contract/contract/search/table/contract-operations-table-board';
 import { ContractOperationSearchProvider } from '@koiner/contract/contract/search/contract-operation-search-provider';
-import { SimpleSearchManager } from '@appvise/search-manager';
+import { SimpleSearchManager } from '@appvise/search-manager-bak';
 import AddressLink from '@koiner/chain/address/AddressLink.vue';
 
 export default defineComponent({

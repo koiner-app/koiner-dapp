@@ -7,9 +7,6 @@
       "@koiner/*": ["./src/@koiner/*"],
       "@appvise": ["./src/@appvise"],
       "@appvise/*": ["./src/@appvise/*"],
-      "@appvise/vue3-component-board/*": [
-        "./src/@appvise/component/board/lib/*"
-      ],
       "src/*": ["src/*"],
       "app/*": ["*"],
       "components/*": ["src/components/*"],

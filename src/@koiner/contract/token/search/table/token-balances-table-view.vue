@@ -30,7 +30,7 @@ import {
   TokenBalancesTableBoard,
 } from '@koiner/contract/token/search/table/token-balances-table-board';
 import { TokenBalanceSearchProvider } from '@koiner/contract/token/search/token-balance-search-provider';
-import { SearchRequest, SimpleSearchManager } from '@appvise/search-manager';
+import { SearchRequest, SimpleSearchManager } from '@appvise/search-manager-bak';
 import AddressLink from '@koiner/chain/address/AddressLink.vue';
 
 export default defineComponent({

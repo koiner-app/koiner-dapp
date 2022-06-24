@@ -1,6 +1,6 @@
 /* eslint-disable */
 
-import { Field } from '@appvise/vue3-component-board/field/field';
+import { Field } from './field';
 import { SortDirection } from '@appvise/search-manager';
 
 export class Board {

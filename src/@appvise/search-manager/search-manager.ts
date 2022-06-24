@@ -1,138 +1,124 @@
-import { SearchRequest } from './model/search-request';
-import { SearchResponse } from './model/search-response';
-import { SearchProvider } from './search-provider';
-import { finalize } from 'rxjs/operators';
+import { Ref, watch } from 'vue';
 import { Subscription } from 'rxjs';
+import { finalize } from 'rxjs/operators';
+import {
+  Connection,
+  Edge,
+  Node,
+  SearchProvider,
+  SearchRequestType,
+  SearchState,
+} from '.';
 
-export abstract class SearchManager<T> {
-  abstract get isActive(): boolean;
-  abstract get isLoading(): boolean;
-  abstract get pageCount(): number;
-  abstract get request(): SearchRequest | null;
-  abstract get response(): SearchResponse<T> | null;
-  abstract get scrollPosition(): number;
+export class SearchManager<
+  TRequest extends SearchRequestType,
+  TNode extends Node,
+  TEdge extends Edge<TNode>,
+  TConnection extends Connection<TNode, TEdge>
+> {
+  protected subscription?: Subscription;
 
-  abstract set isActive(active: boolean);
-  abstract set isLoading(loading: boolean);
-  abstract set pageCount(count: number);
-  abstract set scrollPosition(position: number);
-  abstract set request(request: SearchRequest | null);
-  abstract set response(response: SearchResponse<T> | null);
-
-  private subscription?: Subscription;
-
-  protected constructor(protected searchProvider: SearchProvider<T>) {}
-
-  appendResponse(response: SearchResponse<T>): void {
-    if (this.response !== null) {
-      // Don't update on setter directly
-      const responseFromState = SearchResponse.clone(this.response);
-      responseFromState.append(response);
-      this.response = responseFromState;
-    } else {
-      this.response = response;
-    }
-
-    // Update after cursor is there is a next page
-    if (this.response.pageInfo.hasNextPage) {
-      // Don't update on setter directly
-      const requestFromStage = Object.assign({}, this.request);
-      requestFromStage.after = this.response.pageInfo.endCursor;
-      this.request = requestFromStage;
-    }
-
-    this.pageCount = this.pageCount + 1;
+  get state(): SearchState<TRequest, TNode, TEdge, TConnection> {
+    return this.searchProvider.state;
   }
 
-  prependResponse(response: SearchResponse<T>): void {
-    if (this.response !== null) {
-      // Don't update on setter directly
-      const responseFromState = SearchResponse.clone(this.response);
-      responseFromState.prepend(response);
-      this.response = responseFromState;
-    } else {
-      this.response = response;
-    }
-
-    // Update before cursor is there is a previous page
-    if (this.response.pageInfo.hasPreviousPage) {
-      // Don't update on setter directly
-      const requestFromStage = Object.assign({}, this.request);
-      requestFromStage.before = this.response.pageInfo.startCursor;
-      this.request = requestFromStage;
-    }
+  get request(): Ref<TRequest> {
+    return this.state.request;
   }
 
-  search(request: SearchRequest): void {
+  get fetching(): Ref<boolean> {
+    return this.state.fetching;
+  }
+
+  get connection(): Ref<TConnection | undefined> {
+    return this.searchProvider.state.connection;
+  }
+
+  constructor(
+    protected searchProvider: SearchProvider<
+      TRequest,
+      TNode,
+      TEdge,
+      TConnection
+    >
+  ) {}
+
+  async search(request: TRequest): Promise<void> {
     this.reset();
 
-    // Make sure before + after are reset so first results are retrieved
-    request.before = undefined;
-    request.after = undefined;
+    await this.searchProvider.search({
+      // Don't include before + after cursors for new searches
+      first: request.first ?? 30, // TODO: Load default first from options?
+      filter: request.filter,
+      sort: request.sort,
+    } as TRequest);
 
-    this.request = request;
-    this.isActive = true;
+    // Workaround to reactivate urql to resume on a re-entering of page
+    // TODO: Find out why this is necessary
+    this.state.isPaused.value = true;
+    this.state.isPaused.value = false;
 
-    this.searchProvider.search(request).then(async (response) => {
-      this.appendResponse(response);
+    watch(
+      () => request.filter,
+      async () => {
+        await this.searchProvider.search(request);
+      },
+      {
+        deep: true,
+      }
+    );
 
-      // Subscribe to new results if subscriptions are provided
-      await this.subscribeToNewResults();
-    });
+    watch(
+      () => request.sort,
+      async () => {
+        await this.searchProvider.search(request);
+      },
+      {
+        deep: true,
+      }
+    );
+
+    await this.subscribeToNewResults();
   }
 
-  loadMoreResults(): void {
-    // TODO test/improve these checks
+  async loadMore(): Promise<void> {
     if (
-      // this.loading ||
-      this.response === null ||
-      !this.response.pageInfo.hasNextPage
+      this.fetching.value ||
+      !this.connection.value ||
+      !this.connection.value.pageInfo?.hasNextPage ||
+      !this.request
     ) {
       return;
     }
 
-    if (this.isLoading || this.request == null) {
-      return;
-    }
+    const request = this.searchProvider.state.request.value;
+    request.after = this.connection.value.pageInfo?.endCursor;
 
-    this.isLoading = true;
-
-    this.searchProvider.search(this.request).then((response) => {
-      this.appendResponse(response);
-
-      setTimeout(() => {
-        this.isLoading = false;
-      }, 1000);
-    });
+    await this.searchProvider.search(request);
   }
 
-  loadNewResults(): void {
-    if (this.isLoading || this.request == null || this.response == null) {
-      return;
-    }
-
-    this.isLoading = true;
-
-    const args = this.request;
-    args.after = undefined;
-
-    if (this.response.results.length > 0) {
-      // Use first edge cursor as before cursor
-      args.before = this.response.results[0].cursor;
-    }
-
-    this.searchProvider.search(this.request).then((response) => {
-      this.prependResponse(response);
-
-      setTimeout(() => {
-        this.isLoading = false;
-      }, 1000);
-    });
+  saveScrollPosition(position: number): void {
+    this.state.saveScrollPosition(position);
   }
 
+  // async reset(): Promise<void> {
+  //   await this.state.reset();
+  reset(): void {
+    this.state.reset();
+
+    if (this.subscription) {
+      console.log('Go reset SearchManager subscription');
+      this.subscription.unsubscribe();
+      this.subscription = undefined;
+    }
+  }
+
+  // TODO: Integrate subscriptions
   async subscribeToNewResults(): Promise<void> {
     if (this.request && this.searchProvider.subscribe) {
-      const observable = await this.searchProvider.subscribe(this.request);
+      const observable = await this.searchProvider.subscribe(
+        this.request.value
+      );
 
       this.subscription = observable
         .pipe(
@@ -143,45 +129,12 @@ export abstract class SearchManager<T> {
         .subscribe({
           next: async (newResults: any) => {
             if (newResults != null) {
-              this.prependResponse(newResults);
+              // this.prependResponse(newResults);
             }
           },
           error: (err: any) => console.error(err),
           complete: () => console.log('Completed SearchManager subscription'),
         });
-    }
-  }
-
-  removeItem(item: T, matchingKey: 'id'): void {
-    if (this.response !== null) {
-      // Don't update on setter directly
-      const responseFromState = SearchResponse.clone(this.response);
-
-      // Remove item
-      // TODO: FIX
-      // responseFromState.results = responseFromState.results.filter(
-      //   (result) => result.item[matchingKey] !== item[matchingKey],
-      // );
-
-      this.response = responseFromState;
-    }
-  }
-
-  get hasItems(): boolean {
-    return this.response != null && this.response.results.length > 0;
-  }
-
-  reset(): void {
-    this.response = null;
-    this.isActive = false;
-    this.pageCount = 0;
-    this.scrollPosition = 0;
-    this.request = null;
-
-    if (this.subscription) {
-      console.log('Go reset SearchManager subscription');
-      this.subscription.unsubscribe();
-      this.subscription = undefined;
     }
   }
 }

@@ -1,8 +1,15 @@
-import { SearchRequest } from './model/search-request';
-import { SearchResponse } from './model/search-response';
+import { Connection, Edge, Node, SearchRequestType, SearchState } from '.';
 import { Observable } from 'rxjs';
 
-export interface SearchProvider<T> {
-  search(request: SearchRequest): Promise<SearchResponse<T>>;
-  subscribe?(request: SearchRequest): Promise<Observable<SearchResponse<T>>>;
+export interface SearchProvider<
+  TRequest extends SearchRequestType,
+  TNode extends Node,
+  TEdge extends Edge<TNode>,
+  TConnection extends Connection<TNode, TEdge>
+> {
+  search(
+    request: TRequest
+  ): Promise<SearchState<TRequest, TNode, TEdge, TConnection>>;
+  subscribe?(request: TRequest): Promise<Observable<TConnection>>;
+  get state(): SearchState<TRequest, TNode, TEdge, TConnection>;
 }

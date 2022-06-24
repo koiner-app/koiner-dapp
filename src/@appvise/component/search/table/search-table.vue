@@ -74,12 +74,12 @@ import {
   onUnmounted,
 } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { Board } from '@appvise/vue3-component-board/field/board';
+import { Board } from '../../board/lib/field/board';
 import {
   SearchManager,
   SearchRequest,
   SortDirection,
-} from '@appvise/search-manager';
+} from '@appvise/search-manager-bak';
 import { dom } from 'quasar';
 const { offset } = dom;
 
