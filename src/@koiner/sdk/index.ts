@@ -1007,7 +1007,7 @@ export type BlocksSearchQueryVariables = Exact<{
 }>;
 
 
-export type BlocksSearchQuery = { __typename?: 'Query', blocks: { __typename?: 'BlocksConnection', totalCount: number, edges: Array<{ __typename: 'BlockEdge', cursor: string, node: { __typename?: 'Block', id: string, height: number, transactionCount: number } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null, endCursor?: string | null } } };
+export type BlocksSearchQuery = { __typename?: 'Query', blocks: { __typename?: 'BlocksConnection', totalCount: number, edges: Array<{ __typename: 'BlockEdge', cursor: string, node: { __typename?: 'Block', id: string, transactionCount: number, header: { __typename?: 'BlockHeader', height: number, previous: string, timestamp: number, previousStateMerkleRoot?: string | null, signer: string }, reward?: { __typename?: 'BlockReward', value: number, producerId: string } | null } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null, endCursor?: string | null } } };
 
 
 export const BlocksSearchDocument = gql`
@@ -1024,7 +1024,17 @@ export const BlocksSearchDocument = gql`
       cursor
       node {
         id
-        height
+        header {
+          height
+          previous
+          timestamp
+          previousStateMerkleRoot
+          signer
+        }
+        reward {
+          value
+          producerId
+        }
         transactionCount
       }
       __typename

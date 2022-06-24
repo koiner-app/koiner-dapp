@@ -17,6 +17,7 @@
           "label": "Age",
           "scope": "#/properties/timestamp",
           "options": {
+            "format": "age",
             "mapping": "header.timestamp"
           }
         },

@@ -14,7 +14,13 @@ export default boot(({ app }) => {
         resolvers: {
           Query: {
             blocks: relayPagination(),
+            // transactions: relayPagination(),
+            // operations: relayPagination(),
           },
+        },
+        keys: {
+          BlockHeader: () => null,
+          BlockReward: () => null,
         },
       }),
       fetchExchange,
