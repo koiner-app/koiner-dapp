@@ -14,6 +14,7 @@ import {
 } from '../util';
 
 import ActiveStatusAttributeRenderer from './status-attribute-renderer.vue';
+import AgeAttributeRenderer from './age-attribute-renderer.vue';
 import AttributeWrapper from './attribute-wrapper.vue';
 import AttributeGroupRenderer from './attribute-group-renderer.vue';
 import ButtonAttributeRenderer from './button-attribute-renderer.vue';
@@ -42,6 +43,14 @@ const activeStatusAttributeRendererEntry: JsonFormsRendererRegistryEntry = {
   tester: rankWith(
     2,
     and(isBooleanAttributeControl, optionIs('format', 'status'))
+  ),
+};
+
+const ageAttributeRendererEntry: JsonFormsRendererRegistryEntry = {
+  renderer: AgeAttributeRenderer,
+  tester: rankWith(
+    2,
+    and(isNumericAttributeControl, optionIs('format', 'age'))
   ),
 };
 
@@ -77,6 +86,7 @@ const buttonAttributeRendererEntry: JsonFormsRendererRegistryEntry = {
 
 export {
   ActiveStatusAttributeRenderer,
+  AgeAttributeRenderer,
   AttributeGroupRenderer,
   AttributeWrapper,
   ButtonAttributeRenderer,
@@ -89,6 +99,7 @@ export {
 export const attributeRenderers = [
   attributeGroupRendererEntry,
   activeStatusAttributeRendererEntry,
+  ageAttributeRendererEntry,
   buttonAttributeRendererEntry,
   linkAttributeRendererEntry,
   numericAttributeRendererEntry,

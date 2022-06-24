@@ -19,6 +19,7 @@ export interface Styles {
   attribute: {
     root?: string;
     wrapper?: string;
+    age?: string;
     button?: string;
     link?: string;
     numeric?: string;
