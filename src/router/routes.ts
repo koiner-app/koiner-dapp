@@ -249,7 +249,7 @@ const routes: RouteRecordRaw[] = [
         component: () => import('layouts/token/TokenLayout.vue'),
         children: [
           {
-            name: 'token-token',
+            name: 'token',
             path: '',
             component: () => import('pages/tokens/default/id/TokenPage.vue'),
           },

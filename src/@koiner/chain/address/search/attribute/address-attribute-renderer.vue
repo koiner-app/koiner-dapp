@@ -4,9 +4,13 @@
     :styles="styles"
     :applied-options="appliedOptions"
   >
-    <q-chip :class="`chip-${rawValue(result.node)}`">
-      {{ rawValue(result.node) }}
-    </q-chip>
+    <router-link
+      :to="to(rawValue(result.node))"
+      :class="`${styles.attribute.link}`"
+    >
+      <q-icon v-if="appliedOptions.icon" :name="appliedOptions.icon" />
+      <span v-if="!appliedOptions.icon">{{ rawValue(result.node) }}</span>
+    </router-link>
   </attribute-wrapper>
 </template>
 
@@ -21,7 +25,7 @@ import {
 } from '@appvise/jsonsearch-quasar';
 
 export default defineComponent({
-  name: 'BlockRewardAttributeRenderer',
+  name: 'AddressAttributeRenderer',
   components: {
     AttributeWrapper,
   },
@@ -35,28 +39,20 @@ export default defineComponent({
     },
   },
   setup(props: RendererProps<AttributeElement>) {
-    return useQuasarAttribute(useJsonAttribute(props));
+    const attributeControl = useQuasarAttribute(useJsonAttribute(props));
+
+    const to = (data: Record<string, unknown>) => {
+        // Use route with params
+        return {
+          name: 'address',
+          params: { id: data },
+        };
+    };
+
+    return {
+      ...attributeControl,
+      to,
+    };
   },
 });
 </script>
-
-<style lang="scss">
-.q-chip {
-  &.chip-registration {
-    color: #2a355e;
-    background: #dbdff0;
-  }
-  &.chip-quotation {
-    color: #ed7f03;
-    background: #f9e6d1;
-  }
-  &.chip-delivery {
-    color: #373737;
-    background: #dddddd;
-  }
-  &.chip-completed {
-    color: #1ba818;
-    background: #dbf2da;
-  }
-}
-</style>

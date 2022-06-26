@@ -84,6 +84,35 @@ export const useQuasarAttribute = <I extends { control: any }>(input: I) => {
     return data[input.control.value.path];
   };
 
+  const mappedValue = (
+    data: Record<string, unknown>,
+    mappingKey: string
+  ): any => {
+    if (
+      appliedOptions.value.mappings &&
+      appliedOptions.value.mappings[mappingKey]
+    ) {
+      const mappingFields =
+        appliedOptions.value.mappings[mappingKey].split('.');
+
+      let field: any = data;
+
+      for (let i = 0; i < mappingFields.length; i++) {
+        if (field[mappingFields[i]]) {
+          field = field[mappingFields[i]];
+        } else {
+          // Return normal path if custom mapping fails
+          return data[input.control.value.path];
+        }
+      }
+
+      // Return mapped field
+      return field;
+    }
+
+    return data[input.control.value.path];
+  };
+
   return {
     ...input,
     styles,
@@ -92,5 +121,6 @@ export const useQuasarAttribute = <I extends { control: any }>(input: I) => {
     computedValue,
     isDisabled: input.control.enabled === false ? false : undefined,
     rawValue,
+    mappedValue,
   };
 };
