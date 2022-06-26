@@ -18,6 +18,7 @@ import AgeAttributeRenderer from './age-attribute-renderer.vue';
 import AttributeWrapper from './attribute-wrapper.vue';
 import AttributeGroupRenderer from './attribute-group-renderer.vue';
 import ButtonAttributeRenderer from './button-attribute-renderer.vue';
+import IconTagAttributeRenderer from './icon-tag-attribute-renderer.vue';
 import LinkAttributeRenderer from './link-attribute-renderer.vue';
 import NumericAttributeRenderer from './numeric-attribute-renderer.vue';
 import TextAttributeRenderer from './text-attribute-renderer.vue';
@@ -84,12 +85,21 @@ const buttonAttributeRendererEntry: JsonFormsRendererRegistryEntry = {
   ),
 };
 
+const iconTagAttributeRendererEntry: JsonFormsRendererRegistryEntry = {
+  renderer: IconTagAttributeRenderer,
+  tester: rankWith(
+    2,
+    and(isBooleanAttributeControl, optionIs('format', 'iconTag'))
+  ),
+};
+
 export {
   ActiveStatusAttributeRenderer,
   AgeAttributeRenderer,
   AttributeGroupRenderer,
   AttributeWrapper,
   ButtonAttributeRenderer,
+  IconTagAttributeRenderer,
   LinkAttributeRenderer,
   NumericAttributeRenderer,
   TextAttributeRenderer,
@@ -101,6 +111,7 @@ export const attributeRenderers = [
   activeStatusAttributeRendererEntry,
   ageAttributeRendererEntry,
   buttonAttributeRendererEntry,
+  iconTagAttributeRendererEntry,
   linkAttributeRendererEntry,
   numericAttributeRendererEntry,
   textAttributeRendererEntry,
