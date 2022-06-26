@@ -4,10 +4,7 @@
     :styles="styles"
     :applied-options="appliedOptions"
   >
-    <router-link
-      :to="to(rawValue(result.node))"
-      :class="`${styles.attribute.link}`"
-    >
+    <router-link :to="routerLink(result.node)" :class="`${styles.attribute.link}`">
       <q-icon v-if="appliedOptions.icon" :name="appliedOptions.icon" />
       <span v-if="!appliedOptions.icon">{{ rawValue(result.node) }}</span>
     </router-link>
@@ -41,21 +38,7 @@ export default defineComponent({
   setup(props: RendererProps<AttributeElement>) {
     const attributeControl = useQuasarAttribute(useJsonAttribute(props));
 
-    const to = (data: Record<string, unknown>) => {
-      if (attributeControl.appliedOptions.value.route) {
-        // Use route with params
-        return {
-          name: attributeControl.appliedOptions.value.route,
-          params: { id: data },
-        };
-      }
-
-      // Use raw data as link
-      return data;
-    };
-
     return {
-      to,
       ...attributeControl,
     };
   },

@@ -7,7 +7,7 @@
     <q-btn
       v-bind="buttonProps"
       :icon="appliedOptions.icon"
-      :to="to(rawValue(result.node))"
+      :to="routerLink(result.node)"
       :class="`${styles.attribute.button}`"
     >
       <span v-if="appliedOptions.i18n">{{ t(appliedOptions.i18n) }}</span>
@@ -48,20 +48,6 @@ export default defineComponent({
   setup(props: RendererProps<AttributeElement>) {
     const attributeControl = useQuasarAttribute(useJsonAttribute(props));
     const { t } = useI18n();
-
-    const to = (data: Record<string, unknown>) => {
-      if (attributeControl.appliedOptions.value.route) {
-        // Use route with params
-        return {
-          name: attributeControl.appliedOptions.value.route,
-          params: { id: data },
-        };
-      }
-
-      // Use raw data as link
-      return data;
-    };
-
     const buttonProps: any = {}
 
     if (attributeControl.appliedOptions.value.button) {
@@ -75,7 +61,6 @@ export default defineComponent({
     return {
       ...attributeControl,
       t,
-      to,
       buttonProps,
     };
   },

@@ -113,6 +113,28 @@ export const useQuasarAttribute = <I extends { control: any }>(input: I) => {
     return data[input.control.value.path];
   };
 
+  const routerLink = (data: Record<string, unknown>) => {
+    if (appliedOptions.value.route) {
+      const params: Record<string, string | number> = {};
+
+      if (appliedOptions.value.linkParams) {
+        const linkParams: string[] = appliedOptions.value.linkParams;
+        for (const linkParam of linkParams) {
+          params[linkParam] = mappedValue(data, linkParam);
+        }
+      }
+
+      // Use route with params
+      return {
+        name: appliedOptions.value.route,
+        params,
+      };
+    }
+
+    // Use raw data as link
+    return data;
+  };
+
   return {
     ...input,
     styles,
@@ -122,5 +144,6 @@ export const useQuasarAttribute = <I extends { control: any }>(input: I) => {
     isDisabled: input.control.enabled === false ? false : undefined,
     rawValue,
     mappedValue,
+    routerLink,
   };
 };
