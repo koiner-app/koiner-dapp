@@ -43,7 +43,7 @@
         {
           "type": "Attribute",
           "label": "Producer",
-          "scope": "#/properties/reward.producerId",
+          "scope": "#/properties/producerId",
           "options": {
             "format": "address",
             "mapping": "reward.producerId"
