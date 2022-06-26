@@ -8,6 +8,10 @@ export interface SearchStoreEntry {
 export const useSearchStore = defineStore({
   id: 'search',
   state: () => ({
+    addresses: {
+      position: 0,
+      request: {},
+    } as SearchStoreEntry,
     blocks: {
       position: 0,
       request: {},

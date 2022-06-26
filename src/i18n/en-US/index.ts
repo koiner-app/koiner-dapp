@@ -15,4 +15,13 @@ export default {
       },
     },
   },
+  koiner: {
+    chain: {
+      addresses: {
+        tags: {
+          isProducer: 'Block producer',
+        },
+      },
+    },
+  },
 };

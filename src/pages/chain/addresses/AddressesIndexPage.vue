@@ -14,7 +14,7 @@
           <q-space />
         </div>
 
-        <addresses-table-view />
+        <addresses-search-view />
       </q-card-section>
     </q-card>
   </q-page>
@@ -22,10 +22,10 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import AddressesTableView from '@koiner/chain/address/search/table/addresses-table-view.vue';
+import AddressesSearchView from '@koiner/chain/address/search/addresses-search-view.vue';
 
 export default defineComponent({
   name: 'AddressesIndexPage',
-  components: { AddressesTableView },
+  components: { AddressesSearchView },
 });
 </script>
