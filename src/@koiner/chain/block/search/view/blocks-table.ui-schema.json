@@ -9,7 +9,13 @@
           "label": "Height",
           "scope": "#/properties/height",
           "options": {
-            "mapping": "header.height"
+            "route": "block",
+            "format": "link",
+            "linkParams": ["height"],
+            "mapping": "header.height",
+            "mappings": {
+              "height": "header.height"
+            }
           }
         },
         {
@@ -24,7 +30,15 @@
         {
           "type": "Attribute",
           "label": "Transactions",
-          "scope": "#/properties/transactionCount"
+          "scope": "#/properties/transactionCount",
+          "options": {
+            "route": "block.transactions",
+            "format": "link",
+            "linkParams": ["height"],
+            "mappings": {
+              "height": "header.height"
+            }
+          }
         },
         {
           "type": "Attribute",
@@ -54,29 +68,6 @@
               "options": {
                 "format": "tokenAmount",
                 "mapping": "reward.contractId"
-              }
-            }
-          ]
-        },
-        {
-          "type": "AttributeGroup",
-          "label": "Actions",
-          "scope": "actions",
-          "elements": [
-            {
-              "type": "Attribute",
-              "label": "Actions",
-              "scope": "#/properties/height",
-              "options": {
-                "route": "block",
-                "icon": "link",
-                "format": "button",
-                "button": {
-                  "size": "xs",
-                  "flat": true,
-                  "dense": true,
-                  "round": true
-                }
               }
             }
           ]

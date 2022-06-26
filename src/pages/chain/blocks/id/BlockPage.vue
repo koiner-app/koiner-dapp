@@ -260,12 +260,12 @@ export default defineComponent({
     };
 
     onMounted(async () => {
-      height.value = route.params.id;
+      height.value = route.params.height;
       executeQuery();
     });
 
     watch(
-      () => route.params.id,
+      () => route.params.height,
       async (newHeight) => {
         block.value = undefined;
         height.value = newHeight;
