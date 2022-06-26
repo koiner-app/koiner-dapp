@@ -13,13 +13,14 @@
     "transactionCount": {
       "type": "number"
     },
-    "reward": {
-      "type": "object",
-      "properties": {
-        "producerId": {
-          "type": "string"
-        }
-      }
+    "reward.producerId": {
+      "type": "string"
+    },
+    "reward.value": {
+      "type": "number"
+    },
+    "reward.contractId": {
+      "type": "string"
     }
   }
 }

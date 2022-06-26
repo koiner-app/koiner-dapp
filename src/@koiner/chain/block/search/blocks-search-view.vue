@@ -21,12 +21,12 @@ import blocksSearchSchema from './blocks-search.schema.json';
 import blocksSearchUiSchema from './view/blocks-table.ui-schema.json';
 import { extendedQuasarRenderers } from '@appvise/jsonforms-quasar';
 import { jsonSearchRenderers } from '@appvise/jsonsearch-quasar';
-import { blockAttributeRenderers } from './attribute';
+import { KoinerRenderers } from '@koiner/renderers';
 
 const renderers = [
   ...extendedQuasarRenderers,
   ...jsonSearchRenderers,
-  ...blockAttributeRenderers,
+  ...KoinerRenderers,
 ];
 
 export default defineComponent({

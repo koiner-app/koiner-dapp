@@ -28,11 +28,35 @@
         },
         {
           "type": "Attribute",
+          "label": "Producer",
+          "scope": "#/properties/reward.producerId",
+          "options": {
+            "format": "address",
+            "mapping": "reward.producerId"
+          }
+        },
+        {
+          "type": "AttributeGroup",
           "label": "Block reward",
           "scope": "#/properties/reward",
-          "options": {
-            "format": "blockReward"
-          }
+          "elements": [
+            {
+              "type": "Attribute",
+              "scope": "#/properties/reward.value",
+              "options": {
+                "format": "koinTokenAmount",
+                "mapping": "reward.value"
+              }
+            },
+            {
+              "type": "Attribute",
+              "scope": "#/properties/reward.contractId",
+              "options": {
+                "format": "tokenAmount",
+                "mapping": "reward.contractId"
+              }
+            }
+          ]
         },
         {
           "type": "AttributeGroup",
