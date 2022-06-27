@@ -123,15 +123,9 @@ const routes: RouteRecordRaw[] = [
             component: () => import('pages/chain/events/EventsIndexPage.vue'),
           },
           {
-            path: '/events',
-            component: () => import('layouts/chain/EventLayout.vue'),
-            children: [
-              {
-                name: 'event',
-                path: '/events/:id',
-                component: () => import('pages/chain/events/id/EventPage.vue'),
-              },
-            ],
+            name: 'event',
+            path: '/events/:id',
+            component: () => import('pages/chain/events/id/EventPage.vue'),
           },
         ],
       },
@@ -150,8 +144,31 @@ const routes: RouteRecordRaw[] = [
           {
             name: 'transaction',
             path: '/transactions/:id',
-            component: () =>
-              import('pages/chain/transactions/id/TransactionPage.vue'),
+            component: () => import('layouts/chain/TransactionLayout.vue'),
+            children: [
+              {
+                name: 'transaction',
+                path: '/',
+                component: () =>
+                  import('pages/chain/transactions/id/TransactionPage.vue'),
+              },
+              {
+                name: 'transaction.operations',
+                path: '/transactions/:id/operations',
+                component: () =>
+                  import(
+                    'pages/chain/transactions/id/TransactionOperationsPage.vue'
+                  ),
+              },
+              {
+                name: 'transaction.events',
+                path: '/transactions/:id/events',
+                component: () =>
+                  import(
+                    'pages/chain/transactions/id/TransactionEventsPage.vue'
+                  ),
+              },
+            ],
           },
         ],
       },

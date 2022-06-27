@@ -2,18 +2,18 @@
   <div class="koiner-topbar fixed-top" v-if="id">
     <q-icon class="topbar-icon" name="account_balance_wallet"></q-icon>
     <div class="topbar-header">
-      <span class="selected-item">{{ id }}</span>
+      <span class="selected-item">Transaction details</span>
 
       <q-btn flat dense size="sm" class="favorite-icon">
         <q-icon
-          :name="account.addresses.includes(id) ? 'star' : 'star_border'"
+          :name="account.transactions.includes(id) ? 'star' : 'star_border'"
         ></q-icon>
         <q-menu anchor="bottom left" self="top left">
-          <q-item clickable v-if="account.addresses.includes(id)" @click="account.removeAddress(id)">
-            <q-item-section>Remove from my addresses</q-item-section>
+          <q-item clickable v-if="account.transactions.includes(id)" @click="account.removeTransaction(id)">
+            <q-item-section>Remove from my transactions</q-item-section>
           </q-item>
-          <q-item clickable v-if="!account.addresses.includes(id)" @click="account.addAddress(id)">
-            <q-item-section>Add to my addresses</q-item-section>
+          <q-item clickable v-if="!account.transactions.includes(id)" @click="account.addTransaction(id)">
+            <q-item-section>Add to my transactions</q-item-section>
           </q-item>
         </q-menu>
       </q-btn>
@@ -24,19 +24,19 @@
         <q-route-tab
           :ripple="false"
           label="Overview"
-          :to="`/addresses/${id}`"
+          :to="`/transactions/${id}`"
           exact
         />
         <q-route-tab
           :ripple="false"
-          label="Wallet"
-          :to="`/addresses/${id}/wallet`"
+          label="Operations"
+          :to="`/transactions/${id}/operations`"
           exact
         />
         <q-route-tab
           :ripple="false"
-          label="History"
-          :to="`/addresses/${id}/history`"
+          label="Events"
+          :to="`/transactions/${id}/events`"
           exact
         />
       </q-tabs>
@@ -47,20 +47,27 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, onMounted, Ref, ref, watch} from 'vue';
+import { defineComponent, onMounted, Ref, ref, watch } from 'vue';
 import { useAccountStore } from 'stores/account';
 import { useRoute } from 'vue-router';
 
 export default defineComponent({
   name: 'AddressLayout',
-  components: {},
   setup() {
-    let id: Ref<string | undefined> = ref();
     const route = useRoute();
     const account = useAccountStore();
 
+    let currentPage: Ref<string | undefined> = ref();
+    let id: Ref<string | undefined> = ref();
+
     onMounted(async () => {
-      id.value = route.params.id ? route.params.id.toString() : undefined;
+      if (route.name) {
+        currentPage.value = route.name.toString();
+      }
+
+      if (route.params.id) {
+        id.value = route.params.id.toString();
+      }
     });
 
     watch(
@@ -68,11 +75,25 @@ export default defineComponent({
       async (newId) => {
         id.value = newId ? newId.toString() : undefined;
       }
-    )
+    );
+
+    watch(
+      () => route.name,
+      async (newName) => {
+        if (newName) {
+          currentPage.value = newName.toString();
+        }
+      }
+    );
+
+    const addToMyTransactions = (id: string) => {
+      account.transactions.push(id);
+    }
 
     return {
       id,
       account,
+      addToMyTransactions,
     };
   },
 });

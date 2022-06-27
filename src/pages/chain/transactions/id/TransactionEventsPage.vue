@@ -1,6 +1,7 @@
 <template>
   <q-page class="row items-baseline justify-evenly">
     <q-card
+      v-if="id"
       class="table-card shadow-1"
       style="
         max-width: 1288px;
@@ -14,18 +15,38 @@
           <q-space />
         </div>
 
-        <events-search-view />
+        <events-search-view :request="request" />
       </q-card-section>
     </q-card>
   </q-page>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, onMounted, ref, Ref } from 'vue';
+import { useRoute } from 'vue-router';
 import EventsSearchView from '@koiner/chain/event/search/events-search-view.vue';
+import { QueryEventsArgs } from '@koiner/sdk';
 
 export default defineComponent({
-  name: 'EventsIndexPage',
+  name: 'TransactionEventsPage',
   components: { EventsSearchView },
+
+  setup() {
+    let request: Ref<QueryEventsArgs> = ref({ filter: {} });
+    let id: Ref<string | undefined> = ref();
+    const route = useRoute();
+
+    onMounted(async () => {
+      id.value = route.params.id.toString();
+      request.value.filter = {
+        transactionId: { equals: id.value },
+      };
+    });
+
+    return {
+      id,
+      request,
+    };
+  },
 });
 </script>

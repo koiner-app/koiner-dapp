@@ -1,0 +1,49 @@
+{
+  "type": "object",
+  "elements": [
+    {
+      "type": "TableView",
+      "elements": [
+        {
+          "type": "Attribute",
+          "label": "ID",
+          "scope": "#/properties/id",
+          "options": {
+            "route": "transaction",
+            "format": "link",
+            "linkParams": ["id"],
+            "mappings": {
+              "id": "id"
+            }
+          }
+        },
+        {
+          "type": "Attribute",
+          "label": "Block",
+          "scope": "#/properties/blockHeight",
+          "options": {
+            "route": "block",
+            "format": "link",
+            "linkParams": ["height"],
+            "mappings": {
+              "height": "blockHeight"
+            }
+          }
+        },
+        {
+          "type": "Attribute",
+          "label": "Operations",
+          "scope": "#/properties/operationCount",
+          "options": {
+            "route": "transaction.operations",
+            "format": "link",
+            "linkParams": ["id"],
+            "mappings": {
+              "id": "id"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -9,7 +9,7 @@
     :next-tab="nextTab"
   />
 
-  <div class="koiner-topbar fixed-top">
+  <div class="koiner-topbar fixed-top" v-if="height">
     <q-icon class="topbar-icon" name="account_balance_wallet"></q-icon>
     <div class="topbar-header">
       <span class="selected-item">Block #{{ height }}</span>
@@ -137,7 +137,7 @@ export default defineComponent({
     watch(
       () => route.params.height,
       async (newHeight) => {
-        height.value = parseInt(newHeight.toString());
+        height.value = newHeight ? parseInt(newHeight.toString()) : undefined;
         updateLinks();
       }
     );

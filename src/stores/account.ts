@@ -9,6 +9,7 @@ export const useAccountStore = defineStore({
     name: 'User',
     tokenWatchlist: [] as string[],
     addresses: [] as string[],
+    transactions: [] as string[],
     connected: false,
   }),
 
@@ -28,6 +29,40 @@ export const useAccountStore = defineStore({
 
     addTokenToWatchlist(id: string) {
       this.tokenWatchlist.push(id);
+    },
+
+    addAddress(id: string) {
+      if (!this.addresses.includes(id)) {
+        this.$patch({
+          addresses: [...this.addresses, id],
+        });
+      }
+    },
+
+    removeAddress(id: string) {
+      if (this.addresses.includes(id)) {
+        this.$patch({
+          addresses: this.addresses.filter((address) => address !== id),
+        });
+      }
+    },
+
+    addTransaction(id: string) {
+      if (!this.transactions.includes(id)) {
+        this.$patch({
+          transactions: [...this.transactions, id],
+        });
+      }
+    },
+
+    removeTransaction(id: string) {
+      if (this.transactions.includes(id)) {
+        this.$patch({
+          transactions: this.transactions.filter(
+            (transaction) => transaction !== id
+          ),
+        });
+      }
     },
 
     /**

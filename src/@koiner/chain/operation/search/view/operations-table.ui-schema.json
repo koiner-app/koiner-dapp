@@ -1,0 +1,28 @@
+{
+  "type": "object",
+  "elements": [
+    {
+      "type": "TableView",
+      "elements": [
+        {
+          "type": "Attribute",
+          "label": "Height",
+          "scope": "#/properties/blockHeight",
+          "options": {
+            "route": "block",
+            "format": "link",
+            "linkParams": ["height"],
+            "mappings": {
+              "height": "blockHeight"
+            }
+          }
+        },
+        {
+          "type": "Attribute",
+          "label": "Type",
+          "scope": "#/properties/type"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "transactionId": {
+      "type": "string"
+    },
+    "sequence": {
+      "type": "number"
+    },
+    "contractId": {
+      "type": "number"
+    },
+    "name": {
+      "type": "string"
+    }
+  }
+}

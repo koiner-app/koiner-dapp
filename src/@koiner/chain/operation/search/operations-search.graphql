@@ -1,0 +1,32 @@
+query OperationsSearch(
+  $after: String
+  $before: String
+  $first: Int
+  $filter: OperationsFilter
+  $sort: [OperationsSortInput!]
+) {
+  operations(
+    after: $after
+    before: $before
+    first: $first
+    filter: $filter
+    sort: $sort
+  ) {
+    totalCount
+    edges {
+      cursor
+      node {
+        id
+        blockHeight
+        type
+      }
+      __typename
+    }
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+  }
+}

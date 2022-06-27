@@ -16,5 +16,17 @@ export const useSearchStore = defineStore({
       position: 0,
       request: {},
     } as SearchStoreEntry,
+    events: {
+      position: 0,
+      request: {},
+    } as SearchStoreEntry,
+    transactions: {
+      position: 0,
+      request: {},
+    } as SearchStoreEntry,
+    operations: {
+      position: 0,
+      request: {},
+    } as SearchStoreEntry,
   }),
 });

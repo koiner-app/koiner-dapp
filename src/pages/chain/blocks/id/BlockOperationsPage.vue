@@ -1,6 +1,7 @@
 <template>
   <q-page class="row items-baseline justify-evenly">
-    <q-card v-if="height"
+    <q-card
+      v-if="height"
       class="table-card shadow-1"
       style="
         max-width: 1288px;
@@ -14,7 +15,7 @@
           <q-space />
         </div>
 
-        <operations-table-view :block-height="height" />
+        <operations-search-view :request="request" />
       </q-card-section>
     </q-card>
   </q-page>
@@ -23,22 +24,28 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref, Ref } from 'vue';
 import { useRoute } from 'vue-router';
-import OperationsTableView from '@koiner/chain/operation/search/table/operations-table-view.vue';
+import OperationsSearchView from '@koiner/chain/operation/search/operations-search-view.vue';
+import { QueryOperationsArgs } from '@koiner/sdk';
 
 export default defineComponent({
   name: 'BlockOperationsPage',
-  components: { OperationsTableView },
+  components: { OperationsSearchView },
 
   setup() {
+    let request: Ref<QueryOperationsArgs> = ref({ filter: {} });
     let height: Ref<number | undefined> = ref();
     const route = useRoute();
 
     onMounted(async () => {
       height.value = parseInt(route.params.height.toString());
+      request.value.filter = {
+        blockHeight: { equals: height.value },
+      };
     });
 
     return {
       height,
+      request,
     };
   },
 });

@@ -14,7 +14,7 @@
           <q-space />
         </div>
 
-        <transactions-table-view />
+        <transactions-search-view />
       </q-card-section>
     </q-card>
   </q-page>
@@ -22,10 +22,10 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import TransactionsTableView from '@koiner/chain/transaction/search/table/transactions-table-view.vue';
+import TransactionsSearchView from '@koiner/chain/transaction/search/transactions-search-view.vue';
 
 export default defineComponent({
   name: 'TransactionsIndexPage',
-  components: { TransactionsTableView },
+  components: { TransactionsSearchView },
 });
 </script>

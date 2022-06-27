@@ -1,0 +1,16 @@
+query TransactionPage($id: ID!) {
+  transaction(id: $id) {
+    id
+    id
+    blockHeight
+    operationCount
+    header {
+      payer
+      nonce
+      operationMerkleRoot
+      rcLimit
+    }
+    index
+    signature
+  }
+}
