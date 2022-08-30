@@ -6,19 +6,19 @@
   >
     <q-card-section v-if="layout.uischema.label" :class="styles.group.label">
       <div class="text-h6">
-        {{ t(layout.uischema.label) }}
+        {{ layout.uischema.label }}
       </div>
     </q-card-section>
 
     <q-card-section
       v-for="(element, index) in layout.uischema.elements"
-      :key="`${layout.path}-${index}`"
+      :key="`${layoutPath}-${index}`"
       :class="styles.group.item"
     >
       <dispatch-renderer
         :schema="layout.schema"
         :uischema="element"
-        :path="layout.path"
+        :path="layoutPath !== 'root' ? layoutPath : ''"
         :enabled="layout.enabled"
         :renderers="layout.renderers"
         :cells="layout.cells"
@@ -37,7 +37,6 @@ import {
   RendererProps,
 } from '@jsonforms/vue';
 import { useQuasarLayout } from '../util';
-import { useI18n } from 'vue-i18n';
 
 export default defineComponent({
   name: 'GroupRenderer',
@@ -48,11 +47,12 @@ export default defineComponent({
     ...rendererProps<Layout>(),
   },
   setup(props: RendererProps<Layout>) {
-    const { t } = useI18n();
+    const quasarLayout = useQuasarLayout(useJsonFormsLayout(props));
+    const layoutPath = quasarLayout.layout.path && quasarLayout.layout.path !== '' ? quasarLayout.layout.path : 'root';
 
     return {
-      ...useQuasarLayout(useJsonFormsLayout(props)),
-      t,
+      ...quasarLayout,
+      layoutPath,
     };
   },
 });

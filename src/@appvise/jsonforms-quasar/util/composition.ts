@@ -2,6 +2,7 @@ import {
   composePaths,
   computeLabel,
   getFirstPrimitiveProp,
+  getI18nKeyPrefix,
   isDescriptionHidden,
   JsonFormsSubStates,
   Resolve,
@@ -9,8 +10,6 @@ import {
 import { cloneDeep, merge } from 'lodash';
 import { useStyles } from '../styles';
 import { computed, ComputedRef, inject, ref } from 'vue';
-import Ajv from 'ajv';
-import { getI18nKeyPrefix } from '@jsonforms/core';
 
 const useControlAppliedOptions = <I extends { control: any }>(input: I) => {
   return computed(() =>
@@ -26,9 +25,11 @@ const useComputedLabel = <I extends { control: any }>(
   input: I,
   appliedOptions: ComputedRef<any>
 ) => {
+  const label = input.control.value.label;
+
   return computed((): string => {
     return computeLabel(
-      input.control.value.label,
+      label,
       input.control.value.required,
       !!appliedOptions.value?.hideRequiredAsterisk
     );
@@ -39,33 +40,34 @@ const useComputedHtmlLabel = <I extends { control: any }>(
   input: I,
   appliedOptions: ComputedRef<any>
 ) => {
+  const label = input.control.value.label;
+
   return computed((): string => {
-    return `${input.control.value.label ?? ''}${ input.control.value.required && !!appliedOptions.value?.hideRequiredAsterisk ? '' : '<span class="asterisk">*</span>'}`;
+    return `${label ?? ''}${
+      input.control.value.required &&
+      !!appliedOptions.value?.hideRequiredAsterisk
+        ? ''
+        : '<span class="asterisk">*</span>'
+    }`;
   });
 };
 
-const useComputedDescription = <I extends { control: any }>(
-  input: I,
-) => {
-  const prefix = getI18nKeyPrefix(input.control.value.schema, input.control.value.uischema, input.control.value.path);
+const useComputedDescription = <I extends { control: any }>(input: I) => {
+  const description = input.control.value.description;
 
   return computed((): string => {
-    // When using i18n prefixes for labels description will also be loaded even when there is no translation for them.
-    // So only return description if it is translated. If description includes the prefix it's not translated.
-    return input.control.value.description && !input.control.value.description.includes(prefix) ? input.control.value.description : undefined;
+    return description;
   });
 };
 
 /**
  * Adds styles, isFocused, appliedOptions and onChange
  */
-export const useQuasarControl = <
-  I extends { control: any; handleChange: any }
->(
-    input: I,
+export const useQuasarControl = <I extends { control: any; handleChange: any }>(
+  input: I,
   // eslint-disable-next-line no-unused-vars
-    adaptValue: (target: any) => any = (v) => v,
-  ) => {
+  adaptValue: (target: any) => any = (v) => v
+) => {
   const appliedOptions = useControlAppliedOptions(input);
 
   const isFocused = ref(false);
@@ -86,6 +88,54 @@ export const useQuasarControl = <
     );
   };
 
+  const jsonforms = inject<JsonFormsSubStates>('jsonforms');
+
+  let rootI18nPrefix = '';
+  if (jsonforms) {
+    rootI18nPrefix = jsonforms.core?.uischema?.options?.i18n;
+  }
+
+  let i18nPrefix: string;
+
+  if (input.control.value.uischema.i18n) {
+    // Use the exact i18n key if provided
+    i18nPrefix = input.control.value.uischema.i18n;
+  } else {
+    // Otherwise, combine prefix with control.path and a possible root prefix
+    i18nPrefix = `${getI18nKeyPrefix(
+      input.control.value.schema,
+      input.control.value.uischema,
+      input.control.value.path
+    )}`;
+
+    if (rootI18nPrefix) {
+      i18nPrefix = `${rootI18nPrefix}.${i18nPrefix}`;
+    }
+  }
+
+  const t = useTranslator();
+
+  const i18nLabelPrefix = input.control.value.uischema.i18n ?? i18nPrefix;
+  const labelTranslation = t(`${i18nLabelPrefix}.label`, '');
+
+  // Only update if translated
+  if (labelTranslation !== '') {
+    input.control.value.label = labelTranslation;
+  }
+
+  const i18nLabelDescriptionKey = `${i18nPrefix}.description`;
+  const translatedDescription = t(i18nLabelDescriptionKey, '');
+
+  // Only update if translated
+  if (!translatedDescription.includes(i18nPrefix)) {
+    input.control.value.description = translatedDescription;
+  }
+
+  // TODO: Find out why field.description is always added to descriptions causing it incorrectly to be loaded
+  if (input.control.value.description.endsWith('.description')) {
+    input.control.value.description = '';
+  }
+
   const computedLabel = useComputedLabel(input, appliedOptions);
   const computedHtmlLabel = useComputedHtmlLabel(input, appliedOptions);
   const computedDescription = useComputedDescription(input);
@@ -97,6 +147,11 @@ export const useQuasarControl = <
   });
 
   const styles = useStyles(input.control.value.uischema);
+
+  // Make sure an i18n is always present so controls + error validation can use it
+  if (!input.control.value.uischema.i18n) {
+    input.control.value.uischema.i18n = i18nPrefix;
+  }
 
   return {
     ...input,
@@ -129,12 +184,7 @@ export const useTranslator = () => {
     );
   }
 
-  const translate = computed(() => {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    return jsonforms.i18n!.translate!;
-  });
-
-  return translate;
+  return jsonforms.i18n!.translate;
 };
 
 /**
@@ -148,6 +198,55 @@ export const useQuasarLayout = <I extends { layout: any }>(input: I) => {
       cloneDeep(input.layout.value.uischema.options)
     )
   );
+
+  const jsonforms = inject<JsonFormsSubStates>('jsonforms');
+
+  let rootI18nPrefix = '';
+  if (jsonforms) {
+    rootI18nPrefix = jsonforms.core?.uischema?.options?.i18n;
+  }
+
+  let i18nPrefix: string;
+
+  if (input.layout.value.uischema.i18n) {
+    // Use the exact i18n key if provided
+    i18nPrefix = input.layout.value.uischema.i18n;
+  } else {
+    // Otherwise, combine prefix with layout.path and a possible root prefix
+    i18nPrefix = `${getI18nKeyPrefix(
+      input.layout.value.schema,
+      input.layout.value.uischema,
+      input.layout.value.path
+    )}`;
+
+    if (rootI18nPrefix) {
+      i18nPrefix = `${rootI18nPrefix}.${i18nPrefix}`;
+    }
+  }
+
+  const t = useTranslator();
+
+  // Try translating labels for each element
+  for (let i = 0; i < input.layout.value.uischema.elements.length; i++) {
+    if (
+      input.layout.value.uischema.elements[i].label &&
+      input.layout.value.uischema.elements[i].label.includes('.') // Prevents double translating on reload
+    ) {
+      const i18nLabelKey =
+        `${i18nPrefix}.${input.layout.value.uischema.elements[i].label}`.replace(
+          'root.',
+          ''
+        );
+
+      const labelTranslation = t(i18nLabelKey, '');
+
+      // Only update if translated
+      if (labelTranslation !== '') {
+        input.layout.value.uischema.elements[i].label = labelTranslation;
+      }
+    }
+  }
+
   return {
     ...input,
     styles: useStyles(input.layout.value.uischema),
@@ -158,9 +257,7 @@ export const useQuasarLayout = <I extends { layout: any }>(input: I) => {
 /**
  * Adds styles, appliedOptions and childUiSchema
  */
-export const useQuasarArrayControl = <I extends { control: any }>(
-  input: I
-) => {
+export const useQuasarArrayControl = <I extends { control: any }>(input: I) => {
   const appliedOptions = useControlAppliedOptions(input);
 
   const computedLabel = useComputedLabel(input, appliedOptions);
@@ -197,9 +294,7 @@ export const useQuasarArrayControl = <I extends { control: any }>(
 /**
  * Adds styles and appliedOptions
  */
-export const useQuasarBasicControl = <I extends { control: any }>(
-  input: I
-) => {
+export const useQuasarBasicControl = <I extends { control: any }>(input: I) => {
   const appliedOptions = useControlAppliedOptions(input);
 
   return {
@@ -215,8 +310,6 @@ export const useQuasarBasicControl = <I extends { control: any }>(
 export const useAjv = () => {
   const jsonforms = inject<JsonFormsSubStates>('jsonforms');
 
-  // console.log('useAJV');
-  // console.log(jsonforms.core?.ajv);
   if (!jsonforms) {
     throw new Error(
       "'jsonforms' couldn't be injected. Are you within JSON Forms?"

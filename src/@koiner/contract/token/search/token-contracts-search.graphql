@@ -1,0 +1,34 @@
+query TokenContractsSearch(
+  $after: String
+  $before: String
+  $first: Int
+  $filter: TokenContractsFilter
+  $sort: [TokenContractsSortInput!]
+) {
+  tokenContracts(
+    after: $after
+    before: $before
+    first: $first
+    filter: $filter
+    sort: $sort
+  ) {
+    totalCount
+    edges {
+      cursor
+      node {
+        id
+        name
+        symbol
+        decimals
+        totalSupply
+      }
+      __typename
+    }
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+  }
+}

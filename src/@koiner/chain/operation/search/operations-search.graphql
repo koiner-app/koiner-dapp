@@ -18,6 +18,7 @@ query OperationsSearch(
       node {
         id
         blockHeight
+        transactionId
         type
       }
       __typename

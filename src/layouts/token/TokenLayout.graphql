@@ -1,0 +1,8 @@
+query getTokenLayout($id: ID!) {
+  tokenContract(id: $id) {
+    id
+    name
+    symbol
+    decimals
+  }
+}

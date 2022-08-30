@@ -14,9 +14,16 @@
           <q-space />
         </div>
 
-        <blocks-search-view
+        <search-filters :request="request" search-placeholder="Search for block id or signer" />
+
+        <q-json-search
+          :schema="schema"
+          :uischema="uiSchema"
+          :request="request"
+          :data="{}"
           @on-scroll="onScroll"
-          :scroll-position="searchStore.blocks.position"
+          :scroll-position="position"
+          :additional-renderers="renderers"
         />
       </q-card-section>
     </q-card>
@@ -25,12 +32,16 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import BlocksSearchView from '@koiner/chain/block/search/blocks-search-view.vue';
 import { useSearchStore } from 'stores/search';
+import { KoinerRenderers } from '@koiner/renderers';
+import SearchFilters from '@appvise/search-manager/search-filters.vue';
+import QJsonSearch from '@appvise/q-json-forms/QJsonSearch.vue';
+import blocksSearchSchema from '@koiner/chain/block/search/blocks-search.schema.json';
+import blocksSearchUiSchema from '@koiner/chain/block/search/view/blocks-table.ui-schema.json';
 
 export default defineComponent({
   name: 'BlocksIndexPage',
-  components: { BlocksSearchView },
+  components: { SearchFilters, QJsonSearch },
 
   setup() {
     const searchStore = useSearchStore();
@@ -41,7 +52,11 @@ export default defineComponent({
 
     return {
       onScroll,
-      searchStore,
+      schema: blocksSearchSchema,
+      uiSchema: blocksSearchUiSchema,
+      request: searchStore.blocks.request,
+      position: searchStore.blocks.position,
+      renderers: KoinerRenderers,
     };
   },
 });

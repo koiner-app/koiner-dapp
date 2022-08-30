@@ -1,33 +1,61 @@
-<script lang="ts">
-import { JsonForms } from '@jsonforms/vue';
-import { quasarRenderers } from '@appvise/jsonforms-quasar/renderers';
-import { JsonFormsI18nState } from '@jsonforms/core/src/i18n/i18nTypes';
-import { useI18n } from 'vue-i18n';
-import { PropType, watch } from 'vue';
-import { JsonFormsRendererRegistryEntry } from '@jsonforms/core';
-import { SearchProvider, SearchRequestType } from '@appvise/search-manager';
+<template>
+  <q-form>
+    <json-forms
+      :renderers="mergedRenderers"
+      :data="data"
+      :schema="schema"
+      :uischema="uischema"
+      :cells="cells"
+      :config="config"
+      :uischemas="uischemas"
+      :ajv="ajv"
+      :i18n="i18n"
+      @change="onChange"
+    />
+  </q-form>
+</template>
 
-const renderers = [...quasarRenderers];
+<script lang="ts">
+import { JsonForms, JsonFormsChangeEvent, MaybeReadonly } from '@jsonforms/vue';
+import { createAjv, extendedQuasarRenderers } from '@appvise/jsonforms-quasar';
+import { defineComponent, PropType } from 'vue';
+import {
+  JsonFormsRendererRegistryEntry,
+  JsonFormsI18nState,
+  JsonSchema,
+  UISchemaElement,
+  JsonFormsCellRendererRegistryEntry,
+  JsonFormsUISchemaRegistryEntry,
+} from '@jsonforms/core';
+import { useI18n } from 'vue-i18n';
+import { jsonSearchRenderers } from '@appvise/jsonsearch-quasar';
+import { SearchRequestType } from '@appvise/search-manager';
+
+const renderers = [...extendedQuasarRenderers, ...jsonSearchRenderers];
 
 /**
  * Setup base form which will take care of loading QuasarRenderers + translators
  */
-export default {
-  name: 'QJsonSearch',
+export default defineComponent({
+  name: 'QJsonForms',
   components: {
     JsonForms,
   },
-  extends: JsonForms,
   props: {
+    // Adapted props
+    // Replace default renderer set with custom renderer set
     renderers: {
       required: false,
       type: Object as PropType<JsonFormsRendererRegistryEntry[]>,
-      // Freeze renderers for performance gains
+      // Freeze renderers for better performance
       default: Object.freeze(renderers),
     },
-    searchProvider: {
-      type: Object as PropType<SearchProvider<any, any, any, any>>,
-      required: true,
+    // Add extra renderers to default renderer set
+    additionalRenderers: {
+      required: false,
+      type: Object as PropType<JsonFormsRendererRegistryEntry[]>,
+      // Freeze renderers for better performance
+      default: Object.freeze(renderers),
     },
     request: {
       type: Object as PropType<SearchRequestType>,
@@ -38,45 +66,80 @@ export default {
       type: Number,
       required: false,
     },
+    // Same as original
+    schema: {
+      required: false,
+      type: [Object, Boolean] as PropType<JsonSchema>,
+      default: undefined,
+    },
+    uischema: {
+      required: false,
+      type: Object as PropType<UISchemaElement>,
+      default: undefined,
+    },
+    cells: {
+      required: false,
+      type: Array as PropType<
+        MaybeReadonly<JsonFormsCellRendererRegistryEntry[]>
+      >,
+      default: () => [],
+    },
+    config: {
+      required: false,
+      type: Object as PropType<any>,
+      default: undefined,
+    },
+    uischemas: {
+      required: false,
+      type: Array as PropType<MaybeReadonly<JsonFormsUISchemaRegistryEntry[]>>,
+      default: () => [],
+    },
   },
-
   emits: ['onScroll'],
 
-  // TODO: Make ignore unnecessary
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  setup(props: any, { emit }) {
-    const { t } = useI18n({
-      fallbackWarn: false,
-    });
+  setup(
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    props: any,
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    { emit }: any
+  ) {
+    const { t } = useI18n();
+    const ajv = createAjv();
 
     const i18n: JsonFormsI18nState = {
-      // TODO: Fix signature not matching
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      translate: (id: string, defaultMessage: string, values?: any) => {
-        if (!id) {
-          return defaultMessage;
-        }
-
-        return t(id, values) ?? defaultMessage;
-      },
+      translate: t,
     };
 
-    watch(props.searchProvider.state.scrollPosition, (newScrollPosition) => {
-      emit('onScroll', newScrollPosition);
-    });
+    const onChange = (event: JsonFormsChangeEvent) => {
+      // Propagate onScroll event
+      emit('onScroll', event.data.scrollPosition);
+    };
+
+    let mergedRenderers = props.renderers ?? renderers;
+
+    if (props.additionalRenderers) {
+      mergedRenderers = [
+        ...mergedRenderers,
+        ...props.additionalRenderers,
+      ]
+    }
+
 
     return {
+      ajv,
       i18n,
+      onChange,
+
+      // Freeze renderers for better performance
+      mergedRenderers: Object.freeze(mergedRenderers) as JsonFormsRendererRegistryEntry[],
+
       data: {
-        // TODO: Find a better way to inject search provider + request
-        // Workaround for passing searchProvider + request down to SearchView renderers
-        searchProvider: props.searchProvider,
         request: props.request,
         scrollPosition: props.scrollPosition,
       },
     };
   },
-};
+});
 </script>

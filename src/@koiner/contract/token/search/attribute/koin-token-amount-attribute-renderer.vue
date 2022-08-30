@@ -1,5 +1,6 @@
 <template>
   <attribute-wrapper
+    v-if="rawValue(result.node)"
     v-bind="attributeWrapper"
     :styles="styles"
     :applied-options="appliedOptions"
@@ -34,7 +35,7 @@ import {
 import { round } from 'lodash';
 
 export default defineComponent({
-  name: 'TokenAmountAttributeRenderer',
+  name: 'KoinTokenAmountAttributeRenderer',
   components: {
     AttributeWrapper,
   },

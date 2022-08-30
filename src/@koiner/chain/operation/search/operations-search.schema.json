@@ -7,6 +7,9 @@
     "blockHeight": {
       "type": "number"
     },
+    "transactionId": {
+      "type": "string"
+    },
     "type": {
       "type": "string"
     }

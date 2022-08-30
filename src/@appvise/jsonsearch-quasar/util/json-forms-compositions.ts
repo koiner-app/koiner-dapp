@@ -1,7 +1,7 @@
 import { RendererProps, useControl } from '@jsonforms/vue';
 import { SearchViewElement } from './uischema';
 import { mapStateToSearchViewProps } from './renderer';
-import { isProxy, toRaw, unref } from 'vue';
+import { unref } from 'vue';
 import { ControlElement, mapStateToControlProps } from '@jsonforms/core';
 
 export interface SearchViewRendererProps extends RendererProps {
@@ -16,18 +16,12 @@ export interface SearchViewRendererProps extends RendererProps {
 export const useJsonFormsSearchView = (props: SearchViewRendererProps) => {
   const { control, ...other } = useControl(props, mapStateToSearchViewProps);
   const rawControl = unref(control);
-  let searchProvider = rawControl.data.searchProvider;
   const request = rawControl.data.request ?? {};
   const scrollPosition = rawControl.data.scrollPosition;
-
-  if (isProxy(searchProvider)) {
-    searchProvider = toRaw(searchProvider);
-  }
 
   return {
     searchView: control,
     ...other,
-    searchProvider,
     request,
     scrollPosition,
   };

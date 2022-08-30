@@ -1,0 +1,57 @@
+{
+  "type": "object",
+  "elements": [
+    {
+      "type": "TableView",
+      "options": {
+        "search": {
+          "provider": "tokenOperations"
+        }
+      },
+      "elements": [
+        {
+          "type": "Attribute",
+          "label": "Txn Hash",
+          "scope": "#/properties/transactionId",
+          "options": {
+            "route": "transaction",
+            "format": "link",
+            "linkParams": ["id"],
+            "mapping": "transactionId",
+            "mappings": {
+              "id": "transactionId"
+            }
+          }
+        },
+        {
+          "type": "Attribute",
+          "label": "From",
+          "scope": "#/properties/from",
+          "options": {
+            "format": "address"
+          }
+        },
+        {
+          "type": "Attribute",
+          "label": "To",
+          "scope": "#/properties/to",
+          "options": {
+            "format": "address"
+          }
+        },
+        {
+          "type": "Attribute",
+          "scope": "#/properties/value",
+          "options": {
+            "format": "tokenAmount"
+          }
+        },
+        {
+          "type": "Attribute",
+          "label": "Name",
+          "scope": "#/properties/name"
+        }
+      ]
+    }
+  ]
+}

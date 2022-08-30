@@ -24,6 +24,8 @@
       :error-message="control.errors"
       :min="control.schema.min"
       :max="control.schema.max"
+      :prefix="appliedOptions.prefix"
+      :suffix="appliedOptions.suffix"
       @change="onChange"
       @focus="isFocused = true"
       @blur="isFocused = false"

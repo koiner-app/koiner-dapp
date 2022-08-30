@@ -31,6 +31,8 @@
           ? control.schema.maxLength
           : undefined
       "
+      :prefix="appliedOptions.prefix"
+      :suffix="appliedOptions.suffix"
       @change="onChange"
       @focus="isFocused = true"
       @blur="isFocused = false"

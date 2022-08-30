@@ -1,157 +1,268 @@
-<script lang="ts">
-import { JsonForms } from '@jsonforms/vue';
-import { quasarRenderers } from '@appvise/jsonforms-quasar/renderers';
-// import { JsonFormsI18nState, Translator } from '@jsonforms/core/src/i18n/i18nTypes';
-// import { useI18n } from 'vue-i18n';
-import { ErrorObject } from 'ajv';
-import { PropType, ref } from 'vue';
-import { JsonFormsRendererRegistryEntry } from '@jsonforms/core';
-import { createAjv } from '@appvise/jsonforms-quasar/util/validator';
+<template>
+  <q-form>
+    <json-forms
+      :renderers="renderers"
+      :validation-mode="internalValidationMode"
+      :data="data"
+      :schema="schema"
+      :uischema="uischema"
+      :cells="cells"
+      :config="config"
+      :readonly="readonly"
+      :uischemas="uischemas"
+      :ajv="ajv"
+      :i18n="i18n"
+      :additionalErrors="additionalErrors"
+      @change="onChange"
+    />
+  </q-form>
+</template>
 
-const renderers = [
-  ...quasarRenderers,
-];
+<script lang="ts">
+import { JsonForms, JsonFormsChangeEvent, MaybeReadonly } from '@jsonforms/vue';
+import { createAjv, quasarRenderers } from '@appvise/jsonforms-quasar';
+import { computed, defineComponent, PropType, Ref, ref, watch } from 'vue';
+import {
+  JsonFormsRendererRegistryEntry,
+  JsonFormsI18nState,
+  ValidationMode,
+  JsonSchema,
+  UISchemaElement,
+  JsonFormsCellRendererRegistryEntry,
+  JsonFormsUISchemaRegistryEntry,
+  Translator,
+} from '@jsonforms/core';
+import { useI18n } from 'vue-i18n';
+import { searchManagerRenderers } from '@appvise/jsonforms-search-manager';
+import {
+  Categorization,
+  isInternationalized,
+  Layout,
+} from '@jsonforms/core/src/models/uischema';
+import { ErrorObject } from 'ajv';
+
+const renderers = [...quasarRenderers, ...searchManagerRenderers];
 
 /**
  * Setup base form which will take care of loading QuasarRenderers + translators
  */
-export default {
+export default defineComponent({
   name: 'QJsonForms',
   components: {
     JsonForms,
   },
-  extends: JsonForms,
   props: {
+    // Adapted props
     renderers: {
       required: false,
       type: Object as PropType<JsonFormsRendererRegistryEntry[]>,
       // Freeze renderers for performance gains
       default: Object.freeze(renderers),
     },
+    validationMode: {
+      required: false,
+      type: String as PropType<ValidationMode>,
+      default: 'ValidateAndHide',
+    },
+    // Same as original
+    data: {
+      required: true,
+      type: [String, Number, Boolean, Array, Object] as PropType<any>,
+    },
+    schema: {
+      required: false,
+      type: [Object, Boolean] as PropType<JsonSchema>,
+      default: undefined,
+    },
+    uischema: {
+      required: false,
+      type: Object as PropType<UISchemaElement>,
+      default: undefined,
+    },
+    cells: {
+      required: false,
+      type: Array as PropType<
+        MaybeReadonly<JsonFormsCellRendererRegistryEntry[]>
+      >,
+      default: () => [],
+    },
+    config: {
+      required: false,
+      type: Object as PropType<any>,
+      default: undefined,
+    },
+    readonly: {
+      required: false,
+      type: Boolean,
+      default: false,
+    },
+    uischemas: {
+      required: false,
+      type: Array as PropType<MaybeReadonly<JsonFormsUISchemaRegistryEntry[]>>,
+      default: () => [],
+    },
+    additionalErrors: {
+      required: false,
+      type: Array as PropType<ErrorObject[]>,
+      default: () => [],
+    },
   },
   emits: ['change', 'submit', 'cancel', 'custom', 'validationModeChanged'],
 
-  setup() {
-    const valid = ref(false);
-    const validationMode = ref('ValidateAndHide');
+  setup(
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    props: any,
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    { emit }: any
+  ) {
+    const validationMode: Ref<'ValidateAndHide' | 'ValidateAndShow'> =
+      ref('ValidateAndHide');
 
-    // const { t } = useI18n({
-    //   fallbackWarn: false,
-    // });
+    // Allowed button events. Other button events will be triggered with the 'custom' event
+    const allowedButtonEvents = ['submit', 'cancel'];
 
-    // const i18n: JsonFormsI18nState = {
-    //   translate: (id: string, defaultMessage: string, values?: any) => {
-    //     if (!id) {
-    //       return defaultMessage;
-    //     }
-    //
-    //     return t(id, values) ?? defaultMessage;
-    //   },
-    //   translateError:  (error: ErrorObject, translate: Translator) => {
-    //     let messageId = error.message
-    //
-    //     // Reverse engineer original message by using parsed params
-    //     for (const [key, param] of Object.entries(error.params)) {
-    //       messageId = messageId.replace(`'${param}'`, `{${key}}`);
-    //
-    //       // Translate each field title with an error
-    //       const title = error.parentSchema.properties[param].title;
-    //       error.params[key] = translate(title, title);
-    //     }
-    //
-    //     return translate(messageId, messageId, error.params);
-    //   }
-    // }
+    const errors: Ref<any[]> = ref([]); // ErrorObject[]
 
-    const ajv = createAjv();
+    const { t } = useI18n();
+    const ajv = createAjv({
+      allErrors: true,
+      verbose: true,
+    });
 
-    return {
-      ajv,
-      // i18n,
+    const i18n: Partial<JsonFormsI18nState> = {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      // TODO: How to match signature to ignore is not necessary
+      translate: (
+        id: string,
+        defaultMessage: string | undefined,
+        values?: any
+      ): string | undefined => {
+        // Ignore translations with .error. key so translateError can handle these messages
+        return !id.includes('.error.')
+          ? t(id, values) ?? defaultMessage
+          : undefined;
+      },
+      translateError: (
+        error: ErrorObject,
+        t: Translator,
+        uischema: UISchemaElement | undefined
+      ) => {
+        if (!error.message) {
+          return 'no error';
+        }
 
-      valid,
-      validationMode,
+        let messageId = error.message;
+        const params: Record<string, unknown> = {};
 
-      // Allowed button events. Other button events will be triggered with the 'custom' event
-      buttonEvents: ['submit', 'cancel'],
+        // // Reverse engineer original message by using parsed params
+        for (const [key, param] of Object.entries(error.params)) {
+          messageId = messageId.replace(`'${param}'`, `{${key}}`);
+          messageId = messageId.replace(`${param}`, `{${key}}`);
+
+          params[key] = param;
+        }
+
+        // i18n holds prefixed translation key for field and is set inside useQuasarControl -> composition.ts
+        if (uischema && isInternationalized(uischema) && uischema.i18n) {
+          // Property name so translations can use it
+          if (!params['property']) {
+            params['property'] = t(`${uischema.i18n}.label`, '');
+          }
+
+          // Also translate for required translation
+          if (params['missingProperty']) {
+            params['missingProperty'] = t(`${uischema.i18n}.label`, '');
+          }
+        }
+
+        // Translate message again with params that hold translated labels
+        return t(`error.${messageId}`, messageId, params);
+      },
     };
-  },
 
-  // computed: {
-  //   componentProps() {
-  //     return this.$props;
-  //   },
-  //
-  //   computedButtonKeys(): string[] {
-  //     return this.buttonsKeys(this.uischema.elements);
-  //   },
-  //
-  //   /** Return data for button events to watch */
-  //   errors(): ErrorObject[] {
-  //     return this.jsonforms.core.errors;
-  //   },
-  // },
-  //
-  // watch: {
-  //   validationMode(newValue) {
-  //     this.$emit('validationModeChanged', newValue);
-  //   },
-  //
-  //   data() {
-  //     this.emitButtons();
-  //   },
-  // },
+    const computedButtonKeys = computed((): string[] => {
+      return buttonsKeys((props.uischema as Layout | Categorization).elements);
+    });
 
-  methods: {
+    const valid = computed((): boolean => {
+      return errors.value.length === 0;
+    });
+
     /** Recursively retrieve keys for button elements */
-    buttonsKeys(elements: any[], keys: string[] = []): string[] {
+    // eslint-disable-next-line
+    const buttonsKeys = (elements: any[], keys: string[] = []): string[] => {
       for (let i = 0; i < elements.length; i++) {
         if (elements[i].type === 'Button') {
           // Get property key from scope
-          keys.push(elements[i].scope.replace('#/properties/', ''))
+          keys.push(elements[i].scope.replace('#/properties/', ''));
         }
 
-        if (elements[i].elements != null) {
-          keys = this.buttonsKeys(elements[i].elements, keys);
+        if (elements[i].elements) {
+          keys = buttonsKeys(elements[i].elements, keys);
         }
       }
 
       return keys;
-    },
+    };
 
     /**
      * Emit actions for clicked buttons
      */
-    emitButtons(): void {
-    //   for (let i = 0; i < this.computedButtonKeys.length; i++) {
-    //     const fieldName = this.computedButtonKeys[i];
-    //
-    //     this.valid = this.errors.length === 0;
-    //
-    //     if (this.jsonforms.core.data[fieldName]) {
-    //       // Reset value for field to enable another click
-    //       this.jsonforms.core.data[fieldName] = false
-    //
-    //       // Only trigger allowed buttonEvents directly
-    //       if (this.buttonEvents.includes(fieldName)) {
-    //         if (fieldName === 'submit') {
-    //           // Make sure validation errors are shown
-    //           this.validationMode = 'ValidateAndShow';
-    //
-    //           // Only trigger submit if validation succeeded
-    //           if (this.valid) {
-    //             this.$emit(fieldName);
-    //           }
-    //         } else {
-    //           this.$emit(fieldName);
-    //         }
-    //       } else {
-    //         // Otherwise, use the custom event
-    //         this.$emit('custom', fieldName);
-    //       }
-    //     }
-    //   }
-    }
+    const emitButtons = (): void => {
+      for (let i = 0; i < computedButtonKeys.value.length; i++) {
+        const fieldName = computedButtonKeys.value[i];
+
+        if (props.data[fieldName]) {
+          // Reset value for field to enable another click
+          delete props.data[fieldName];
+
+          // // Only trigger allowed button events directly
+          if (allowedButtonEvents.includes(fieldName)) {
+            if (fieldName === 'submit') {
+              // Make sure validation errors are shown
+              validationMode.value = 'ValidateAndShow';
+
+              // Only trigger submit if validation succeeded
+              if (valid.value) {
+                emit(fieldName);
+              }
+            } else {
+              emit(fieldName);
+            }
+          } else {
+            // Otherwise, use the custom event
+            emit('custom', fieldName);
+          }
+        }
+      }
+    };
+
+    watch(validationMode, (newValue) => {
+      emit('validationModeChanged', newValue);
+    });
+
+    const onChange = (event: JsonFormsChangeEvent) => {
+      errors.value = event.errors ?? [];
+
+      emitButtons();
+
+      // Propagate event
+      emit('change', event);
+    };
+
+    return {
+      ajv,
+      i18n,
+
+      valid,
+      errors,
+      internalValidationMode: validationMode,
+      emitButtons,
+      onChange,
+    };
   },
-};
+});
 </script>

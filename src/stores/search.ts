@@ -8,6 +8,7 @@ export interface SearchStoreEntry {
 export const useSearchStore = defineStore({
   id: 'search',
   state: () => ({
+    // Chain
     addresses: {
       position: 0,
       request: {},
@@ -25,6 +26,28 @@ export const useSearchStore = defineStore({
       request: {},
     } as SearchStoreEntry,
     operations: {
+      position: 0,
+      request: {},
+    } as SearchStoreEntry,
+
+    // Contracts
+    contracts: {
+      position: 0,
+      request: {},
+    } as SearchStoreEntry,
+    contractOperations: {
+      position: 0,
+      request: {},
+    } as SearchStoreEntry,
+    tokenBalances: {
+      position: 0,
+      request: {},
+    } as SearchStoreEntry,
+    tokenContracts: {
+      position: 0,
+      request: {},
+    } as SearchStoreEntry,
+    tokenOperations: {
       position: 0,
       request: {},
     } as SearchStoreEntry,

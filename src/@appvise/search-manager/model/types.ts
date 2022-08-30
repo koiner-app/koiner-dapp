@@ -1,4 +1,4 @@
-import { Direction, StringFilter } from '@koiner/sdk';
+import { Direction, StringFilter } from '@rapp/sdk';
 
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
@@ -35,6 +35,7 @@ export type SearchFilter = {
 };
 
 export type SearchRequestType = {
+  search?: InputMaybe<Scalars['String']>;
   after?: InputMaybe<Scalars['String']>;
   before?: InputMaybe<Scalars['String']>;
   filter?: InputMaybe<SearchFilter>;

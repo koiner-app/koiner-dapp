@@ -14,7 +14,20 @@
           <q-space />
         </div>
 
-        <contract-operations-table-view />
+        <search-filters
+          :request="request"
+          search-placeholder="Search for operation id or contract id"
+        />
+
+        <q-json-search
+          :schema="schema"
+          :uischema="uiSchema"
+          :request="request"
+          :data="{}"
+          @on-scroll="onScroll"
+          :scroll-position="position"
+          :additional-renderers="renderers"
+        />
       </q-card-section>
     </q-card>
   </q-page>
@@ -22,10 +35,32 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import ContractOperationsTableView from '@koiner/contract/contract/search/table/contract-operations-table-view.vue';
+import { KoinerRenderers } from '@koiner/renderers';
+import SearchFilters from '@appvise/search-manager/search-filters.vue';
+import QJsonSearch from '@appvise/q-json-forms/QJsonSearch.vue';
+import operationsSearchSchema from '@koiner/contract/contract/search/contract-operations-search.schema.json';
+import operationsSearchUiSchema from '@koiner/contract/contract/search/view/contract-operations-table.ui-schema.json';
+import { useSearchStore } from 'stores/search';
 
 export default defineComponent({
   name: 'ContractOperationsPage',
-  components: { ContractOperationsTableView },
+  components: { SearchFilters, QJsonSearch },
+
+  setup() {
+    const searchStore = useSearchStore();
+
+    const onScroll = (newScrollPosition: number) => {
+      searchStore.contractOperations.position = newScrollPosition;
+    };
+
+    return {
+      onScroll,
+      schema: operationsSearchSchema,
+      uiSchema: operationsSearchUiSchema,
+      request: searchStore.contractOperations.request,
+      position: searchStore.contractOperations.position,
+      renderers: KoinerRenderers,
+    };
+  },
 });
 </script>

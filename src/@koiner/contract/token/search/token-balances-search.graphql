@@ -1,0 +1,38 @@
+query TokenBalancesSearch(
+  $after: String
+  $before: String
+  $first: Int
+  $filter: TokenBalancesFilter
+  $sort: [TokenBalancesSortInput!]
+) {
+  tokenBalances(
+    after: $after
+    before: $before
+    first: $first
+    filter: $filter
+    sort: $sort
+  ) {
+    totalCount
+    edges {
+      cursor
+      node {
+        id
+        addressId
+        balance
+        contract {
+          id
+          name
+          decimals
+          symbol
+        }
+      }
+      __typename
+    }
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+  }
+}

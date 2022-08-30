@@ -27,6 +27,7 @@ query BlocksSearch(
         reward {
           value
           producerId
+          burnedValue
         }
         transactionCount
       }

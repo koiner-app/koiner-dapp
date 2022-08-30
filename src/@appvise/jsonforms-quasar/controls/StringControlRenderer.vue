@@ -25,11 +25,15 @@
       :maxlength="
         appliedOptions.restrict ? control.schema.maxLength : undefined
       "
+      :type="appliedOptions.type ?? undefined"
+      :autogrow="appliedOptions.autogrow ?? undefined"
       :counter="
         control.schema.maxLength !== undefined
-          ? control.schema.maxLength
+          ? true
           : undefined
       "
+      :prefix="appliedOptions.prefix"
+      :suffix="appliedOptions.suffix"
       @change="onChange"
       @focus="isFocused = true"
       @blur="isFocused = false"

@@ -14,9 +14,19 @@
           <q-space />
         </div>
 
-        <operations-search-view
+        <search-filters
+          :request="request"
+          search-placeholder="Search for operation id or transaction id"
+        />
+
+        <q-json-search
+          :schema="schema"
+          :uischema="uiSchema"
+          :request="request"
+          :data="{}"
           @on-scroll="onScroll"
-          :scroll-position="searchStore.operations.position"
+          :scroll-position="position"
+          :additional-renderers="renderers"
         />
       </q-card-section>
     </q-card>
@@ -25,12 +35,16 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import OperationsSearchView from '@koiner/chain/operation/search/operations-search-view.vue';
 import { useSearchStore } from 'stores/search';
+import { KoinerRenderers } from '@koiner/renderers';
+import SearchFilters from '@appvise/search-manager/search-filters.vue';
+import QJsonSearch from '@appvise/q-json-forms/QJsonSearch.vue';
+import operationsSearchSchema from '@koiner/chain/operation/search/operations-search.schema.json';
+import operationsSearchUiSchema from '@koiner/chain/operation/search/view/operations-table.ui-schema.json';
 
 export default defineComponent({
   name: 'OperationsIndexPage',
-  components: { OperationsSearchView },
+  components: { SearchFilters, QJsonSearch },
 
   setup() {
     const searchStore = useSearchStore();
@@ -41,7 +55,11 @@ export default defineComponent({
 
     return {
       onScroll,
-      searchStore,
+      schema: operationsSearchSchema,
+      uiSchema: operationsSearchUiSchema,
+      request: searchStore.operations.request,
+      position: searchStore.operations.position,
+      renderers: KoinerRenderers,
     };
   },
 });

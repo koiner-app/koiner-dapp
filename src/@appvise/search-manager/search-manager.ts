@@ -1,4 +1,4 @@
-import { Ref, watch } from 'vue';
+import { ref, Ref, watch } from 'vue';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import {
@@ -58,26 +58,6 @@ export class SearchManager<
     this.state.isPaused.value = true;
     this.state.isPaused.value = false;
 
-    watch(
-      () => request.filter,
-      async () => {
-        await this.searchProvider.search(request);
-      },
-      {
-        deep: true,
-      }
-    );
-
-    watch(
-      () => request.sort,
-      async () => {
-        await this.searchProvider.search(request);
-      },
-      {
-        deep: true,
-      }
-    );
-
     await this.subscribeToNewResults();
   }
 
@@ -101,8 +81,6 @@ export class SearchManager<
     this.state.saveScrollPosition(position);
   }
 
-  // async reset(): Promise<void> {
-  //   await this.state.reset();
   reset(): void {
     this.state.reset();
 

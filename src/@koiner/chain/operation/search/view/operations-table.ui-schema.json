@@ -3,6 +3,11 @@
   "elements": [
     {
       "type": "TableView",
+      "options": {
+        "search": {
+          "provider": "operations"
+        }
+      },
       "elements": [
         {
           "type": "Attribute",
@@ -14,6 +19,19 @@
             "linkParams": ["height"],
             "mappings": {
               "height": "blockHeight"
+            }
+          }
+        },
+        {
+          "type": "Attribute",
+          "label": "Txn",
+          "scope": "#/properties/transactionId",
+          "options": {
+            "route": "transaction",
+            "format": "link",
+            "linkParams": ["id"],
+            "mappings": {
+              "id": "transactionId"
             }
           }
         },

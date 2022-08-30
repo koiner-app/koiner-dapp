@@ -1,91 +1,73 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment,@typescript-eslint/ban-ts-comment,@typescript-eslint/no-unsafe-call */
+import { watch } from 'vue';
+import { SearchProvider, SearchState } from '@appvise/search-manager';
 import {
-  PageInfo,
-  SearchProvider,
-  SearchRequest,
-  SearchResponse,
-  SearchResult,
-} from '@appvise/search-manager-bak';
-import { FilterTransformer } from '@appvise/graphql/transformer/filter-transformer';
-import { TokenContract } from '@koiner/contract/token/token-contract';
-import gql from 'graphql-tag';
-import { ApolloClient } from '@apollo/client/core';
-import { useApolloClient } from '@vue/apollo-composable';
+  TokenContractsConnection,
+  TokenContract,
+  TokenContractEdge,
+  useTokenContractsSearchQuery,
+  QueryTokenContractsArgs,
+} from '@koiner/sdk';
 
-const gqlGetTokenContracts = gql`
-  query getTokenContracts(
-    $after: String
-    $before: String
-    $first: Int!
-    $filter: TokenContractsFilter
-    $sort: [TokenContractsSortInput!]
-  ) {
-    tokenContracts(
-      after: $after
-      before: $before
-      first: $first
-      filter: $filter
-      sort: $sort
-    ) {
-      totalCount
-      edges {
-        cursor
-        node {
-          id
-          name
-          symbol
-          decimals
-        }
-        __typename
-      }
-      pageInfo {
-        hasNextPage
-        hasPreviousPage
-        startCursor
-        endCursor
-      }
-    }
-  }
-`;
-
-export class TokenContractSearchProvider
-  implements SearchProvider<TokenContract>
+export class TokenContractsSearchProvider
+  implements
+    SearchProvider<
+      QueryTokenContractsArgs,
+      TokenContract,
+      TokenContractEdge,
+      TokenContractsConnection
+    >
 {
-  private client: ApolloClient<any>;
-  constructor() {
-    this.client = useApolloClient().client;
+  private loaded = false;
+  public _state = SearchState.create<
+    QueryTokenContractsArgs,
+    TokenContract,
+    TokenContractEdge,
+    TokenContractsConnection
+  >();
+
+  public get state(): SearchState<
+    QueryTokenContractsArgs,
+    TokenContract,
+    TokenContractEdge,
+    TokenContractsConnection
+  > {
+    return this._state;
   }
 
   public search(
-    request: SearchRequest
-  ): Promise<SearchResponse<TokenContract>> {
-    return this.client
-      .query({
-        query: gqlGetTokenContracts,
-        variables: {
-          before: request.before,
-          after: request.after,
-          first: request.first,
-          filter: request.filter
-            ? FilterTransformer.transform(request.filter)
-            : undefined,
-          // sort: request.sort || [{field: 'height', direction: SortDirection.asc}],
-        },
-      })
-      .then((response: any) => {
-        const data = response.data.tokenContracts;
+    request: QueryTokenContractsArgs
+  ): Promise<
+    SearchState<
+      QueryTokenContractsArgs,
+      TokenContract,
+      TokenContractEdge,
+      TokenContractsConnection
+    >
+  > {
+    this._state.request.value = request;
 
-        return new SearchResponse(
-          // @ts-ignore
-          data.edges.map((edge) => {
-            return {
-              cursor: edge.cursor,
-              item: edge.node,
-            } as SearchResult<TokenContract>;
-          }),
-          data.pageInfo as PageInfo,
-          data.totalCount
-        );
-      });
+    return new Promise((resolve) => {
+      if (!this.loaded) {
+        const { data, fetching, error, isPaused } =
+          useTokenContractsSearchQuery({
+            variables: this.state.request,
+          });
+
+        watch(data, (updatedData) => {
+          this._state.connection.value =
+            updatedData?.tokenContracts as TokenContractsConnection;
+        });
+
+        this._state.error = error;
+        this._state.fetching = fetching;
+        this._state.isPaused = isPaused;
+
+        this.loaded = true;
+
+        resolve(this._state);
+      }
+
+      resolve(this._state);
+    });
   }
 }

@@ -87,9 +87,6 @@ const controlRenderer = defineComponent({
   },
   computed: {
     getI18nPrefix(): string {
-      // TODO: Fix123 signature not matching
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
       return getI18nKeyPrefix(this.control.schema, this.control.uischema, this.control.path);
     }
   },

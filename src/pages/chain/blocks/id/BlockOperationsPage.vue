@@ -1,7 +1,6 @@
 <template>
   <q-page class="row items-baseline justify-evenly">
     <q-card
-      v-if="height"
       class="table-card shadow-1"
       style="
         max-width: 1288px;
@@ -15,7 +14,18 @@
           <q-space />
         </div>
 
-        <operations-search-view :request="request" />
+        <search-filters
+          :request="request"
+          search-placeholder="Search for operation id or transaction id"
+        />
+
+        <q-json-search
+          :schema="schema"
+          :uischema="uiSchema"
+          :request="request"
+          :data="{}"
+          :additional-renderers="renderers"
+        />
       </q-card-section>
     </q-card>
   </q-page>
@@ -24,12 +34,16 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref, Ref } from 'vue';
 import { useRoute } from 'vue-router';
-import OperationsSearchView from '@koiner/chain/operation/search/operations-search-view.vue';
+import { KoinerRenderers } from '@koiner/renderers';
+import SearchFilters from '@appvise/search-manager/search-filters.vue';
+import QJsonSearch from '@appvise/q-json-forms/QJsonSearch.vue';
+import operationsSearchSchema from '@koiner/chain/operation/search/operations-search.schema.json';
+import operationsSearchUiSchema from '@koiner/chain/operation/search/view/operations-table.ui-schema.json';
 import { QueryOperationsArgs } from '@koiner/sdk';
 
 export default defineComponent({
   name: 'BlockOperationsPage',
-  components: { OperationsSearchView },
+  components: { SearchFilters, QJsonSearch },
 
   setup() {
     let request: Ref<QueryOperationsArgs> = ref({ filter: {} });
@@ -44,8 +58,10 @@ export default defineComponent({
     });
 
     return {
-      height,
-      request,
+      schema: operationsSearchSchema,
+      uiSchema: operationsSearchUiSchema,
+      request: request,
+      renderers: KoinerRenderers,
     };
   },
 });

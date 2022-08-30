@@ -3,6 +3,11 @@
   "elements": [
     {
       "type": "TableView",
+      "options": {
+        "search": {
+          "provider": "blocks"
+        }
+      },
       "elements": [
         {
           "type": "Attribute",
@@ -61,13 +66,20 @@
                 "format": "koinTokenAmount",
                 "mapping": "reward.value"
               }
-            },
+            }
+          ]
+        },
+        {
+          "type": "AttributeGroup",
+          "label": "Burned VHP",
+          "scope": "#/properties/burned",
+          "elements": [
             {
               "type": "Attribute",
-              "scope": "#/properties/contractId",
+              "scope": "#/properties/burnedValue",
               "options": {
-                "format": "tokenAmount",
-                "mapping": "reward.contractId"
+                "format": "vhpTokenAmount",
+                "mapping": "reward.burnedValue"
               }
             }
           ]

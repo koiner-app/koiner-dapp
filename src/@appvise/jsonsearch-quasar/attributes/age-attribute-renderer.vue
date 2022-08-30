@@ -27,7 +27,7 @@ import {
   useJsonAttribute,
   useQuasarAttribute,
 } from '@appvise/jsonsearch-quasar';
-import { timeAgo } from '@koiner/utils/date';
+import { timeAgo } from '../util';
 import { date } from 'quasar';
 
 export default defineComponent({

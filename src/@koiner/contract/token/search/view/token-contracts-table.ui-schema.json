@@ -1,0 +1,44 @@
+{
+  "type": "object",
+  "elements": [
+    {
+      "type": "TableView",
+      "options": {
+        "search": {
+          "provider": "tokenContracts"
+        }
+      },
+      "elements": [
+        {
+          "type": "Attribute",
+          "label": "Address",
+          "scope": "#/properties/id",
+          "options": {
+            "route": "token",
+            "format": "link",
+            "linkParams": ["id"],
+            "mappings": {
+              "id": "id"
+            }
+          }
+        },
+        {
+          "type": "Attribute",
+          "scope": "#/properties/name"
+        },
+        {
+          "type": "Attribute",
+          "scope": "#/properties/symbol"
+        },
+        {
+          "type": "Attribute",
+          "scope": "#/properties/decimals"
+        },
+        {
+          "type": "Attribute",
+          "scope": "#/properties/totalSupply"
+        }
+      ]
+    }
+  ]
+}

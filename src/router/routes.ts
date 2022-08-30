@@ -195,12 +195,25 @@ const routes: RouteRecordRaw[] = [
             component: () =>
               import('pages/contracts/ContractStandardsPage.vue'),
           },
-          // {
-          //   name: 'contract',
-          //   path: '/contracts/:id',
-          //   component: () =>
-          //     import('pages/chain/contracts/id/ContractPage.vue'),
-          // },
+
+          // Contract
+          {
+            path: '/contracts/:id',
+            component: () => import('layouts/contracts/ContractLayout.vue'),
+            children: [
+              {
+                name: 'contract',
+                path: '',
+                component: () => import('pages/contracts/id/ContractPage.vue'),
+              },
+              {
+                name: 'contract-contract.operations',
+                path: '/contracts/:id/operations',
+                component: () =>
+                  import('pages/contracts/id/ContractOperationsPage.vue'),
+              },
+            ],
+          },
         ],
       },
 
@@ -260,7 +273,7 @@ const routes: RouteRecordRaw[] = [
         ],
       },
 
-      // Token tokens
+      // Token
       {
         path: '/tokens/:id',
         component: () => import('layouts/token/TokenLayout.vue'),

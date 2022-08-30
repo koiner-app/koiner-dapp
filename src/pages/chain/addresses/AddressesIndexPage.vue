@@ -14,7 +14,20 @@
           <q-space />
         </div>
 
-        <addresses-search-view />
+        <search-filters
+          :request="request"
+          search-placeholder="Search for Address Id"
+        />
+
+        <q-json-search
+          :schema="schema"
+          :uischema="uiSchema"
+          :request="request"
+          :data="{}"
+          @on-scroll="onScroll"
+          :scroll-position="position"
+          :additional-renderers="renderers"
+        />
       </q-card-section>
     </q-card>
   </q-page>
@@ -22,10 +35,32 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import AddressesSearchView from '@koiner/chain/address/search/addresses-search-view.vue';
+import { useSearchStore } from 'stores/search';
+import { KoinerRenderers } from '@koiner/renderers';
+import SearchFilters from '@appvise/search-manager/search-filters.vue';
+import QJsonSearch from '@appvise/q-json-forms/QJsonSearch.vue';
+import addressesSearchSchema from '@koiner/chain/address/search/addresses-search.schema.json';
+import addressesSearchUiSchema from '@koiner/chain/address/search/view/addresses-table.ui-schema.json';
 
 export default defineComponent({
   name: 'AddressesIndexPage',
-  components: { AddressesSearchView },
+  components: { SearchFilters, QJsonSearch },
+
+  setup() {
+    const searchStore = useSearchStore();
+
+    const onScroll = (newScrollPosition: number) => {
+      searchStore.addresses.position = newScrollPosition;
+    };
+
+    return {
+      onScroll,
+      schema: addressesSearchSchema,
+      uiSchema: addressesSearchUiSchema,
+      request: searchStore.addresses.request,
+      position: searchStore.addresses.position,
+      renderers: KoinerRenderers,
+    };
+  },
 });
 </script>

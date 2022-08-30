@@ -3,6 +3,11 @@
   "elements": [
     {
       "type": "TableView",
+      "options": {
+        "search": {
+          "provider": "events"
+        }
+      },
       "elements": [
         {
           "type": "Attribute",
@@ -20,15 +25,20 @@
         {
           "type": "Attribute",
           "label": "Txn",
-          "scope": "#/properties/transactionId",
+          "scope": "#/properties/parentId",
           "options": {
             "route": "transaction",
             "format": "link",
             "linkParams": ["id"],
             "mappings": {
-              "id": "transactionId"
+              "id": "parentId"
             }
           }
+        },
+        {
+          "type": "Attribute",
+          "label": "Type",
+          "scope": "#/properties/parentType"
         },
         {
           "type": "Attribute",

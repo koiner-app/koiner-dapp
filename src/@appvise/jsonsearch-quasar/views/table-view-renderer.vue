@@ -41,7 +41,7 @@ import { defineComponent, watch } from 'vue';
 import { DispatchRenderer, rendererProps, RendererProps } from '@jsonforms/vue';
 import { useI18n } from 'vue-i18n';
 import { onMounted, ref, unref } from 'vue';
-import { SearchManager, SearchRequestType } from '@appvise/search-manager';
+import { SearchRequestType, useSearchManager } from '@appvise/search-manager';
 import { ControlElement } from '@jsonforms/core';
 import { dom } from 'quasar';
 import offset = dom.offset;
@@ -50,6 +50,11 @@ import {
   useJsonFormsSearchView,
   useQuasarSearchView,
 } from '..';
+import {
+  SearchOptions,
+  SearchOptionsDefaults,
+  UISchemaSearchOptions,
+} from '@appvise/jsonforms-search-manager';
 
 export default defineComponent({
   name: 'TableViewRenderer',
@@ -79,14 +84,22 @@ export default defineComponent({
       };
     });
 
-    if (!quasarSearchView.searchProvider) {
-      throw new Error('No searchProvider provided');
+    const uischema = unref(quasarSearchView.searchView).uischema;
+
+    if (!uischema?.options?.search?.provider) {
+      throw new Error('No search provider defined');
     }
 
-    const searchManager = new SearchManager(quasarSearchView.searchProvider);
-    const request: SearchRequestType = quasarSearchView.request ?? {};
+    const searchOptions: SearchOptions = Object.assign(
+      SearchOptionsDefaults,
+      uischema.options.search as UISchemaSearchOptions
+    );
+    const searchManager = useSearchManager(searchOptions.provider);
 
-    const loadMoreThreshold = 2; // TODO: Integrate uischema options
+    const request: SearchRequestType = quasarSearchView.request ?? {
+      first: searchOptions.itemsPerPage,
+    };
+
     const rowKeyName = 'id'; // TODO: Integrate uischema options
     const tableView = ref();
 
@@ -112,7 +125,7 @@ export default defineComponent({
       if (
         searchManager.connection.value &&
         searchManager.connection.value.pageInfo.hasNextPage &&
-        scroll.to > lastIndex - loadMoreThreshold
+        scroll.to > lastIndex - searchOptions.loadMoreThreshold
       ) {
         searchManager.loadMore();
       }
@@ -132,6 +145,26 @@ export default defineComponent({
       }
     });
 
+    watch(
+      () => request.filter,
+      async () => {
+        await searchManager.search(request);
+      },
+      {
+        deep: true,
+      }
+    );
+
+    watch(
+      () => request.sort,
+      async () => {
+        await searchManager.search(request);
+      },
+      {
+        deep: true,
+      }
+    );
+
     const { t } = useI18n();
 
     return {
@@ -146,6 +179,7 @@ export default defineComponent({
       onScroll,
       onRequest,
       rowKeyName,
+      searchOptions,
 
       // View
       ...quasarSearchView,

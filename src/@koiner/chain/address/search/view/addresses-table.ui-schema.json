@@ -3,6 +3,11 @@
   "elements": [
     {
       "type": "TableView",
+      "options": {
+        "search": {
+          "provider": "addresses"
+        }
+      },
       "elements": [
         {
           "type": "Attribute",

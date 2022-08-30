@@ -7,9 +7,9 @@
     >
       <q-tab
         v-for="(element, index) in visibleCategories"
-        :key="`${layout.path}-${index}`"
-        :label="t(element.label)"
-        :name="element.label"
+        :key="`${layoutPath}-${index}`"
+        :label="element.label"
+        :name="`${layoutPath}-${index}`"
       />
     </q-tabs>
 
@@ -19,13 +19,13 @@
       <q-tab-panels v-model="activeCategory">
         <q-tab-panel
           v-for="(element, index) in visibleCategories"
-          :key="`${layout.path}-${index}`"
-          :name="element.label"
+          :key="`${layoutPath}-${index}`"
+          :name="`${layoutPath}-${index}`"
         >
           <dispatch-renderer
             :schema="layout.schema"
             :uischema="element"
-            :path="layout.path"
+            :path="layoutPath !== 'root' ? layoutPath : ''"
             :enabled="layout.enabled"
             :renderers="layout.renderers"
             :cells="layout.cells"
@@ -46,7 +46,6 @@ import {
   RendererProps,
 } from '@jsonforms/vue';
 import { useAjv, useQuasarLayout } from '../util';
-import { useI18n } from 'vue-i18n';
 
 export default defineComponent({
   name: 'CategorizationRenderer',
@@ -57,25 +56,37 @@ export default defineComponent({
     ...rendererProps<Layout>(),
   },
   setup(props: RendererProps<Layout>) {
-    const activeCategory = ref(
-      (props.uischema as Categorization).elements[0].label
-    );
     const ajv = useAjv();
-    const { t } = useI18n();
     const options = useJsonFormsLayout(props);
+    const quasarLayout = useQuasarLayout(options);
+
+    const layoutPath =
+      quasarLayout.layout.path && quasarLayout.layout.path !== ''
+        ? quasarLayout.layout.path
+        : 'root';
+
+    const activeCategory = ref(
+      // Select first item
+      `${layoutPath}-0`
+    );
 
     return {
-      ...useQuasarLayout(options),
+      ...quasarLayout,
       activeCategory,
       ajv,
-      t,
+      layoutPath,
     };
   },
   computed: {
     visibleCategories(): (Category | Categorization)[] {
       return (this.layout.uischema as Categorization).elements.filter(
-        (category: Category | Categorization) =>
-          isVisible(category, this.layout.data, this.layout.path, this.ajv)
+        (category: Category | Categorization, index: number) =>
+          isVisible(
+            category,
+            this.layout.data,
+            `${this.layoutPath}-${index}`,
+            this.ajv
+          )
       );
     },
   },

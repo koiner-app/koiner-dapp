@@ -25,6 +25,16 @@
           "type": "string"
         }
       }
+    },
+    "burned": {
+      "properties": {
+        "burnedValue": {
+          "type": "number"
+        },
+        "burnedContractId": {
+          "type": "string"
+        }
+      }
     }
   }
 }

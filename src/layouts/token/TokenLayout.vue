@@ -1,11 +1,12 @@
 <template>
-  <div class="koiner-topbar fixed-top" v-if="tokenContract">
+  <!--  <div class="koiner-topbar fixed-top" v-if="tokenContract">-->
+  <div class="koiner-topbar fixed-top">
     <q-icon class="topbar-icon" name="toll"></q-icon>
     <div class="topbar-header">
-      <span class="selected-item"
+      <span class="selected-item" v-if="tokenContract"
         >{{ tokenContract.name
         }}<q-chip>{{ tokenContract.symbol }}</q-chip></span
-      >
+      ><span v-else class="selected-item">Token</span>
 
       <q-btn flat dense size="sm" class="favorite-icon">
         <q-icon
@@ -55,21 +56,7 @@
 import { defineComponent, onMounted, Ref, ref } from 'vue';
 import { useAccountStore } from 'stores/account';
 import { useRoute } from 'vue-router';
-import { TokenContract } from '@koiner/contract/token/token-contract';
-import gql from 'graphql-tag';
-import { ApolloClient } from '@apollo/client/core';
-import { useApolloClient } from '@vue/apollo-composable';
-
-const gqlGetTokenContract = gql`
-  query getTokenContract($id: ID!) {
-    tokenContract(id: $id) {
-      id
-      name
-      symbol
-      decimals
-    }
-  }
-`;
+import { TokenContract } from '@koiner/sdk';
 
 export default defineComponent({
   name: 'TokensLayout',
@@ -80,31 +67,13 @@ export default defineComponent({
     const account = useAccountStore();
     const tokenContract: Ref<TokenContract | undefined> = ref();
 
-    const apolloClient: ApolloClient<any> = useApolloClient().client;
-
-    const executeQuery = () => {
-      apolloClient
-        .query({
-          query: gqlGetTokenContract,
-          variables: {
-            id: id.value,
-          },
-        })
-        .then((response: any) => {
-          const data = response.data.tokenContract;
-
-          tokenContract.value = {
-            id: data.id,
-            name: data.name,
-            symbol: data.symbol,
-            decimals: data.decimals,
-          } as TokenContract;
-        });
-    };
+    // const executeQuery = () => {
+    //
+    // };
 
     onMounted(async () => {
       id.value = route.params.id;
-      executeQuery();
+      // executeQuery();
     });
 
     return {

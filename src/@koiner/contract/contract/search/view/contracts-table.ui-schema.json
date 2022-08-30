@@ -1,0 +1,33 @@
+{
+  "type": "object",
+  "elements": [
+    {
+      "type": "TableView",
+      "options": {
+        "search": {
+          "provider": "contracts"
+        }
+      },
+      "elements": [
+        {
+          "type": "Attribute",
+          "label": "Contract Hash",
+          "scope": "#/properties/id",
+          "options": {
+            "route": "contract",
+            "format": "link",
+            "linkParams": ["id"],
+            "mappings": {
+              "id": "id"
+            }
+          }
+        },
+        {
+          "type": "Attribute",
+          "label": "Type",
+          "scope": "#/properties/contractStandardType"
+        }
+      ]
+    }
+  ]
+}

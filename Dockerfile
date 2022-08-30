@@ -1,3 +1,5 @@
+ARG GRAPHQL_URI
+
 # Develop stage
 FROM node:lts-alpine as develop-stage
 WORKDIR /src

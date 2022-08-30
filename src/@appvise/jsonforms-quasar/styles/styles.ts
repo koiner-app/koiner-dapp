@@ -19,6 +19,8 @@ export interface Styles {
     root?: string;
     input?: string;
     button?: string;
+    currency?: string;
+    colorPicker?: string;
   };
   verticalLayout: {
     root?: string;
@@ -36,13 +38,17 @@ export interface Styles {
   arrayList: {
     root?: string;
     toolbar?: string;
+    legend?: string;
     addButton?: string;
     label?: string;
+    itemWrapper?: string;
     noData?: string;
     item?: string;
     itemHeader?: string;
+    itemToolbar?: string;
     itemLabel?: string;
     itemContent?: string;
+    itemExpanded?: string;
     itemMoveUp?: string;
     itemMoveDown?: string;
     itemDelete?: string;

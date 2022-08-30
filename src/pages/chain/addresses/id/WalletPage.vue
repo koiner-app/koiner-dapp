@@ -1,7 +1,6 @@
 <template>
   <q-page class="row items-baseline justify-evenly">
     <q-card
-      v-if="id && typeof id === 'string'"
       class="table-card shadow-1"
       style="
         max-width: 1288px;
@@ -15,7 +14,18 @@
           <q-space />
         </div>
 
-        <token-balances-table-view :address-id="id.toString()" />
+        <search-filters
+          :request="request"
+          search-placeholder="Search for address id"
+        />
+
+        <q-json-search
+          :schema="schema"
+          :uischema="uiSchema"
+          :request="request"
+          :data="{}"
+          :additional-renderers="renderers"
+        />
       </q-card-section>
     </q-card>
   </q-page>
@@ -24,22 +34,34 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref, Ref } from 'vue';
 import { useRoute } from 'vue-router';
-import TokenBalancesTableView from '@koiner/contract/token/search/table/token-balances-table-view.vue';
+import { KoinerRenderers } from '@koiner/renderers';
+import SearchFilters from '@appvise/search-manager/search-filters.vue';
+import QJsonSearch from '@appvise/q-json-forms/QJsonSearch.vue';
+import tokenBalancesSearchSchema from '@koiner/contract/token/search/token-balances-search.schema.json';
+import addressTokenBalancesSearchUiSchema from '@koiner/contract/token/search/view/address-token-balances-table.ui-schema.json';
+import { QueryTokenBalancesArgs } from '@koiner/sdk';
 
 export default defineComponent({
-  name: 'WalletPage',
-  components: { TokenBalancesTableView },
+  name: 'TokenBalancesPage',
+  components: { SearchFilters, QJsonSearch },
 
   setup() {
-    let id: Ref<string | string[] | undefined> = ref();
+    let request: Ref<QueryTokenBalancesArgs> = ref({ filter: {} });
+    let id: Ref<string | undefined> = ref();
     const route = useRoute();
 
     onMounted(async () => {
-      id.value = route.params.id;
+      id.value = route.params.id.toString();
+      request.value.filter = {
+        addressId: { equals: id.value },
+      };
     });
 
     return {
-      id,
+      schema: tokenBalancesSearchSchema,
+      uiSchema: addressTokenBalancesSearchUiSchema,
+      request: request,
+      renderers: KoinerRenderers,
     };
   },
 });

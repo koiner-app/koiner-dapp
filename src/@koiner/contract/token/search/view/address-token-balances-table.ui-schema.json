@@ -1,0 +1,42 @@
+{
+  "type": "object",
+  "elements": [
+    {
+      "type": "TableView",
+      "options": {
+        "search": {
+          "provider": "tokenBalances"
+        }
+      },
+      "elements": [
+        {
+          "type": "Attribute",
+          "label": "Name",
+          "scope": "#/properties/contract/properties/name",
+          "options": {
+            "route": "token",
+            "format": "link",
+            "linkParams": ["id"],
+            "mapping": "contract.name",
+            "mappings": {
+              "id": "id"
+            }
+          }
+        },
+        {
+          "type": "Attribute",
+          "scope": "#/properties/balance",
+          "options": {
+            "format": "tokenAmount",
+            "mappings": {
+              "contract.id": "contract.id",
+              "contract.name": "contract.name",
+              "contract.symbol": "contract.symbol",
+              "contract.decimals": "contract.decimals"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

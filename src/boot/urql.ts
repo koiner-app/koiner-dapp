@@ -13,9 +13,19 @@ export default boot(({ app }) => {
       cacheExchange({
         resolvers: {
           Query: {
+            // Chain
+            addresses: relayPagination(),
             blocks: relayPagination(),
-            // transactions: relayPagination(),
-            // operations: relayPagination(),
+            events: relayPagination(),
+            operations: relayPagination(),
+            transactions: relayPagination(),
+
+            // Contracts
+            contracts: relayPagination(),
+            contractOperations: relayPagination(),
+            tokenBalances: relayPagination(),
+            tokenContracts: relayPagination(),
+            tokenOperations: relayPagination(),
           },
         },
         keys: {

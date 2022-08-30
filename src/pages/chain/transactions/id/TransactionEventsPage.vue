@@ -1,7 +1,6 @@
 <template>
   <q-page class="row items-baseline justify-evenly">
     <q-card
-      v-if="id"
       class="table-card shadow-1"
       style="
         max-width: 1288px;
@@ -15,21 +14,33 @@
           <q-space />
         </div>
 
-        <events-search-view :request="request" />
+        <search-filters :request="request" />
+
+        <q-json-search
+          :schema="schema"
+          :uischema="uiSchema"
+          :request="request"
+          :data="{}"
+          :additional-renderers="renderers"
+        />
       </q-card-section>
     </q-card>
   </q-page>
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref, Ref } from 'vue';
+import {defineComponent, onMounted, ref, Ref} from 'vue';
 import { useRoute } from 'vue-router';
-import EventsSearchView from '@koiner/chain/event/search/events-search-view.vue';
-import { QueryEventsArgs } from '@koiner/sdk';
+import { KoinerRenderers } from '@koiner/renderers';
+import SearchFilters from '@appvise/search-manager/search-filters.vue';
+import QJsonSearch from '@appvise/q-json-forms/QJsonSearch.vue';
+import eventsSearchSchema from '@koiner/chain/event/search/events-search.schema.json';
+import eventsSearchUiSchema from '@koiner/chain/event/search/view/events-table.ui-schema.json';
+import {QueryEventsArgs} from '@koiner/sdk';
 
 export default defineComponent({
   name: 'TransactionEventsPage',
-  components: { EventsSearchView },
+  components: { SearchFilters, QJsonSearch },
 
   setup() {
     let request: Ref<QueryEventsArgs> = ref({ filter: {} });
@@ -39,13 +50,16 @@ export default defineComponent({
     onMounted(async () => {
       id.value = route.params.id.toString();
       request.value.filter = {
-        transactionId: { equals: id.value },
+        parentId: { equals: id.value },
+        parentType: { equals: 'transaction' },
       };
     });
 
     return {
-      id,
-      request,
+      schema: eventsSearchSchema,
+      uiSchema: eventsSearchUiSchema,
+      request: request,
+      renderers: KoinerRenderers,
     };
   },
 });

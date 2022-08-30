@@ -1,5 +1,6 @@
 <template>
   <attribute-wrapper
+    v-if="rawValue(result.node) != null"
     v-bind="attributeWrapper"
     :styles="styles"
     :applied-options="appliedOptions"
