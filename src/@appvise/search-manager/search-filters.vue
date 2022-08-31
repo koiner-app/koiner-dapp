@@ -36,8 +36,8 @@ export default defineComponent({
     const search: Ref<string | undefined> = ref();
 
     onMounted(() => {
-      if (request.value.filter?.search?.contains) {
-        search.value = request.value.filter.search.contains;
+      if (request.value.filter?.search?.iContains) {
+        search.value = request.value.filter.search.iContains;
       }
     });
 
@@ -47,7 +47,7 @@ export default defineComponent({
       }
 
       if (newSearch) {
-        request.value.filter.search = { contains: newSearch };
+        request.value.filter.search = { iContains: newSearch };
       } else {
         delete request.value.filter.search;
       }

@@ -40,7 +40,7 @@ export default defineComponent({
     // Use empty filter to prevent double initial request
     // First request on typing will the same and will be loaded from cache
     let filter: SearchFilter = {
-      [searchOptions.filterName]: { contains: '' },
+      [searchOptions.filterName]: { iContains: '' },
     };
 
     const unreffedControl = unref(control.control);
@@ -50,7 +50,7 @@ export default defineComponent({
       filter = {
         OR: [
           {
-            [searchOptions.filterName]: { contains: '' },
+            [searchOptions.filterName]: { iContains: '' },
           },
           {
             [searchOptions.valueField]: { equals: unreffedControl.data },
@@ -142,7 +142,7 @@ export default defineComponent({
         await this.searchManager.search({
           first: this.searchOptions.itemsPerPage,
           filter: {
-            [this.searchOptions.filterName]: { contains: val.toLowerCase() },
+            [this.searchOptions.filterName]: { iContains: val },
           },
         });
       });
