@@ -16,7 +16,7 @@
 
         <search-filters
           :request="request"
-          search-placeholder="Search for transaction id or payer"
+          search-placeholder="Search by transaction id or payer"
         />
 
         <q-json-search

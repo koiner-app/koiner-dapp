@@ -16,7 +16,7 @@
 
         <search-filters
           :request="request"
-          search-placeholder="Search for operation id or transaction id"
+          search-placeholder="Search by operation id or transaction id"
         />
 
         <q-json-search

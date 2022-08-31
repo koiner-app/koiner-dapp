@@ -16,7 +16,7 @@
 
         <search-filters
           :request="request"
-          search-placeholder="Search for Address Id"
+          search-placeholder="Search by Address Id"
         />
 
         <q-json-search

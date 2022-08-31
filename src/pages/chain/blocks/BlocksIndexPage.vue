@@ -14,7 +14,7 @@
           <q-space />
         </div>
 
-        <search-filters :request="request" search-placeholder="Search for block id or signer" />
+        <search-filters :request="request" search-placeholder="Search by block id or signer" />
 
         <q-json-search
           :schema="schema"

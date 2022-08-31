@@ -16,7 +16,7 @@
 
         <search-filters
           :request="request"
-          search-placeholder="Search for from/to addresses, operation name/id, contract id or transaction id"
+          search-placeholder="Search by from/to addresses, operation name/id, contract id or transaction id"
         />
 
         <q-json-search

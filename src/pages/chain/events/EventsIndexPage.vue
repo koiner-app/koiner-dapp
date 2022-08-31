@@ -16,7 +16,7 @@
 
         <search-filters
           :request="request"
-          search-placeholder="Search for event id, parent (block id or transaction id), contract id, name or impacted addresses"
+          search-placeholder="Search by event id, parent (block id or transaction id), contract id, name or impacted addresses"
         />
 
         <q-json-search

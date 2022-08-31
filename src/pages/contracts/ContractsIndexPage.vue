@@ -16,7 +16,7 @@
 
         <search-filters
           :request="request"
-          search-placeholder="Search for contract id"
+          search-placeholder="Search by contract id"
         />
 
         <q-json-search
