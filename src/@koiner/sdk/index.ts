@@ -97,6 +97,7 @@ export type AddressesFilter = {
   OR?: InputMaybe<Array<AddressesFilter>>;
   id?: InputMaybe<StringFilter>;
   isProducer?: InputMaybe<BooleanFilter>;
+  search?: InputMaybe<StringFilter>;
 };
 
 /** Sort field */
@@ -174,6 +175,8 @@ export type BlockReward = {
   burnedContract?: Maybe<TokenContract>;
   burnedContractId?: Maybe<Scalars['String']>;
   burnedValue?: Maybe<Scalars['Float']>;
+  burner?: Maybe<Address>;
+  burnerId?: Maybe<Scalars['String']>;
   contract: TokenContract;
   contractId: Scalars['String'];
   /** Timestamp as to when this entity was created */
@@ -181,8 +184,9 @@ export type BlockReward = {
   height: Scalars['Float'];
   /** Globally unique identifier for this entity */
   id: Scalars['ID'];
-  producer?: Maybe<Address>;
+  producer: Address;
   producerId: Scalars['String'];
+  roi?: Maybe<Scalars['Float']>;
   /** Timestamp as to when this entity was last updated */
   updatedAt: Scalars['DateTime'];
   value: Scalars['Float'];
@@ -222,6 +226,7 @@ export type BlockRewardBalancesFilter = {
   addressId?: InputMaybe<StringFilter>;
   balance?: InputMaybe<StringFilter>;
   contractId?: InputMaybe<StringFilter>;
+  search?: InputMaybe<StringFilter>;
 };
 
 /** Sort field */
@@ -260,8 +265,11 @@ export type BlockRewardsFilter = {
   blockHeight?: InputMaybe<NumericFilter>;
   burnedContractId?: InputMaybe<StringFilter>;
   burnedValue?: InputMaybe<NumericFilter>;
+  burnerId?: InputMaybe<StringFilter>;
   contractId?: InputMaybe<StringFilter>;
   producerId?: InputMaybe<StringFilter>;
+  roi?: InputMaybe<NumericFilter>;
+  search?: InputMaybe<StringFilter>;
   value?: InputMaybe<NumericFilter>;
 };
 
@@ -289,6 +297,7 @@ export type BlocksFilter = {
   OR?: InputMaybe<Array<BlocksFilter>>;
   height?: InputMaybe<NumericFilter>;
   id?: InputMaybe<StringFilter>;
+  search?: InputMaybe<StringFilter>;
   signer?: InputMaybe<StringFilter>;
   timestamp?: InputMaybe<NumericFilter>;
   transactionCount?: InputMaybe<NumericFilter>;
@@ -330,6 +339,63 @@ export type ContractEdge = {
   __typename?: 'ContractEdge';
   cursor: Scalars['String'];
   node: Contract;
+};
+
+export type ContractEvent = {
+  __typename?: 'ContractEvent';
+  contract: Contract;
+  contractId?: Maybe<Scalars['String']>;
+  contractStandardType?: Maybe<ContractStandardType>;
+  /** Timestamp as to when this entity was created */
+  createdAt: Scalars['DateTime'];
+  data?: Maybe<Scalars['String']>;
+  /** Globally unique identifier for this entity */
+  id: Scalars['ID'];
+  impacted?: Maybe<Array<Scalars['String']>>;
+  name: Scalars['String'];
+  parentId: Scalars['String'];
+  parentType: Scalars['String'];
+  sequence?: Maybe<Scalars['Float']>;
+  /** Timestamp as to when this entity was last updated */
+  updatedAt: Scalars['DateTime'];
+};
+
+export type ContractEventEdge = {
+  __typename?: 'ContractEventEdge';
+  cursor: Scalars['String'];
+  node: ContractEvent;
+};
+
+export type ContractEventsConnection = {
+  __typename?: 'ContractEventsConnection';
+  edges: Array<ContractEventEdge>;
+  nodes: Array<ContractEvent>;
+  pageInfo: PageInfo;
+  totalCount: Scalars['Int'];
+};
+
+export type ContractEventsFilter = {
+  AND?: InputMaybe<Array<ContractEventsFilter>>;
+  OR?: InputMaybe<Array<ContractEventsFilter>>;
+  contractId?: InputMaybe<StringFilter>;
+  contractStandardType?: InputMaybe<StringFilter>;
+  id?: InputMaybe<StringFilter>;
+  impacted?: InputMaybe<StringFilter>;
+  name?: InputMaybe<StringFilter>;
+  parentId?: InputMaybe<StringFilter>;
+  parentType?: InputMaybe<StringFilter>;
+  search?: InputMaybe<StringFilter>;
+  sequence?: InputMaybe<NumericFilter>;
+};
+
+/** Sort field */
+export enum ContractEventsSortField {
+  CreatedAt = 'createdAt'
+}
+
+export type ContractEventsSortInput = {
+  direction: Direction;
+  field: ContractEventsSortField;
 };
 
 export type ContractOperation = {
@@ -387,6 +453,7 @@ export type ContractOperationsFilter = {
   contractId?: InputMaybe<StringFilter>;
   entryPoint?: InputMaybe<NumericFilter>;
   id?: InputMaybe<StringFilter>;
+  search?: InputMaybe<StringFilter>;
 };
 
 /** Sort field */
@@ -416,6 +483,7 @@ export type ContractsFilter = {
   AND?: InputMaybe<Array<ContractsFilter>>;
   OR?: InputMaybe<Array<ContractsFilter>>;
   id?: InputMaybe<StringFilter>;
+  search?: InputMaybe<StringFilter>;
 };
 
 /** Sort field */
@@ -474,6 +542,7 @@ export type EventsFilter = {
   name?: InputMaybe<StringFilter>;
   parentId?: InputMaybe<StringFilter>;
   parentType?: InputMaybe<StringFilter>;
+  search?: InputMaybe<StringFilter>;
   sequence?: InputMaybe<NumericFilter>;
 };
 
@@ -541,6 +610,7 @@ export type OperationsFilter = {
   blockHeight?: InputMaybe<NumericFilter>;
   id?: InputMaybe<StringFilter>;
   operationIndex?: InputMaybe<NumericFilter>;
+  search?: InputMaybe<StringFilter>;
   transactionId?: InputMaybe<StringFilter>;
   type?: InputMaybe<StringFilter>;
 };
@@ -577,6 +647,8 @@ export type Query = {
   blockRewardsBulk: Array<BlockRewardBulkResult>;
   blocks: BlocksConnection;
   contract: Contract;
+  contractEvent: ContractEvent;
+  contractEvents: ContractEventsConnection;
   contractOperation: ContractOperationWithDetails;
   contractOperations: ContractOperationsConnection;
   contractOperationsBulk: Array<ContractOperationBulkResult>;
@@ -590,6 +662,8 @@ export type Query = {
   tokenBalances: TokenBalancesConnection;
   tokenContract: TokenContract;
   tokenContracts: TokenContractsConnection;
+  tokenEvent: TokenEvent;
+  tokenEvents: TokenEventsConnection;
   tokenOperation: TokenOperation;
   tokenOperations: TokenOperationsConnection;
   transaction: Transaction;
@@ -667,6 +741,20 @@ export type QueryBlocksArgs = {
 
 export type QueryContractArgs = {
   id: Scalars['ID'];
+};
+
+
+export type QueryContractEventArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryContractEventsArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  filter?: InputMaybe<ContractEventsFilter>;
+  first?: InputMaybe<Scalars['Int']>;
+  sort?: InputMaybe<Array<ContractEventsSortInput>>;
 };
 
 
@@ -758,6 +846,20 @@ export type QueryTokenContractsArgs = {
   filter?: InputMaybe<TokenContractsFilter>;
   first?: InputMaybe<Scalars['Int']>;
   sort?: InputMaybe<Array<TokenContractsSortInput>>;
+};
+
+
+export type QueryTokenEventArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryTokenEventsArgs = {
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  filter?: InputMaybe<TokenEventsFilter>;
+  first?: InputMaybe<Scalars['Int']>;
+  sort?: InputMaybe<Array<TokenEventsSortInput>>;
 };
 
 
@@ -860,6 +962,7 @@ export type TokenBalancesFilter = {
   addressId?: InputMaybe<StringFilter>;
   balance?: InputMaybe<StringFilter>;
   contractId?: InputMaybe<StringFilter>;
+  search?: InputMaybe<StringFilter>;
 };
 
 /** Sort field */
@@ -883,7 +986,6 @@ export type TokenContract = {
   id: Scalars['ID'];
   name: Scalars['String'];
   operations: TokenOperationsConnection;
-  stats: TokenContractStatistics;
   symbol: Scalars['String'];
   totalSupply: Scalars['Float'];
   /** Timestamp as to when this entity was last updated */
@@ -914,14 +1016,6 @@ export type TokenContractEdge = {
   node: TokenContract;
 };
 
-export type TokenContractStatistics = {
-  __typename?: 'TokenContractStatistics';
-  holderCount: Scalars['Int'];
-  mintCount: Scalars['Int'];
-  operationCount: Scalars['Int'];
-  transferCount: Scalars['Int'];
-};
-
 export type TokenContractsConnection = {
   __typename?: 'TokenContractsConnection';
   edges: Array<TokenContractEdge>;
@@ -933,8 +1027,11 @@ export type TokenContractsConnection = {
 export type TokenContractsFilter = {
   AND?: InputMaybe<Array<TokenContractsFilter>>;
   OR?: InputMaybe<Array<TokenContractsFilter>>;
+  id?: InputMaybe<StringFilter>;
   name?: InputMaybe<StringFilter>;
+  search?: InputMaybe<StringFilter>;
   symbol?: InputMaybe<StringFilter>;
+  totalSupply?: InputMaybe<NumericFilter>;
 };
 
 /** Sort field */
@@ -947,15 +1044,70 @@ export type TokenContractsSortInput = {
   field: TokenContractsSortField;
 };
 
-export type TokenOperation = {
-  __typename?: 'TokenOperation';
+export type TokenEvent = {
+  __typename?: 'TokenEvent';
+  contract: TokenContract;
+  contractEvent: ContractEvent;
+  contractId?: Maybe<Scalars['String']>;
   /** Timestamp as to when this entity was created */
   createdAt: Scalars['DateTime'];
   from?: Maybe<Scalars['String']>;
   /** Globally unique identifier for this entity */
   id: Scalars['ID'];
   name: Scalars['String'];
-  to: Scalars['String'];
+  to?: Maybe<Scalars['String']>;
+  /** Timestamp as to when this entity was last updated */
+  updatedAt: Scalars['DateTime'];
+  value: Scalars['Float'];
+};
+
+export type TokenEventEdge = {
+  __typename?: 'TokenEventEdge';
+  cursor: Scalars['String'];
+  node: TokenEvent;
+};
+
+export type TokenEventsConnection = {
+  __typename?: 'TokenEventsConnection';
+  edges: Array<TokenEventEdge>;
+  nodes: Array<TokenEvent>;
+  pageInfo: PageInfo;
+  totalCount: Scalars['Int'];
+};
+
+export type TokenEventsFilter = {
+  AND?: InputMaybe<Array<TokenEventsFilter>>;
+  OR?: InputMaybe<Array<TokenEventsFilter>>;
+  contractId?: InputMaybe<StringFilter>;
+  from?: InputMaybe<StringFilter>;
+  id?: InputMaybe<StringFilter>;
+  name?: InputMaybe<StringFilter>;
+  search?: InputMaybe<StringFilter>;
+  to?: InputMaybe<StringFilter>;
+  value?: InputMaybe<StringFilter>;
+};
+
+/** Sort field */
+export enum TokenEventsSortField {
+  CreatedAt = 'createdAt'
+}
+
+export type TokenEventsSortInput = {
+  direction: Direction;
+  field: TokenEventsSortField;
+};
+
+export type TokenOperation = {
+  __typename?: 'TokenOperation';
+  contract: TokenContract;
+  contractId: Scalars['String'];
+  /** Timestamp as to when this entity was created */
+  createdAt: Scalars['DateTime'];
+  from?: Maybe<Scalars['String']>;
+  /** Globally unique identifier for this entity */
+  id: Scalars['ID'];
+  name: Scalars['String'];
+  to?: Maybe<Scalars['String']>;
   transactionId: Scalars['String'];
   /** Timestamp as to when this entity was last updated */
   updatedAt: Scalars['DateTime'];
@@ -981,8 +1133,11 @@ export type TokenOperationsFilter = {
   OR?: InputMaybe<Array<TokenOperationsFilter>>;
   contractId?: InputMaybe<StringFilter>;
   from?: InputMaybe<StringFilter>;
+  id?: InputMaybe<StringFilter>;
   name?: InputMaybe<StringFilter>;
+  search?: InputMaybe<StringFilter>;
   to?: InputMaybe<StringFilter>;
+  transactionId?: InputMaybe<StringFilter>;
   value?: InputMaybe<StringFilter>;
 };
 
@@ -1053,6 +1208,7 @@ export type TransactionsFilter = {
   operationCount?: InputMaybe<NumericFilter>;
   payer?: InputMaybe<StringFilter>;
   rcLimit?: InputMaybe<StringFilter>;
+  search?: InputMaybe<StringFilter>;
   transactionIndex?: InputMaybe<NumericFilter>;
 };
 
@@ -1189,7 +1345,14 @@ export type TokenOperationsSearchQueryVariables = Exact<{
 }>;
 
 
-export type TokenOperationsSearchQuery = { __typename?: 'Query', tokenOperations: { __typename?: 'TokenOperationsConnection', totalCount: number, edges: Array<{ __typename: 'TokenOperationEdge', cursor: string, node: { __typename?: 'TokenOperation', id: string, transactionId: string, from?: string | null, to: string, value: number, name: string } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null, endCursor?: string | null } } };
+export type TokenOperationsSearchQuery = { __typename?: 'Query', tokenOperations: { __typename?: 'TokenOperationsConnection', totalCount: number, edges: Array<{ __typename: 'TokenOperationEdge', cursor: string, node: { __typename?: 'TokenOperation', id: string, transactionId: string, contractId: string, from?: string | null, to?: string | null, value: number, name: string, contract: { __typename?: 'TokenContract', id: string, name: string, decimals: number, symbol: string } } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null, endCursor?: string | null } } };
+
+export type GetTokenLayoutQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type GetTokenLayoutQuery = { __typename?: 'Query', tokenContract: { __typename?: 'TokenContract', id: string, name: string, symbol: string, decimals: number } };
 
 export type TransactionPageQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -1526,6 +1689,13 @@ export const TokenOperationsSearchDocument = gql`
       node {
         id
         transactionId
+        contractId
+        contract {
+          id
+          name
+          decimals
+          symbol
+        }
         from
         to
         value
@@ -1545,6 +1715,20 @@ export const TokenOperationsSearchDocument = gql`
 
 export function useTokenOperationsSearchQuery(options: Omit<Urql.UseQueryArgs<never, TokenOperationsSearchQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<TokenOperationsSearchQuery>({ query: TokenOperationsSearchDocument, ...options });
+};
+export const GetTokenLayoutDocument = gql`
+    query getTokenLayout($id: ID!) {
+  tokenContract(id: $id) {
+    id
+    name
+    symbol
+    decimals
+  }
+}
+    `;
+
+export function useGetTokenLayoutQuery(options: Omit<Urql.UseQueryArgs<never, GetTokenLayoutQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<GetTokenLayoutQuery>({ query: GetTokenLayoutDocument, ...options });
 };
 export const TransactionPageDocument = gql`
     query TransactionPage($id: ID!) {

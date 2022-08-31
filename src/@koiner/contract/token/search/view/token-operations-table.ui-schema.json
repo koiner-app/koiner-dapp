@@ -43,7 +43,13 @@
           "type": "Attribute",
           "scope": "#/properties/value",
           "options": {
-            "format": "tokenAmount"
+            "format": "tokenAmount",
+            "mappings": {
+              "contract.id": "contract.id",
+              "contract.name": "contract.name",
+              "contract.symbol": "contract.symbol",
+              "contract.decimals": "contract.decimals"
+            }
           }
         },
         {

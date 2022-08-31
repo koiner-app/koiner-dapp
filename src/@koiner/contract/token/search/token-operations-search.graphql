@@ -18,6 +18,13 @@ query TokenOperationsSearch(
       node {
         id
         transactionId
+        contractId
+        contract {
+          id
+          name
+          decimals
+          symbol
+        }
         from
         to
         value
