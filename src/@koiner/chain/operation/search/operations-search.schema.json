@@ -12,6 +12,9 @@
     },
     "type": {
       "type": "string"
+    },
+    "timestamp": {
+      "type": "number"
     }
   }
 }

@@ -11,6 +11,20 @@
       "elements": [
         {
           "type": "Attribute",
+          "label": "Name",
+          "scope": "#/properties/name"
+        },
+        {
+          "type": "Attribute",
+          "label": "Age",
+          "scope": "#/properties/timestamp",
+          "options": {
+            "format": "age",
+            "mapping": "timestamp"
+          }
+        },
+        {
+          "type": "Attribute",
           "label": "Txn Hash",
           "scope": "#/properties/transactionId",
           "options": {
@@ -51,11 +65,6 @@
               "contract.decimals": "contract.decimals"
             }
           }
-        },
-        {
-          "type": "Attribute",
-          "label": "Name",
-          "scope": "#/properties/name"
         }
       ]
     }

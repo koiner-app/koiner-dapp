@@ -24,6 +24,15 @@
         },
         {
           "type": "Attribute",
+          "label": "Age",
+          "scope": "#/properties/timestamp",
+          "options": {
+            "format": "age",
+            "mapping": "timestamp"
+          }
+        },
+        {
+          "type": "Attribute",
           "label": "Txn",
           "scope": "#/properties/transactionId",
           "options": {

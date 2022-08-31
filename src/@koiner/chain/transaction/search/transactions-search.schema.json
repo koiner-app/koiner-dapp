@@ -9,6 +9,9 @@
     },
     "operationCount": {
       "type": "number"
+    },
+    "timestamp": {
+      "type": "number"
     }
   }
 }

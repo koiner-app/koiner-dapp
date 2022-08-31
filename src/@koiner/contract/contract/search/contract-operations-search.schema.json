@@ -6,6 +6,9 @@
     },
     "transactionId": {
       "type": "string"
+    },
+    "timestamp": {
+      "type": "number"
     }
   }
 }

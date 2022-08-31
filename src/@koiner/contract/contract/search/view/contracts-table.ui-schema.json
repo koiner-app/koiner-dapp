@@ -26,6 +26,15 @@
           "type": "Attribute",
           "label": "Type",
           "scope": "#/properties/contractStandardType"
+        },
+        {
+          "type": "Attribute",
+          "label": "Created",
+          "scope": "#/properties/timestamp",
+          "options": {
+            "format": "age",
+            "mapping": "timestamp"
+          }
         }
       ]
     }

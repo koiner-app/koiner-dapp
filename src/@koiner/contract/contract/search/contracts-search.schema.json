@@ -6,6 +6,9 @@
     },
     "contractStandardType": {
       "type": "string"
+    },
+    "timestamp": {
+      "type": "number"
     }
   }
 }

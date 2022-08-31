@@ -11,6 +11,15 @@
       "elements": [
         {
           "type": "Attribute",
+          "label": "Age",
+          "scope": "#/properties/timestamp",
+          "options": {
+            "format": "age",
+            "mapping": "timestamp"
+          }
+        },
+        {
+          "type": "Attribute",
           "label": "Txn Hash",
           "scope": "#/properties/transactionId"
         }

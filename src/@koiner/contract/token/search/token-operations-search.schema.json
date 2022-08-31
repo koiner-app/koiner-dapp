@@ -18,6 +18,9 @@
     },
     "name": {
       "type": "string"
+    },
+    "timestamp": {
+      "type": "number"
     }
   }
 }

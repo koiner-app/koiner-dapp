@@ -11,6 +11,25 @@
       "elements": [
         {
           "type": "Attribute",
+          "label": "Contract",
+          "scope": "#/properties/contractId"
+        },
+        {
+          "type": "Attribute",
+          "label": "Name",
+          "scope": "#/properties/name"
+        },
+        {
+          "type": "Attribute",
+          "label": "Age",
+          "scope": "#/properties/timestamp",
+          "options": {
+            "format": "age",
+            "mapping": "timestamp"
+          }
+        },
+        {
+          "type": "Attribute",
           "label": "ID",
           "scope": "#/properties/id",
           "options": {
@@ -44,16 +63,6 @@
           "type": "Attribute",
           "label": "Seq",
           "scope": "#/properties/sequence"
-        },
-        {
-          "type": "Attribute",
-          "label": "Contract",
-          "scope": "#/properties/contractId"
-        },
-        {
-          "type": "Attribute",
-          "label": "Name",
-          "scope": "#/properties/name"
         }
       ]
     }
