@@ -23,8 +23,8 @@ export default boot(({ app }) => {
             // Contracts
             contracts: relayPagination(),
             contractOperations: relayPagination(),
-            tokenBalances: relayPagination(),
             tokenContracts: relayPagination(),
+            tokenHolders: relayPagination(),
             tokenOperations: relayPagination(),
           },
         },

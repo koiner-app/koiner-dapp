@@ -39,7 +39,7 @@ export const useSearchStore = defineStore({
       position: 0,
       request: {},
     } as SearchStoreEntry,
-    tokenBalances: {
+    tokenHolders: {
       position: 0,
       request: {},
     } as SearchStoreEntry,

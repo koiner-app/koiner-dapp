@@ -5,7 +5,7 @@
       "type": "TableView",
       "options": {
         "search": {
-          "provider": "tokenBalances"
+          "provider": "tokenHolders"
         }
       },
       "elements": [

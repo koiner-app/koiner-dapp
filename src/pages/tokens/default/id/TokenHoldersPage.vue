@@ -10,7 +10,7 @@
     >
       <q-card-section>
         <div class="row no-wrap items-center">
-          <div class="text-h6">Balances</div>
+          <div class="text-h6">Holders</div>
           <q-space />
         </div>
 
@@ -37,16 +37,16 @@ import { useRoute } from 'vue-router';
 import { KoinerRenderers } from '@koiner/renderers';
 import SearchFilters from '@appvise/search-manager/search-filters.vue';
 import QJsonSearch from '@appvise/q-json-forms/QJsonSearch.vue';
-import tokenBalancesSearchSchema from '@koiner/contract/token/search/token-balances-search.schema.json';
-import tokenBalancesSearchUiSchema from '@koiner/contract/token/search/view/token-balances-table.ui-schema.json';
-import { QueryTokenBalancesArgs } from '@koiner/sdk';
+import tokenHoldersSearchSchema from '@koiner/contract/token/search/token-holders-search.schema.json';
+import tokenHoldersSearchUiSchema from '@koiner/contract/token/search/view/token-holders-table.ui-schema.json';
+import { QueryTokenHoldersArgs } from '@koiner/sdk';
 
 export default defineComponent({
-  name: 'TokenBalancesPage',
+  name: 'TokenHoldersPage',
   components: { SearchFilters, QJsonSearch },
 
   setup() {
-    let request: Ref<QueryTokenBalancesArgs> = ref({ filter: {} });
+    let request: Ref<QueryTokenHoldersArgs> = ref({ filter: {} });
     let id: Ref<string | undefined> = ref();
     const route = useRoute();
 
@@ -58,8 +58,8 @@ export default defineComponent({
     });
 
     return {
-      schema: tokenBalancesSearchSchema,
-      uiSchema: tokenBalancesSearchUiSchema,
+      schema: tokenHoldersSearchSchema,
+      uiSchema: tokenHoldersSearchUiSchema,
       request: request,
       renderers: KoinerRenderers,
     };

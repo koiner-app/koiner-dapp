@@ -29,6 +29,7 @@ query TokenOperationsSearch(
         to
         value
         name
+        timestamp
       }
       __typename
     }

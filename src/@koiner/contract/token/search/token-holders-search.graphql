@@ -1,11 +1,11 @@
-query TokenBalancesSearch(
+query TokenHoldersSearch(
   $after: String
   $before: String
   $first: Int
-  $filter: TokenBalancesFilter
-  $sort: [TokenBalancesSortInput!]
+  $filter: TokenHoldersFilter
+  $sort: [TokenHoldersSortInput!]
 ) {
-  tokenBalances(
+  tokenHolders(
     after: $after
     before: $before
     first: $first

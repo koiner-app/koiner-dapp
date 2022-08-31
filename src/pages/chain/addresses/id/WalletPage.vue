@@ -37,16 +37,16 @@ import { useRoute } from 'vue-router';
 import { KoinerRenderers } from '@koiner/renderers';
 import SearchFilters from '@appvise/search-manager/search-filters.vue';
 import QJsonSearch from '@appvise/q-json-forms/QJsonSearch.vue';
-import tokenBalancesSearchSchema from '@koiner/contract/token/search/token-balances-search.schema.json';
-import addressTokenBalancesSearchUiSchema from '@koiner/contract/token/search/view/address-token-balances-table.ui-schema.json';
-import { QueryTokenBalancesArgs } from '@koiner/sdk';
+import tokenHoldersSearchSchema from '@koiner/contract/token/search/token-holders-search.schema.json';
+import addressTokenHoldersSearchUiSchema from '@koiner/contract/token/search/view/address-tokens-table.ui-schema.json';
+import { QueryTokenHoldersArgs } from '@koiner/sdk';
 
 export default defineComponent({
-  name: 'TokenBalancesPage',
+  name: 'TokenHoldersPage',
   components: { SearchFilters, QJsonSearch },
 
   setup() {
-    let request: Ref<QueryTokenBalancesArgs> = ref({ filter: {} });
+    let request: Ref<QueryTokenHoldersArgs> = ref({ filter: {} });
     let id: Ref<string | undefined> = ref();
     const route = useRoute();
 
@@ -58,8 +58,8 @@ export default defineComponent({
     });
 
     return {
-      schema: tokenBalancesSearchSchema,
-      uiSchema: addressTokenBalancesSearchUiSchema,
+      schema: tokenHoldersSearchSchema,
+      uiSchema: addressTokenHoldersSearchUiSchema,
       request: request,
       renderers: KoinerRenderers,
     };

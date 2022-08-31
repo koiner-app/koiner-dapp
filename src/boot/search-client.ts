@@ -7,8 +7,8 @@ import { TransactionsSearchProvider } from '@koiner/chain/transaction/search/tra
 import { OperationsSearchProvider } from '@koiner/chain/operation/search/operations-search-provider';
 import { ContractsSearchProvider } from '@koiner/contract/contract/search/contracts-search-provider';
 import { ContractOperationsSearchProvider } from '@koiner/contract/contract/search/contract-operations-search-provider';
-import { TokenBalancesSearchProvider } from '@koiner/contract/token/search/token-balance-search-provider';
 import { TokenContractsSearchProvider } from '@koiner/contract/token/search/token-contract-search-provider';
+import { TokenHoldersSearchProvider } from '@koiner/contract/token/search/token-holder-search-provider';
 import { TokenOperationsSearchProvider } from '@koiner/contract/token/search/token-operation-search-provider';
 
 export default boot(({ app }) => {
@@ -24,8 +24,8 @@ export default boot(({ app }) => {
       // Contracts
       contracts: ContractsSearchProvider,
       contractOperations: ContractOperationsSearchProvider,
-      tokenBalances: TokenBalancesSearchProvider,
       tokenContracts: TokenContractsSearchProvider,
+      tokenHolders: TokenHoldersSearchProvider,
       tokenOperations: TokenOperationsSearchProvider,
     },
   });

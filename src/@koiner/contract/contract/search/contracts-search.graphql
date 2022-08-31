@@ -18,6 +18,7 @@ query ContractsSearch(
       node {
         id
         contractStandardType
+        timestamp
       }
       __typename
     }

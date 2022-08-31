@@ -20,6 +20,7 @@ query OperationsSearch(
         blockHeight
         transactionId
         type
+        timestamp
       }
       __typename
     }
