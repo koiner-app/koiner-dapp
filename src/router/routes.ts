@@ -315,10 +315,6 @@ const routes: RouteRecordRaw[] = [
           },
         ],
       },
-      // {
-      //   path: '/account/lockups/create',
-      //   component: () => import('pages/account/lockups/Create.vue'),
-      // },
     ],
   },
 
