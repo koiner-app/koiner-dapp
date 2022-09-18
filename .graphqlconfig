@@ -11,7 +11,7 @@
         "introspect": false
       },
       "Production GraphQL Endpoint": {
-        "url": "https://api.koiner.app",
+        "url": "https://api.koiner.app/graphql",
         "headers": {
           "user-agent": "JS GraphQL"
         },
