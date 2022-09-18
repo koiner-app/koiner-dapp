@@ -237,23 +237,6 @@ const routes: RouteRecordRaw[] = [
         ],
       },
 
-      // Lockup
-      {
-        name: 'lockups',
-        path: '/lockups',
-        component: () => import('pages/lockups/LockupsIndexPage.vue'),
-      },
-      {
-        name: 'lockup',
-        path: '/lockups/:id',
-        component: () => import('pages/lockups/id/LockupPage.vue'),
-      },
-      {
-        name: 'lockup.create',
-        path: '/lockups/create',
-        component: () => import('pages/lockups/CreateLockupPage.vue'),
-      },
-
       // Tokens
       {
         path: '/tokens',
