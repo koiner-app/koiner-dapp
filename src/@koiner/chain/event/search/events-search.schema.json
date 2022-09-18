@@ -4,6 +4,9 @@
     "id": {
       "type": "string"
     },
+    "blockHeight": {
+      "type": "number"
+    },
     "parentId": {
       "type": "string"
     },

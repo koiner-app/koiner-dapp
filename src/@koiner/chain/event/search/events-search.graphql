@@ -17,6 +17,7 @@ query EventsSearch(
       cursor
       node {
         id
+        blockHeight
         parentId
         parentType
         sequence

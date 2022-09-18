@@ -11,6 +11,19 @@
       "elements": [
         {
           "type": "Attribute",
+          "label": "Block",
+          "scope": "#/properties/blockHeight",
+          "options": {
+            "route": "block",
+            "format": "link",
+            "linkParams": ["height"],
+            "mappings": {
+              "height": "blockHeight"
+            }
+          }
+        },
+        {
+          "type": "Attribute",
           "label": "Contract",
           "scope": "#/properties/contractId"
         },
