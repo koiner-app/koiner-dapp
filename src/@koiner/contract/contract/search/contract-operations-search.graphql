@@ -17,6 +17,7 @@ query ContractOperationsSearch(
       cursor
       node {
         id
+        blockHeight
         contractId
         transactionId
         contractStandardType

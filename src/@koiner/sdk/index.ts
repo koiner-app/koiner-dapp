@@ -204,6 +204,7 @@ export type BlockProducersFilter = {
 /** Sort field */
 export enum BlockProducersSortField {
   Balance = 'balance',
+  BlocksProduced = 'blocksProduced',
   CreatedAt = 'createdAt'
 }
 
@@ -349,6 +350,7 @@ export type ContractEdge = {
 
 export type ContractEvent = {
   __typename?: 'ContractEvent';
+  blockHeight: Scalars['Int'];
   contract: Contract;
   contractId?: Maybe<Scalars['String']>;
   contractStandardType?: Maybe<ContractStandardType>;
@@ -433,6 +435,7 @@ export type ContractOperationEdge = {
 export type ContractOperationWithDetails = {
   __typename?: 'ContractOperationWithDetails';
   args: Scalars['String'];
+  blockHeight: Scalars['Int'];
   contract: Contract;
   contractId: Scalars['String'];
   contractStandardType?: Maybe<ContractStandardType>;
@@ -515,6 +518,7 @@ export enum Direction {
 
 export type Event = {
   __typename?: 'Event';
+  blockHeight: Scalars['Int'];
   contractId?: Maybe<Scalars['String']>;
   /** Timestamp as to when this entity was created */
   createdAt: Scalars['DateTime'];
@@ -1289,7 +1293,7 @@ export type EventsSearchQueryVariables = Exact<{
 }>;
 
 
-export type EventsSearchQuery = { __typename?: 'Query', events: { __typename?: 'EventsConnection', totalCount: number, edges: Array<{ __typename: 'EventEdge', cursor: string, node: { __typename?: 'Event', id: string, parentId: string, parentType: string, sequence?: number | null, contractId?: string | null, name: string, data?: string | null, impacted?: Array<string> | null, timestamp: number } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null, endCursor?: string | null } } };
+export type EventsSearchQuery = { __typename?: 'Query', events: { __typename?: 'EventsConnection', totalCount: number, edges: Array<{ __typename: 'EventEdge', cursor: string, node: { __typename?: 'Event', id: string, blockHeight: number, parentId: string, parentType: string, sequence?: number | null, contractId?: string | null, name: string, data?: string | null, impacted?: Array<string> | null, timestamp: number } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null, endCursor?: string | null } } };
 
 export type OperationsSearchQueryVariables = Exact<{
   after?: InputMaybe<Scalars['String']>;
@@ -1322,7 +1326,7 @@ export type ContractOperationsSearchQueryVariables = Exact<{
 }>;
 
 
-export type ContractOperationsSearchQuery = { __typename?: 'Query', contractOperations: { __typename?: 'ContractOperationsConnection', totalCount: number, edges: Array<{ __typename: 'ContractOperationEdge', cursor: string, node: { __typename?: 'ContractOperationWithDetails', id: string, contractId: string, transactionId: string, contractStandardType?: ContractStandardType | null, timestamp: number } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null, endCursor?: string | null } } };
+export type ContractOperationsSearchQuery = { __typename?: 'Query', contractOperations: { __typename?: 'ContractOperationsConnection', totalCount: number, edges: Array<{ __typename: 'ContractOperationEdge', cursor: string, node: { __typename?: 'ContractOperationWithDetails', id: string, blockHeight: number, contractId: string, transactionId: string, contractStandardType?: ContractStandardType | null, timestamp: number } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null, endCursor?: string | null } } };
 
 export type ContractsSearchQueryVariables = Exact<{
   after?: InputMaybe<Scalars['String']>;
@@ -1471,6 +1475,7 @@ export const EventsSearchDocument = gql`
       cursor
       node {
         id
+        blockHeight
         parentId
         parentType
         sequence
@@ -1576,6 +1581,7 @@ export const ContractOperationsSearchDocument = gql`
       cursor
       node {
         id
+        blockHeight
         contractId
         transactionId
         contractStandardType
