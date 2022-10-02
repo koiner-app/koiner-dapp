@@ -4,17 +4,26 @@
     "id": {
       "type": "string"
     },
+    "blockHeight": {
+      "type": "number"
+    },
+    "from": {
+      "type": "string"
+    },
+    "to": {
+      "type": "string"
+    },
+    "value": {
+      "type": "number"
+    },
     "name": {
       "type": "string"
     },
-    "symbol": {
+    "timestamp": {
+      "type": "number"
+    },
+    "contractId": {
       "type": "string"
-    },
-    "decimals": {
-      "type": "number"
-    },
-    "totalSupply": {
-      "type": "number"
     }
   }
 }
