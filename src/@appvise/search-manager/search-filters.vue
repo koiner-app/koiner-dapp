@@ -1,12 +1,17 @@
 <template>
   <div class="card-header row no-wrap items-center search-filters">
     <q-input
+      v-if="searchVisible"
       outlined
       v-model="search"
       :placeholder="searchPlaceholder"
       class="col-grow wildcard-search"
       dense
     />
+    <q-btn flat icon="search" @click="searchVisible = !searchVisible"></q-btn>
+    <q-btn flat icon="filter_list" label="Filter"></q-btn>
+    <q-btn flat icon="tune" label="Columns"></q-btn>
+    <q-btn flat icon="density_medium"></q-btn>
   </div>
 </template>
 
@@ -25,7 +30,7 @@ export default defineComponent({
     searchPlaceholder: {
       type: String,
       required: false,
-      default: 'Search'
+      default: 'Search',
     },
   },
 
@@ -34,6 +39,7 @@ export default defineComponent({
   setup(props, { emit }) {
     const request: Ref<SearchRequestType> = ref(props.request);
     const search: Ref<string | undefined> = ref();
+    const searchVisible = ref(false);
 
     onMounted(() => {
       if (request.value.filter?.search?.iContains) {
@@ -59,6 +65,7 @@ export default defineComponent({
 
     return {
       search,
+      searchVisible,
     };
   },
 });
