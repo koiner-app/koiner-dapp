@@ -4,7 +4,7 @@
     :styles="styles"
     :applied-options="appliedOptions"
   >
-    <span :class="`${rawValue(result.node)}`">
+    <span>
       {{
         tokenAmount(
           parseInt(rawValue(result.node)),
@@ -35,7 +35,6 @@ import {
   useJsonAttribute,
   useQuasarAttribute,
 } from '@appvise/jsonsearch-quasar';
-import {round} from 'lodash';
 
 export default defineComponent({
   name: 'TokenAmountAttributeRenderer',
@@ -62,8 +61,8 @@ export default defineComponent({
       };
     };
 
-    const tokenAmount = (units: number, decimals: number): number => {
-      return round(units / Math.pow(10, decimals), decimals);
+    const tokenAmount = (units: number, decimals: number): string => {
+      return (units / Math.pow(10, decimals)).toFixed(decimals);
     };
 
     return {

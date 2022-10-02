@@ -1,0 +1,46 @@
+query TokenEventsSearch(
+  $after: String
+  $before: String
+  $first: Int
+  $filter: TokenEventsFilter
+  $sort: [TokenEventsSortInput!]
+) {
+  tokenEvents(
+    after: $after
+    before: $before
+    first: $first
+    filter: $filter
+    sort: $sort
+  ) {
+    totalCount
+    edges {
+      cursor
+      node {
+        id
+        #        contractEvent {
+        #          blockHeight
+        #          parentId
+        #          parentType
+        #        }
+        contract {
+          id
+          name
+          symbol
+          decimals
+        }
+        from
+        to
+        value
+        name
+        timestamp
+      }
+      __typename
+    }
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+  }
+}

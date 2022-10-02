@@ -1,0 +1,28 @@
+query BlockPage($height: ID!) {
+  block(height: $height) {
+    header {
+      height
+      previous
+      previousStateMerkleRoot
+      signer
+      timestamp
+      transactionMerkleRoot
+    }
+    receipt {
+      diskStorageUsed
+      networkBandwidthUsed
+      computeBandwidthUsed
+      eventCount
+    }
+    reward {
+      producerId
+      value
+      burnedValue
+    }
+    id
+    signature
+    transactionCount
+    createdAt
+    updatedAt
+  }
+}

@@ -27,6 +27,13 @@
           exact
         />
         <q-route-tab :ripple="false" label="Addresses" to="/addresses" exact />
+        <q-route-tab
+          :ripple="false"
+          label="Claims"
+          to="/claims"
+          exact
+          disabled
+        />
 
       </q-tabs>
     </div>

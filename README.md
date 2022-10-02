@@ -1,4 +1,4 @@
-# Quasar App (quasar-project)
+# Koiner (koiner)
 
 A Quasar Project
 

@@ -35,6 +35,12 @@
         />
         <q-route-tab
           :ripple="false"
+          label="Events"
+          :to="`/tokens/${id}/events`"
+          exact
+        />
+        <q-route-tab
+          :ripple="false"
           label="Operations"
           :to="`/tokens/${id}/operations`"
           exact

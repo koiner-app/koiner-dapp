@@ -1,0 +1,60 @@
+{
+  "type": "object",
+  "elements": [
+    {
+      "type": "TableView",
+      "options": {
+        "search": {
+          "provider": "tokenContracts"
+        }
+      },
+      "elements": [
+        {
+          "type": "AttributeGroup",
+          "label": "Token",
+          "scope": "#/properties/nameGroup",
+          "elements": [
+            {
+              "type": "Attribute",
+              "label": "ID",
+              "scope": "#/properties/id",
+              "options": {
+                "route": "token",
+                "format": "link",
+                "linkParams": ["id"],
+                "mapping": "name",
+                "mappings": {
+                  "id": "id"
+                }
+              }
+            },
+            {
+              "type": "Attribute",
+              "scope": "#/properties/symbol",
+              "mapping": "symbol"
+            }
+          ]
+        },
+        {
+          "type": "Attribute",
+          "label": "Symbol",
+          "scope": "#/properties/symbol"
+        },
+        {
+          "type": "Attribute",
+          "label": "Total supply",
+          "scope": "#/properties/totalSupply",
+          "options": {
+            "format": "tokenAmount",
+            "mappings": {
+              "contract.id": "id",
+              "contract.name": "name",
+              "contract.symbol": "symbol",
+              "contract.decimals": "decimals"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

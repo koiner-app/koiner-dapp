@@ -167,7 +167,6 @@ export type BlockProducer = {
   addressId: Scalars['String'];
   balance: Scalars['Float'];
   blocksProduced: Scalars['Float'];
-  contract: TokenContract;
   contractId: Scalars['String'];
   /** Timestamp as to when this entity was created */
   createdAt: Scalars['DateTime'];
@@ -224,12 +223,10 @@ export type BlockReceipt = {
 export type BlockReward = {
   __typename?: 'BlockReward';
   blockHeight: Scalars['Float'];
-  burnedContract?: Maybe<TokenContract>;
   burnedContractId?: Maybe<Scalars['String']>;
   burnedValue?: Maybe<Scalars['Float']>;
   burner?: Maybe<Address>;
   burnerId?: Maybe<Scalars['String']>;
-  contract: TokenContract;
   contractId: Scalars['String'];
   /** Timestamp as to when this entity was created */
   createdAt: Scalars['DateTime'];
@@ -269,10 +266,8 @@ export type BlockRewardsFilter = {
   AND?: InputMaybe<Array<BlockRewardsFilter>>;
   OR?: InputMaybe<Array<BlockRewardsFilter>>;
   blockHeight?: InputMaybe<NumericFilter>;
-  burnedContractId?: InputMaybe<StringFilter>;
   burnedValue?: InputMaybe<NumericFilter>;
   burnerId?: InputMaybe<StringFilter>;
-  contractId?: InputMaybe<StringFilter>;
   producerId?: InputMaybe<StringFilter>;
   roi?: InputMaybe<NumericFilter>;
   search?: InputMaybe<StringFilter>;
@@ -386,6 +381,7 @@ export type ContractEventsConnection = {
 export type ContractEventsFilter = {
   AND?: InputMaybe<Array<ContractEventsFilter>>;
   OR?: InputMaybe<Array<ContractEventsFilter>>;
+  blockHeight?: InputMaybe<NumericFilter>;
   contractId?: InputMaybe<StringFilter>;
   contractStandardType?: InputMaybe<StringFilter>;
   id?: InputMaybe<StringFilter>;
@@ -424,8 +420,6 @@ export type ContractOperationBulkResult = {
   item?: Maybe<ContractOperationWithDetails>;
 };
 
-export type ContractOperationDetailsUnion = TokenOperation;
-
 export type ContractOperationEdge = {
   __typename?: 'ContractOperationEdge';
   cursor: Scalars['String'];
@@ -434,14 +428,13 @@ export type ContractOperationEdge = {
 
 export type ContractOperationWithDetails = {
   __typename?: 'ContractOperationWithDetails';
-  args: Scalars['String'];
+  args?: Maybe<Scalars['String']>;
   blockHeight: Scalars['Int'];
   contract: Contract;
   contractId: Scalars['String'];
   contractStandardType?: Maybe<ContractStandardType>;
   /** Timestamp as to when this entity was created */
   createdAt: Scalars['DateTime'];
-  details?: Maybe<ContractOperationDetailsUnion>;
   entryPoint: Scalars['Float'];
   /** Globally unique identifier for this entity */
   id: Scalars['ID'];
@@ -462,6 +455,7 @@ export type ContractOperationsConnection = {
 export type ContractOperationsFilter = {
   AND?: InputMaybe<Array<ContractOperationsFilter>>;
   OR?: InputMaybe<Array<ContractOperationsFilter>>;
+  blockHeight?: InputMaybe<NumericFilter>;
   contractId?: InputMaybe<StringFilter>;
   entryPoint?: InputMaybe<NumericFilter>;
   id?: InputMaybe<StringFilter>;
@@ -479,7 +473,7 @@ export type ContractOperationsSortInput = {
   field: ContractOperationsSortField;
 };
 
-/** Token Standard type */
+/** Contract Standard type */
 export enum ContractStandardType {
   Token = 'token'
 }
@@ -552,6 +546,7 @@ export type EventsConnection = {
 export type EventsFilter = {
   AND?: InputMaybe<Array<EventsFilter>>;
   OR?: InputMaybe<Array<EventsFilter>>;
+  blockHeight?: InputMaybe<NumericFilter>;
   contractId?: InputMaybe<StringFilter>;
   id?: InputMaybe<StringFilter>;
   impacted?: InputMaybe<StringFilter>;
@@ -915,12 +910,6 @@ export type StringFilter = {
   iContains?: InputMaybe<Scalars['String']>;
 };
 
-export type Subscription = {
-  __typename?: 'Subscription';
-  blockCreated: Block;
-  blockRewardCreated: BlockReward;
-};
-
 export type SystemCallOperation = {
   __typename?: 'SystemCallOperation';
   callId: Scalars['Float'];
@@ -1020,7 +1009,6 @@ export type TokenContractsSortInput = {
 export type TokenEvent = {
   __typename?: 'TokenEvent';
   contract: TokenContract;
-  contractEvent: ContractEvent;
   contractId?: Maybe<Scalars['String']>;
   /** Timestamp as to when this entity was created */
   createdAt: Scalars['DateTime'];
@@ -1350,6 +1338,17 @@ export type TokenContractsSearchQueryVariables = Exact<{
 
 export type TokenContractsSearchQuery = { __typename?: 'Query', tokenContracts: { __typename?: 'TokenContractsConnection', totalCount: number, edges: Array<{ __typename: 'TokenContractEdge', cursor: string, node: { __typename?: 'TokenContract', id: string, name: string, symbol: string, decimals: number, totalSupply: number, timestamp: number } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null, endCursor?: string | null } } };
 
+export type TokenEventsSearchQueryVariables = Exact<{
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  filter?: InputMaybe<TokenEventsFilter>;
+  sort?: InputMaybe<Array<TokenEventsSortInput> | TokenEventsSortInput>;
+}>;
+
+
+export type TokenEventsSearchQuery = { __typename?: 'Query', tokenEvents: { __typename?: 'TokenEventsConnection', totalCount: number, edges: Array<{ __typename: 'TokenEventEdge', cursor: string, node: { __typename?: 'TokenEvent', id: string, from?: string | null, to?: string | null, value: number, name: string, timestamp: number, contract: { __typename?: 'TokenContract', id: string, name: string, symbol: string, decimals: number } } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null, endCursor?: string | null } } };
+
 export type TokenHoldersSearchQueryVariables = Exact<{
   after?: InputMaybe<Scalars['String']>;
   before?: InputMaybe<Scalars['String']>;
@@ -1378,6 +1377,13 @@ export type GetTokenLayoutQueryVariables = Exact<{
 
 
 export type GetTokenLayoutQuery = { __typename?: 'Query', tokenContract: { __typename?: 'TokenContract', id: string, name: string, symbol: string, decimals: number } };
+
+export type BlockPageQueryVariables = Exact<{
+  height: Scalars['ID'];
+}>;
+
+
+export type BlockPageQuery = { __typename?: 'Query', block: { __typename?: 'Block', id: string, signature: string, transactionCount: number, createdAt: any, updatedAt: any, header: { __typename?: 'BlockHeader', height: number, previous: string, previousStateMerkleRoot?: string | null, signer: string, timestamp: number, transactionMerkleRoot?: string | null }, receipt: { __typename?: 'BlockReceipt', diskStorageUsed: number, networkBandwidthUsed: number, computeBandwidthUsed: number, eventCount: number }, reward?: { __typename?: 'BlockReward', producerId: string, value: number, burnedValue?: number | null } | null } };
 
 export type TransactionPageQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -1669,6 +1675,47 @@ export const TokenContractsSearchDocument = gql`
 export function useTokenContractsSearchQuery(options: Omit<Urql.UseQueryArgs<never, TokenContractsSearchQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<TokenContractsSearchQuery>({ query: TokenContractsSearchDocument, ...options });
 };
+export const TokenEventsSearchDocument = gql`
+    query TokenEventsSearch($after: String, $before: String, $first: Int, $filter: TokenEventsFilter, $sort: [TokenEventsSortInput!]) {
+  tokenEvents(
+    after: $after
+    before: $before
+    first: $first
+    filter: $filter
+    sort: $sort
+  ) {
+    totalCount
+    edges {
+      cursor
+      node {
+        id
+        contract {
+          id
+          name
+          symbol
+          decimals
+        }
+        from
+        to
+        value
+        name
+        timestamp
+      }
+      __typename
+    }
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+  }
+}
+    `;
+
+export function useTokenEventsSearchQuery(options: Omit<Urql.UseQueryArgs<never, TokenEventsSearchQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<TokenEventsSearchQuery>({ query: TokenEventsSearchDocument, ...options });
+};
 export const TokenHoldersSearchDocument = gql`
     query TokenHoldersSearch($after: String, $before: String, $first: Int, $filter: TokenHoldersFilter, $sort: [TokenHoldersSortInput!]) {
   tokenHolders(
@@ -1763,6 +1810,40 @@ export const GetTokenLayoutDocument = gql`
 
 export function useGetTokenLayoutQuery(options: Omit<Urql.UseQueryArgs<never, GetTokenLayoutQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<GetTokenLayoutQuery>({ query: GetTokenLayoutDocument, ...options });
+};
+export const BlockPageDocument = gql`
+    query BlockPage($height: ID!) {
+  block(height: $height) {
+    header {
+      height
+      previous
+      previousStateMerkleRoot
+      signer
+      timestamp
+      transactionMerkleRoot
+    }
+    receipt {
+      diskStorageUsed
+      networkBandwidthUsed
+      computeBandwidthUsed
+      eventCount
+    }
+    reward {
+      producerId
+      value
+      burnedValue
+    }
+    id
+    signature
+    transactionCount
+    createdAt
+    updatedAt
+  }
+}
+    `;
+
+export function useBlockPageQuery(options: Omit<Urql.UseQueryArgs<never, BlockPageQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<BlockPageQuery>({ query: BlockPageDocument, ...options });
 };
 export const TransactionPageDocument = gql`
     query TransactionPage($id: ID!) {

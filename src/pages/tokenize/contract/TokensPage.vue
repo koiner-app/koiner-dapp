@@ -1,23 +1,15 @@
 <template>
   <q-page class="row items-baseline justify-evenly">
-    <q-card
-      class="table-card shadow-1"
-      style="
-        max-width: 1288px;
-        margin: 0 auto;
-        box-shadow: 0 0 20px rgb(0 0 0 / 8%);
-      "
-    >
+    <q-card class="table-card shadow-1">
       <q-card-section>
         <div class="row no-wrap items-center">
-          <div class="text-h6">Operations</div>
+          <div class="text-h6">Tokens</div>
           <q-space />
+          <search-filters
+            :request="request"
+            search-placeholder="Search token name, symbol or contract id"
+          />
         </div>
-
-        <search-filters
-          :request="request"
-          search-placeholder="Search by from/to addresses, operation name/id, contract id or transaction id"
-        />
 
         <q-json-search
           :schema="schema"
@@ -35,30 +27,30 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import { useSearchStore } from 'stores/search';
 import { KoinerRenderers } from '@koiner/renderers';
 import SearchFilters from '@appvise/search-manager/search-filters.vue';
 import QJsonSearch from '@appvise/q-json-forms/QJsonSearch.vue';
-import operationsSearchSchema from '@koiner/contract/token/search/token-operations-search.schema.json';
-import operationsSearchUiSchema from '@koiner/contract/token/search/view/token-operations-table.ui-schema.json';
-import { useSearchStore } from 'stores/search';
+import tokenContractsSearchSchema from '@koiner/tokenize/contract/search/token-contracts-search.schema.json';
+import tokenContractsSearchUiSchema from '@koiner/tokenize/contract/search/view/token-contracts-table.ui-schema.json';
 
 export default defineComponent({
-  name: 'TokenOperationsPage',
+  name: 'TokenContractsIndexPage',
   components: { SearchFilters, QJsonSearch },
 
   setup() {
     const searchStore = useSearchStore();
 
     const onScroll = (newScrollPosition: number) => {
-      searchStore.tokenOperations.position = newScrollPosition;
+      searchStore.tokenContracts.position = newScrollPosition;
     };
 
     return {
       onScroll,
-      schema: operationsSearchSchema,
-      uiSchema: operationsSearchUiSchema,
-      request: searchStore.tokenOperations.request,
-      position: searchStore.tokenOperations.position,
+      schema: tokenContractsSearchSchema,
+      uiSchema: tokenContractsSearchUiSchema,
+      request: searchStore.tokenContracts.request,
+      position: searchStore.tokenContracts.position,
       renderers: KoinerRenderers,
     };
   },

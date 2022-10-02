@@ -9,8 +9,9 @@
       <text
         id="Koiner"
         fill="#fff"
-        font-size="18"
+        font-size="20"
         font-family="Microsoft-Yi-Baiti, Microsoft Yi Baiti"
+        font-weight="600"
       >
         <tspan x="0" y="28">Koiner</tspan>
       </text>

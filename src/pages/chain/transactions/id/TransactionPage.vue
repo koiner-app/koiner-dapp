@@ -1,14 +1,6 @@
 <template>
   <q-page class="row items-baseline justify-evenly" style="padding-top: 8rem">
-    <q-card
-      class="table-card shadow-1"
-      style="
-        max-width: 1288px;
-        margin: 0 auto;
-        box-shadow: 0 0 20px rgb(0 0 0 / 8%);
-      "
-      v-if="transaction"
-    >
+    <q-card class="table-card shadow-1" v-if="transaction">
       <q-card-section>
         <div class="row no-wrap items-center">
           <div class="text-h6">Transaction overview</div>

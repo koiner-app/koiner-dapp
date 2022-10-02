@@ -7,9 +7,10 @@ import { TransactionsSearchProvider } from '@koiner/chain/transaction/search/tra
 import { OperationsSearchProvider } from '@koiner/chain/operation/search/operations-search-provider';
 import { ContractsSearchProvider } from '@koiner/contract/contract/search/contracts-search-provider';
 import { ContractOperationsSearchProvider } from '@koiner/contract/contract/search/contract-operations-search-provider';
-import { TokenContractsSearchProvider } from '@koiner/contract/token/search/token-contract-search-provider';
-import { TokenHoldersSearchProvider } from '@koiner/contract/token/search/token-holder-search-provider';
-import { TokenOperationsSearchProvider } from '@koiner/contract/token/search/token-operation-search-provider';
+import { TokenContractsSearchProvider } from '@koiner/tokenize/contract/search/token-contract-search-provider';
+import { TokenEventsSearchProvider } from '@koiner/tokenize/event/search/token-events-search-provider';
+import { TokenHoldersSearchProvider } from '@koiner/tokenize/holder/search/token-holder-search-provider';
+import { TokenOperationsSearchProvider } from '@koiner/tokenize/operation/search/token-operation-search-provider';
 
 export default boot(({ app }) => {
   app.use(searchClient, {
@@ -25,6 +26,7 @@ export default boot(({ app }) => {
       contracts: ContractsSearchProvider,
       contractOperations: ContractOperationsSearchProvider,
       tokenContracts: TokenContractsSearchProvider,
+      tokenEvents: TokenEventsSearchProvider,
       tokenHolders: TokenHoldersSearchProvider,
       tokenOperations: TokenOperationsSearchProvider,
     },

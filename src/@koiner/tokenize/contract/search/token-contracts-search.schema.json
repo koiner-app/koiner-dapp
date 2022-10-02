@@ -1,0 +1,31 @@
+{
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "nameGroup": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "symbol": {
+          "type": "string"
+        }
+      }
+    },
+    "symbol": {
+      "type": "string"
+    },
+    "decimals": {
+      "type": "number"
+    },
+    "totalSupply": {
+      "type": "number"
+    }
+  }
+}

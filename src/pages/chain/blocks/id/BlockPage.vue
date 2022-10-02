@@ -1,268 +1,271 @@
 <template>
   <q-page class="row items-baseline justify-evenly" style="padding-top: 8rem">
-    <!--    <q-card-->
-    <!--      class="table-card shadow-1"-->
-    <!--      style="-->
-    <!--        max-width: 1288px;-->
-    <!--        margin: 0 auto;-->
-    <!--        box-shadow: 0 0 20px rgb(0 0 0 / 8%);-->
-    <!--      "-->
-    <!--      v-if="block"-->
-    <!--    >-->
-    <!--      <q-card-section>-->
-    <!--        <div class="row no-wrap items-center">-->
-    <!--          <div class="text-h6">Block overview</div>-->
-    <!--        </div>-->
-    <!--      </q-card-section>-->
+    <q-card class="table-card shadow-1" v-if="block">
+      <q-card-section>
+        <div class="row no-wrap items-center">
+          <div class="text-h6">Block overview</div>
+        </div>
+      </q-card-section>
 
-    <!--      <q-card-section>-->
-    <!--        <q-list bordered class="rounded-borders">-->
-    <!--          <q-item>-->
-    <!--            <q-item-section class="col-2 gt-sm">-->
-    <!--              <q-item-label>Block Height:</q-item-label>-->
-    <!--            </q-item-section>-->
+      <q-card-section>
+        <q-list bordered class="rounded-borders">
+          <q-item>
+            <q-item-section class="col-2 gt-sm">
+              <q-item-label>Block Height:</q-item-label>
+            </q-item-section>
 
-    <!--            <q-item-section>-->
-    <!--              {{ block.header.height }}-->
-    <!--            </q-item-section>-->
-    <!--          </q-item>-->
+            <q-item-section>
+              {{ block.header.height }}
+            </q-item-section>
+          </q-item>
 
-    <!--          <q-separator inset="item" />-->
+          <q-separator inset="item" />
 
-    <!--          <q-item>-->
-    <!--            <q-item-section class="col-2 gt-sm">-->
-    <!--              <q-item-label>Block ID:</q-item-label>-->
-    <!--            </q-item-section>-->
+          <q-item>
+            <q-item-section class="col-2 gt-sm">
+              <q-item-label>Block ID:</q-item-label>
+            </q-item-section>
 
-    <!--            <q-item-section>-->
-    <!--              {{ block.id }}-->
-    <!--            </q-item-section>-->
-    <!--          </q-item>-->
+            <q-item-section>
+              {{ block.id }}
+            </q-item-section>
+          </q-item>
 
-    <!--          <q-separator inset="item" />-->
+          <q-separator inset="item" />
 
-    <!--          <q-item>-->
-    <!--            <q-item-section class="col-2 gt-sm">-->
-    <!--              <q-item-label>Timestamp</q-item-label>-->
-    <!--            </q-item-section>-->
-    <!--            <q-item-section-->
-    <!--              >19 secs ago (May-18-2022 05:34:03 PM +UTC)</q-item-section-->
-    <!--            >-->
-    <!--          </q-item>-->
+          <q-item>
+            <q-item-section class="col-2 gt-sm">
+              <q-item-label>Timestamp</q-item-label>
+            </q-item-section>
+            <q-item-section
+              >19 secs ago (May-18-2022 05:34:03 PM +UTC)</q-item-section
+            >
+          </q-item>
 
-    <!--          <q-separator inset="item" />-->
+          <q-separator inset="item" />
 
-    <!--          <q-item>-->
-    <!--            <q-item-section class="col-2 gt-sm">-->
-    <!--              <q-item-label>Transactions</q-item-label>-->
-    <!--            </q-item-section>-->
-    <!--            <q-item-section>-->
-    <!--              <div v-if="block.transactionCount > 0">-->
-    <!--                <q-btn-->
-    <!--                  :to="`/blocks/${height}/transactions`"-->
-    <!--                  flat-->
-    <!--                  class="q-pa-none"-->
-    <!--                  style="min-height: auto"-->
-    <!--                >-->
-    <!--                  <q-badge color="secondary" text-color="black"-->
-    <!--                    >{{ block.transactionCount }} transaction-->
-    <!--                    {{ block.transactionCount > 1 ? 's' : '' }}</q-badge-->
-    <!--                  >-->
-    <!--                </q-btn>-->
+          <q-item v-if="block.reward">
+            <q-item-section>
+              <q-item-label> Producer </q-item-label>
+            </q-item-section>
+            <q-item-section>
+              <span>
+                {{ tokenAmount(block.reward?.value, 8) }}
+                <router-link
+                  :to="{
+                    name: 'token',
+                    params: { id: '19JntSm8pSNETT9aHTwAUHC5RMoaSmgZPJ' },
+                  }"
+                >
+                  <span>
+                    tKOIN
+                    <q-tooltip :delay="500">Test Koinos</q-tooltip>
+                  </span>
+                </router-link>
+              </span>
+              <span>
+                {{ tokenAmount(block.reward?.burnedValue, 8) }}
+                <router-link
+                  :to="{
+                    name: 'token',
+                    params: { id: '1JZqj7dDrK5LzvdJgufYBJNUFo88xBoWC8' },
+                  }"
+                >
+                  <span>
+                    VHP
+                    <q-tooltip :delay="500">Virtual Hash Power</q-tooltip>
+                  </span>
+                </router-link>
+              </span>
+              <router-link
+                :to="{
+                  name: 'address',
+                  params: { id: block.reward.producerId },
+                }"
+              >
+                {{ block.reward?.producerId }}
+              </router-link>
+            </q-item-section>
+          </q-item>
 
-    <!--                and 4 contract internal transactions in this block-->
-    <!--              </div>-->
-    <!--              <div v-else>-->
-    <!--                <q-badge color="grey" text-color="black">No transactions</q-badge>-->
-    <!--              </div>-->
-    <!--            </q-item-section>-->
-    <!--          </q-item>-->
+          <q-item>
+            <q-item-section class="col-2 gt-sm">
+              <q-item-label>Transactions</q-item-label>
+            </q-item-section>
+            <q-item-section>
+              <div v-if="block.transactionCount > 0">
+                <q-btn
+                  :to="`/blocks/${height}/transactions`"
+                  flat
+                  class="q-pa-none"
+                  style="min-height: auto"
+                >
+                  <q-badge color="secondary" text-color="black"
+                    >{{ block.transactionCount }} transaction
+                    {{ block.transactionCount > 1 ? 's' : '' }}</q-badge
+                  >
+                </q-btn>
 
-    <!--          <q-separator v-if="block.reward" inset="item" />-->
+                and 4 contract internal transactions in this block
+              </div>
+              <div v-else>
+                <q-badge color="grey" text-color="black"
+                  >No transactions</q-badge
+                >
+              </div>
+            </q-item-section>
+          </q-item>
 
-    <!--          <q-item v-if="block.reward">-->
-    <!--            <q-item-section class="col-2 gt-sm">-->
-    <!--              <q-item-label>Produced by:</q-item-label>-->
-    <!--            </q-item-section>-->
-    <!--            <q-item-section-->
-    <!--              ><address-link :address="block.reward.producerId" />-->
-    <!--            </q-item-section>-->
-    <!--          </q-item>-->
+          <q-separator v-if="block.reward" inset="item" />
 
-    <!--          <q-separator v-if="block.reward" inset="item" />-->
+          <q-item v-if="block.reward">
+            <q-item-section class="col-2 gt-sm">
+              <q-item-label>Produced by:</q-item-label>
+            </q-item-section>
+            <q-item-section
+              ><address-link :address="block.reward.producerId" />
+            </q-item-section>
+          </q-item>
 
-    <!--          <q-item v-if="block.reward">-->
-    <!--            <q-item-section class="col-2 gt-sm">-->
-    <!--              <q-item-label>Block Reward:</q-item-label>-->
-    <!--            </q-item-section>-->
-    <!--            <q-item-section>-->
-    <!--              {{ block.reward.value }} {{ block.reward.contractId }}-->
-    <!--            </q-item-section>-->
-    <!--          </q-item>-->
+          <q-separator v-if="block.reward" inset="item" />
 
-    <!--          <q-separator inset="item" />-->
+          <q-item v-if="block.reward">
+            <q-item-section class="col-2 gt-sm">
+              <q-item-label>Block Reward:</q-item-label>
+            </q-item-section>
+            <q-item-section>
+              {{ block.reward.value }} {{ block.reward.contractId }}
+            </q-item-section>
+          </q-item>
 
-    <!--          <q-item>-->
-    <!--            <q-item-section class="col-2 gt-sm">-->
-    <!--              <q-item-label>Size:</q-item-label>-->
-    <!--            </q-item-section>-->
-    <!--            <q-item-section>12,257 bytes</q-item-section>-->
-    <!--          </q-item>-->
+          <q-separator inset="item" />
 
-    <!--          <q-separator inset="item" />-->
+          <q-item>
+            <q-item-section class="col-2 gt-sm">
+              <q-item-label>Size:</q-item-label>
+            </q-item-section>
+            <q-item-section>12,257 bytes</q-item-section>
+          </q-item>
 
-    <!--          <q-item>-->
-    <!--            <q-item-section class="col-2 gt-sm">-->
-    <!--              <q-item-label>Mana Used:</q-item-label>-->
-    <!--            </q-item-section>-->
-    <!--            <q-item-section>12,257 bytes</q-item-section>-->
-    <!--          </q-item>-->
+          <q-separator inset="item" />
 
-    <!--          <q-separator inset="item" />-->
+          <q-item>
+            <q-item-section class="col-2 gt-sm">
+              <q-item-label>Mana Used:</q-item-label>
+            </q-item-section>
+            <q-item-section>12,257 bytes</q-item-section>
+          </q-item>
 
-    <!--          <q-item>-->
-    <!--            <q-item-section class="col-2 gt-sm">-->
-    <!--              <q-item-label>Disk Storage Used:</q-item-label>-->
-    <!--            </q-item-section>-->
-    <!--            <q-item-section>-->
-    <!--              {{ block.receipt.diskStorageUsed }}-->
-    <!--            </q-item-section>-->
-    <!--          </q-item>-->
+          <q-separator inset="item" />
 
-    <!--          <q-separator inset="item" />-->
+          <q-item>
+            <q-item-section class="col-2 gt-sm">
+              <q-item-label>Disk Storage Used:</q-item-label>
+            </q-item-section>
+            <q-item-section>
+              {{ block.receipt.diskStorageUsed }}
+            </q-item-section>
+          </q-item>
 
-    <!--          <q-item>-->
-    <!--            <q-item-section class="col-2 gt-sm">-->
-    <!--              <q-item-label>Network Bandwidth Used:</q-item-label>-->
-    <!--            </q-item-section>-->
-    <!--            <q-item-section>-->
-    <!--              {{ block.receipt.networkBandwidthUsed }}-->
-    <!--            </q-item-section>-->
-    <!--          </q-item>-->
+          <q-separator inset="item" />
 
-    <!--          <q-separator inset="item" />-->
+          <q-item>
+            <q-item-section class="col-2 gt-sm">
+              <q-item-label>Network Bandwidth Used:</q-item-label>
+            </q-item-section>
+            <q-item-section>
+              {{ block.receipt.networkBandwidthUsed }}
+            </q-item-section>
+          </q-item>
 
-    <!--          <q-item>-->
-    <!--            <q-item-section class="col-2 gt-sm">-->
-    <!--              <q-item-label>Compute Bandwidth Used:</q-item-label>-->
-    <!--            </q-item-section>-->
-    <!--            <q-item-section>-->
-    <!--              {{ block.receipt.computeBandwidthUsed }}-->
-    <!--            </q-item-section>-->
-    <!--          </q-item>-->
+          <q-separator inset="item" />
 
-    <!--          <q-separator inset="item" />-->
+          <q-item>
+            <q-item-section class="col-2 gt-sm">
+              <q-item-label>Compute Bandwidth Used:</q-item-label>
+            </q-item-section>
+            <q-item-section>
+              {{ block.receipt.computeBandwidthUsed }}
+            </q-item-section>
+          </q-item>
 
-    <!--          <q-item>-->
-    <!--            <q-item-section class="col-2 gt-sm">-->
-    <!--              <q-item-label>Events:</q-item-label>-->
-    <!--            </q-item-section>-->
-    <!--            <q-item-section>-->
-    <!--              {{ block.receipt.eventCount }}-->
-    <!--            </q-item-section>-->
-    <!--          </q-item>-->
-    <!--        </q-list>-->
-    <!--      </q-card-section>-->
-    <!--    </q-card>-->
+          <q-separator inset="item" />
+
+          <q-item>
+            <q-item-section class="col-2 gt-sm">
+              <q-item-label>Events:</q-item-label>
+            </q-item-section>
+            <q-item-section>
+              {{ block.receipt.eventCount }}
+            </q-item-section>
+          </q-item>
+        </q-list>
+      </q-card-section>
+    </q-card>
   </q-page>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, Ref } from 'vue';
+import { defineComponent, ref, Ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
-// import gql from 'graphql-tag';
-import { useAccountStore } from 'stores/account';
-// import { Block } from '@koiner/chain/block/block';
-// import { ApolloClient } from '@apollo/client/core';
-// import { useApolloClient } from '@vue/apollo-composable';
-// import AddressLink from '@koiner/chain/address/AddressLink.vue';
-
-// const gqlGetBlock = gql`
-//   query getBlock($height: ID!) {
-//     block(height: $height) {
-//       header {
-//         height
-//         previous
-//         previousStateMerkleRoot
-//         signer
-//         timestamp
-//         transactionMerkleRoot
-//       }
-//       receipt {
-//         diskStorageUsed
-//         networkBandwidthUsed
-//         computeBandwidthUsed
-//         eventCount
-//       }
-//       reward {
-//         producerId
-//         value
-//         contractId
-//       }
-//       id
-//       signature
-//       transactionCount
-//       createdAt
-//       updatedAt
-//     }
-//   }
-// `;
+import { ItemState } from '@appvise/search-manager';
+import { Block, useBlockPageQuery } from '@koiner/sdk';
+import { round } from 'lodash';
 
 export default defineComponent({
   name: 'BlockPage',
   // components: { AddressLink },
   setup() {
     let height: Ref<string | string[] | undefined> = ref();
+    const itemState = ItemState.create<Block>();
+    const variables: Ref<{ height: string }> = ref({ height: '' });
     const route = useRoute();
-    const account = useAccountStore();
+
+    // const account = useAccountStore();
     // const block: Ref<Block | undefined> = ref();
-    //
-    // const apolloClient: ApolloClient<any> = useApolloClient().client;
-    //
-    // const executeQuery = () => {
-    //   apolloClient
-    //     .query({
-    //       query: gqlGetBlock,
-    //       variables: {
-    //         height: height.value,
-    //       },
-    //     })
-    //     .then((response: any) => {
-    //       const data = response.data.block;
-    //
-    //       block.value = {
-    //         id: data.id,
-    //         header: {
-    //           height: data.header.height,
-    //           previous: data.header.previous,
-    //           previousStateMerkleRoot: data.header.previousStateMerkleRoot,
-    //           signer: data.header.signer,
-    //           timestamp: data.header.timestamp,
-    //           transactionMerkleRoot: data.header.transactionMerkleRoot,
-    //         },
-    //         receipt: {
-    //           diskStorageUsed: data.receipt.diskStorageUsed,
-    //           networkBandwidthUsed: data.receipt.networkBandwidthUsed,
-    //           computeBandwidthUsed: data.receipt.computeBandwidthUsed,
-    //           eventCount: data.receipt.eventCount,
-    //         },
-    //         signature: data.signature,
-    //         transactionCount: data.transactionCount,
-    //         reward: data.reward
-    //           ? {
-    //               producerId: data.reward.producerId,
-    //               value: data.reward.value,
-    //               contractId: data.reward.contractId,
-    //             }
-    //           : undefined,
-    //       } as Block;
-    //     });
-    // };
-    //
-    // onMounted(async () => {
-    //   height.value = route.params.height;
-    //   executeQuery();
-    // });
+
+    const executeQuery = () => {
+      const { data, fetching, error, isPaused } = useBlockPageQuery({
+        variables,
+      });
+
+      watch(data, (updatedData) => {
+        itemState.item.value = updatedData?.block as Block;
+      });
+
+      itemState.error = error;
+      itemState.fetching = fetching;
+      itemState.isPaused = isPaused;
+    };
+
+    variables.value.height = route.params.height.toString();
+
+    executeQuery();
+
+    // Workaround to reactivate urql to resume on a re-entering of page
+    // TODO: Find out why this is necessary
+    itemState.isPaused.value = true;
+    itemState.isPaused.value = false;
+
+    watch(
+      () => route.params.height,
+      async (newHeight) => {
+        itemState.isPaused.value = !newHeight;
+        variables.value.height = newHeight ? newHeight.toString() : '';
+      }
+    );
+
+    const tokenAmount = (units: number, decimals: number): number => {
+      return round(units / Math.pow(10, decimals), decimals);
+    };
+
+    return {
+      tokenAmount,
+      itemState,
+      block: itemState.item,
+      error: itemState.error,
+    };
+
     //
     // watch(
     //   () => route.params.height,
@@ -273,11 +276,11 @@ export default defineComponent({
     //   }
     // );
 
-    return {
-      height,
-      // account,
-      // block,
-    };
+    // return {
+    //   height,
+    //   // account,
+    //   // block,
+    // };
   },
 });
 </script>

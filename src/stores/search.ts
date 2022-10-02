@@ -1,9 +1,21 @@
 import { defineStore } from 'pinia';
-import { SearchRequestType } from '@appvise/search-manager';
+import {
+  AddressesSearchQueryVariables,
+  BlocksSearchQueryVariables,
+  ContractOperationsSearchQueryVariables,
+  ContractsSearchQueryVariables,
+  EventsSearchQueryVariables,
+  OperationsSearchQueryVariables,
+  TokenContractsSearchQueryVariables,
+  TokenEventsSearchQueryVariables,
+  TokenHoldersSearchQueryVariables,
+  TokenOperationsSearchQueryVariables,
+  TransactionsSearchQueryVariables,
+} from '@koiner/sdk';
 
-export interface SearchStoreEntry {
+export interface SearchStoreEntry<RequestType> {
   position: number;
-  request: SearchRequestType;
+  request: RequestType;
 }
 export const useSearchStore = defineStore({
   id: 'search',
@@ -12,44 +24,56 @@ export const useSearchStore = defineStore({
     addresses: {
       position: 0,
       request: {},
-    } as SearchStoreEntry,
+    } as SearchStoreEntry<AddressesSearchQueryVariables>,
     blocks: {
       position: 0,
       request: {},
-    } as SearchStoreEntry,
+    } as SearchStoreEntry<BlocksSearchQueryVariables>,
     events: {
       position: 0,
       request: {},
-    } as SearchStoreEntry,
+    } as SearchStoreEntry<EventsSearchQueryVariables>,
     transactions: {
       position: 0,
       request: {},
-    } as SearchStoreEntry,
+    } as SearchStoreEntry<TransactionsSearchQueryVariables>,
     operations: {
       position: 0,
-      request: {},
-    } as SearchStoreEntry,
+      request: {
+        filter: {
+          OR: [
+            { type: { equals: 'systemCall' } },
+            { type: { equals: 'systemContract' } },
+            { type: { equals: 'uploadContract' } },
+          ],
+        },
+      },
+    } as SearchStoreEntry<OperationsSearchQueryVariables>,
 
     // Contracts
     contracts: {
       position: 0,
       request: {},
-    } as SearchStoreEntry,
+    } as SearchStoreEntry<ContractsSearchQueryVariables>,
     contractOperations: {
       position: 0,
       request: {},
-    } as SearchStoreEntry,
+    } as SearchStoreEntry<ContractOperationsSearchQueryVariables>,
     tokenHolders: {
       position: 0,
       request: {},
-    } as SearchStoreEntry,
+    } as SearchStoreEntry<TokenHoldersSearchQueryVariables>,
     tokenContracts: {
       position: 0,
       request: {},
-    } as SearchStoreEntry,
+    } as SearchStoreEntry<TokenContractsSearchQueryVariables>,
+    tokenEvents: {
+      position: 0,
+      request: {},
+    } as SearchStoreEntry<TokenEventsSearchQueryVariables>,
     tokenOperations: {
       position: 0,
       request: {},
-    } as SearchStoreEntry,
+    } as SearchStoreEntry<TokenOperationsSearchQueryVariables>,
   }),
 });

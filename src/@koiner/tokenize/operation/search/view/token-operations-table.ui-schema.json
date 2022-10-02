@@ -1,0 +1,78 @@
+{
+  "type": "object",
+  "elements": [
+    {
+      "type": "TableView",
+      "options": {
+        "search": {
+          "provider": "tokenEvents"
+        }
+      },
+      "elements": [
+        {
+          "type": "Attribute",
+          "label": "Age",
+          "scope": "#/properties/timestamp",
+          "options": {
+            "format": "age",
+            "mapping": "timestamp"
+          }
+        },
+        {
+          "type": "Attribute",
+          "label": "From",
+          "scope": "#/properties/from",
+          "options": {
+            "format": "address",
+            "mapping": "from"
+          }
+        },
+        {
+          "type": "Attribute",
+          "scope": "#/properties/name",
+          "options": {
+            "format": "tokenEventName"
+          }
+        },
+        {
+          "type": "Attribute",
+          "label": "To",
+          "scope": "#/properties/to",
+          "options": {
+            "format": "address",
+            "mapping": "to"
+          }
+        },
+        {
+          "type": "Attribute",
+          "label": "Value",
+          "scope": "#/properties/value",
+          "options": {
+            "format": "tokenAmount",
+            "mappings": {
+              "contract.id": "contract.id",
+              "contract.name": "contract.name",
+              "contract.symbol": "contract.symbol",
+              "contract.decimals": "contract.decimals"
+            }
+          }
+        },
+        {
+          "type": "Attribute",
+          "label": "Token",
+          "scope": "#/properties/contractId",
+          "mapping": "contract.id",
+          "options": {
+            "format": "token",
+            "mappings": {
+              "contract.id": "contract.id",
+              "contract.name": "contract.name",
+              "contract.symbol": "contract.symbol",
+              "contract.decimals": "contract.decimals"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

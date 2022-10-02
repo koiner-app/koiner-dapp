@@ -21,6 +21,9 @@
     },
     "timestamp": {
       "type": "number"
+    },
+    "contractId": {
+      "type": "string"
     }
   }
 }

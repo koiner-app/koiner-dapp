@@ -5,15 +5,10 @@
       "type": "TableView",
       "options": {
         "search": {
-          "provider": "tokenOperations"
+          "provider": "tokenEvents"
         }
       },
       "elements": [
-        {
-          "type": "Attribute",
-          "label": "Name",
-          "scope": "#/properties/name"
-        },
         {
           "type": "Attribute",
           "label": "Age",
@@ -25,24 +20,18 @@
         },
         {
           "type": "Attribute",
-          "label": "Txn Hash",
-          "scope": "#/properties/transactionId",
+          "label": "From",
+          "scope": "#/properties/from",
           "options": {
-            "route": "transaction",
-            "format": "link",
-            "linkParams": ["id"],
-            "mapping": "transactionId",
-            "mappings": {
-              "id": "transactionId"
-            }
+            "format": "address",
+            "mapping": "from"
           }
         },
         {
           "type": "Attribute",
-          "label": "From",
-          "scope": "#/properties/from",
+          "scope": "#/properties/name",
           "options": {
-            "format": "address"
+            "format": "tokenEventName"
           }
         },
         {
@@ -50,14 +39,31 @@
           "label": "To",
           "scope": "#/properties/to",
           "options": {
-            "format": "address"
+            "format": "address",
+            "mapping": "to"
           }
         },
         {
           "type": "Attribute",
+          "label": "Value",
           "scope": "#/properties/value",
           "options": {
             "format": "tokenAmount",
+            "mappings": {
+              "contract.id": "contract.id",
+              "contract.name": "contract.name",
+              "contract.symbol": "contract.symbol",
+              "contract.decimals": "contract.decimals"
+            }
+          }
+        },
+        {
+          "type": "Attribute",
+          "label": "Token",
+          "scope": "#/properties/contractId",
+          "mapping": "contract.id",
+          "options": {
+            "format": "token",
             "mappings": {
               "contract.id": "contract.id",
               "contract.name": "contract.name",

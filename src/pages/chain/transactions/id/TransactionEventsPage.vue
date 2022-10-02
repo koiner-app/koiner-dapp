@@ -1,20 +1,12 @@
 <template>
   <q-page class="row items-baseline justify-evenly">
-    <q-card
-      class="table-card shadow-1"
-      style="
-        max-width: 1288px;
-        margin: 0 auto;
-        box-shadow: 0 0 20px rgb(0 0 0 / 8%);
-      "
-    >
+    <q-card class="table-card shadow-1">
       <q-card-section>
         <div class="row no-wrap items-center">
           <div class="text-h6">Events</div>
           <q-space />
+          <search-filters :request="request" />
         </div>
-
-        <search-filters :request="request" />
 
         <q-json-search
           :schema="schema"
@@ -29,14 +21,14 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, onMounted, ref, Ref} from 'vue';
+import { defineComponent, onMounted, ref, Ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { KoinerRenderers } from '@koiner/renderers';
 import SearchFilters from '@appvise/search-manager/search-filters.vue';
 import QJsonSearch from '@appvise/q-json-forms/QJsonSearch.vue';
 import eventsSearchSchema from '@koiner/chain/event/search/events-search.schema.json';
 import eventsSearchUiSchema from '@koiner/chain/event/search/view/events-table.ui-schema.json';
-import {QueryEventsArgs} from '@koiner/sdk';
+import { QueryEventsArgs } from '@koiner/sdk';
 
 export default defineComponent({
   name: 'TransactionEventsPage',

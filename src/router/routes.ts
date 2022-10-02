@@ -1,4 +1,14 @@
 import { RouteRecordRaw } from 'vue-router';
+import { addressesRoutes } from 'src/router/chain/addresses-routes';
+import { blocksRoutes } from 'src/router/chain/blocks-routes';
+import { eventsRoutes } from 'src/router/chain/events-routes';
+import { operationsRoutes } from 'src/router/chain/operations-routes';
+import { transactionsRoutes } from 'src/router/chain/transactions-routes';
+import { contractsRoutes } from 'src/router/contracts/contracts-routes';
+import { networkRoutes } from 'src/router/network/network-routes';
+import { tokenContractRoutes } from 'src/router/tokenize/token-routes';
+import { tokensContractRoutes } from 'src/router/tokenize/tokens-routes';
+import { userAccountRoutes } from 'src/router/user/user-routes';
 
 const routes: RouteRecordRaw[] = [
   {
@@ -21,49 +31,7 @@ const routes: RouteRecordRaw[] = [
         component: () => import('pages/dashboard/DashboardIndexPage.vue'),
       },
 
-      // Address
-      {
-        path: '/addresses',
-        component: () => import('layouts/chain/ChainLayout.vue'),
-        children: [
-          {
-            name: 'addresses',
-            path: '',
-            component: () =>
-              import('pages/chain/addresses/AddressesIndexPage.vue'),
-          },
-        ],
-      },
-      {
-        path: '/addresses/:id',
-        component: () => import('layouts/chain/AddressLayout.vue'),
-        children: [
-          {
-            name: 'address',
-            path: '/addresses/:id',
-            component: () =>
-              import('pages/chain/addresses/id/AddressIndexPage.vue'),
-          },
-          {
-            name: 'wallet',
-            path: '/addresses/:id/wallet',
-            component: () => import('pages/chain/addresses/id/WalletPage.vue'),
-          },
-          {
-            name: 'history',
-            path: '/addresses/:id/history',
-            component: () => import('pages/chain/addresses/id/HistoryPage.vue'),
-          },
-          {
-            name: 'vault',
-            path: '/addresses/:id/vault',
-            component: () =>
-              import('pages/chain/addresses/id/VaultIndexPage.vue'),
-          },
-        ],
-      },
-
-      // Chain overview
+      // Chain
       {
         path: '/chain',
         component: () => import('layouts/chain/ChainLayout.vue'),
@@ -75,229 +43,24 @@ const routes: RouteRecordRaw[] = [
           },
         ],
       },
-
-      // Blocks
-      {
-        path: '/blocks',
-        component: () => import('layouts/chain/ChainLayout.vue'),
-        children: [
-          {
-            name: 'blocks',
-            path: '',
-            component: () => import('pages/chain/blocks/BlocksIndexPage.vue'),
-          },
-          {
-            path: '/blocks',
-            component: () => import('layouts/chain/BlockLayout.vue'),
-            children: [
-              {
-                name: 'block',
-                path: '/blocks/:height',
-                component: () => import('pages/chain/blocks/id/BlockPage.vue'),
-              },
-              {
-                name: 'block.transactions',
-                path: '/blocks/:height/transactions',
-                component: () =>
-                  import('pages/chain/blocks/id/BlockTransactionsPage.vue'),
-              },
-              {
-                name: 'block.operations',
-                path: '/blocks/:height/operations',
-                component: () =>
-                  import('pages/chain/blocks/id/BlockOperationsPage.vue'),
-              },
-            ],
-          },
-        ],
-      },
-
-      // Events
-      {
-        path: '/events',
-        component: () => import('layouts/chain/ChainLayout.vue'),
-        children: [
-          {
-            name: 'events',
-            path: '',
-            component: () => import('pages/chain/events/EventsIndexPage.vue'),
-          },
-          {
-            name: 'event',
-            path: '/events/:id',
-            component: () => import('pages/chain/events/id/EventPage.vue'),
-          },
-        ],
-      },
-
-      // Transactions
-      {
-        path: '/transactions',
-        component: () => import('layouts/chain/ChainLayout.vue'),
-        children: [
-          {
-            name: 'transactions',
-            path: '',
-            component: () =>
-              import('pages/chain/transactions/TransactionsIndexPage.vue'),
-          },
-          {
-            name: 'transaction',
-            path: '/transactions/:id',
-            component: () => import('layouts/chain/TransactionLayout.vue'),
-            children: [
-              {
-                name: 'transaction',
-                path: '/',
-                component: () =>
-                  import('pages/chain/transactions/id/TransactionPage.vue'),
-              },
-              {
-                name: 'transaction.operations',
-                path: '/transactions/:id/operations',
-                component: () =>
-                  import(
-                    'pages/chain/transactions/id/TransactionOperationsPage.vue'
-                  ),
-              },
-              {
-                name: 'transaction.events',
-                path: '/transactions/:id/events',
-                component: () =>
-                  import(
-                    'pages/chain/transactions/id/TransactionEventsPage.vue'
-                  ),
-              },
-            ],
-          },
-        ],
-      },
+      ...addressesRoutes,
+      ...blocksRoutes,
+      ...eventsRoutes,
+      ...operationsRoutes,
+      ...transactionsRoutes,
 
       // Contracts
-      {
-        path: '/contracts',
-        component: () => import('layouts/contracts/ContractsLayout.vue'),
-        children: [
-          {
-            name: 'contracts',
-            path: '',
-            component: () => import('pages/contracts/ContractsIndexPage.vue'),
-          },
-          {
-            name: 'contracts.operations',
-            path: '/contracts/operations',
-            component: () =>
-              import('pages/contracts/ContractsOperationsPage.vue'),
-          },
-          {
-            name: 'contracts.standards',
-            path: '/contracts/standards',
-            component: () =>
-              import('pages/contracts/ContractStandardsPage.vue'),
-          },
+      ...contractsRoutes,
 
-          // Contract
-          {
-            path: '/contracts/:id',
-            component: () => import('layouts/contracts/ContractLayout.vue'),
-            children: [
-              {
-                name: 'contract',
-                path: '',
-                component: () => import('pages/contracts/id/ContractPage.vue'),
-              },
-              {
-                name: 'contract-contract.operations',
-                path: '/contracts/:id/operations',
-                component: () =>
-                  import('pages/contracts/id/ContractOperationsPage.vue'),
-              },
-            ],
-          },
-        ],
-      },
+      // Network
+      ...networkRoutes,
 
-      // Operations
-      {
-        path: '/operations',
-        component: () => import('layouts/chain/ChainLayout.vue'),
-        children: [
-          {
-            name: 'operations',
-            path: '',
-            component: () =>
-              import('pages/chain/operations/OperationsIndexPage.vue'),
-          },
-          {
-            name: 'operation',
-            path: '/operations/:id',
-            component: () =>
-              import('pages/chain/operations/id/OperationPage.vue'),
-          },
-        ],
-      },
+      // Tokenize
+      ...tokenContractRoutes,
+      ...tokensContractRoutes,
 
-      // Tokens
-      {
-        path: '/tokens',
-        component: () => import('layouts/token/TokensLayout.vue'),
-        children: [
-          {
-            name: 'tokens',
-            path: '',
-            component: () => import('pages/tokens/default/TokensPage.vue'),
-          },
-          {
-            name: 'tokens.operations',
-            path: '/tokens/operations',
-            component: () =>
-              import('pages/tokens/default/TokensOperationsPage.vue'),
-          },
-        ],
-      },
-
-      // Token
-      {
-        path: '/tokens/:id',
-        component: () => import('layouts/token/TokenLayout.vue'),
-        children: [
-          {
-            name: 'token',
-            path: '',
-            component: () => import('pages/tokens/default/id/TokenPage.vue'),
-          },
-          {
-            name: 'token-token.operations',
-            path: '/tokens/:id/operations',
-            component: () =>
-              import('pages/tokens/default/id/TokenOperationsPage.vue'),
-          },
-          {
-            name: 'token-token.balances',
-            path: '/tokens/:id/holders',
-            component: () =>
-              import('pages/tokens/default/id/TokenHoldersPage.vue'),
-          },
-        ],
-      },
-
-      // Account
-      {
-        path: '/account',
-        component: () => import('layouts/AccountLayout.vue'),
-        children: [
-          {
-            name: 'account',
-            path: '',
-            component: () => import('pages/account/AccountIndexPage.vue'),
-          },
-          {
-            name: 'account.addresses',
-            path: '/account/addresses',
-            component: () => import('pages/account/AccountAddressesPage.vue'),
-          },
-        ],
-      },
+      // User
+      ...userAccountRoutes,
     ],
   },
 

@@ -1,23 +1,15 @@
 <template>
   <q-page class="row items-baseline justify-evenly">
-    <q-card
-      class="table-card shadow-1"
-      style="
-        max-width: 1288px;
-        margin: 0 auto;
-        box-shadow: 0 0 20px rgb(0 0 0 / 8%);
-      "
-    >
+    <q-card class="table-card shadow-1">
       <q-card-section>
         <div class="row no-wrap items-center">
           <div class="text-h6">Tokens</div>
           <q-space />
+          <search-filters
+            :request="request"
+            search-placeholder="Search by address id"
+          />
         </div>
-
-        <search-filters
-          :request="request"
-          search-placeholder="Search by address id"
-        />
 
         <q-json-search
           :schema="schema"
@@ -37,8 +29,8 @@ import { useRoute } from 'vue-router';
 import { KoinerRenderers } from '@koiner/renderers';
 import SearchFilters from '@appvise/search-manager/search-filters.vue';
 import QJsonSearch from '@appvise/q-json-forms/QJsonSearch.vue';
-import tokenHoldersSearchSchema from '@koiner/contract/token/search/token-holders-search.schema.json';
-import addressTokenHoldersSearchUiSchema from '@koiner/contract/token/search/view/address-tokens-table.ui-schema.json';
+import tokenHoldersSearchSchema from '@koiner/tokenize/holder/search/token-holders-search.schema.json';
+import addressTokenHoldersSearchUiSchema from '@koiner/tokenize/holder/search/view/address-tokens-table.ui-schema.json';
 import { QueryTokenHoldersArgs } from '@koiner/sdk';
 
 export default defineComponent({

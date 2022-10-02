@@ -1,23 +1,15 @@
 <template>
   <q-page class="row items-baseline justify-evenly">
-    <q-card
-      class="table-card shadow-1"
-      style="
-        max-width: 1288px;
-        margin: 0 auto;
-        box-shadow: 0 0 20px rgb(0 0 0 / 8%);
-      "
-    >
+    <q-card class="table-card shadow-1">
       <q-card-section>
         <div class="row no-wrap items-center">
-          <div class="text-h6">Operations</div>
+          <div class="text-h6">Block Producers</div>
           <q-space />
+          <search-filters
+            :request="request"
+            search-placeholder="Search by address id"
+          />
         </div>
-
-        <search-filters
-          :request="request"
-          search-placeholder="Search by from/to addresses, operation name/id or transaction id"
-        />
 
         <q-json-search
           :schema="schema"
@@ -37,16 +29,16 @@ import { useRoute } from 'vue-router';
 import { KoinerRenderers } from '@koiner/renderers';
 import SearchFilters from '@appvise/search-manager/search-filters.vue';
 import QJsonSearch from '@appvise/q-json-forms/QJsonSearch.vue';
-import tokenOperationsSearchSchema from '@koiner/contract/token/search/token-operations-search.schema.json';
-import tokenOperationsSearchUiSchema from '@koiner/contract/token/search/view/token-operations-table.ui-schema.json';
-import { QueryTokenOperationsArgs } from '@koiner/sdk';
+import tokenHoldersSearchSchema from '@koiner/tokenize/holder/search/token-holders-search.schema.json';
+import tokenHoldersSearchUiSchema from '@koiner/tokenize/holder/search/view/token-holders-table.ui-schema.json';
+import { QueryTokenHoldersArgs } from '@koiner/sdk';
 
 export default defineComponent({
-  name: 'TokenOperationsPage',
+  name: 'BlockProducersPage',
   components: { SearchFilters, QJsonSearch },
 
   setup() {
-    let request: Ref<QueryTokenOperationsArgs> = ref({ filter: {} });
+    let request: Ref<QueryTokenHoldersArgs> = ref({ filter: {} });
     let id: Ref<string | undefined> = ref();
     const route = useRoute();
 
@@ -58,8 +50,8 @@ export default defineComponent({
     });
 
     return {
-      schema: tokenOperationsSearchSchema,
-      uiSchema: tokenOperationsSearchUiSchema,
+      schema: tokenHoldersSearchSchema,
+      uiSchema: tokenHoldersSearchUiSchema,
       request: request,
       renderers: KoinerRenderers,
     };

@@ -2,12 +2,18 @@
   <div class="koiner-topbar fixed-top">
     <q-icon class="topbar-icon" name="toll"></q-icon>
     <div class="topbar-header">
-      <span class="selected-item">Tokens</span>
+      <span class="selected-item">Tokenize</span>
     </div>
 
     <div class="topbar-navigation">
       <q-tabs dense align="left" style="width: 100%">
         <q-route-tab :ripple="false" label="Tokens" to="/tokens" exact />
+        <q-route-tab
+          :ripple="false"
+          label="Events"
+          to="/tokens/events"
+          exact
+        />
         <q-route-tab
           :ripple="false"
           label="Operations"

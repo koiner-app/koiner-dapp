@@ -7,6 +7,7 @@
       :active="link === menuItem.to"
       :to="menuItem.to"
       clickable
+      :disable="menuItem.disabled"
     >
       <q-item-section avatar>
         <q-icon v-if="menuItem.icon != null" :name="menuItem.icon" />
@@ -30,21 +31,43 @@ export default defineComponent({
           name: 'Dashboard',
           to: '/dashboard',
           icon: 'dashboard',
+          disabled: true,
+        },
+        {
+          name: 'Saved',
+          to: '/bookmarks',
+          icon: 'star',
+          disabled: true,
         },
         {
           name: 'Chain',
           to: '/blocks',
           icon: 'token',
+          disabled: false,
         },
         {
-          name: 'Tokens',
+          name: 'Tokenize',
           to: '/tokens',
           icon: 'toll',
+          disabled: false,
         },
         {
           name: 'Contracts',
           to: '/contracts',
           icon: 'document_scanner',
+          disabled: false,
+        },
+        {
+          name: 'Network',
+          to: '/network',
+          icon: 'hub',
+          disabled: false,
+        },
+        {
+          name: 'Governance',
+          to: '/governance',
+          icon: 'how_to_vote',
+          disabled: true,
         },
       ],
     };
