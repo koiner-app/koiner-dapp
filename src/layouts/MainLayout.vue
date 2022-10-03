@@ -4,6 +4,7 @@
       <q-toolbar>
         <q-toolbar-title>
           <koiner-logo />
+          <history-navigator />
         </q-toolbar-title>
 
         <global-search />
@@ -52,10 +53,12 @@ import UserMenu from 'components/UserMenu.vue';
 import GlobalActionsMenu from 'components/GlobalActionsMenu.vue';
 import GlobalSearch from 'components/GlobalSearch.vue';
 import { useAccountStore } from 'stores/account';
+import HistoryNavigator from 'components/HistoryNavigator.vue';
 
 export default defineComponent({
   name: 'MainLayout',
   components: {
+    HistoryNavigator,
     GlobalSearch,
     GlobalActionsMenu,
     UserMenu,
