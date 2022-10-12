@@ -1,0 +1,41 @@
+query ContractOperationsSearch(
+  $after: String
+  $before: String
+  $first: Int
+  $filter: ContractOperationsFilter
+  $sort: [ContractOperationsSortInput!]
+) {
+  contractOperations(
+    after: $after
+    before: $before
+    first: $first
+    filter: $filter
+    sort: $sort
+  ) {
+    edges {
+      cursor
+      node {
+        id
+        blockHeight
+#        details {
+#          __typename
+#          ... on TokenOperation {
+#            from
+#            name
+#          }
+#        }
+        contractId
+        transactionId
+        contractStandardType
+        timestamp
+      }
+      __typename
+    }
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+  }
+}

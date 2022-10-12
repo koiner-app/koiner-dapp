@@ -1,0 +1,37 @@
+{
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "blockHeight": {
+      "type": "number"
+    },
+    "timestamp": {
+      "type": "number"
+    },
+    "producerId": {
+      "type": "string"
+    },
+    "reward": {
+      "properties": {
+        "value": {
+          "type": "number"
+        },
+        "contractId": {
+          "type": "string"
+        }
+      }
+    },
+    "burned": {
+      "properties": {
+        "burnedValue": {
+          "type": "number"
+        },
+        "burnedContractId": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

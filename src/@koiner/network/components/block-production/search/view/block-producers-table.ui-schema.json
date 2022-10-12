@@ -1,0 +1,37 @@
+{
+  "type": "object",
+  "elements": [
+    {
+      "type": "TableView",
+      "options": {
+        "search": {
+          "provider": "blockProducers"
+        }
+      },
+      "elements": [
+        {
+          "type": "Attribute",
+          "label": "Address",
+          "scope": "#/properties/addressId",
+          "options": {
+            "format": "address"
+          }
+        },
+        {
+          "type": "Attribute",
+          "label": "Block reward",
+          "scope": "#/properties/balance",
+          "options": {
+            "format": "koinTokenAmount",
+            "mapping": "balance"
+          }
+        },
+        {
+          "type": "Attribute",
+          "label": "Blocks produced",
+          "scope": "#/properties/blocksProduced"
+        }
+      ]
+    }
+  ]
+}

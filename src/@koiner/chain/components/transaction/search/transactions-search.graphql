@@ -1,0 +1,32 @@
+query TransactionsSearch(
+  $after: String
+  $before: String
+  $first: Int
+  $filter: TransactionsFilter
+  $sort: [TransactionsSortInput!]
+) {
+  transactions(
+    after: $after
+    before: $before
+    first: $first
+    filter: $filter
+    sort: $sort
+  ) {
+    edges {
+      cursor
+      node {
+        id
+        blockHeight
+        operationCount
+        timestamp
+      }
+      __typename
+    }
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+  }
+}

@@ -1,0 +1,31 @@
+query ContractsSearch(
+  $after: String
+  $before: String
+  $first: Int
+  $filter: ContractsFilter
+  $sort: [ContractsSortInput!]
+) {
+  contracts(
+    after: $after
+    before: $before
+    first: $first
+    filter: $filter
+    sort: $sort
+  ) {
+    edges {
+      cursor
+      node {
+        id
+        contractStandardType
+        timestamp
+      }
+      __typename
+    }
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+  }
+}

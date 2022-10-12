@@ -1,9 +1,11 @@
-import { KoinerChainRenderers } from '@koiner/chain/renderers';
-import { KoinerContractRenderers } from '@koiner/contract/renderers';
-import { KoinerTokenizeRenderers } from '@koiner/tokenize/renderers';
+import { KoinerChainRenderers } from '@koiner/chain/components/renderers';
+import { KoinerContractRenderers } from '@koiner/contracts/components/renderers';
+import { KoinerNetworkRenderers } from '@koiner/network/components/renderers';
+import { KoinerTokenizeRenderers } from '@koiner/tokenize/components/renderers';
 
 export const KoinerRenderers = [
   ...KoinerChainRenderers,
   ...KoinerContractRenderers,
+  ...KoinerNetworkRenderers,
   ...KoinerTokenizeRenderers,
 ];

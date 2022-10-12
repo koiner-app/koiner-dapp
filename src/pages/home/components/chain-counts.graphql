@@ -1,0 +1,11 @@
+query ChainCounts {
+#  addresses {
+#    totalCount
+#  }
+  blockProducers {
+    totalCount
+  }
+  transactions {
+    totalCount
+  }
+}

@@ -2,9 +2,15 @@ import gql from 'graphql-tag';
 import * as Urql from '@urql/vue';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
-export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+export type Exact<T extends { [key: string]: unknown }> = {
+  [K in keyof T]: T[K];
+};
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]?: Maybe<T[SubKey]>;
+};
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]: Maybe<T[SubKey]>;
+};
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
@@ -13,6 +19,8 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  /** The `BigInt` scalar type represents non-fractional signed whole numeric values. */
+  BigInt: any;
   /** A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format. */
   DateTime: any;
 };
@@ -25,14 +33,16 @@ export type Address = {
   createdAt: Scalars['DateTime'];
   /** Globally unique identifier for this entity */
   id: Scalars['ID'];
+  isContract: Scalars['Boolean'];
   isProducer: Scalars['Boolean'];
+  isTokenContract: Scalars['Boolean'];
+  timestamp: Scalars['BigInt'];
   tokenOperations: TokenOperationsConnection;
   tokens: TokenHoldersConnection;
   transactions: TransactionsConnection;
   /** Timestamp as to when this entity was last updated */
   updatedAt: Scalars['DateTime'];
 };
-
 
 export type AddressBlockProducersArgs = {
   after?: InputMaybe<Scalars['String']>;
@@ -42,7 +52,6 @@ export type AddressBlockProducersArgs = {
   sort?: InputMaybe<Array<BlockProducersSortInput>>;
 };
 
-
 export type AddressBlockRewardsArgs = {
   after?: InputMaybe<Scalars['String']>;
   before?: InputMaybe<Scalars['String']>;
@@ -50,7 +59,6 @@ export type AddressBlockRewardsArgs = {
   first?: InputMaybe<Scalars['Int']>;
   sort?: InputMaybe<Array<BlockRewardsSortInput>>;
 };
-
 
 export type AddressTokenOperationsArgs = {
   after?: InputMaybe<Scalars['String']>;
@@ -60,7 +68,6 @@ export type AddressTokenOperationsArgs = {
   sort?: InputMaybe<Array<TokenOperationsSortInput>>;
 };
 
-
 export type AddressTokensArgs = {
   after?: InputMaybe<Scalars['String']>;
   before?: InputMaybe<Scalars['String']>;
@@ -68,7 +75,6 @@ export type AddressTokensArgs = {
   first?: InputMaybe<Scalars['Int']>;
   sort?: InputMaybe<Array<TokenHoldersSortInput>>;
 };
-
 
 export type AddressTransactionsArgs = {
   after?: InputMaybe<Scalars['String']>;
@@ -96,13 +102,15 @@ export type AddressesFilter = {
   AND?: InputMaybe<Array<AddressesFilter>>;
   OR?: InputMaybe<Array<AddressesFilter>>;
   id?: InputMaybe<StringFilter>;
+  isContract?: InputMaybe<BooleanFilter>;
   isProducer?: InputMaybe<BooleanFilter>;
+  isTokenContract?: InputMaybe<BooleanFilter>;
   search?: InputMaybe<StringFilter>;
 };
 
 /** Sort field */
 export enum AddressesSortField {
-  CreatedAt = 'createdAt'
+  Timestamp = 'timestamp',
 }
 
 export type AddressesSortInput = {
@@ -116,7 +124,7 @@ export type Block = {
   createdAt: Scalars['DateTime'];
   events: EventsConnection;
   header: BlockHeader;
-  height: Scalars['Int'];
+  height: Scalars['BigInt'];
   id: Scalars['String'];
   receipt: BlockReceipt;
   reward?: Maybe<BlockReward>;
@@ -127,7 +135,6 @@ export type Block = {
   updatedAt: Scalars['DateTime'];
 };
 
-
 export type BlockEventsArgs = {
   after?: InputMaybe<Scalars['String']>;
   before?: InputMaybe<Scalars['String']>;
@@ -135,7 +142,6 @@ export type BlockEventsArgs = {
   first?: InputMaybe<Scalars['Int']>;
   sort?: InputMaybe<Array<EventsSortInput>>;
 };
-
 
 export type BlockTransactionsArgs = {
   after?: InputMaybe<Scalars['String']>;
@@ -153,11 +159,11 @@ export type BlockEdge = {
 
 export type BlockHeader = {
   __typename?: 'BlockHeader';
-  height: Scalars['Int'];
+  height: Scalars['BigInt'];
   previous: Scalars['String'];
   previousStateMerkleRoot?: Maybe<Scalars['String']>;
   signer: Scalars['String'];
-  timestamp: Scalars['Float'];
+  timestamp: Scalars['BigInt'];
   transactionMerkleRoot?: Maybe<Scalars['String']>;
 };
 
@@ -204,7 +210,7 @@ export type BlockProducersFilter = {
 export enum BlockProducersSortField {
   Balance = 'balance',
   BlocksProduced = 'blocksProduced',
-  CreatedAt = 'createdAt'
+  CreatedAt = 'createdAt',
 }
 
 export type BlockProducersSortInput = {
@@ -214,10 +220,10 @@ export type BlockProducersSortInput = {
 
 export type BlockReceipt = {
   __typename?: 'BlockReceipt';
-  computeBandwidthUsed: Scalars['Int'];
-  diskStorageUsed: Scalars['Int'];
+  computeBandwidthUsed: Scalars['BigInt'];
+  diskStorageUsed: Scalars['BigInt'];
   eventCount: Scalars['Int'];
-  networkBandwidthUsed: Scalars['Int'];
+  networkBandwidthUsed: Scalars['BigInt'];
 };
 
 export type BlockReward = {
@@ -278,7 +284,7 @@ export type BlockRewardsFilter = {
 /** Sort field */
 export enum BlockRewardsSortField {
   BlockHeight = 'blockHeight',
-  Timestamp = 'timestamp'
+  Timestamp = 'timestamp',
 }
 
 export type BlockRewardsSortInput = {
@@ -307,7 +313,7 @@ export type BlocksFilter = {
 
 /** Sort field */
 export enum BlocksSortField {
-  Height = 'height'
+  Height = 'height',
 }
 
 export type BlocksSortInput = {
@@ -396,7 +402,7 @@ export type ContractEventsFilter = {
 
 /** Sort field */
 export enum ContractEventsSortField {
-  Timestamp = 'timestamp'
+  Timestamp = 'timestamp',
 }
 
 export type ContractEventsSortInput = {
@@ -465,7 +471,7 @@ export type ContractOperationsFilter = {
 
 /** Sort field */
 export enum ContractOperationsSortField {
-  Timestamp = 'timestamp'
+  Timestamp = 'timestamp',
 }
 
 export type ContractOperationsSortInput = {
@@ -475,7 +481,7 @@ export type ContractOperationsSortInput = {
 
 /** Contract Standard type */
 export enum ContractStandardType {
-  Token = 'token'
+  Token = 'token',
 }
 
 export type ContractsConnection = {
@@ -496,7 +502,7 @@ export type ContractsFilter = {
 
 /** Sort field */
 export enum ContractsSortField {
-  Timestamp = 'timestamp'
+  Timestamp = 'timestamp',
 }
 
 export type ContractsSortInput = {
@@ -507,12 +513,12 @@ export type ContractsSortInput = {
 /** Sort direction */
 export enum Direction {
   Asc = 'asc',
-  Desc = 'desc'
+  Desc = 'desc',
 }
 
 export type Event = {
   __typename?: 'Event';
-  blockHeight: Scalars['Int'];
+  blockHeight: Scalars['BigInt'];
   contractId?: Maybe<Scalars['String']>;
   /** Timestamp as to when this entity was created */
   createdAt: Scalars['DateTime'];
@@ -523,8 +529,8 @@ export type Event = {
   name: Scalars['String'];
   parentId: Scalars['String'];
   parentType: Scalars['String'];
-  sequence?: Maybe<Scalars['Float']>;
-  timestamp: Scalars['Float'];
+  sequence?: Maybe<Scalars['Int']>;
+  timestamp: Scalars['BigInt'];
   /** Timestamp as to when this entity was last updated */
   updatedAt: Scalars['DateTime'];
 };
@@ -560,7 +566,7 @@ export type EventsFilter = {
 
 /** Sort field */
 export enum EventsSortField {
-  Timestamp = 'timestamp'
+  Timestamp = 'timestamp',
 }
 
 export type EventsSortInput = {
@@ -578,22 +584,26 @@ export type NumericFilter = {
 
 export type Operation = {
   __typename?: 'Operation';
-  blockHeight: Scalars['Float'];
+  blockHeight: Scalars['BigInt'];
   contractOperation?: Maybe<ContractOperationWithDetails>;
   /** Timestamp as to when this entity was created */
   createdAt: Scalars['DateTime'];
   details?: Maybe<OperationDetailsUnion>;
   /** Globally unique identifier for this entity */
   id: Scalars['ID'];
-  index: Scalars['Float'];
-  timestamp: Scalars['Float'];
+  index: Scalars['Int'];
+  timestamp: Scalars['BigInt'];
   transactionId: Scalars['String'];
   type: OperationType;
   /** Timestamp as to when this entity was last updated */
   updatedAt: Scalars['DateTime'];
 };
 
-export type OperationDetailsUnion = ContractOperation | SystemCallOperation | SystemContractOperation | UploadContractOperation;
+export type OperationDetailsUnion =
+  | ContractOperation
+  | SystemCallOperation
+  | SystemContractOperation
+  | UploadContractOperation;
 
 export type OperationEdge = {
   __typename?: 'OperationEdge';
@@ -606,7 +616,7 @@ export enum OperationType {
   ContractOperation = 'contractOperation',
   SystemCall = 'systemCall',
   SystemContract = 'systemContract',
-  UploadContract = 'uploadContract'
+  UploadContract = 'uploadContract',
 }
 
 export type OperationsConnection = {
@@ -631,7 +641,7 @@ export type OperationsFilter = {
 
 /** Sort field */
 export enum OperationsSortField {
-  Timestamp = 'timestamp'
+  Timestamp = 'timestamp',
 }
 
 export type OperationsSortInput = {
@@ -683,11 +693,9 @@ export type Query = {
   transactions: TransactionsConnection;
 };
 
-
 export type QueryAddressArgs = {
   id: Scalars['ID'];
 };
-
 
 export type QueryAddressesArgs = {
   after?: InputMaybe<Scalars['String']>;
@@ -697,22 +705,18 @@ export type QueryAddressesArgs = {
   sort?: InputMaybe<Array<AddressesSortInput>>;
 };
 
-
 export type QueryAddressesBulkArgs = {
   first?: InputMaybe<Scalars['Int']>;
   ids: Array<Scalars['String']>;
 };
 
-
 export type QueryBlockArgs = {
   height: Scalars['ID'];
 };
 
-
 export type QueryBlockProducerArgs = {
   id: Scalars['ID'];
 };
-
 
 export type QueryBlockProducersArgs = {
   after?: InputMaybe<Scalars['String']>;
@@ -722,11 +726,9 @@ export type QueryBlockProducersArgs = {
   sort?: InputMaybe<Array<BlockProducersSortInput>>;
 };
 
-
 export type QueryBlockRewardArgs = {
   height: Scalars['ID'];
 };
-
 
 export type QueryBlockRewardsArgs = {
   after?: InputMaybe<Scalars['String']>;
@@ -736,12 +738,10 @@ export type QueryBlockRewardsArgs = {
   sort?: InputMaybe<Array<BlockRewardsSortInput>>;
 };
 
-
 export type QueryBlockRewardsBulkArgs = {
   first?: InputMaybe<Scalars['Int']>;
   heights?: InputMaybe<Array<Scalars['Int']>>;
 };
-
 
 export type QueryBlocksArgs = {
   after?: InputMaybe<Scalars['String']>;
@@ -751,16 +751,13 @@ export type QueryBlocksArgs = {
   sort?: InputMaybe<Array<BlocksSortInput>>;
 };
 
-
 export type QueryContractArgs = {
   id: Scalars['ID'];
 };
 
-
 export type QueryContractEventArgs = {
   id: Scalars['ID'];
 };
-
 
 export type QueryContractEventsArgs = {
   after?: InputMaybe<Scalars['String']>;
@@ -770,11 +767,9 @@ export type QueryContractEventsArgs = {
   sort?: InputMaybe<Array<ContractEventsSortInput>>;
 };
 
-
 export type QueryContractOperationArgs = {
   id: Scalars['ID'];
 };
-
 
 export type QueryContractOperationsArgs = {
   after?: InputMaybe<Scalars['String']>;
@@ -784,12 +779,10 @@ export type QueryContractOperationsArgs = {
   sort?: InputMaybe<Array<ContractOperationsSortInput>>;
 };
 
-
 export type QueryContractOperationsBulkArgs = {
   first?: InputMaybe<Scalars['Int']>;
   ids: Array<Scalars['String']>;
 };
-
 
 export type QueryContractsArgs = {
   after?: InputMaybe<Scalars['String']>;
@@ -799,17 +792,14 @@ export type QueryContractsArgs = {
   sort?: InputMaybe<Array<ContractsSortInput>>;
 };
 
-
 export type QueryContractsBulkArgs = {
   first?: InputMaybe<Scalars['Int']>;
   ids: Array<Scalars['String']>;
 };
 
-
 export type QueryEventArgs = {
   id: Scalars['ID'];
 };
-
 
 export type QueryEventsArgs = {
   after?: InputMaybe<Scalars['String']>;
@@ -819,11 +809,9 @@ export type QueryEventsArgs = {
   sort?: InputMaybe<Array<EventsSortInput>>;
 };
 
-
 export type QueryOperationArgs = {
   id: Scalars['ID'];
 };
-
 
 export type QueryOperationsArgs = {
   after?: InputMaybe<Scalars['String']>;
@@ -833,11 +821,9 @@ export type QueryOperationsArgs = {
   sort?: InputMaybe<Array<OperationsSortInput>>;
 };
 
-
 export type QueryTokenContractArgs = {
   id: Scalars['ID'];
 };
-
 
 export type QueryTokenContractsArgs = {
   after?: InputMaybe<Scalars['String']>;
@@ -847,11 +833,9 @@ export type QueryTokenContractsArgs = {
   sort?: InputMaybe<Array<TokenContractsSortInput>>;
 };
 
-
 export type QueryTokenEventArgs = {
   id: Scalars['ID'];
 };
-
 
 export type QueryTokenEventsArgs = {
   after?: InputMaybe<Scalars['String']>;
@@ -861,11 +845,9 @@ export type QueryTokenEventsArgs = {
   sort?: InputMaybe<Array<TokenEventsSortInput>>;
 };
 
-
 export type QueryTokenHolderArgs = {
   id: Scalars['ID'];
 };
-
 
 export type QueryTokenHoldersArgs = {
   after?: InputMaybe<Scalars['String']>;
@@ -875,11 +857,9 @@ export type QueryTokenHoldersArgs = {
   sort?: InputMaybe<Array<TokenHoldersSortInput>>;
 };
 
-
 export type QueryTokenOperationArgs = {
   id: Scalars['ID'];
 };
-
 
 export type QueryTokenOperationsArgs = {
   after?: InputMaybe<Scalars['String']>;
@@ -889,11 +869,9 @@ export type QueryTokenOperationsArgs = {
   sort?: InputMaybe<Array<TokenOperationsSortInput>>;
 };
 
-
 export type QueryTransactionArgs = {
   id: Scalars['ID'];
 };
-
 
 export type QueryTransactionsArgs = {
   after?: InputMaybe<Scalars['String']>;
@@ -912,7 +890,7 @@ export type StringFilter = {
 
 export type SystemCallOperation = {
   __typename?: 'SystemCallOperation';
-  callId: Scalars['Float'];
+  callId: Scalars['Int'];
   contract: Contract;
   contractId: Scalars['String'];
   /** Timestamp as to when this entity was created */
@@ -953,7 +931,6 @@ export type TokenContract = {
   updatedAt: Scalars['DateTime'];
 };
 
-
 export type TokenContractHoldersArgs = {
   after?: InputMaybe<Scalars['String']>;
   before?: InputMaybe<Scalars['String']>;
@@ -961,7 +938,6 @@ export type TokenContractHoldersArgs = {
   first?: InputMaybe<Scalars['Int']>;
   sort?: InputMaybe<Array<TokenHoldersSortInput>>;
 };
-
 
 export type TokenContractOperationsArgs = {
   after?: InputMaybe<Scalars['String']>;
@@ -998,7 +974,7 @@ export type TokenContractsFilter = {
 
 /** Sort field */
 export enum TokenContractsSortField {
-  Timestamp = 'timestamp'
+  Timestamp = 'timestamp',
 }
 
 export type TokenContractsSortInput = {
@@ -1052,7 +1028,7 @@ export type TokenEventsFilter = {
 
 /** Sort field */
 export enum TokenEventsSortField {
-  Timestamp = 'timestamp'
+  Timestamp = 'timestamp',
 }
 
 export type TokenEventsSortInput = {
@@ -1099,7 +1075,7 @@ export type TokenHoldersFilter = {
 
 /** Sort field */
 export enum TokenHoldersSortField {
-  Balance = 'balance'
+  Balance = 'balance',
 }
 
 export type TokenHoldersSortInput = {
@@ -1155,7 +1131,7 @@ export type TokenOperationsFilter = {
 
 /** Sort field */
 export enum TokenOperationsSortField {
-  Timestamp = 'timestamp'
+  Timestamp = 'timestamp',
 }
 
 export type TokenOperationsSortInput = {
@@ -1165,22 +1141,21 @@ export type TokenOperationsSortInput = {
 
 export type Transaction = {
   __typename?: 'Transaction';
-  blockHeight: Scalars['Float'];
+  blockHeight: Scalars['BigInt'];
   /** Timestamp as to when this entity was created */
   createdAt: Scalars['DateTime'];
   events: EventsConnection;
   header: TransactionHeader;
   /** Globally unique identifier for this entity */
   id: Scalars['ID'];
-  index: Scalars['Float'];
-  operationCount: Scalars['Float'];
+  index: Scalars['Int'];
+  operationCount: Scalars['Int'];
   operations: Array<Operation>;
   signature: Scalars['String'];
-  timestamp: Scalars['Float'];
+  timestamp: Scalars['BigInt'];
   /** Timestamp as to when this entity was last updated */
   updatedAt: Scalars['DateTime'];
 };
-
 
 export type TransactionEventsArgs = {
   after?: InputMaybe<Scalars['String']>;
@@ -1228,7 +1203,7 @@ export type TransactionsFilter = {
 
 /** Sort field */
 export enum TransactionsSortField {
-  Timestamp = 'timestamp'
+  Timestamp = 'timestamp',
 }
 
 export type TransactionsSortInput = {
@@ -1258,8 +1233,60 @@ export type AddressesSearchQueryVariables = Exact<{
   sort?: InputMaybe<Array<AddressesSortInput> | AddressesSortInput>;
 }>;
 
+export type AddressesSearchQuery = {
+  __typename?: 'Query';
+  addresses: {
+    __typename?: 'AddressesConnection';
+    edges: Array<{
+      __typename: 'AddressEdge';
+      cursor: string;
+      node: {
+        __typename?: 'Address';
+        id: string;
+        isProducer: boolean;
+        isContract: boolean;
+        isTokenContract: boolean;
+      };
+    }>;
+    pageInfo: {
+      __typename?: 'PageInfo';
+      hasNextPage: boolean;
+      hasPreviousPage: boolean;
+      startCursor?: string | null;
+      endCursor?: string | null;
+    };
+  };
+};
 
-export type AddressesSearchQuery = { __typename?: 'Query', addresses: { __typename?: 'AddressesConnection', totalCount: number, edges: Array<{ __typename: 'AddressEdge', cursor: string, node: { __typename?: 'Address', id: string, isProducer: boolean } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null, endCursor?: string | null } } };
+export type BlocksHomeSearchQueryVariables = Exact<{
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+}>;
+
+export type BlocksHomeSearchQuery = {
+  __typename?: 'Query';
+  blocks: {
+    __typename?: 'BlocksConnection';
+    edges: Array<{
+      __typename: 'BlockEdge';
+      cursor: string;
+      node: {
+        __typename?: 'Block';
+        id: string;
+        transactionCount: number;
+        header: { __typename?: 'BlockHeader'; height: any; timestamp: any };
+      };
+    }>;
+    pageInfo: {
+      __typename?: 'PageInfo';
+      hasNextPage: boolean;
+      hasPreviousPage: boolean;
+      startCursor?: string | null;
+      endCursor?: string | null;
+    };
+  };
+};
 
 export type BlocksSearchQueryVariables = Exact<{
   after?: InputMaybe<Scalars['String']>;
@@ -1269,8 +1296,42 @@ export type BlocksSearchQueryVariables = Exact<{
   sort?: InputMaybe<Array<BlocksSortInput> | BlocksSortInput>;
 }>;
 
-
-export type BlocksSearchQuery = { __typename?: 'Query', blocks: { __typename?: 'BlocksConnection', totalCount: number, edges: Array<{ __typename: 'BlockEdge', cursor: string, node: { __typename?: 'Block', id: string, transactionCount: number, header: { __typename?: 'BlockHeader', height: number, previous: string, timestamp: number, previousStateMerkleRoot?: string | null, signer: string }, reward?: { __typename?: 'BlockReward', value: number, producerId: string, burnedValue?: number | null } | null } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null, endCursor?: string | null } } };
+export type BlocksSearchQuery = {
+  __typename?: 'Query';
+  blocks: {
+    __typename?: 'BlocksConnection';
+    edges: Array<{
+      __typename: 'BlockEdge';
+      cursor: string;
+      node: {
+        __typename?: 'Block';
+        id: string;
+        transactionCount: number;
+        header: {
+          __typename?: 'BlockHeader';
+          height: any;
+          previous: string;
+          timestamp: any;
+          previousStateMerkleRoot?: string | null;
+          signer: string;
+        };
+        reward?: {
+          __typename?: 'BlockReward';
+          value: number;
+          producerId: string;
+          burnedValue?: number | null;
+        } | null;
+      };
+    }>;
+    pageInfo: {
+      __typename?: 'PageInfo';
+      hasNextPage: boolean;
+      hasPreviousPage: boolean;
+      startCursor?: string | null;
+      endCursor?: string | null;
+    };
+  };
+};
 
 export type EventsSearchQueryVariables = Exact<{
   after?: InputMaybe<Scalars['String']>;
@@ -1280,8 +1341,36 @@ export type EventsSearchQueryVariables = Exact<{
   sort?: InputMaybe<Array<EventsSortInput> | EventsSortInput>;
 }>;
 
-
-export type EventsSearchQuery = { __typename?: 'Query', events: { __typename?: 'EventsConnection', totalCount: number, edges: Array<{ __typename: 'EventEdge', cursor: string, node: { __typename?: 'Event', id: string, blockHeight: number, parentId: string, parentType: string, sequence?: number | null, contractId?: string | null, name: string, data?: string | null, impacted?: Array<string> | null, timestamp: number } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null, endCursor?: string | null } } };
+export type EventsSearchQuery = {
+  __typename?: 'Query';
+  events: {
+    __typename?: 'EventsConnection';
+    edges: Array<{
+      __typename: 'EventEdge';
+      cursor: string;
+      node: {
+        __typename?: 'Event';
+        id: string;
+        blockHeight: any;
+        parentId: string;
+        parentType: string;
+        sequence?: number | null;
+        contractId?: string | null;
+        name: string;
+        data?: string | null;
+        impacted?: Array<string> | null;
+        timestamp: any;
+      };
+    }>;
+    pageInfo: {
+      __typename?: 'PageInfo';
+      hasNextPage: boolean;
+      hasPreviousPage: boolean;
+      startCursor?: string | null;
+      endCursor?: string | null;
+    };
+  };
+};
 
 export type OperationsSearchQueryVariables = Exact<{
   after?: InputMaybe<Scalars['String']>;
@@ -1291,8 +1380,31 @@ export type OperationsSearchQueryVariables = Exact<{
   sort?: InputMaybe<Array<OperationsSortInput> | OperationsSortInput>;
 }>;
 
-
-export type OperationsSearchQuery = { __typename?: 'Query', operations: { __typename?: 'OperationsConnection', totalCount: number, edges: Array<{ __typename: 'OperationEdge', cursor: string, node: { __typename?: 'Operation', id: string, blockHeight: number, transactionId: string, type: OperationType, timestamp: number } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null, endCursor?: string | null } } };
+export type OperationsSearchQuery = {
+  __typename?: 'Query';
+  operations: {
+    __typename?: 'OperationsConnection';
+    edges: Array<{
+      __typename: 'OperationEdge';
+      cursor: string;
+      node: {
+        __typename?: 'Operation';
+        id: string;
+        blockHeight: any;
+        transactionId: string;
+        type: OperationType;
+        timestamp: any;
+      };
+    }>;
+    pageInfo: {
+      __typename?: 'PageInfo';
+      hasNextPage: boolean;
+      hasPreviousPage: boolean;
+      startCursor?: string | null;
+      endCursor?: string | null;
+    };
+  };
+};
 
 export type TransactionsSearchQueryVariables = Exact<{
   after?: InputMaybe<Scalars['String']>;
@@ -1302,19 +1414,105 @@ export type TransactionsSearchQueryVariables = Exact<{
   sort?: InputMaybe<Array<TransactionsSortInput> | TransactionsSortInput>;
 }>;
 
+export type TransactionsSearchQuery = {
+  __typename?: 'Query';
+  transactions: {
+    __typename?: 'TransactionsConnection';
+    edges: Array<{
+      __typename: 'TransactionEdge';
+      cursor: string;
+      node: {
+        __typename?: 'Transaction';
+        id: string;
+        blockHeight: any;
+        operationCount: number;
+        timestamp: any;
+      };
+    }>;
+    pageInfo: {
+      __typename?: 'PageInfo';
+      hasNextPage: boolean;
+      hasPreviousPage: boolean;
+      startCursor?: string | null;
+      endCursor?: string | null;
+    };
+  };
+};
 
-export type TransactionsSearchQuery = { __typename?: 'Query', transactions: { __typename?: 'TransactionsConnection', totalCount: number, edges: Array<{ __typename: 'TransactionEdge', cursor: string, node: { __typename?: 'Transaction', id: string, blockHeight: number, operationCount: number, timestamp: number } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null, endCursor?: string | null } } };
+export type ContractEventsSearchQueryVariables = Exact<{
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  filter?: InputMaybe<ContractEventsFilter>;
+  sort?: InputMaybe<Array<ContractEventsSortInput> | ContractEventsSortInput>;
+}>;
+
+export type ContractEventsSearchQuery = {
+  __typename?: 'Query';
+  contractEvents: {
+    __typename?: 'ContractEventsConnection';
+    edges: Array<{
+      __typename: 'ContractEventEdge';
+      cursor: string;
+      node: {
+        __typename?: 'ContractEvent';
+        id: string;
+        blockHeight: number;
+        contractId?: string | null;
+        contractStandardType?: ContractStandardType | null;
+        impacted?: Array<string> | null;
+        name: string;
+        parentType: string;
+        parentId: string;
+        timestamp: number;
+      };
+    }>;
+    pageInfo: {
+      __typename?: 'PageInfo';
+      hasNextPage: boolean;
+      hasPreviousPage: boolean;
+      startCursor?: string | null;
+      endCursor?: string | null;
+    };
+  };
+};
 
 export type ContractOperationsSearchQueryVariables = Exact<{
   after?: InputMaybe<Scalars['String']>;
   before?: InputMaybe<Scalars['String']>;
   first?: InputMaybe<Scalars['Int']>;
   filter?: InputMaybe<ContractOperationsFilter>;
-  sort?: InputMaybe<Array<ContractOperationsSortInput> | ContractOperationsSortInput>;
+  sort?: InputMaybe<
+    Array<ContractOperationsSortInput> | ContractOperationsSortInput
+  >;
 }>;
 
-
-export type ContractOperationsSearchQuery = { __typename?: 'Query', contractOperations: { __typename?: 'ContractOperationsConnection', totalCount: number, edges: Array<{ __typename: 'ContractOperationEdge', cursor: string, node: { __typename?: 'ContractOperationWithDetails', id: string, blockHeight: number, contractId: string, transactionId: string, contractStandardType?: ContractStandardType | null, timestamp: number } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null, endCursor?: string | null } } };
+export type ContractOperationsSearchQuery = {
+  __typename?: 'Query';
+  contractOperations: {
+    __typename?: 'ContractOperationsConnection';
+    edges: Array<{
+      __typename: 'ContractOperationEdge';
+      cursor: string;
+      node: {
+        __typename?: 'ContractOperationWithDetails';
+        id: string;
+        blockHeight: number;
+        contractId: string;
+        transactionId: string;
+        contractStandardType?: ContractStandardType | null;
+        timestamp: number;
+      };
+    }>;
+    pageInfo: {
+      __typename?: 'PageInfo';
+      hasNextPage: boolean;
+      hasPreviousPage: boolean;
+      startCursor?: string | null;
+      endCursor?: string | null;
+    };
+  };
+};
 
 export type ContractsSearchQueryVariables = Exact<{
   after?: InputMaybe<Scalars['String']>;
@@ -1324,8 +1522,97 @@ export type ContractsSearchQueryVariables = Exact<{
   sort?: InputMaybe<Array<ContractsSortInput> | ContractsSortInput>;
 }>;
 
+export type ContractsSearchQuery = {
+  __typename?: 'Query';
+  contracts: {
+    __typename?: 'ContractsConnection';
+    edges: Array<{
+      __typename: 'ContractEdge';
+      cursor: string;
+      node: {
+        __typename?: 'Contract';
+        id: string;
+        contractStandardType?: ContractStandardType | null;
+        timestamp: number;
+      };
+    }>;
+    pageInfo: {
+      __typename?: 'PageInfo';
+      hasNextPage: boolean;
+      hasPreviousPage: boolean;
+      startCursor?: string | null;
+      endCursor?: string | null;
+    };
+  };
+};
 
-export type ContractsSearchQuery = { __typename?: 'Query', contracts: { __typename?: 'ContractsConnection', totalCount: number, edges: Array<{ __typename: 'ContractEdge', cursor: string, node: { __typename?: 'Contract', id: string, contractStandardType?: ContractStandardType | null, timestamp: number } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null, endCursor?: string | null } } };
+export type BlockProducersSearchQueryVariables = Exact<{
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  filter?: InputMaybe<BlockProducersFilter>;
+  sort?: InputMaybe<Array<BlockProducersSortInput> | BlockProducersSortInput>;
+}>;
+
+export type BlockProducersSearchQuery = {
+  __typename?: 'Query';
+  blockProducers: {
+    __typename?: 'BlockProducersConnection';
+    edges: Array<{
+      __typename: 'BlockProducerEdge';
+      cursor: string;
+      node: {
+        __typename?: 'BlockProducer';
+        id: string;
+        addressId: string;
+        balance: number;
+        blocksProduced: number;
+      };
+    }>;
+    pageInfo: {
+      __typename?: 'PageInfo';
+      hasNextPage: boolean;
+      hasPreviousPage: boolean;
+      startCursor?: string | null;
+      endCursor?: string | null;
+    };
+  };
+};
+
+export type BlockRewardsSearchQueryVariables = Exact<{
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  filter?: InputMaybe<BlockRewardsFilter>;
+  sort?: InputMaybe<Array<BlockRewardsSortInput> | BlockRewardsSortInput>;
+}>;
+
+export type BlockRewardsSearchQuery = {
+  __typename?: 'Query';
+  blockRewards: {
+    __typename?: 'BlockRewardsConnection';
+    edges: Array<{
+      __typename: 'BlockRewardEdge';
+      cursor: string;
+      node: {
+        __typename?: 'BlockReward';
+        id: string;
+        blockHeight: number;
+        value: number;
+        producerId: string;
+        burnedValue?: number | null;
+        timestamp: number;
+      };
+    }>;
+    pageInfo: {
+      __typename?: 'PageInfo';
+      hasNextPage: boolean;
+      hasPreviousPage: boolean;
+      startCursor?: string | null;
+      endCursor?: string | null;
+    };
+  };
+};
 
 export type TokenContractsSearchQueryVariables = Exact<{
   after?: InputMaybe<Scalars['String']>;
@@ -1335,8 +1622,32 @@ export type TokenContractsSearchQueryVariables = Exact<{
   sort?: InputMaybe<Array<TokenContractsSortInput> | TokenContractsSortInput>;
 }>;
 
-
-export type TokenContractsSearchQuery = { __typename?: 'Query', tokenContracts: { __typename?: 'TokenContractsConnection', totalCount: number, edges: Array<{ __typename: 'TokenContractEdge', cursor: string, node: { __typename?: 'TokenContract', id: string, name: string, symbol: string, decimals: number, totalSupply: number, timestamp: number } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null, endCursor?: string | null } } };
+export type TokenContractsSearchQuery = {
+  __typename?: 'Query';
+  tokenContracts: {
+    __typename?: 'TokenContractsConnection';
+    edges: Array<{
+      __typename: 'TokenContractEdge';
+      cursor: string;
+      node: {
+        __typename?: 'TokenContract';
+        id: string;
+        name: string;
+        symbol: string;
+        decimals: number;
+        totalSupply: number;
+        timestamp: number;
+      };
+    }>;
+    pageInfo: {
+      __typename?: 'PageInfo';
+      hasNextPage: boolean;
+      hasPreviousPage: boolean;
+      startCursor?: string | null;
+      endCursor?: string | null;
+    };
+  };
+};
 
 export type TokenEventsSearchQueryVariables = Exact<{
   after?: InputMaybe<Scalars['String']>;
@@ -1346,8 +1657,39 @@ export type TokenEventsSearchQueryVariables = Exact<{
   sort?: InputMaybe<Array<TokenEventsSortInput> | TokenEventsSortInput>;
 }>;
 
-
-export type TokenEventsSearchQuery = { __typename?: 'Query', tokenEvents: { __typename?: 'TokenEventsConnection', totalCount: number, edges: Array<{ __typename: 'TokenEventEdge', cursor: string, node: { __typename?: 'TokenEvent', id: string, from?: string | null, to?: string | null, value: number, name: string, timestamp: number, contract: { __typename?: 'TokenContract', id: string, name: string, symbol: string, decimals: number } } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null, endCursor?: string | null } } };
+export type TokenEventsSearchQuery = {
+  __typename?: 'Query';
+  tokenEvents: {
+    __typename?: 'TokenEventsConnection';
+    edges: Array<{
+      __typename: 'TokenEventEdge';
+      cursor: string;
+      node: {
+        __typename?: 'TokenEvent';
+        id: string;
+        from?: string | null;
+        to?: string | null;
+        value: number;
+        name: string;
+        timestamp: number;
+        contract: {
+          __typename?: 'TokenContract';
+          id: string;
+          name: string;
+          symbol: string;
+          decimals: number;
+        };
+      };
+    }>;
+    pageInfo: {
+      __typename?: 'PageInfo';
+      hasNextPage: boolean;
+      hasPreviousPage: boolean;
+      startCursor?: string | null;
+      endCursor?: string | null;
+    };
+  };
+};
 
 export type TokenHoldersSearchQueryVariables = Exact<{
   after?: InputMaybe<Scalars['String']>;
@@ -1357,8 +1699,37 @@ export type TokenHoldersSearchQueryVariables = Exact<{
   sort?: InputMaybe<Array<TokenHoldersSortInput> | TokenHoldersSortInput>;
 }>;
 
-
-export type TokenHoldersSearchQuery = { __typename?: 'Query', tokenHolders: { __typename?: 'TokenHoldersConnection', totalCount: number, edges: Array<{ __typename: 'TokenHolderEdge', cursor: string, node: { __typename?: 'TokenHolder', id: string, addressId: string, balance: number, contract: { __typename?: 'TokenContract', id: string, name: string, decimals: number, symbol: string } } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null, endCursor?: string | null } } };
+export type TokenHoldersSearchQuery = {
+  __typename?: 'Query';
+  tokenHolders: {
+    __typename?: 'TokenHoldersConnection';
+    edges: Array<{
+      __typename: 'TokenHolderEdge';
+      cursor: string;
+      node: {
+        __typename?: 'TokenHolder';
+        id: string;
+        addressId: string;
+        contractId: string;
+        balance: number;
+        contract: {
+          __typename?: 'TokenContract';
+          id: string;
+          name: string;
+          decimals: number;
+          symbol: string;
+        };
+      };
+    }>;
+    pageInfo: {
+      __typename?: 'PageInfo';
+      hasNextPage: boolean;
+      hasPreviousPage: boolean;
+      startCursor?: string | null;
+      endCursor?: string | null;
+    };
+  };
+};
 
 export type TokenOperationsSearchQueryVariables = Exact<{
   after?: InputMaybe<Scalars['String']>;
@@ -1368,502 +1739,970 @@ export type TokenOperationsSearchQueryVariables = Exact<{
   sort?: InputMaybe<Array<TokenOperationsSortInput> | TokenOperationsSortInput>;
 }>;
 
-
-export type TokenOperationsSearchQuery = { __typename?: 'Query', tokenOperations: { __typename?: 'TokenOperationsConnection', totalCount: number, edges: Array<{ __typename: 'TokenOperationEdge', cursor: string, node: { __typename?: 'TokenOperation', id: string, transactionId: string, contractId: string, from?: string | null, to?: string | null, value: number, name: string, timestamp: number, contract: { __typename?: 'TokenContract', id: string, name: string, decimals: number, symbol: string } } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null, endCursor?: string | null } } };
+export type TokenOperationsSearchQuery = {
+  __typename?: 'Query';
+  tokenOperations: {
+    __typename?: 'TokenOperationsConnection';
+    edges: Array<{
+      __typename: 'TokenOperationEdge';
+      cursor: string;
+      node: {
+        __typename?: 'TokenOperation';
+        id: string;
+        transactionId: string;
+        contractId: string;
+        from?: string | null;
+        to?: string | null;
+        value: number;
+        name: string;
+        timestamp: number;
+        contract: {
+          __typename?: 'TokenContract';
+          id: string;
+          name: string;
+          decimals: number;
+          symbol: string;
+        };
+      };
+    }>;
+    pageInfo: {
+      __typename?: 'PageInfo';
+      hasNextPage: boolean;
+      hasPreviousPage: boolean;
+      startCursor?: string | null;
+      endCursor?: string | null;
+    };
+  };
+};
 
 export type GetTokenLayoutQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
-
-export type GetTokenLayoutQuery = { __typename?: 'Query', tokenContract: { __typename?: 'TokenContract', id: string, name: string, symbol: string, decimals: number } };
+export type GetTokenLayoutQuery = {
+  __typename?: 'Query';
+  tokenContract: {
+    __typename?: 'TokenContract';
+    id: string;
+    name: string;
+    symbol: string;
+    decimals: number;
+  };
+};
 
 export type BlockPageQueryVariables = Exact<{
   height: Scalars['ID'];
 }>;
 
-
-export type BlockPageQuery = { __typename?: 'Query', block: { __typename?: 'Block', id: string, signature: string, transactionCount: number, createdAt: any, updatedAt: any, header: { __typename?: 'BlockHeader', height: number, previous: string, previousStateMerkleRoot?: string | null, signer: string, timestamp: number, transactionMerkleRoot?: string | null }, receipt: { __typename?: 'BlockReceipt', diskStorageUsed: number, networkBandwidthUsed: number, computeBandwidthUsed: number, eventCount: number }, reward?: { __typename?: 'BlockReward', producerId: string, value: number, burnedValue?: number | null } | null } };
+export type BlockPageQuery = {
+  __typename?: 'Query';
+  block: {
+    __typename?: 'Block';
+    id: string;
+    signature: string;
+    transactionCount: number;
+    createdAt: any;
+    updatedAt: any;
+    header: {
+      __typename?: 'BlockHeader';
+      height: any;
+      previous: string;
+      previousStateMerkleRoot?: string | null;
+      signer: string;
+      timestamp: any;
+      transactionMerkleRoot?: string | null;
+    };
+    receipt: {
+      __typename?: 'BlockReceipt';
+      diskStorageUsed: any;
+      networkBandwidthUsed: any;
+      computeBandwidthUsed: any;
+      eventCount: number;
+    };
+    reward?: {
+      __typename?: 'BlockReward';
+      producerId: string;
+      value: number;
+      burnedValue?: number | null;
+    } | null;
+  };
+};
 
 export type TransactionPageQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
+export type TransactionPageQuery = {
+  __typename?: 'Query';
+  transaction: {
+    __typename?: 'Transaction';
+    id: string;
+    blockHeight: any;
+    operationCount: number;
+    index: number;
+    signature: string;
+    header: {
+      __typename?: 'TransactionHeader';
+      payer: string;
+      nonce?: string | null;
+      operationMerkleRoot?: string | null;
+      rcLimit: string;
+    };
+  };
+};
 
-export type TransactionPageQuery = { __typename?: 'Query', transaction: { __typename?: 'Transaction', id: string, blockHeight: number, operationCount: number, index: number, signature: string, header: { __typename?: 'TransactionHeader', payer: string, nonce?: string | null, operationMerkleRoot?: string | null, rcLimit: string } } };
+export type ChainCountsQueryVariables = Exact<{ [key: string]: never }>;
 
+export type ChainCountsQuery = {
+  __typename?: 'Query';
+  blockProducers: {
+    __typename?: 'BlockProducersConnection';
+    totalCount: number;
+  };
+  transactions: { __typename?: 'TransactionsConnection'; totalCount: number };
+};
 
 export const AddressesSearchDocument = gql`
-    query AddressesSearch($after: String, $before: String, $first: Int, $filter: AddressesFilter, $sort: [AddressesSortInput!]) {
-  addresses(
-    after: $after
-    before: $before
-    first: $first
-    filter: $filter
-    sort: $sort
+  query AddressesSearch(
+    $after: String
+    $before: String
+    $first: Int
+    $filter: AddressesFilter
+    $sort: [AddressesSortInput!]
   ) {
-    totalCount
-    edges {
-      cursor
-      node {
-        id
-        isProducer
+    addresses(
+      after: $after
+      before: $before
+      first: $first
+      filter: $filter
+      sort: $sort
+    ) {
+      edges {
+        cursor
+        node {
+          id
+          isProducer
+          isContract
+          isTokenContract
+        }
+        __typename
       }
-      __typename
-    }
-    pageInfo {
-      hasNextPage
-      hasPreviousPage
-      startCursor
-      endCursor
+      pageInfo {
+        hasNextPage
+        hasPreviousPage
+        startCursor
+        endCursor
+      }
     }
   }
-}
-    `;
+`;
 
-export function useAddressesSearchQuery(options: Omit<Urql.UseQueryArgs<never, AddressesSearchQueryVariables>, 'query'> = {}) {
-  return Urql.useQuery<AddressesSearchQuery>({ query: AddressesSearchDocument, ...options });
-};
-export const BlocksSearchDocument = gql`
-    query BlocksSearch($after: String, $before: String, $first: Int, $filter: BlocksFilter, $sort: [BlocksSortInput!]) {
-  blocks(
-    after: $after
-    before: $before
-    first: $first
-    filter: $filter
-    sort: $sort
-  ) {
-    totalCount
-    edges {
-      cursor
-      node {
-        id
-        header {
-          height
-          previous
-          timestamp
-          previousStateMerkleRoot
-          signer
+export function useAddressesSearchQuery(
+  options: Omit<
+    Urql.UseQueryArgs<never, AddressesSearchQueryVariables>,
+    'query'
+  > = {}
+) {
+  return Urql.useQuery<AddressesSearchQuery>({
+    query: AddressesSearchDocument,
+    ...options,
+  });
+}
+export const BlocksHomeSearchDocument = gql`
+  query BlocksHomeSearch($after: String, $before: String, $first: Int) {
+    blocks(after: $after, before: $before, first: $first) {
+      edges {
+        cursor
+        node {
+          id
+          header {
+            height
+            timestamp
+          }
+          transactionCount
         }
-        reward {
+        __typename
+      }
+      pageInfo {
+        hasNextPage
+        hasPreviousPage
+        startCursor
+        endCursor
+      }
+    }
+  }
+`;
+
+export function useBlocksHomeSearchQuery(
+  options: Omit<
+    Urql.UseQueryArgs<never, BlocksHomeSearchQueryVariables>,
+    'query'
+  > = {}
+) {
+  return Urql.useQuery<BlocksHomeSearchQuery>({
+    query: BlocksHomeSearchDocument,
+    ...options,
+  });
+}
+export const BlocksSearchDocument = gql`
+  query BlocksSearch(
+    $after: String
+    $before: String
+    $first: Int
+    $filter: BlocksFilter
+    $sort: [BlocksSortInput!]
+  ) {
+    blocks(
+      after: $after
+      before: $before
+      first: $first
+      filter: $filter
+      sort: $sort
+    ) {
+      edges {
+        cursor
+        node {
+          id
+          header {
+            height
+            previous
+            timestamp
+            previousStateMerkleRoot
+            signer
+          }
+          reward {
+            value
+            producerId
+            burnedValue
+          }
+          transactionCount
+        }
+        __typename
+      }
+      pageInfo {
+        hasNextPage
+        hasPreviousPage
+        startCursor
+        endCursor
+      }
+    }
+  }
+`;
+
+export function useBlocksSearchQuery(
+  options: Omit<
+    Urql.UseQueryArgs<never, BlocksSearchQueryVariables>,
+    'query'
+  > = {}
+) {
+  return Urql.useQuery<BlocksSearchQuery>({
+    query: BlocksSearchDocument,
+    ...options,
+  });
+}
+export const EventsSearchDocument = gql`
+  query EventsSearch(
+    $after: String
+    $before: String
+    $first: Int
+    $filter: EventsFilter
+    $sort: [EventsSortInput!]
+  ) {
+    events(
+      after: $after
+      before: $before
+      first: $first
+      filter: $filter
+      sort: $sort
+    ) {
+      edges {
+        cursor
+        node {
+          id
+          blockHeight
+          parentId
+          parentType
+          sequence
+          contractId
+          name
+          data
+          impacted
+          timestamp
+        }
+        __typename
+      }
+      pageInfo {
+        hasNextPage
+        hasPreviousPage
+        startCursor
+        endCursor
+      }
+    }
+  }
+`;
+
+export function useEventsSearchQuery(
+  options: Omit<
+    Urql.UseQueryArgs<never, EventsSearchQueryVariables>,
+    'query'
+  > = {}
+) {
+  return Urql.useQuery<EventsSearchQuery>({
+    query: EventsSearchDocument,
+    ...options,
+  });
+}
+export const OperationsSearchDocument = gql`
+  query OperationsSearch(
+    $after: String
+    $before: String
+    $first: Int
+    $filter: OperationsFilter
+    $sort: [OperationsSortInput!]
+  ) {
+    operations(
+      after: $after
+      before: $before
+      first: $first
+      filter: $filter
+      sort: $sort
+    ) {
+      edges {
+        cursor
+        node {
+          id
+          blockHeight
+          transactionId
+          type
+          timestamp
+        }
+        __typename
+      }
+      pageInfo {
+        hasNextPage
+        hasPreviousPage
+        startCursor
+        endCursor
+      }
+    }
+  }
+`;
+
+export function useOperationsSearchQuery(
+  options: Omit<
+    Urql.UseQueryArgs<never, OperationsSearchQueryVariables>,
+    'query'
+  > = {}
+) {
+  return Urql.useQuery<OperationsSearchQuery>({
+    query: OperationsSearchDocument,
+    ...options,
+  });
+}
+export const TransactionsSearchDocument = gql`
+  query TransactionsSearch(
+    $after: String
+    $before: String
+    $first: Int
+    $filter: TransactionsFilter
+    $sort: [TransactionsSortInput!]
+  ) {
+    transactions(
+      after: $after
+      before: $before
+      first: $first
+      filter: $filter
+      sort: $sort
+    ) {
+      edges {
+        cursor
+        node {
+          id
+          blockHeight
+          operationCount
+          timestamp
+        }
+        __typename
+      }
+      pageInfo {
+        hasNextPage
+        hasPreviousPage
+        startCursor
+        endCursor
+      }
+    }
+  }
+`;
+
+export function useTransactionsSearchQuery(
+  options: Omit<
+    Urql.UseQueryArgs<never, TransactionsSearchQueryVariables>,
+    'query'
+  > = {}
+) {
+  return Urql.useQuery<TransactionsSearchQuery>({
+    query: TransactionsSearchDocument,
+    ...options,
+  });
+}
+export const ContractEventsSearchDocument = gql`
+  query ContractEventsSearch(
+    $after: String
+    $before: String
+    $first: Int
+    $filter: ContractEventsFilter
+    $sort: [ContractEventsSortInput!]
+  ) {
+    contractEvents(
+      after: $after
+      before: $before
+      first: $first
+      filter: $filter
+      sort: $sort
+    ) {
+      edges {
+        cursor
+        node {
+          id
+          blockHeight
+          contractId
+          contractStandardType
+          impacted
+          name
+          parentType
+          parentId
+          timestamp
+        }
+        __typename
+      }
+      pageInfo {
+        hasNextPage
+        hasPreviousPage
+        startCursor
+        endCursor
+      }
+    }
+  }
+`;
+
+export function useContractEventsSearchQuery(
+  options: Omit<
+    Urql.UseQueryArgs<never, ContractEventsSearchQueryVariables>,
+    'query'
+  > = {}
+) {
+  return Urql.useQuery<ContractEventsSearchQuery>({
+    query: ContractEventsSearchDocument,
+    ...options,
+  });
+}
+export const ContractOperationsSearchDocument = gql`
+  query ContractOperationsSearch(
+    $after: String
+    $before: String
+    $first: Int
+    $filter: ContractOperationsFilter
+    $sort: [ContractOperationsSortInput!]
+  ) {
+    contractOperations(
+      after: $after
+      before: $before
+      first: $first
+      filter: $filter
+      sort: $sort
+    ) {
+      edges {
+        cursor
+        node {
+          id
+          blockHeight
+          contractId
+          transactionId
+          contractStandardType
+          timestamp
+        }
+        __typename
+      }
+      pageInfo {
+        hasNextPage
+        hasPreviousPage
+        startCursor
+        endCursor
+      }
+    }
+  }
+`;
+
+export function useContractOperationsSearchQuery(
+  options: Omit<
+    Urql.UseQueryArgs<never, ContractOperationsSearchQueryVariables>,
+    'query'
+  > = {}
+) {
+  return Urql.useQuery<ContractOperationsSearchQuery>({
+    query: ContractOperationsSearchDocument,
+    ...options,
+  });
+}
+export const ContractsSearchDocument = gql`
+  query ContractsSearch(
+    $after: String
+    $before: String
+    $first: Int
+    $filter: ContractsFilter
+    $sort: [ContractsSortInput!]
+  ) {
+    contracts(
+      after: $after
+      before: $before
+      first: $first
+      filter: $filter
+      sort: $sort
+    ) {
+      edges {
+        cursor
+        node {
+          id
+          contractStandardType
+          timestamp
+        }
+        __typename
+      }
+      pageInfo {
+        hasNextPage
+        hasPreviousPage
+        startCursor
+        endCursor
+      }
+    }
+  }
+`;
+
+export function useContractsSearchQuery(
+  options: Omit<
+    Urql.UseQueryArgs<never, ContractsSearchQueryVariables>,
+    'query'
+  > = {}
+) {
+  return Urql.useQuery<ContractsSearchQuery>({
+    query: ContractsSearchDocument,
+    ...options,
+  });
+}
+export const BlockProducersSearchDocument = gql`
+  query BlockProducersSearch(
+    $after: String
+    $before: String
+    $first: Int
+    $filter: BlockProducersFilter
+    $sort: [BlockProducersSortInput!]
+  ) {
+    blockProducers(
+      after: $after
+      before: $before
+      first: $first
+      filter: $filter
+      sort: $sort
+    ) {
+      edges {
+        cursor
+        node {
+          id
+          addressId
+          balance
+          blocksProduced
+        }
+        __typename
+      }
+      pageInfo {
+        hasNextPage
+        hasPreviousPage
+        startCursor
+        endCursor
+      }
+    }
+  }
+`;
+
+export function useBlockProducersSearchQuery(
+  options: Omit<
+    Urql.UseQueryArgs<never, BlockProducersSearchQueryVariables>,
+    'query'
+  > = {}
+) {
+  return Urql.useQuery<BlockProducersSearchQuery>({
+    query: BlockProducersSearchDocument,
+    ...options,
+  });
+}
+export const BlockRewardsSearchDocument = gql`
+  query BlockRewardsSearch(
+    $after: String
+    $before: String
+    $first: Int
+    $filter: BlockRewardsFilter
+    $sort: [BlockRewardsSortInput!]
+  ) {
+    blockRewards(
+      after: $after
+      before: $before
+      first: $first
+      filter: $filter
+      sort: $sort
+    ) {
+      edges {
+        cursor
+        node {
+          id
+          blockHeight
           value
           producerId
           burnedValue
+          timestamp
         }
-        transactionCount
+        __typename
       }
-      __typename
-    }
-    pageInfo {
-      hasNextPage
-      hasPreviousPage
-      startCursor
-      endCursor
+      pageInfo {
+        hasNextPage
+        hasPreviousPage
+        startCursor
+        endCursor
+      }
     }
   }
-}
-    `;
+`;
 
-export function useBlocksSearchQuery(options: Omit<Urql.UseQueryArgs<never, BlocksSearchQueryVariables>, 'query'> = {}) {
-  return Urql.useQuery<BlocksSearchQuery>({ query: BlocksSearchDocument, ...options });
-};
-export const EventsSearchDocument = gql`
-    query EventsSearch($after: String, $before: String, $first: Int, $filter: EventsFilter, $sort: [EventsSortInput!]) {
-  events(
-    after: $after
-    before: $before
-    first: $first
-    filter: $filter
-    sort: $sort
-  ) {
-    totalCount
-    edges {
-      cursor
-      node {
-        id
-        blockHeight
-        parentId
-        parentType
-        sequence
-        contractId
-        name
-        data
-        impacted
-        timestamp
-      }
-      __typename
-    }
-    pageInfo {
-      hasNextPage
-      hasPreviousPage
-      startCursor
-      endCursor
-    }
-  }
+export function useBlockRewardsSearchQuery(
+  options: Omit<
+    Urql.UseQueryArgs<never, BlockRewardsSearchQueryVariables>,
+    'query'
+  > = {}
+) {
+  return Urql.useQuery<BlockRewardsSearchQuery>({
+    query: BlockRewardsSearchDocument,
+    ...options,
+  });
 }
-    `;
-
-export function useEventsSearchQuery(options: Omit<Urql.UseQueryArgs<never, EventsSearchQueryVariables>, 'query'> = {}) {
-  return Urql.useQuery<EventsSearchQuery>({ query: EventsSearchDocument, ...options });
-};
-export const OperationsSearchDocument = gql`
-    query OperationsSearch($after: String, $before: String, $first: Int, $filter: OperationsFilter, $sort: [OperationsSortInput!]) {
-  operations(
-    after: $after
-    before: $before
-    first: $first
-    filter: $filter
-    sort: $sort
-  ) {
-    totalCount
-    edges {
-      cursor
-      node {
-        id
-        blockHeight
-        transactionId
-        type
-        timestamp
-      }
-      __typename
-    }
-    pageInfo {
-      hasNextPage
-      hasPreviousPage
-      startCursor
-      endCursor
-    }
-  }
-}
-    `;
-
-export function useOperationsSearchQuery(options: Omit<Urql.UseQueryArgs<never, OperationsSearchQueryVariables>, 'query'> = {}) {
-  return Urql.useQuery<OperationsSearchQuery>({ query: OperationsSearchDocument, ...options });
-};
-export const TransactionsSearchDocument = gql`
-    query TransactionsSearch($after: String, $before: String, $first: Int, $filter: TransactionsFilter, $sort: [TransactionsSortInput!]) {
-  transactions(
-    after: $after
-    before: $before
-    first: $first
-    filter: $filter
-    sort: $sort
-  ) {
-    totalCount
-    edges {
-      cursor
-      node {
-        id
-        blockHeight
-        operationCount
-        timestamp
-      }
-      __typename
-    }
-    pageInfo {
-      hasNextPage
-      hasPreviousPage
-      startCursor
-      endCursor
-    }
-  }
-}
-    `;
-
-export function useTransactionsSearchQuery(options: Omit<Urql.UseQueryArgs<never, TransactionsSearchQueryVariables>, 'query'> = {}) {
-  return Urql.useQuery<TransactionsSearchQuery>({ query: TransactionsSearchDocument, ...options });
-};
-export const ContractOperationsSearchDocument = gql`
-    query ContractOperationsSearch($after: String, $before: String, $first: Int, $filter: ContractOperationsFilter, $sort: [ContractOperationsSortInput!]) {
-  contractOperations(
-    after: $after
-    before: $before
-    first: $first
-    filter: $filter
-    sort: $sort
-  ) {
-    totalCount
-    edges {
-      cursor
-      node {
-        id
-        blockHeight
-        contractId
-        transactionId
-        contractStandardType
-        timestamp
-      }
-      __typename
-    }
-    pageInfo {
-      hasNextPage
-      hasPreviousPage
-      startCursor
-      endCursor
-    }
-  }
-}
-    `;
-
-export function useContractOperationsSearchQuery(options: Omit<Urql.UseQueryArgs<never, ContractOperationsSearchQueryVariables>, 'query'> = {}) {
-  return Urql.useQuery<ContractOperationsSearchQuery>({ query: ContractOperationsSearchDocument, ...options });
-};
-export const ContractsSearchDocument = gql`
-    query ContractsSearch($after: String, $before: String, $first: Int, $filter: ContractsFilter, $sort: [ContractsSortInput!]) {
-  contracts(
-    after: $after
-    before: $before
-    first: $first
-    filter: $filter
-    sort: $sort
-  ) {
-    totalCount
-    edges {
-      cursor
-      node {
-        id
-        contractStandardType
-        timestamp
-      }
-      __typename
-    }
-    pageInfo {
-      hasNextPage
-      hasPreviousPage
-      startCursor
-      endCursor
-    }
-  }
-}
-    `;
-
-export function useContractsSearchQuery(options: Omit<Urql.UseQueryArgs<never, ContractsSearchQueryVariables>, 'query'> = {}) {
-  return Urql.useQuery<ContractsSearchQuery>({ query: ContractsSearchDocument, ...options });
-};
 export const TokenContractsSearchDocument = gql`
-    query TokenContractsSearch($after: String, $before: String, $first: Int, $filter: TokenContractsFilter, $sort: [TokenContractsSortInput!]) {
-  tokenContracts(
-    after: $after
-    before: $before
-    first: $first
-    filter: $filter
-    sort: $sort
+  query TokenContractsSearch(
+    $after: String
+    $before: String
+    $first: Int
+    $filter: TokenContractsFilter
+    $sort: [TokenContractsSortInput!]
   ) {
-    totalCount
-    edges {
-      cursor
-      node {
-        id
-        name
-        symbol
-        decimals
-        totalSupply
-        timestamp
+    tokenContracts(
+      after: $after
+      before: $before
+      first: $first
+      filter: $filter
+      sort: $sort
+    ) {
+      edges {
+        cursor
+        node {
+          id
+          name
+          symbol
+          decimals
+          totalSupply
+          timestamp
+        }
+        __typename
       }
-      __typename
-    }
-    pageInfo {
-      hasNextPage
-      hasPreviousPage
-      startCursor
-      endCursor
+      pageInfo {
+        hasNextPage
+        hasPreviousPage
+        startCursor
+        endCursor
+      }
     }
   }
-}
-    `;
+`;
 
-export function useTokenContractsSearchQuery(options: Omit<Urql.UseQueryArgs<never, TokenContractsSearchQueryVariables>, 'query'> = {}) {
-  return Urql.useQuery<TokenContractsSearchQuery>({ query: TokenContractsSearchDocument, ...options });
-};
+export function useTokenContractsSearchQuery(
+  options: Omit<
+    Urql.UseQueryArgs<never, TokenContractsSearchQueryVariables>,
+    'query'
+  > = {}
+) {
+  return Urql.useQuery<TokenContractsSearchQuery>({
+    query: TokenContractsSearchDocument,
+    ...options,
+  });
+}
 export const TokenEventsSearchDocument = gql`
-    query TokenEventsSearch($after: String, $before: String, $first: Int, $filter: TokenEventsFilter, $sort: [TokenEventsSortInput!]) {
-  tokenEvents(
-    after: $after
-    before: $before
-    first: $first
-    filter: $filter
-    sort: $sort
+  query TokenEventsSearch(
+    $after: String
+    $before: String
+    $first: Int
+    $filter: TokenEventsFilter
+    $sort: [TokenEventsSortInput!]
   ) {
-    totalCount
-    edges {
-      cursor
-      node {
-        id
-        contract {
+    tokenEvents(
+      after: $after
+      before: $before
+      first: $first
+      filter: $filter
+      sort: $sort
+    ) {
+      edges {
+        cursor
+        node {
           id
+          contract {
+            id
+            name
+            symbol
+            decimals
+          }
+          from
+          to
+          value
           name
-          symbol
-          decimals
+          timestamp
         }
-        from
-        to
-        value
-        name
-        timestamp
+        __typename
       }
-      __typename
-    }
-    pageInfo {
-      hasNextPage
-      hasPreviousPage
-      startCursor
-      endCursor
+      pageInfo {
+        hasNextPage
+        hasPreviousPage
+        startCursor
+        endCursor
+      }
     }
   }
-}
-    `;
+`;
 
-export function useTokenEventsSearchQuery(options: Omit<Urql.UseQueryArgs<never, TokenEventsSearchQueryVariables>, 'query'> = {}) {
-  return Urql.useQuery<TokenEventsSearchQuery>({ query: TokenEventsSearchDocument, ...options });
-};
+export function useTokenEventsSearchQuery(
+  options: Omit<
+    Urql.UseQueryArgs<never, TokenEventsSearchQueryVariables>,
+    'query'
+  > = {}
+) {
+  return Urql.useQuery<TokenEventsSearchQuery>({
+    query: TokenEventsSearchDocument,
+    ...options,
+  });
+}
 export const TokenHoldersSearchDocument = gql`
-    query TokenHoldersSearch($after: String, $before: String, $first: Int, $filter: TokenHoldersFilter, $sort: [TokenHoldersSortInput!]) {
-  tokenHolders(
-    after: $after
-    before: $before
-    first: $first
-    filter: $filter
-    sort: $sort
+  query TokenHoldersSearch(
+    $after: String
+    $before: String
+    $first: Int
+    $filter: TokenHoldersFilter
+    $sort: [TokenHoldersSortInput!]
   ) {
-    totalCount
-    edges {
-      cursor
-      node {
-        id
-        addressId
-        balance
-        contract {
+    tokenHolders(
+      after: $after
+      before: $before
+      first: $first
+      filter: $filter
+      sort: $sort
+    ) {
+      edges {
+        cursor
+        node {
           id
-          name
-          decimals
-          symbol
+          addressId
+          contractId
+          balance
+          contract {
+            id
+            name
+            decimals
+            symbol
+          }
         }
+        __typename
       }
-      __typename
-    }
-    pageInfo {
-      hasNextPage
-      hasPreviousPage
-      startCursor
-      endCursor
+      pageInfo {
+        hasNextPage
+        hasPreviousPage
+        startCursor
+        endCursor
+      }
     }
   }
-}
-    `;
+`;
 
-export function useTokenHoldersSearchQuery(options: Omit<Urql.UseQueryArgs<never, TokenHoldersSearchQueryVariables>, 'query'> = {}) {
-  return Urql.useQuery<TokenHoldersSearchQuery>({ query: TokenHoldersSearchDocument, ...options });
-};
+export function useTokenHoldersSearchQuery(
+  options: Omit<
+    Urql.UseQueryArgs<never, TokenHoldersSearchQueryVariables>,
+    'query'
+  > = {}
+) {
+  return Urql.useQuery<TokenHoldersSearchQuery>({
+    query: TokenHoldersSearchDocument,
+    ...options,
+  });
+}
 export const TokenOperationsSearchDocument = gql`
-    query TokenOperationsSearch($after: String, $before: String, $first: Int, $filter: TokenOperationsFilter, $sort: [TokenOperationsSortInput!]) {
-  tokenOperations(
-    after: $after
-    before: $before
-    first: $first
-    filter: $filter
-    sort: $sort
+  query TokenOperationsSearch(
+    $after: String
+    $before: String
+    $first: Int
+    $filter: TokenOperationsFilter
+    $sort: [TokenOperationsSortInput!]
   ) {
-    totalCount
-    edges {
-      cursor
-      node {
-        id
-        transactionId
-        contractId
-        contract {
+    tokenOperations(
+      after: $after
+      before: $before
+      first: $first
+      filter: $filter
+      sort: $sort
+    ) {
+      edges {
+        cursor
+        node {
           id
+          transactionId
+          contractId
+          contract {
+            id
+            name
+            decimals
+            symbol
+          }
+          from
+          to
+          value
           name
-          decimals
-          symbol
+          timestamp
         }
-        from
-        to
-        value
-        name
-        timestamp
+        __typename
       }
-      __typename
-    }
-    pageInfo {
-      hasNextPage
-      hasPreviousPage
-      startCursor
-      endCursor
+      pageInfo {
+        hasNextPage
+        hasPreviousPage
+        startCursor
+        endCursor
+      }
     }
   }
-}
-    `;
+`;
 
-export function useTokenOperationsSearchQuery(options: Omit<Urql.UseQueryArgs<never, TokenOperationsSearchQueryVariables>, 'query'> = {}) {
-  return Urql.useQuery<TokenOperationsSearchQuery>({ query: TokenOperationsSearchDocument, ...options });
-};
+export function useTokenOperationsSearchQuery(
+  options: Omit<
+    Urql.UseQueryArgs<never, TokenOperationsSearchQueryVariables>,
+    'query'
+  > = {}
+) {
+  return Urql.useQuery<TokenOperationsSearchQuery>({
+    query: TokenOperationsSearchDocument,
+    ...options,
+  });
+}
 export const GetTokenLayoutDocument = gql`
-    query getTokenLayout($id: ID!) {
-  tokenContract(id: $id) {
-    id
-    name
-    symbol
-    decimals
+  query getTokenLayout($id: ID!) {
+    tokenContract(id: $id) {
+      id
+      name
+      symbol
+      decimals
+    }
   }
-}
-    `;
+`;
 
-export function useGetTokenLayoutQuery(options: Omit<Urql.UseQueryArgs<never, GetTokenLayoutQueryVariables>, 'query'> = {}) {
-  return Urql.useQuery<GetTokenLayoutQuery>({ query: GetTokenLayoutDocument, ...options });
-};
+export function useGetTokenLayoutQuery(
+  options: Omit<
+    Urql.UseQueryArgs<never, GetTokenLayoutQueryVariables>,
+    'query'
+  > = {}
+) {
+  return Urql.useQuery<GetTokenLayoutQuery>({
+    query: GetTokenLayoutDocument,
+    ...options,
+  });
+}
 export const BlockPageDocument = gql`
-    query BlockPage($height: ID!) {
-  block(height: $height) {
-    header {
-      height
-      previous
-      previousStateMerkleRoot
-      signer
-      timestamp
-      transactionMerkleRoot
+  query BlockPage($height: ID!) {
+    block(height: $height) {
+      header {
+        height
+        previous
+        previousStateMerkleRoot
+        signer
+        timestamp
+        transactionMerkleRoot
+      }
+      receipt {
+        diskStorageUsed
+        networkBandwidthUsed
+        computeBandwidthUsed
+        eventCount
+      }
+      reward {
+        producerId
+        value
+        burnedValue
+      }
+      id
+      signature
+      transactionCount
+      createdAt
+      updatedAt
     }
-    receipt {
-      diskStorageUsed
-      networkBandwidthUsed
-      computeBandwidthUsed
-      eventCount
-    }
-    reward {
-      producerId
-      value
-      burnedValue
-    }
-    id
-    signature
-    transactionCount
-    createdAt
-    updatedAt
   }
-}
-    `;
+`;
 
-export function useBlockPageQuery(options: Omit<Urql.UseQueryArgs<never, BlockPageQueryVariables>, 'query'> = {}) {
-  return Urql.useQuery<BlockPageQuery>({ query: BlockPageDocument, ...options });
-};
+export function useBlockPageQuery(
+  options: Omit<Urql.UseQueryArgs<never, BlockPageQueryVariables>, 'query'> = {}
+) {
+  return Urql.useQuery<BlockPageQuery>({
+    query: BlockPageDocument,
+    ...options,
+  });
+}
 export const TransactionPageDocument = gql`
-    query TransactionPage($id: ID!) {
-  transaction(id: $id) {
-    id
-    id
-    blockHeight
-    operationCount
-    header {
-      payer
-      nonce
-      operationMerkleRoot
-      rcLimit
+  query TransactionPage($id: ID!) {
+    transaction(id: $id) {
+      id
+      id
+      blockHeight
+      operationCount
+      header {
+        payer
+        nonce
+        operationMerkleRoot
+        rcLimit
+      }
+      index
+      signature
     }
-    index
-    signature
   }
-}
-    `;
+`;
 
-export function useTransactionPageQuery(options: Omit<Urql.UseQueryArgs<never, TransactionPageQueryVariables>, 'query'> = {}) {
-  return Urql.useQuery<TransactionPageQuery>({ query: TransactionPageDocument, ...options });
-};
+export function useTransactionPageQuery(
+  options: Omit<
+    Urql.UseQueryArgs<never, TransactionPageQueryVariables>,
+    'query'
+  > = {}
+) {
+  return Urql.useQuery<TransactionPageQuery>({
+    query: TransactionPageDocument,
+    ...options,
+  });
+}
+export const ChainCountsDocument = gql`
+  query ChainCounts {
+    blockProducers {
+      totalCount
+    }
+    transactions {
+      totalCount
+    }
+  }
+`;
+
+export function useChainCountsQuery(
+  options: Omit<
+    Urql.UseQueryArgs<never, ChainCountsQueryVariables>,
+    'query'
+  > = {}
+) {
+  return Urql.useQuery<ChainCountsQuery>({
+    query: ChainCountsDocument,
+    ...options,
+  });
+}

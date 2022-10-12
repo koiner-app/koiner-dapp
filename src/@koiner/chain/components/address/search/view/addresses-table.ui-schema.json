@@ -1,0 +1,65 @@
+{
+  "type": "object",
+  "elements": [
+    {
+      "type": "TableView",
+      "options": {
+        "search": {
+          "provider": "addresses"
+        }
+      },
+      "elements": [
+        {
+          "type": "Attribute",
+          "label": "ID",
+          "scope": "#/properties/id",
+          "options": {
+            "route": "address",
+            "format": "link",
+            "linkParams": ["id"],
+            "mappings": {
+              "id": "id"
+            }
+          }
+        },
+        {
+          "type": "AttributeGroup",
+          "label": "Tags",
+          "scope": "#/properties/tags",
+          "elements": [
+            {
+              "type": "Attribute",
+              "scope": "#/properties/isProducer",
+              "options": {
+                "icon": "token",
+                "format": "iconTag",
+                "mapping": "isProducer",
+                "tooltip": "koiner.chain.addresses.tags.isProducer"
+              }
+            },
+            {
+              "type": "Attribute",
+              "scope": "#/properties/isContract",
+              "options": {
+                "icon": "document_scanner",
+                "format": "iconTag",
+                "mapping": "isContract",
+                "tooltip": "koiner.chain.addresses.tags.isContract"
+              }
+            },
+            {
+              "type": "Attribute",
+              "scope": "#/properties/isTokenContract",
+              "options": {
+                "icon": "toll",
+                "format": "iconTag",
+                "mapping": "isTokenContract",
+                "tooltip": "koiner.chain.addresses.tags.isTokenContract"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

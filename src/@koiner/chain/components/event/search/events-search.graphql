@@ -1,0 +1,38 @@
+query EventsSearch(
+  $after: String
+  $before: String
+  $first: Int
+  $filter: EventsFilter
+  $sort: [EventsSortInput!]
+) {
+  events(
+    after: $after
+    before: $before
+    first: $first
+    filter: $filter
+    sort: $sort
+  ) {
+    edges {
+      cursor
+      node {
+        id
+        blockHeight
+        parentId
+        parentType
+        sequence
+        contractId
+        name
+        data
+        impacted
+        timestamp
+      }
+      __typename
+    }
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+  }
+}

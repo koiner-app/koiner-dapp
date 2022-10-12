@@ -1,66 +1,40 @@
 import { RouteRecordRaw } from 'vue-router';
-import { addressesRoutes } from 'src/router/chain/addresses-routes';
-import { blocksRoutes } from 'src/router/chain/blocks-routes';
-import { eventsRoutes } from 'src/router/chain/events-routes';
-import { operationsRoutes } from 'src/router/chain/operations-routes';
-import { transactionsRoutes } from 'src/router/chain/transactions-routes';
-import { contractsRoutes } from 'src/router/contracts/contracts-routes';
-import { networkRoutes } from 'src/router/network/network-routes';
-import { tokenContractRoutes } from 'src/router/tokenize/token-routes';
-import { tokensContractRoutes } from 'src/router/tokenize/tokens-routes';
-import { userAccountRoutes } from 'src/router/user/user-routes';
+import { accountRoutes } from 'src/router/account/account-routes';
+
+import { chainModuleRoutes } from '@koiner/chain/routes';
+import { contractsModuleRoutes } from '@koiner/contracts/routes';
+import { networkModuleRoutes } from '@koiner/network/routes';
+import { tokenizeModuleRoutes } from '@koiner/tokenize/router';
 
 const routes: RouteRecordRaw[] = [
   {
     path: '/health',
-    component: () => import('pages/HealthCheckPage.vue'),
+    component: () => import('pages/health-check-page.vue'),
   },
   {
     path: '/',
-    component: () => import('layouts/MainLayout.vue'),
+    component: () => import('layouts/main-layout.vue'),
     children: [
       // Root pages
       {
+        name: 'home',
+        path: '',
+        component: () => import('pages/home/index-page.vue'),
+      },
+      {
         name: 'transfer',
         path: '/transfer',
-        component: () => import('pages/TransferPage.vue'),
-      },
-      { path: '', component: () => import('pages/IndexPage.vue') },
-      {
-        path: 'dashboard',
-        component: () => import('pages/dashboard/DashboardIndexPage.vue'),
+        component: () => import('pages/transfer-page.vue'),
       },
 
-      // Chain
-      {
-        path: '/chain',
-        component: () => import('layouts/chain/ChainLayout.vue'),
-        children: [
-          {
-            name: 'chain',
-            path: '',
-            component: () => import('pages/chain/ChainIndexPage.vue'),
-          },
-        ],
-      },
-      ...addressesRoutes,
-      ...blocksRoutes,
-      ...eventsRoutes,
-      ...operationsRoutes,
-      ...transactionsRoutes,
+      // Account
+      ...accountRoutes,
 
-      // Contracts
-      ...contractsRoutes,
-
-      // Network
-      ...networkRoutes,
-
-      // Tokenize
-      ...tokenContractRoutes,
-      ...tokensContractRoutes,
-
-      // User
-      ...userAccountRoutes,
+      // Koiner Modules
+      ...chainModuleRoutes,
+      ...contractsModuleRoutes,
+      ...networkModuleRoutes,
+      ...tokenizeModuleRoutes,
     ],
   },
 
@@ -68,7 +42,7 @@ const routes: RouteRecordRaw[] = [
   // but you can also remove it
   {
     path: '/:catchAll(.*)*',
-    component: () => import('pages/ErrorNotFound.vue'),
+    component: () => import('pages/error-not-found.vue'),
   },
 ];
 

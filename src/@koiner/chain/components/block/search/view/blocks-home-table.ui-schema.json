@@ -1,0 +1,51 @@
+{
+  "type": "object",
+  "elements": [
+    {
+      "type": "TableView",
+      "options": {
+        "search": {
+          "provider": "blocksHome"
+        }
+      },
+      "elements": [
+        {
+          "type": "Attribute",
+          "label": "Height",
+          "scope": "#/properties/height",
+          "options": {
+            "route": "block",
+            "format": "link",
+            "linkParams": ["height"],
+            "mapping": "header.height",
+            "mappings": {
+              "height": "header.height"
+            }
+          }
+        },
+        {
+          "type": "Attribute",
+          "label": "Age",
+          "scope": "#/properties/timestamp",
+          "options": {
+            "format": "age",
+            "mapping": "header.timestamp"
+          }
+        },
+        {
+          "type": "Attribute",
+          "label": "Tx",
+          "scope": "#/properties/transactionCount",
+          "options": {
+            "route": "block.transactions",
+            "format": "link",
+            "linkParams": ["height"],
+            "mappings": {
+              "height": "header.height"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

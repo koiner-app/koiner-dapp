@@ -1,0 +1,30 @@
+query BlocksHomeSearch(
+  $after: String
+  $before: String
+  $first: Int
+) {
+  blocks(
+    after: $after
+    before: $before
+    first: $first
+  ) {
+    edges {
+      cursor
+      node {
+        id
+        header {
+          height
+          timestamp
+        }
+        transactionCount
+      }
+      __typename
+    }
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+  }
+}

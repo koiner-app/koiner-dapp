@@ -2,7 +2,9 @@
   <q-table
     v-if="searchView.visible"
     ref="tableView"
-    :class="`pa-0 ${styles.tableView.root} ${appliedOptions.class ?? ''}`"
+    :class="`pa-0 ${styles.tableView.root} ${appliedOptions.class ?? ''} ${
+      appliedOptions.rowHeights ?? 'regular-rows'
+    }`"
     :rows-per-page-options="[0]"
     :row-key="rowKeyName"
     :rows="connection?.edges"
@@ -141,7 +143,7 @@ export default defineComponent({
 
     watch(tableView, (newValue) => {
       if (newValue != null) {
-        tableOffsetTop.value = offset(newValue.$el).top + 76;
+        tableOffsetTop.value = offset(newValue.$el).top + 104;
       }
     });
 

@@ -1,0 +1,74 @@
+.stats-cards {
+  width: 100%;
+  .q-separator--vertical {
+    max-height: 88px !important;
+    margin-top: 2.5rem;
+    background: #3333331c;
+  }
+
+  .stats-card {
+    width: 100%;
+    max-width: calc(25%);
+    padding-top: 2rem;
+    padding-left: 1rem;
+
+    .text-h4 {
+      font-weight: bold !important;
+      color: #000000;
+      margin-top: 0;
+    }
+  }
+}
+
+.token-price::first-letter {
+  font-size: 1.5rem;
+  margin-right: 0.25rem;
+}
+.market-cap::first-letter {
+  margin-right: 1.25rem;
+}
+
+.q-card {
+  font-family: 'Roboto Mono', serif !important;
+
+  .text-overline {
+    font-size: 0.875rem;
+    font-weight: 400;
+  }
+}
+.stats-cards {
+  width: 100%;
+  .q-separator--vertical {
+    max-height: 88px !important;
+    margin-top: 2.5rem;
+    background: #3333331c;
+  }
+
+  .stats-card {
+    width: 100%;
+    max-width: calc(25%);
+    padding-top: 2rem;
+    padding-left: 1rem;
+
+    .text-h4 {
+      font-weight: bold !important;
+      color: #000000;
+      margin-top: 0;
+    }
+  }
+}
+.transactions-card {
+  width: 100%;
+  max-width: calc(66.66% - 24px);
+}
+.blocks-card {
+  width: 100%;
+  max-width: calc(33.33% - 24px);
+}
+.large-card {
+  width: calc(50% - 24px);
+}
+.my-card {
+  width: 100%;
+  max-width: calc(25%);
+}

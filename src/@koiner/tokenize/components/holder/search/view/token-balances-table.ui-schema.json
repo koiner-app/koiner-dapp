@@ -1,0 +1,51 @@
+{
+  "type": "object",
+  "elements": [
+    {
+      "type": "TableView",
+      "options": {
+        "search": {
+          "provider": "tokenHolders"
+        }
+      },
+      "elements": [
+        {
+          "type": "Attribute",
+          "label": "Token",
+          "scope": "#/properties/contractId",
+          "mapping": "contract.id",
+          "options": {
+            "format": "token",
+            "mappings": {
+              "contract.id": "contract.id",
+              "contract.name": "contract.name",
+              "contract.symbol": "contract.symbol",
+              "contract.decimals": "contract.decimals"
+            }
+          }
+        },
+        {
+          "type": "Attribute",
+          "label": "Address",
+          "scope": "#/properties/addressId",
+          "options": {
+            "format": "address"
+          }
+        },
+        {
+          "type": "Attribute",
+          "scope": "#/properties/balance",
+          "options": {
+            "format": "tokenAmount",
+            "mappings": {
+              "contract.id": "contract.id",
+              "contract.name": "contract.name",
+              "contract.symbol": "contract.symbol",
+              "contract.decimals": "contract.decimals"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

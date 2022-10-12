@@ -1,0 +1,77 @@
+{
+  "type": "object",
+  "elements": [
+    {
+      "type": "TableView",
+      "options": {
+        "search": {
+          "provider": "blockRewards"
+        }
+      },
+      "elements": [
+        {
+          "type": "Attribute",
+          "label": "Height",
+          "scope": "#/properties/blockHeight",
+          "options": {
+            "route": "block",
+            "format": "link",
+            "linkParams": ["height"],
+            "mapping": "blockHeight",
+            "mappings": {
+              "height": "blockHeight"
+            }
+          }
+        },
+        {
+          "type": "Attribute",
+          "label": "Age",
+          "scope": "#/properties/timestamp",
+          "options": {
+            "format": "age",
+            "mapping": "timestamp"
+          }
+        },
+        {
+          "type": "Attribute",
+          "label": "Producer",
+          "scope": "#/properties/producerId",
+          "options": {
+            "format": "address",
+            "mapping": "producerId"
+          }
+        },
+        {
+          "type": "AttributeGroup",
+          "label": "Block reward",
+          "scope": "#/properties/reward",
+          "elements": [
+            {
+              "type": "Attribute",
+              "scope": "#/properties/value",
+              "options": {
+                "format": "koinTokenAmount",
+                "mapping": "value"
+              }
+            }
+          ]
+        },
+        {
+          "type": "AttributeGroup",
+          "label": "Burned VHP",
+          "scope": "#/properties/burned",
+          "elements": [
+            {
+              "type": "Attribute",
+              "scope": "#/properties/burnedValue",
+              "options": {
+                "format": "vhpTokenAmount",
+                "mapping": "burnedValue"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

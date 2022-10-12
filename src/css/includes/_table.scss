@@ -12,7 +12,7 @@
 
   .q-table tbody td {
     font-size: 0.75rem;
-    font-family: 'Roboto Mono' !important;
+    font-family: 'Roboto Mono', serif !important;
   }
 
   tbody.q-virtual-scroll__content td {
@@ -90,6 +90,10 @@
     .q-table tbody.q-virtual-scroll__content td {
       height: 56px;
     }
+  }
+
+  .attribute-root {
+    display: inline-block;
   }
 }
 .search-view-table {

@@ -1,0 +1,34 @@
+query BlockRewardsSearch(
+  $after: String
+  $before: String
+  $first: Int
+  $filter: BlockRewardsFilter
+  $sort: [BlockRewardsSortInput!]
+) {
+  blockRewards(
+    after: $after
+    before: $before
+    first: $first
+    filter: $filter
+    sort: $sort
+  ) {
+    edges {
+      cursor
+      node {
+        id
+        blockHeight
+        value
+        producerId
+        burnedValue
+        timestamp
+      }
+      __typename
+    }
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+  }
+}

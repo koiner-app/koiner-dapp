@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 import {
   AddressesSearchQueryVariables,
   BlocksSearchQueryVariables,
+  ContractEventsSearchQueryVariables,
   ContractOperationsSearchQueryVariables,
   ContractsSearchQueryVariables,
   EventsSearchQueryVariables,
@@ -55,6 +56,10 @@ export const useSearchStore = defineStore({
       position: 0,
       request: {},
     } as SearchStoreEntry<ContractsSearchQueryVariables>,
+    contractEvents: {
+      position: 0,
+      request: {},
+    } as SearchStoreEntry<ContractEventsSearchQueryVariables>,
     contractOperations: {
       position: 0,
       request: {},

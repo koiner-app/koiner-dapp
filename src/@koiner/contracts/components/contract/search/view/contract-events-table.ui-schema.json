@@ -1,0 +1,29 @@
+{
+  "type": "object",
+  "elements": [
+    {
+      "type": "TableView",
+      "options": {
+        "search": {
+          "provider": "contractEvents"
+        }
+      },
+      "elements": [
+        {
+          "type": "Attribute",
+          "label": "Age",
+          "scope": "#/properties/timestamp",
+          "options": {
+            "format": "age",
+            "mapping": "timestamp"
+          }
+        },
+        {
+          "type": "Attribute",
+          "label": "Name",
+          "scope": "#/properties/name"
+        }
+      ]
+    }
+  ]
+}

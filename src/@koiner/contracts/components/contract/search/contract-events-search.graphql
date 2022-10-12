@@ -1,0 +1,37 @@
+query ContractEventsSearch(
+  $after: String
+  $before: String
+  $first: Int
+  $filter: ContractEventsFilter
+  $sort: [ContractEventsSortInput!]
+) {
+  contractEvents(
+    after: $after
+    before: $before
+    first: $first
+    filter: $filter
+    sort: $sort
+  ) {
+    edges {
+      cursor
+      node {
+        id
+        blockHeight
+        contractId
+        contractStandardType
+        impacted
+        name
+        parentType
+        parentId
+        timestamp
+      }
+      __typename
+    }
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+  }
+}

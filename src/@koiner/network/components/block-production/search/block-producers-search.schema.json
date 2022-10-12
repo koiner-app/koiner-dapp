@@ -1,0 +1,17 @@
+{
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string"
+    },
+    "addressId": {
+      "type": "string"
+    },
+    "balance": {
+      "type": "number"
+    },
+    "blocksProduced": {
+      "type": "number"
+    }
+  }
+}

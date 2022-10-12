@@ -1,0 +1,32 @@
+query BlockProducersSearch(
+  $after: String
+  $before: String
+  $first: Int
+  $filter: BlockProducersFilter
+  $sort: [BlockProducersSortInput!]
+) {
+  blockProducers(
+    after: $after
+    before: $before
+    first: $first
+    filter: $filter
+    sort: $sort
+  ) {
+    edges {
+      cursor
+      node {
+        id
+        addressId
+        balance
+        blocksProduced
+      }
+      __typename
+    }
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+  }
+}

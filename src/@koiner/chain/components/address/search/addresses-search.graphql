@@ -1,0 +1,32 @@
+query AddressesSearch(
+  $after: String
+  $before: String
+  $first: Int
+  $filter: AddressesFilter
+  $sort: [AddressesSortInput!]
+) {
+  addresses(
+    after: $after
+    before: $before
+    first: $first
+    filter: $filter
+    sort: $sort
+  ) {
+    edges {
+      cursor
+      node {
+        id
+        isProducer
+        isContract
+        isTokenContract
+      }
+      __typename
+    }
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+  }
+}

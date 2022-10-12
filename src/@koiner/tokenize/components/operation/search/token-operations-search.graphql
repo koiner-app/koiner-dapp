@@ -1,0 +1,42 @@
+query TokenOperationsSearch(
+  $after: String
+  $before: String
+  $first: Int
+  $filter: TokenOperationsFilter
+  $sort: [TokenOperationsSortInput!]
+) {
+  tokenOperations(
+    after: $after
+    before: $before
+    first: $first
+    filter: $filter
+    sort: $sort
+  ) {
+    edges {
+      cursor
+      node {
+        id
+        transactionId
+        contractId
+        contract {
+          id
+          name
+          decimals
+          symbol
+        }
+        from
+        to
+        value
+        name
+        timestamp
+      }
+      __typename
+    }
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+  }
+}

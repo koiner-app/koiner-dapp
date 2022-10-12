@@ -1,0 +1,30 @@
+{
+  "type": "object",
+  "properties": {
+    "addressId": {
+      "type": "string"
+    },
+    "contractId": {
+      "type": "string"
+    },
+    "contract": {
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "decimals": {
+          "type": "number"
+        },
+        "symbol": {
+          "type": "string"
+        }
+      }
+    },
+    "balance": {
+      "type": "number"
+    }
+  }
+}

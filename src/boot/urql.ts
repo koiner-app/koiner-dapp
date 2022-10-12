@@ -17,17 +17,23 @@ export default boot(({ app }) => {
             // Chain
             addresses: relayPagination(),
             blocks: relayPagination(),
+            blocksHome: relayPagination(),
             events: relayPagination(),
             operations: relayPagination(),
             transactions: relayPagination(),
 
             // Contracts
             contracts: relayPagination(),
+            contractEvents: relayPagination(),
             contractOperations: relayPagination(),
             tokenContracts: relayPagination(),
             tokenEvents: relayPagination(),
             tokenHolders: relayPagination(),
             tokenOperations: relayPagination(),
+
+            // Network
+            blockProducers: relayPagination(),
+            blockRewards: relayPagination(),
           },
         },
         keys: {
