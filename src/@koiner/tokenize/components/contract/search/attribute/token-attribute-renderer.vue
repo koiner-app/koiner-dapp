@@ -29,7 +29,6 @@ import {
   useJsonAttribute,
   useQuasarAttribute,
 } from '@appvise/jsonsearch-quasar';
-import { round } from 'lodash';
 
 export default defineComponent({
   name: 'TokenAttributeRenderer',
