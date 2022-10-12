@@ -80,8 +80,8 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import BlockProducersComponent from '../components/block-production/search/component/block-producers-table.vue';
-import BlockRewardsComponent from '../components/block-production/search/component/block-rewards-table.vue';
+import BlockProducersComponent from '../components/block-production/search/view/block-producers-table.vue';
+import BlockRewardsComponent from '../components/block-production/search/view/block-rewards-table.vue';
 
 export default defineComponent({
   name: 'AccountRewardsPage',
