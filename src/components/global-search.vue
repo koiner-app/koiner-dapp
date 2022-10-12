@@ -3,33 +3,30 @@
     dark
     dense
     standout
-    v-model="text"
     input-class="text-right"
     class="q-ml-md global-search"
+    @click="dialog = true"
   >
     <template v-slot:prepend>
-      <q-icon name="search" size="xs" style="margin-top: -8px;" />
-    </template>
-    <template v-slot:append>
-      <q-icon
-        v-if="text !== ''"
-        name="clear"
-        class="cursor-pointer"
-        @click="text = ''"
-      />
+      <q-icon name="search" size="xs" style="margin-top: -8px" />
     </template>
   </q-input>
+
+  <search-dialog :open-dialog="dialog" @closed="dialog = false" />
 </template>
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
+import SearchDialog from 'components/search-dialog.vue';
 
 export default defineComponent({
-  components: {},
+  components: { SearchDialog },
 
   setup() {
+    const dialog = ref(false);
+
     return {
-      text: ref(''),
+      dialog,
     };
   },
 });
