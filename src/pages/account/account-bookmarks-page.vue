@@ -35,6 +35,25 @@
         <q-btn @click="bookmarkStore.resetList">Reset</q-btn>
       </q-card-actions>
     </q-card>
+
+    <q-card class="blocks-card" flat bordered>
+      <q-card-section class="q-pt-xs">
+        <div class="text-overline">Tokens</div>
+
+        <bookmark-component
+          v-for="bookmark in tokenBookmarks"
+          :key="bookmark.id"
+          :item="{ id: bookmark.id, type: bookmark.type }"
+          list-id="tokens"
+          item-translation="koiner.chain.item.token"
+        />
+      </q-card-section>
+      <q-card-actions>
+        <q-btn @click="bookmarkStore.resetList">Reset</q-btn>
+      </q-card-actions>
+    </q-card>
+
+    <q-btn @click="bookmarkStore.reset">Reset ALL</q-btn>
   </q-page>
 </template>
 
@@ -56,6 +75,9 @@ export default defineComponent({
 
       addressBookmarks: computed(() => {
         return bookmarkStore.bookmarks('addresses');
+      }),
+      tokenBookmarks: computed(() => {
+        return bookmarkStore.bookmarks('tokens');
       }),
       mainBookmarks: computed(() => {
         return bookmarkStore.bookmarks('main');
