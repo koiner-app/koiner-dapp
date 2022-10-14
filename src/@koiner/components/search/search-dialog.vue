@@ -46,6 +46,7 @@
         </q-input>
       </q-card-section>
 
+      <pages-search :search="trimmedSearch" />
       <token-contracts-search :search="trimmedSearch" />
       <addresses-search :search="trimmedSearch" />
       <contracts-search :search="trimmedSearch" />
@@ -62,6 +63,7 @@ import TokenContractsSearch from './searches/token-contracts-search.vue';
 import ContractsSearch from '@koiner/components/search/searches/contracts-search.vue';
 import BlocksSearch from '@koiner/components/search/searches/blocks-search.vue';
 import TransactionsSearch from '@koiner/components/search/searches/transactions-search.vue';
+import PagesSearch from '@koiner/components/search/searches/pages-search.vue';
 
 export default defineComponent({
   name: 'SearchDialog',
@@ -69,6 +71,7 @@ export default defineComponent({
     AddressesSearch,
     BlocksSearch,
     ContractsSearch,
+    PagesSearch,
     TokenContractsSearch,
     TransactionsSearch,
   },
@@ -136,5 +139,15 @@ export default defineComponent({
 
 .q-dialog .q-item__section--side .favorite-icon {
   color: yellow !important;
+}
+.q-dialog {
+  .q-card__section > .text-caption {
+    padding-bottom: 0.5rem;
+    display: inline-block;
+  }
+  .q-list > .q-item, .q-item {
+    min-height: 32px;
+    padding: 2px 16px;
+  }
 }
 </style>

@@ -38,7 +38,7 @@ import AccountAddressesFilter from '@koiner/chain/components/address/account-add
 import TokenBalancesTable from '@koiner/tokenize/components/holder/search/view/token-balances-table.vue';
 
 export default defineComponent({
-  name: 'AccountDashboardPage',
+  name: 'AccountPortfolioPage',
   components: {
     AccountAddressesFilter,
     AddressStatsComponent,

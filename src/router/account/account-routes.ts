@@ -7,9 +7,9 @@ export const accountRoutes: RouteRecordRaw[] = [
     component: () => import('layouts/account/account-layout.vue'),
     children: [
       {
-        name: 'account.dashboard',
+        name: 'account.portfolio',
         path: '',
-        component: () => import('pages/account/account-dashboard-page.vue'),
+        component: () => import('pages/account/account-portfolio-page.vue'),
       },
       {
         name: 'account.history',
