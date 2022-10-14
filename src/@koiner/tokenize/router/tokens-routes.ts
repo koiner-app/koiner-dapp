@@ -21,6 +21,11 @@ export const tokensContractRoutes: RouteRecordRaw[] = [
         component: () =>
           import('../pages/operation/tokens-operations-page.vue'),
       },
+      {
+        name: 'tokens.transfers',
+        path: '/tokens/transfers',
+        component: () => import('../pages/operation/tokens-transfers-page.vue'),
+      },
     ],
   },
 ];
