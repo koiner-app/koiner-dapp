@@ -6,11 +6,11 @@
           <koiner-logo />
         </q-toolbar-title>
 
-        <global-search />
-
         <q-btn flat dense size="md" color="accent"
           ><q-icon name="favorite_border"
         /></q-btn>
+
+        <search-dialog />
 
         <global-actions-menu />
 
@@ -54,14 +54,14 @@ import MainNavigation from 'components/main-navigation.vue';
 import Ticker from 'components/ticker-component.vue';
 import UserMenu from 'components/user-menu.vue';
 import GlobalActionsMenu from 'components/global-actions-menu.vue';
-import GlobalSearch from '@koiner/components/search/global-search.vue';
+import SearchDialog from '@koiner/components/search/search-dialog.vue';
 import { useAccountStore } from 'stores/account';
 import { useKoinosStore } from 'stores/koinos';
 
 export default defineComponent({
   name: 'MainLayout',
   components: {
-    GlobalSearch,
+    SearchDialog,
     GlobalActionsMenu,
     UserMenu,
     MainNavigation,

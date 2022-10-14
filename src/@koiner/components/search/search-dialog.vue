@@ -1,4 +1,13 @@
 <template>
+  <q-btn
+    color="primary"
+    size="sm"
+    label="Search"
+    icon="search"
+    @click="dialog = true"
+    class="btn-search-dialog q-px-sm q-mx-sm"
+  />
+
   <q-dialog
     v-model="dialog"
     transition-show="fade-in"
@@ -118,6 +127,13 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
+.btn-search-dialog {
+  .q-icon.on-left {
+    margin-right: 0.25rem;
+    font-size: 0.75rem;
+  }
+}
+
 .q-dialog .q-table__container {
   height: auto !important;
   max-height: 200px !important;
