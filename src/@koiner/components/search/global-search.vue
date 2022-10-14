@@ -17,7 +17,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import SearchDialog from 'components/search-dialog.vue';
+import SearchDialog from '@koiner/components/search/search-dialog.vue';
 
 export default defineComponent({
   components: { SearchDialog },

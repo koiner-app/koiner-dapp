@@ -54,7 +54,7 @@ import MainNavigation from 'components/main-navigation.vue';
 import Ticker from 'components/ticker-component.vue';
 import UserMenu from 'components/user-menu.vue';
 import GlobalActionsMenu from 'components/global-actions-menu.vue';
-import GlobalSearch from 'components/global-search.vue';
+import GlobalSearch from '@koiner/components/search/global-search.vue';
 import { useAccountStore } from 'stores/account';
 import { useKoinosStore } from 'stores/koinos';
 

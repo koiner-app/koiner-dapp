@@ -2,6 +2,7 @@ import { boot } from 'quasar/wrappers';
 import searchClient from '@appvise/search-manager';
 import { AddressesSearchProvider } from '@koiner/chain/components/address/search/addresses-search-provider';
 import { BlocksSearchProvider } from '@koiner/chain/components/block/search/blocks-search-provider';
+import { BlocksGlobalSearchProvider } from '@koiner/chain/components/block/search/blocks-global-search-provider';
 import { BlocksHomeSearchProvider } from '@koiner/chain/components/block/search/blocks-home-search-provider';
 import { EventsSearchProvider } from '@koiner/chain/components/event/search/events-search-provider';
 import { TransactionsSearchProvider } from '@koiner/chain/components/transaction/search/transactions-search-provider';
@@ -22,6 +23,7 @@ export default boot(({ app }) => {
       // Chain
       addresses: AddressesSearchProvider,
       blocks: BlocksSearchProvider,
+      blocksGlobal: BlocksGlobalSearchProvider,
       blocksHome: BlocksHomeSearchProvider,
       events: EventsSearchProvider,
       operations: OperationsSearchProvider,

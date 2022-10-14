@@ -1,0 +1,32 @@
+query BlocksGlobalSearch(
+  $after: String
+  $before: String
+  $first: Int
+  $filter: BlocksFilter
+  $sort: [BlocksSortInput!]
+) {
+  blocks(
+    after: $after
+    before: $before
+    first: $first
+    filter: $filter
+    sort: $sort
+  ) {
+    edges {
+      cursor
+      node {
+        id
+        header {
+          height
+        }
+      }
+      __typename
+    }
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+  }
+}

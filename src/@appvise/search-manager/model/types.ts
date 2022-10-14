@@ -32,6 +32,7 @@ export type SearchFilter = {
   AND?: InputMaybe<Array<SearchFilter>>;
   OR?: InputMaybe<Array<SearchFilter>>;
   search?: InputMaybe<StringFilter>;
+  [key: string]: InputMaybe<any>;
 };
 
 export type SearchRequestType = {

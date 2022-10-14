@@ -1258,6 +1258,37 @@ export type AddressesSearchQuery = {
   };
 };
 
+export type BlocksGlobalSearchQueryVariables = Exact<{
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  filter?: InputMaybe<BlocksFilter>;
+  sort?: InputMaybe<Array<BlocksSortInput> | BlocksSortInput>;
+}>;
+
+export type BlocksGlobalSearchQuery = {
+  __typename?: 'Query';
+  blocks: {
+    __typename?: 'BlocksConnection';
+    edges: Array<{
+      __typename: 'BlockEdge';
+      cursor: string;
+      node: {
+        __typename?: 'Block';
+        id: string;
+        header: { __typename?: 'BlockHeader'; height: any };
+      };
+    }>;
+    pageInfo: {
+      __typename?: 'PageInfo';
+      hasNextPage: boolean;
+      hasPreviousPage: boolean;
+      startCursor?: string | null;
+      endCursor?: string | null;
+    };
+  };
+};
+
 export type BlocksHomeSearchQueryVariables = Exact<{
   after?: InputMaybe<Scalars['String']>;
   before?: InputMaybe<Scalars['String']>;
@@ -1435,6 +1466,67 @@ export type TransactionsSearchQuery = {
       hasPreviousPage: boolean;
       startCursor?: string | null;
       endCursor?: string | null;
+    };
+  };
+};
+
+export type BlockPageQueryVariables = Exact<{
+  height: Scalars['ID'];
+}>;
+
+export type BlockPageQuery = {
+  __typename?: 'Query';
+  block: {
+    __typename?: 'Block';
+    id: string;
+    signature: string;
+    transactionCount: number;
+    createdAt: any;
+    updatedAt: any;
+    header: {
+      __typename?: 'BlockHeader';
+      height: any;
+      previous: string;
+      previousStateMerkleRoot?: string | null;
+      signer: string;
+      timestamp: any;
+      transactionMerkleRoot?: string | null;
+    };
+    receipt: {
+      __typename?: 'BlockReceipt';
+      diskStorageUsed: any;
+      networkBandwidthUsed: any;
+      computeBandwidthUsed: any;
+      eventCount: number;
+    };
+    reward?: {
+      __typename?: 'BlockReward';
+      producerId: string;
+      value: number;
+      burnedValue?: number | null;
+    } | null;
+  };
+};
+
+export type TransactionPageQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+export type TransactionPageQuery = {
+  __typename?: 'Query';
+  transaction: {
+    __typename?: 'Transaction';
+    id: string;
+    blockHeight: any;
+    operationCount: number;
+    index: number;
+    signature: string;
+    header: {
+      __typename?: 'TransactionHeader';
+      payer: string;
+      nonce?: string | null;
+      operationMerkleRoot?: string | null;
+      rcLimit: string;
     };
   };
 };
@@ -1790,67 +1882,6 @@ export type GetTokenLayoutQuery = {
   };
 };
 
-export type BlockPageQueryVariables = Exact<{
-  height: Scalars['ID'];
-}>;
-
-export type BlockPageQuery = {
-  __typename?: 'Query';
-  block: {
-    __typename?: 'Block';
-    id: string;
-    signature: string;
-    transactionCount: number;
-    createdAt: any;
-    updatedAt: any;
-    header: {
-      __typename?: 'BlockHeader';
-      height: any;
-      previous: string;
-      previousStateMerkleRoot?: string | null;
-      signer: string;
-      timestamp: any;
-      transactionMerkleRoot?: string | null;
-    };
-    receipt: {
-      __typename?: 'BlockReceipt';
-      diskStorageUsed: any;
-      networkBandwidthUsed: any;
-      computeBandwidthUsed: any;
-      eventCount: number;
-    };
-    reward?: {
-      __typename?: 'BlockReward';
-      producerId: string;
-      value: number;
-      burnedValue?: number | null;
-    } | null;
-  };
-};
-
-export type TransactionPageQueryVariables = Exact<{
-  id: Scalars['ID'];
-}>;
-
-export type TransactionPageQuery = {
-  __typename?: 'Query';
-  transaction: {
-    __typename?: 'Transaction';
-    id: string;
-    blockHeight: any;
-    operationCount: number;
-    index: number;
-    signature: string;
-    header: {
-      __typename?: 'TransactionHeader';
-      payer: string;
-      nonce?: string | null;
-      operationMerkleRoot?: string | null;
-      rcLimit: string;
-    };
-  };
-};
-
 export type ChainCountsQueryVariables = Exact<{ [key: string]: never }>;
 
 export type ChainCountsQuery = {
@@ -1905,6 +1936,52 @@ export function useAddressesSearchQuery(
 ) {
   return Urql.useQuery<AddressesSearchQuery>({
     query: AddressesSearchDocument,
+    ...options,
+  });
+}
+export const BlocksGlobalSearchDocument = gql`
+  query BlocksGlobalSearch(
+    $after: String
+    $before: String
+    $first: Int
+    $filter: BlocksFilter
+    $sort: [BlocksSortInput!]
+  ) {
+    blocks(
+      after: $after
+      before: $before
+      first: $first
+      filter: $filter
+      sort: $sort
+    ) {
+      edges {
+        cursor
+        node {
+          id
+          header {
+            height
+          }
+        }
+        __typename
+      }
+      pageInfo {
+        hasNextPage
+        hasPreviousPage
+        startCursor
+        endCursor
+      }
+    }
+  }
+`;
+
+export function useBlocksGlobalSearchQuery(
+  options: Omit<
+    Urql.UseQueryArgs<never, BlocksGlobalSearchQueryVariables>,
+    'query'
+  > = {}
+) {
+  return Urql.useQuery<BlocksGlobalSearchQuery>({
+    query: BlocksGlobalSearchDocument,
     ...options,
   });
 }
@@ -2142,6 +2219,75 @@ export function useTransactionsSearchQuery(
 ) {
   return Urql.useQuery<TransactionsSearchQuery>({
     query: TransactionsSearchDocument,
+    ...options,
+  });
+}
+export const BlockPageDocument = gql`
+  query BlockPage($height: ID!) {
+    block(height: $height) {
+      header {
+        height
+        previous
+        previousStateMerkleRoot
+        signer
+        timestamp
+        transactionMerkleRoot
+      }
+      receipt {
+        diskStorageUsed
+        networkBandwidthUsed
+        computeBandwidthUsed
+        eventCount
+      }
+      reward {
+        producerId
+        value
+        burnedValue
+      }
+      id
+      signature
+      transactionCount
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
+export function useBlockPageQuery(
+  options: Omit<Urql.UseQueryArgs<never, BlockPageQueryVariables>, 'query'> = {}
+) {
+  return Urql.useQuery<BlockPageQuery>({
+    query: BlockPageDocument,
+    ...options,
+  });
+}
+export const TransactionPageDocument = gql`
+  query TransactionPage($id: ID!) {
+    transaction(id: $id) {
+      id
+      id
+      blockHeight
+      operationCount
+      header {
+        payer
+        nonce
+        operationMerkleRoot
+        rcLimit
+      }
+      index
+      signature
+    }
+  }
+`;
+
+export function useTransactionPageQuery(
+  options: Omit<
+    Urql.UseQueryArgs<never, TransactionPageQueryVariables>,
+    'query'
+  > = {}
+) {
+  return Urql.useQuery<TransactionPageQuery>({
+    query: TransactionPageDocument,
     ...options,
   });
 }
@@ -2612,75 +2758,6 @@ export function useGetTokenLayoutQuery(
 ) {
   return Urql.useQuery<GetTokenLayoutQuery>({
     query: GetTokenLayoutDocument,
-    ...options,
-  });
-}
-export const BlockPageDocument = gql`
-  query BlockPage($height: ID!) {
-    block(height: $height) {
-      header {
-        height
-        previous
-        previousStateMerkleRoot
-        signer
-        timestamp
-        transactionMerkleRoot
-      }
-      receipt {
-        diskStorageUsed
-        networkBandwidthUsed
-        computeBandwidthUsed
-        eventCount
-      }
-      reward {
-        producerId
-        value
-        burnedValue
-      }
-      id
-      signature
-      transactionCount
-      createdAt
-      updatedAt
-    }
-  }
-`;
-
-export function useBlockPageQuery(
-  options: Omit<Urql.UseQueryArgs<never, BlockPageQueryVariables>, 'query'> = {}
-) {
-  return Urql.useQuery<BlockPageQuery>({
-    query: BlockPageDocument,
-    ...options,
-  });
-}
-export const TransactionPageDocument = gql`
-  query TransactionPage($id: ID!) {
-    transaction(id: $id) {
-      id
-      id
-      blockHeight
-      operationCount
-      header {
-        payer
-        nonce
-        operationMerkleRoot
-        rcLimit
-      }
-      index
-      signature
-    }
-  }
-`;
-
-export function useTransactionPageQuery(
-  options: Omit<
-    Urql.UseQueryArgs<never, TransactionPageQueryVariables>,
-    'query'
-  > = {}
-) {
-  return Urql.useQuery<TransactionPageQuery>({
-    query: TransactionPageDocument,
     ...options,
   });
 }
