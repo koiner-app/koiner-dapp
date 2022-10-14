@@ -17,7 +17,7 @@
         <q-item-section>
           <q-item-label class="text-white"
             >{{ edge.node.name
-            }}<q-chip dense square size="md" color="white" class="q-ml-sm">{{
+            }}<q-chip dense square size="sm" color="white" class="q-ml-sm">{{
               edge.node.symbol
             }}</q-chip></q-item-label
           >
