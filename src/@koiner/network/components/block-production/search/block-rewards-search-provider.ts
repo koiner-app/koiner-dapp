@@ -17,13 +17,27 @@ export class BlockRewardsSearchProvider
       BlockRewardsConnection
     >
 {
-  private loaded = false;
   public _state = SearchState.create<
     QueryBlockRewardsArgs,
     BlockReward,
     BlockRewardEdge,
     BlockRewardsConnection
   >();
+
+  constructor() {
+    const { data, fetching, error, isPaused } = useBlockRewardsSearchQuery({
+      variables: this.state.request,
+    });
+
+    watch(data, (updatedData) => {
+      this._state.connection.value =
+        updatedData?.blockRewards as BlockRewardsConnection;
+    });
+
+    this._state.error = error;
+    this._state.fetching = fetching;
+    this._state.isPaused = isPaused;
+  }
 
   public get state(): SearchState<
     QueryBlockRewardsArgs,
@@ -47,25 +61,6 @@ export class BlockRewardsSearchProvider
     this._state.request.value = request;
 
     return new Promise((resolve) => {
-      if (!this.loaded) {
-        const { data, fetching, error, isPaused } = useBlockRewardsSearchQuery({
-          variables: this.state.request,
-        });
-
-        watch(data, (updatedData) => {
-          this._state.connection.value =
-            updatedData?.blockRewards as BlockRewardsConnection;
-        });
-
-        this._state.error = error;
-        this._state.fetching = fetching;
-        this._state.isPaused = isPaused;
-
-        this.loaded = true;
-
-        resolve(this._state);
-      }
-
       resolve(this._state);
     });
   }

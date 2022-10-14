@@ -12,13 +12,26 @@ export class BlocksHomeSearchProvider
   implements
     SearchProvider<QueryBlocksArgs, Block, BlockEdge, BlocksConnection>
 {
-  private loaded = false;
   public _state = SearchState.create<
     QueryBlocksArgs,
     Block,
     BlockEdge,
     BlocksConnection
   >();
+
+  constructor() {
+    const { data, fetching, error, isPaused } = useBlocksHomeSearchQuery({
+      variables: this.state.request,
+    });
+
+    watch(data, (updatedData) => {
+      this._state.connection.value = updatedData?.blocks as BlocksConnection;
+    });
+
+    this._state.error = error;
+    this._state.fetching = fetching;
+    this._state.isPaused = isPaused;
+  }
 
   public get state(): SearchState<
     QueryBlocksArgs,
@@ -35,25 +48,6 @@ export class BlocksHomeSearchProvider
     this._state.request.value = request;
 
     return new Promise((resolve) => {
-      if (!this.loaded) {
-        const { data, fetching, error, isPaused } = useBlocksHomeSearchQuery({
-          variables: this.state.request,
-        });
-
-        watch(data, (updatedData) => {
-          this._state.connection.value =
-            updatedData?.blocks as BlocksConnection;
-        });
-
-        this._state.error = error;
-        this._state.fetching = fetching;
-        this._state.isPaused = isPaused;
-
-        this.loaded = true;
-
-        resolve(this._state);
-      }
-
       resolve(this._state);
     });
   }

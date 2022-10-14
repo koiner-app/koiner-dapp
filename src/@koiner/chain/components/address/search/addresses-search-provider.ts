@@ -17,13 +17,28 @@ export class AddressesSearchProvider
       AddressesConnection
     >
 {
-  private loaded = false;
   public _state = SearchState.create<
     QueryAddressesArgs,
     Address,
     AddressEdge,
     AddressesConnection
   >();
+
+  constructor() {
+    const { data, fetching, error, isPaused } = useAddressesSearchQuery({
+      variables: this.state.request,
+      pause: true,
+    });
+
+    watch(data, (updatedData) => {
+      this._state.connection.value =
+        updatedData?.addresses as AddressesConnection;
+    });
+
+    this._state.error = error;
+    this._state.fetching = fetching;
+    this._state.isPaused = isPaused;
+  }
 
   public get state(): SearchState<
     QueryAddressesArgs,
@@ -42,25 +57,6 @@ export class AddressesSearchProvider
     this._state.request.value = request;
 
     return new Promise((resolve) => {
-      if (!this.loaded) {
-        const { data, fetching, error, isPaused } = useAddressesSearchQuery({
-          variables: this.state.request,
-        });
-
-        watch(data, (updatedData) => {
-          this._state.connection.value =
-            updatedData?.addresses as AddressesConnection;
-        });
-
-        this._state.error = error;
-        this._state.fetching = fetching;
-        this._state.isPaused = isPaused;
-
-        this.loaded = true;
-
-        resolve(this._state);
-      }
-
       resolve(this._state);
     });
   }

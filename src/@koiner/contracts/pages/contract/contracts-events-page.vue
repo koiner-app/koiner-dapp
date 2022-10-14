@@ -10,7 +10,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import ContractEventsTable from '../../components/search/view/contracts-events-table.vue';
+import ContractEventsTable from '../../components/contract/search/view/contracts-events-table.vue';
 
 export default defineComponent({
   name: 'ContractEventsPage',

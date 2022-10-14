@@ -17,13 +17,28 @@ export class TokenContractsSearchProvider
       TokenContractsConnection
     >
 {
-  private loaded = false;
   public _state = SearchState.create<
     QueryTokenContractsArgs,
     TokenContract,
     TokenContractEdge,
     TokenContractsConnection
   >();
+
+  constructor() {
+    const { data, fetching, error, isPaused } = useTokenContractsSearchQuery({
+      variables: this.state.request,
+      pause: true,
+    });
+
+    watch(data, (updatedData) => {
+      this._state.connection.value =
+        updatedData?.tokenContracts as TokenContractsConnection;
+    });
+
+    this._state.error = error;
+    this._state.fetching = fetching;
+    this._state.isPaused = isPaused;
+  }
 
   public get state(): SearchState<
     QueryTokenContractsArgs,
@@ -47,26 +62,6 @@ export class TokenContractsSearchProvider
     this._state.request.value = request;
 
     return new Promise((resolve) => {
-      if (!this.loaded) {
-        const { data, fetching, error, isPaused } =
-          useTokenContractsSearchQuery({
-            variables: this.state.request,
-          });
-
-        watch(data, (updatedData) => {
-          this._state.connection.value =
-            updatedData?.tokenContracts as TokenContractsConnection;
-        });
-
-        this._state.error = error;
-        this._state.fetching = fetching;
-        this._state.isPaused = isPaused;
-
-        this.loaded = true;
-
-        resolve(this._state);
-      }
-
       resolve(this._state);
     });
   }

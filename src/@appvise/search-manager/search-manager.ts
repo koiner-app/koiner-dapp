@@ -1,4 +1,4 @@
-import { ref, Ref, watch } from 'vue';
+import { Ref } from 'vue';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import {
@@ -47,10 +47,11 @@ export class SearchManager<
     this.reset();
 
     await this.searchProvider.search({
-      // Don't include before + after cursors for new searches
+      ...request,
       first: request.first ?? 30, // TODO: Load default first from options?
-      filter: request.filter,
-      sort: request.sort,
+      // Don't include before + after cursors for new searches
+      before: undefined,
+      after: undefined,
     } as TRequest);
 
     // Workaround to reactivate urql to resume on a re-entering of page

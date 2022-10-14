@@ -17,13 +17,27 @@ export class TransactionsSearchProvider
       TransactionsConnection
     >
 {
-  private loaded = false;
   public _state = SearchState.create<
     QueryTransactionsArgs,
     Transaction,
     TransactionEdge,
     TransactionsConnection
   >();
+
+  constructor() {
+    const { data, fetching, error, isPaused } = useTransactionsSearchQuery({
+      variables: this.state.request,
+    });
+
+    watch(data, (updatedData) => {
+      this._state.connection.value =
+        updatedData?.transactions as TransactionsConnection;
+    });
+
+    this._state.error = error;
+    this._state.fetching = fetching;
+    this._state.isPaused = isPaused;
+  }
 
   public get state(): SearchState<
     QueryTransactionsArgs,
@@ -47,25 +61,6 @@ export class TransactionsSearchProvider
     this._state.request.value = request;
 
     return new Promise((resolve) => {
-      if (!this.loaded) {
-        const { data, fetching, error, isPaused } = useTransactionsSearchQuery({
-          variables: this.state.request,
-        });
-
-        watch(data, (updatedData) => {
-          this._state.connection.value =
-            updatedData?.transactions as TransactionsConnection;
-        });
-
-        this._state.error = error;
-        this._state.fetching = fetching;
-        this._state.isPaused = isPaused;
-
-        this.loaded = true;
-
-        resolve(this._state);
-      }
-
       resolve(this._state);
     });
   }
