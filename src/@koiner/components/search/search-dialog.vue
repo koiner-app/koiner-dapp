@@ -134,20 +134,6 @@ export default defineComponent({
   }
 }
 
-.q-dialog .q-table__container {
-  height: auto !important;
-  max-height: 200px !important;
-}
-.q-table__container {
-  .q-table__bottom {
-    display: none;
-  }
-}
-.q-table {
-  thead {
-    display: none;
-  }
-}
 .q-dialog .q-item__section--side .favorite-icon {
   color: yellow !important;
 }
