@@ -15,7 +15,10 @@
         <q-item-section>
           <q-item-label class="text-white">
             {{ edge.node.id }}
-
+          </q-item-label>
+        </q-item-section>
+        <q-item-section side>
+          <q-item-label caption>
             <bookmark-component
               :item="{ id: edge.node.id, type: 'address' }"
               list-id="addresses"
