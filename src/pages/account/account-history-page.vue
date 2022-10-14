@@ -11,8 +11,8 @@
           <q-tab
             class="text-overline"
             :ripple="false"
-            label="Token Ops"
-            name="token-operations"
+            label="Transfers"
+            name="token-transfers"
           />
           <q-tab
             class="text-overline"
@@ -31,10 +31,12 @@
         <q-separator />
 
         <q-tab-panels v-model="tokenTab" animated>
-          <q-tab-panel name="token-operations">
+          <q-tab-panel name="token-transfers">
             <tokens-operations-table
               v-if="addressFilter.length > 0"
               :addresses="addressFilter"
+              :burn-filter="false"
+              :mint-filter="false"
             />
           </q-tab-panel>
           <q-tab-panel name="transactions">

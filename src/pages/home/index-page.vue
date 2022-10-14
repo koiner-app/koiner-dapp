@@ -11,8 +11,8 @@
           <q-tab
             class="text-overline"
             :ripple="false"
-            label="Token Ops"
-            name="token-operations"
+            label="Transfers"
+            name="token-transfers"
           />
           <q-tab
             class="text-overline"
@@ -31,8 +31,11 @@
         <q-separator />
 
         <q-tab-panels v-model="tokenTab" animated>
-          <q-tab-panel name="token-operations">
-            <tokens-operations-table />
+          <q-tab-panel name="token-transfers">
+            <tokens-operations-table
+              :burn-filter="false"
+              :mint-filter="false"
+            />
           </q-tab-panel>
           <q-tab-panel name="transactions">
             <transactions-table />
@@ -75,7 +78,7 @@ export default defineComponent({
   },
 
   setup() {
-    const tokenTab: Ref<string> = ref('token-operations');
+    const tokenTab: Ref<string> = ref('token-transfers');
 
     return {
       tokenTab,
