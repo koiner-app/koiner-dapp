@@ -211,10 +211,11 @@ import { useRoute } from 'vue-router';
 import { ItemState } from '@appvise/search-manager';
 import { Block, useBlockPageQuery } from '@koiner/sdk';
 import { round } from 'lodash';
+import AddressLink from '@koiner/chain/components/address/address-link.vue';
 
 export default defineComponent({
   name: 'BlockPage',
-  // components: { AddressLink },
+  components: { AddressLink },
   setup() {
     let height: Ref<string | string[] | undefined> = ref();
     const itemState = ItemState.create<Block>();

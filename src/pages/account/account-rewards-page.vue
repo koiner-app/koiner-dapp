@@ -90,7 +90,7 @@
 
 <script lang="ts">
 import { defineComponent, Ref, ref } from 'vue';
-import BlockRewardsComponent from '@koiner/network/components/block-production/search/component/block-rewards-table.vue';
+import BlockRewardsComponent from '@koiner/network/components/block-production/search/view/block-rewards-table.vue';
 import AccountAddressesFilter from '@koiner/chain/components/address/account-addresses-filter.vue';
 
 export default defineComponent({
