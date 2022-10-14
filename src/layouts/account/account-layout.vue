@@ -18,8 +18,8 @@
       <q-tabs dense align="left" style="width: 100%">
         <q-route-tab
           :ripple="false"
-          label="Dashboard"
-          :to="{ name: 'account.dashboard' }"
+          label="Portfolio"
+          :to="{ name: 'account.portfolio' }"
           exact
         />
         <q-route-tab
