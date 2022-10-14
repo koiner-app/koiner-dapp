@@ -84,6 +84,11 @@ export const pages = [
 
   // Tokenize
   {
+    name: 'Token Transfers',
+    route: 'tokens.transfers',
+    module: 'Tokenize',
+  },
+  {
     name: 'Token Contracts',
     route: 'tokens',
     module: 'Tokenize',
