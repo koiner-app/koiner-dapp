@@ -96,13 +96,28 @@ export default defineComponent({
       required: false,
       type: Array as PropType<Array<string>>,
     },
+    burnFilter: {
+      required: false,
+      type: Boolean,
+      default: true,
+    },
+    mintFilter: {
+      required: false,
+      type: Boolean,
+      default: true,
+    },
+    transferFilter: {
+      required: false,
+      type: Boolean,
+      default: true,
+    },
   },
 
   setup(props) {
     const searchStore = useSearchStore();
-    const transfer: Ref<boolean> = ref(false);
-    const mint: Ref<boolean> = ref(false);
-    const burn: Ref<boolean> = ref(false);
+    const burn: Ref<boolean> = ref(props.burnFilter);
+    const mint: Ref<boolean> = ref(props.mintFilter);
+    const transfer: Ref<boolean> = ref(props.transferFilter);
     let addressFilter: any;
     let contractsFilter: any;
 
@@ -197,6 +212,10 @@ export default defineComponent({
     );
 
     onMounted(() => {
+      updateNameFilter('burn', burn.value);
+      updateNameFilter('mint', mint.value);
+      updateNameFilter('transfer', transfer.value);
+
       updateFilters();
     });
 
