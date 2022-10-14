@@ -37,16 +37,16 @@
         </q-input>
       </q-card-section>
 
-      <token-contracts-search :search="search" />
-      <addresses-search :search="search" />
-      <contracts-search :search="search" />
-      <blocks-search :search="search" />
-      <transactions-search :search="search" />
+      <token-contracts-search :search="trimmedSearch" />
+      <addresses-search :search="trimmedSearch" />
+      <contracts-search :search="trimmedSearch" />
+      <blocks-search :search="trimmedSearch" />
+      <transactions-search :search="trimmedSearch" />
     </q-card>
   </q-dialog>
 </template>
 <script lang="ts">
-import { defineComponent, ref, watch, watchEffect } from 'vue';
+import { computed, defineComponent, ref, watch, watchEffect } from 'vue';
 import { useMagicKeys } from '@vueuse/core';
 import AddressesSearch from './searches/addresses-search.vue';
 import TokenContractsSearch from './searches/token-contracts-search.vue';
@@ -109,6 +109,9 @@ export default defineComponent({
     return {
       dialog,
       search,
+      trimmedSearch: computed(() => {
+        return search.value.trim();
+      }),
     };
   },
 });
