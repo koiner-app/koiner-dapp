@@ -169,6 +169,14 @@ export default defineComponent({
 
     const { t } = useI18n();
 
+    watch(
+      searchManager.connection,
+      (newValue) => {
+        quasarSearchView.onChange(newValue);
+      },
+      { deep: true }
+    );
+
     return {
       // Search
       connection: searchManager.connection,
