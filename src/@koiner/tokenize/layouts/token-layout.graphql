@@ -1,4 +1,4 @@
-query getTokenLayout($id: ID!) {
+query TokenLayout($id: ID!) {
   tokenContract(id: $id) {
     id
     name

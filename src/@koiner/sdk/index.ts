@@ -1867,11 +1867,11 @@ export type TokenOperationsSearchQuery = {
   };
 };
 
-export type GetTokenLayoutQueryVariables = Exact<{
+export type TokenLayoutQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
-export type GetTokenLayoutQuery = {
+export type TokenLayoutQuery = {
   __typename?: 'Query';
   tokenContract: {
     __typename?: 'TokenContract';
@@ -2739,8 +2739,8 @@ export function useTokenOperationsSearchQuery(
     ...options,
   });
 }
-export const GetTokenLayoutDocument = gql`
-  query getTokenLayout($id: ID!) {
+export const TokenLayoutDocument = gql`
+  query TokenLayout($id: ID!) {
     tokenContract(id: $id) {
       id
       name
@@ -2750,14 +2750,14 @@ export const GetTokenLayoutDocument = gql`
   }
 `;
 
-export function useGetTokenLayoutQuery(
+export function useTokenLayoutQuery(
   options: Omit<
-    Urql.UseQueryArgs<never, GetTokenLayoutQueryVariables>,
+    Urql.UseQueryArgs<never, TokenLayoutQueryVariables>,
     'query'
   > = {}
 ) {
-  return Urql.useQuery<GetTokenLayoutQuery>({
-    query: GetTokenLayoutDocument,
+  return Urql.useQuery<TokenLayoutQuery>({
+    query: TokenLayoutDocument,
     ...options,
   });
 }
