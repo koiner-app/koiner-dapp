@@ -3,7 +3,7 @@ import { defineStore } from 'pinia';
 
 export interface BookmarkedItem {
   id: string;
-  type?: string;
+  type: string;
   [key: string]: any;
 }
 
@@ -11,6 +11,7 @@ export interface Bookmark {
   id: string;
   type: string;
   item?: BookmarkedItem;
+  timestamp: number;
 }
 
 export interface BookmarkList {
@@ -25,7 +26,6 @@ export interface BookmarksState {
 
 export const useBookmarkStore = defineStore({
   id: 'bookmarks',
-  // persist: true,
   state: () => ({
     activeList: 'main' as string,
     lists: new Map<string, BookmarkList>([
@@ -69,6 +69,7 @@ export const useBookmarkStore = defineStore({
                 id: bookmark.id,
                 type: bookmark.type,
                 item: bookmark.item,
+                timestamp: bookmark.timestamp,
               },
             });
           });
@@ -169,8 +170,9 @@ export const useBookmarkStore = defineStore({
       if (list) {
         list.bookmarks.set(bookmarkedItem.id, {
           id: bookmarkedItem.id,
-          type: typeof bookmarkedItem,
+          type: bookmarkedItem.type,
           item: bookmarkedItem,
+          timestamp: Date.now(),
         });
       }
     },

@@ -1,29 +1,19 @@
 <template>
-  <q-chip
-    v-if="hasBookmark(item.id, listId)"
-    dense
-    square
-    :color="bookmark(item.id, listId)?.color"
-    :text-color="bookmark(item.id)?.textColor"
-  >
-    {{ bookmark(item.id, listId)?.label ?? item.id }}
-  </q-chip>
-  <span v-else>[{{ item.id }}]</span>
-
   <q-btn flat dense size="sm" class="favorite-icon">
     <q-icon
       v-if="hasBookmark(item.id, listId)"
       @click="bookmarkStore.removeBookmark(item.id, listId)"
-      name="star"
+      :name="iconDelete"
     >
       <q-tooltip class="bg-primary" :offset="[0, 0]"
-        >Remove {{ itemTranslation ? t(itemTranslation) : 'item' }} from bookmarks</q-tooltip
+        >Remove {{ itemTranslation ? t(itemTranslation) : 'item' }} from
+        bookmarks</q-tooltip
       >
     </q-icon>
     <q-icon
       v-else
       @click="bookmarkStore.addBookmark(item, listId)"
-      name="star_border"
+      :name="iconAdd"
     >
       <q-tooltip class="bg-primary" :offset="[0, 0]"
         >Bookmark this
@@ -53,6 +43,16 @@ export default defineComponent({
       required: false,
       type: String,
     },
+    iconAdd: {
+      required: false,
+      type: String,
+      default: 'star_border'
+    },
+    iconDelete: {
+      required: false,
+      type: String,
+      default: 'star'
+    }
   },
   setup() {
     const t = useI18n().t;
