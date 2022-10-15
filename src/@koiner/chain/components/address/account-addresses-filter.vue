@@ -5,6 +5,7 @@
     :options="addressesOpts"
   >
     <template v-slot:label="opt">
+      {{ opt.value }}
       <bookmark-component
         :item="{ id: opt.value, type: 'address' }"
         list-id="addresses"
