@@ -86,7 +86,7 @@ export default defineComponent({
   },
 
   setup() {
-    const tokenTab: Ref<string> = ref('token-operations');
+    const tokenTab: Ref<string> = ref('token-transfers');
     const addressFilter: Ref<string[]> = ref([]);
 
     const updateFilter = (newFilter: string[]) => {
