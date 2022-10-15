@@ -29,7 +29,9 @@ const useComputedValue = <I extends { control: any }>(
 /**
  * Adds styles and appliedOptions
  */
-export const useQuasarSearchView = <I extends { searchView: any }>(
+export const useQuasarSearchView = <
+  I extends { searchView: any; handleChange: any }
+>(
   input: I
 ) => {
   const appliedOptions = computed(() =>
@@ -39,10 +41,16 @@ export const useQuasarSearchView = <I extends { searchView: any }>(
       cloneDeep(input.searchView.value.uischema.options)
     )
   );
+
+  const onChange = (value: any) => {
+    input.handleChange(input.searchView.value.path, value);
+  };
+
   return {
     ...input,
     styles: useStyles(input.searchView.value.uischema),
     appliedOptions,
+    onChange,
   };
 };
 
