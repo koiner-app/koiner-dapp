@@ -18,7 +18,7 @@
 <script lang="ts">
 import { JsonForms, JsonFormsChangeEvent, MaybeReadonly } from '@jsonforms/vue';
 import { createAjv, extendedQuasarRenderers } from '@appvise/jsonforms-quasar';
-import { defineComponent, PropType } from 'vue';
+import { defineComponent, PropType, ref } from 'vue';
 import {
   JsonFormsRendererRegistryEntry,
   JsonFormsI18nState,
@@ -95,7 +95,7 @@ export default defineComponent({
       default: () => [],
     },
   },
-  emits: ['onScroll'],
+  emits: ['onScroll', 'change'],
 
   setup(
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -111,21 +111,30 @@ export default defineComponent({
     const i18n: JsonFormsI18nState = {
       translate: t,
     };
+    const lastScrollPosition = ref(props.scrollPosition);
 
     const onChange = (event: JsonFormsChangeEvent) => {
       // Propagate onScroll event
-      emit('onScroll', event.data.scrollPosition);
+      // TODO: Does onScroll still work?
+      if (
+        event.data?.scrollPosition &&
+        lastScrollPosition.value !== event.data?.scrollPosition
+      ) {
+        lastScrollPosition.value = event.data.scrollPosition;
+        emit('onScroll', event.data.scrollPosition);
+      }
+
+      // Propagate onChange event
+      if (event.data) {
+        emit('change', event.data);
+      }
     };
 
     let mergedRenderers = props.renderers ?? renderers;
 
     if (props.additionalRenderers) {
-      mergedRenderers = [
-        ...mergedRenderers,
-        ...props.additionalRenderers,
-      ]
+      mergedRenderers = [...mergedRenderers, ...props.additionalRenderers];
     }
-
 
     return {
       ajv,
@@ -133,7 +142,9 @@ export default defineComponent({
       onChange,
 
       // Freeze renderers for better performance
-      mergedRenderers: Object.freeze(mergedRenderers) as JsonFormsRendererRegistryEntry[],
+      mergedRenderers: Object.freeze(
+        mergedRenderers
+      ) as JsonFormsRendererRegistryEntry[],
 
       data: {
         request: props.request,
