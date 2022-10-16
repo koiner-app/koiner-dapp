@@ -5,6 +5,7 @@
     :request="request"
     :data="{}"
     :additional-renderers="renderers"
+    @change="onChange"
   />
 </template>
 
@@ -14,7 +15,7 @@ import { KoinerRenderers } from '@koiner/renderers';
 import QJsonSearch from '@appvise/q-json-forms/QJsonSearch.vue';
 import tokenHoldersSearchSchema from '../token-holders-search.schema.json';
 import tokenBalancesSearchUiSchema from './token-balances-table.ui-schema.json';
-import { QueryTokenHoldersArgs } from '@koiner/sdk';
+import { QueryTokenHoldersArgs, TokenHoldersConnection } from '@koiner/sdk';
 
 export default defineComponent({
   name: 'TokenBalancesTable',
@@ -29,8 +30,9 @@ export default defineComponent({
       type: Array as PropType<Array<string>>,
     },
   },
+  emits: ['change'],
 
-  setup(props) {
+  setup(props, { emit }) {
     let request: Ref<QueryTokenHoldersArgs> = ref({ filter: {} });
     let contractIdsFilter: any;
     let addressFilter: any;
@@ -85,6 +87,9 @@ export default defineComponent({
       uiSchema: tokenBalancesSearchUiSchema,
       request: request,
       renderers: KoinerRenderers,
+      onChange: (data: TokenHoldersConnection) => {
+        emit('change', data);
+      },
     };
   },
 });
