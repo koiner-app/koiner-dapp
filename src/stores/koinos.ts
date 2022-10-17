@@ -64,35 +64,36 @@ export const useKoinosStore = defineStore({
       //   });
       //   console.log('YESSSSS', result.data.value);
       // });
-      const variables: Ref<any> = ref({ height: '' });
 
-      const executeQuery = () => {
-        const result = useChainCountsQuery({
-          variables,
-        });
-
-        console.log('ressssssss', result.data.value);
-
-        watch(result.data, (updatedData) => {
-          console.log('updatedData', updatedData);
-          if (updatedData) {
-            this.$patch({
-              chainCounts: {
-                addresses: updatedData.blockProducers.totalCount,
-                blockProducers: updatedData.blockProducers.totalCount,
-                transactions: updatedData.transactions.totalCount,
-              },
-            });
-          }
-        });
-
-        return result;
-      };
-
-      const result = executeQuery();
-
-      result.isPaused.value = true;
-      result.isPaused.value = false;
+      // const variables: Ref<any> = ref({ height: '' });
+      //
+      // const executeQuery = () => {
+      //   const result = useChainCountsQuery({
+      //     variables,
+      //   });
+      //
+      //   console.log('ressssssss', result.data.value);
+      //
+      //   watch(result.data, (updatedData) => {
+      //     console.log('updatedData', updatedData);
+      //     if (updatedData) {
+      //       this.$patch({
+      //         chainCounts: {
+      //           addresses: updatedData.blockProducers.totalCount,
+      //           blockProducers: updatedData.blockProducers.totalCount,
+      //           transactions: updatedData.transactions.totalCount,
+      //         },
+      //       });
+      //     }
+      //   });
+      //
+      //   return result;
+      // };
+      //
+      // const result = executeQuery();
+      //
+      // result.isPaused.value = true;
+      // result.isPaused.value = false;
 
       // Reload
       // result.executeQuery({

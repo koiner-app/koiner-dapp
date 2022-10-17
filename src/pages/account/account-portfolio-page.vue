@@ -13,6 +13,25 @@
         <token-holder-balances-metric
           :token-holders="tokenHolders"
           :contract-id="koinerConstants.contracts.vhp"
+          @calculated="updateTotalVhp"
+        />
+        <q-separator vertical />
+        <token-holder-balances-metric
+          title="Virtual total"
+          :token-holders="tokenHolders"
+          :contract-ids="[
+            koinerConstants.contracts.koin,
+            koinerConstants.contracts.vhp,
+          ]"
+          @calculated="updateTotalVirtualKoin"
+        />
+        <q-separator vertical />
+        <counter-metric
+          v-if="totalVhp && totalVirtualKoin"
+          name="Burned"
+          :value="burned"
+          :decimals="2"
+          caption="%"
         />
       </q-card-section>
     </q-card>
@@ -42,16 +61,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, Ref } from 'vue';
+import { computed, defineComponent, ref, Ref } from 'vue';
 import AccountAddressesFilter from '@koiner/chain/components/address/account-addresses-filter.vue';
 import TokenBalancesTable from '@koiner/tokenize/components/holder/search/view/token-balances-table.vue';
-import TokenHolderBalancesMetric from '@koiner/tokenize/components/holder/metrics/token-holder-balances-metric.vue';
+import TokenHolderBalancesMetric from '@koiner/tokenize/components/holder/metric/token-holder-balances-metric.vue';
 import { TokenHolder, TokenHoldersConnection } from '@koiner/sdk';
 import { koinerConstants } from '@koiner/koiner-constants';
+import CounterMetric from '@koiner/components/metrics/counter-metric.vue';
 
 export default defineComponent({
   name: 'AccountPortfolioPage',
   components: {
+    CounterMetric,
     AccountAddressesFilter,
     TokenBalancesTable,
     TokenHolderBalancesMetric,
@@ -60,6 +81,8 @@ export default defineComponent({
   setup() {
     const addressFilter: Ref<string[]> = ref([]);
     const tokenHolders: Ref<TokenHolder[]> = ref([]);
+    const totalVhp: Ref<number | undefined> = ref();
+    const totalVirtualKoin: Ref<number | undefined> = ref();
 
     const updateFilter = (newFilter: string[]) => {
       addressFilter.value = newFilter;
@@ -77,6 +100,20 @@ export default defineComponent({
       updateTokenHolders,
       tokenHolders,
       koinerConstants,
+
+      totalVhp,
+      totalVirtualKoin,
+      updateTotalVhp: (newAmount: number) => {
+        totalVhp.value = newAmount;
+      },
+      updateTotalVirtualKoin: (newAmount: number) => {
+        totalVirtualKoin.value = newAmount;
+      },
+      burned: computed(() => {
+        return totalVirtualKoin.value && totalVhp.value
+          ? totalVhp.value / totalVirtualKoin.value
+          : 0;
+      }),
     };
   },
 });

@@ -5,64 +5,21 @@
   >
     <q-card class="stats-cards" flat bordered>
       <q-card-section horizontal>
-        <q-card class="stats-card" flat>
-          <q-card-section horizontal>
-            <q-card-section class="q-pt-xs">
-              <div class="text-overline">Rewards</div>
-              <div class="text-h4 q-mt-sm q-mb-xs">
-                122.300 <span style="font-size: 1.25rem">tKOIN</span>
-              </div>
-              <div class="text-caption">
-                {{
-                  `${addressFilter.length} producer${
-                    addressFilter.length > 1 ? 's' : ''
-                  }`
-                }}
-              </div>
-            </q-card-section>
-          </q-card-section>
-        </q-card>
-
+        <token-holder-balances-metric
+          v-if="blockProducersSearch.connection.value"
+          title="Rewards"
+          :token-holders="tokenHolders"
+        />
         <q-separator vertical />
-
-        <q-card class="stats-card" flat>
-          <q-card-section horizontal>
-            <q-card-section class="q-pt-xs">
-              <div class="text-overline">VHP</div>
-              <div class="text-h4 q-mt-sm q-mb-xs">
-                114.851 <span style="font-size: 1.25rem">VHP</span>
-              </div>
-              <div class="text-caption">1 addresses</div>
-            </q-card-section>
-          </q-card-section>
-        </q-card>
-
+        <counter-metric name="VHP" :value="0" />
         <q-separator vertical />
-
-        <q-card class="stats-card" flat>
-          <q-card-section horizontal>
-            <q-card-section class="q-pt-xs">
-              <div class="text-overline">ROI</div>
-              <div class="text-h4 q-mt-sm q-mb-xs">
-                2.05 <span style="font-size: 1.25rem">%</span>
-              </div>
-            </q-card-section>
-          </q-card-section>
-        </q-card>
-
+        <counter-metric name="ROI" :value="0" />
         <q-separator vertical />
-
-        <q-card class="stats-card" flat>
-          <q-card-section horizontal>
-            <q-card-section class="q-pt-xs">
-              <div class="text-overline">Blocks Produced</div>
-              <div class="text-h4 q-mt-sm q-mb-xs">
-                10.541
-                <br />&nbsp;
-              </div>
-            </q-card-section>
-          </q-card-section>
-        </q-card>
+        <counter-metric
+          v-if="blockProducersSearch.connection.value"
+          name="Blocks Produced"
+          :value="blocksProduced"
+        />
       </q-card-section>
     </q-card>
 
@@ -89,19 +46,56 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, Ref, ref } from 'vue';
+import { computed, defineComponent, Ref, ref, watch } from 'vue';
 import BlockRewardsComponent from '@koiner/network/components/block-production/search/view/block-rewards-table.vue';
 import AccountAddressesFilter from '@koiner/chain/components/address/account-addresses-filter.vue';
+import { SearchRequestType, useSearchManager } from '@appvise/search-manager';
+import { koinerConstants } from '@koiner/koiner-constants';
+import { TokenHolder } from '@koiner/sdk';
+import TokenHolderBalancesMetric from '@koiner/tokenize/components/holder/metric/token-holder-balances-metric.vue';
+import CounterMetric from '@koiner/components/metrics/counter-metric.vue';
 
 export default defineComponent({
   name: 'AccountRewardsPage',
   components: {
     AccountAddressesFilter,
     BlockRewardsComponent,
+    CounterMetric,
+    TokenHolderBalancesMetric,
   },
 
   setup() {
     const addressFilter: Ref<string[]> = ref([]);
+    const blockProducersSearch = useSearchManager('blockProducers');
+
+    watch(
+      addressFilter,
+      async () => {
+        if (addressFilter.value.length > 0) {
+          const request: SearchRequestType = {
+            first: 100,
+            filter: {
+              AND: [
+                {
+                  OR: addressFilter.value.map((address) => {
+                    return {
+                      addressId: {
+                        equals: address,
+                      },
+                    };
+                  }),
+                },
+              ],
+            },
+          };
+
+          await blockProducersSearch.search(request);
+        } else {
+          blockProducersSearch.reset();
+        }
+      },
+      { deep: true }
+    );
 
     const updateFilter = (newFilter: string[]) => {
       addressFilter.value = newFilter;
@@ -110,6 +104,34 @@ export default defineComponent({
     return {
       addressFilter,
       updateFilter,
+      blockProducersSearch,
+
+      tokenHolders: computed(() => {
+        return blockProducersSearch.connection.value?.edges?.map((edge) => {
+          return {
+            addressId: edge.node.addressId,
+            balance: edge.node.balance,
+            contract: {
+              id: koinerConstants.contracts.koin,
+              name: 'Test Koinos',
+              symbol: 'KOIN',
+              decimals: 8,
+            },
+            contractId: koinerConstants.contracts.koin,
+          } as TokenHolder;
+        });
+      }),
+      blocksProduced: computed(() => {
+        let total = 0;
+
+        blockProducersSearch.connection.value?.edges?.forEach(
+          (blockProducerEdge) => {
+            total += blockProducerEdge.node.blocksProduced;
+          }
+        );
+
+        return total;
+      }),
     };
   },
 });
