@@ -84,7 +84,7 @@ import BlockProducersComponent from '../components/block-production/search/view/
 import BlockRewardsComponent from '../components/block-production/search/view/block-rewards-table.vue';
 
 export default defineComponent({
-  name: 'AccountRewardsPage',
+  name: 'NetworkIndexPage',
   components: { BlockRewardsComponent, BlockProducersComponent },
 });
 </script>
