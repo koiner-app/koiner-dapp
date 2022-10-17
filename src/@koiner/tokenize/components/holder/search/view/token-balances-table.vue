@@ -14,6 +14,7 @@ import { defineComponent, onMounted, PropType, ref, Ref, watch } from 'vue';
 import { KoinerRenderers } from '@koiner/renderers';
 import QJsonSearch from '@appvise/q-json-forms/QJsonSearch.vue';
 import tokenHoldersSearchSchema from '../token-holders-search.schema.json';
+import tokenAddressBalancesSearchUiSchema from './address-token-balances-table.ui-schema.json';
 import tokenBalancesSearchUiSchema from './token-balances-table.ui-schema.json';
 import { QueryTokenHoldersArgs, TokenHoldersConnection } from '@koiner/sdk';
 
@@ -84,7 +85,10 @@ export default defineComponent({
 
     return {
       schema: tokenHoldersSearchSchema,
-      uiSchema: tokenBalancesSearchUiSchema,
+      uiSchema:
+        props.addresses?.length === 1
+          ? tokenAddressBalancesSearchUiSchema // Don't show address
+          : tokenBalancesSearchUiSchema,
       request: request,
       renderers: KoinerRenderers,
       onChange: (data: TokenHoldersConnection) => {

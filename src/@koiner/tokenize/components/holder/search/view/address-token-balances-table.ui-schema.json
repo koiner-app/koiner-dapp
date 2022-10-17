@@ -11,15 +11,16 @@
       "elements": [
         {
           "type": "Attribute",
-          "label": "Name",
-          "scope": "#/properties/contract/properties/name",
+          "label": "Token",
+          "scope": "#/properties/contractId",
+          "mapping": "contract.id",
           "options": {
-            "route": "token",
-            "format": "link",
-            "linkParams": ["id"],
-            "mapping": "contract.name",
+            "format": "token",
             "mappings": {
-              "id": "id"
+              "contract.id": "contract.id",
+              "contract.name": "contract.name",
+              "contract.symbol": "contract.symbol",
+              "contract.decimals": "contract.decimals"
             }
           }
         },
