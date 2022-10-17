@@ -3,7 +3,17 @@
     class="q-pa-xl row items-start q-gutter-lg"
     style="padding-top: 7.5rem !important"
   >
-    <address-stats-component :ids="addressFilter" />
+    <q-card class="stats-cards" flat bordered>
+      <q-card-section horizontal>
+        <counter-metric name="Transactions" :value="0" />
+        <q-separator vertical />
+        <counter-metric name="Transfers" :value="0" />
+        <q-separator vertical />
+        <counter-metric name="Mana spent" :value="0" />
+        <q-separator vertical />
+        <counter-metric name="Contract Operations" :value="0" />
+      </q-card-section>
+    </q-card>
 
     <q-card class="transactions-card" flat bordered>
       <q-card-section class="q-pt-xs">
@@ -71,16 +81,16 @@
 import { defineComponent, ref, Ref } from 'vue';
 import TokensOperationsTable from '@koiner/tokenize/components/operation/search/view/tokens-operations-table.vue';
 import TransactionsTable from '@koiner/chain/components/transaction/search/view/transactions-table.vue';
-import AddressStatsComponent from '@koiner/chain/components/address/address-stats-component.vue';
 import AccountAddressesFilter from '@koiner/chain/components/address/account-addresses-filter.vue';
 import ContractEventsTable from '@koiner/contracts/components/contract/search/view/contracts-events-table.vue';
+import CounterMetric from '@koiner/components/metrics/counter-metric.vue';
 
 export default defineComponent({
   name: 'AccountHistoryPage',
   components: {
+    CounterMetric,
     ContractEventsTable,
     AccountAddressesFilter,
-    AddressStatsComponent,
     TransactionsTable,
     TokensOperationsTable,
   },
