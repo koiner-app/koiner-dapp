@@ -7,7 +7,7 @@ import { relayPagination } from '@urql/exchange-graphcache/extras';
 export default boot(({ app }) => {
   app.use(urql, {
     url: process.env.GRAPHQL_URI || 'https://api.koiner.app/graphql',
-    requestPolicy: 'network-only',
+    requestPolicy: 'cache-first',
     exchanges: [
       devtoolsExchange,
       dedupExchange,
