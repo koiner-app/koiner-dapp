@@ -27,12 +27,12 @@
                   {{
                     tokenAmount(
                       contractTokenHolder.balance,
-                      contract.decimals,
-                      contract.decimals
+                      contractTokenHolder.contract.decimals,
+                      contractTokenHolder.contract.decimals
                     )
                   }}
                   &nbsp;
-                  {{ contract.symbol }}
+                  {{ contractTokenHolder.contract.symbol }}
                 </div>
               </div>
             </div>
