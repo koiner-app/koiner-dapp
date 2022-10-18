@@ -6,28 +6,31 @@
     <q-card class="stats-cards" flat bordered>
       <q-card-section horizontal>
         <token-holder-balances-metric
+          v-if="tokenHolders && tokenHolders.length > 0"
           :token-holders="tokenHolders"
-          :contract-id="koinerConstants.contracts.koin"
+          :contract="koinerConstants.contracts.koin"
         />
         <q-separator vertical />
         <token-holder-balances-metric
+          v-if="tokenHolders && tokenHolders.length > 0"
           :token-holders="tokenHolders"
-          :contract-id="koinerConstants.contracts.vhp"
+          :contract="koinerConstants.contracts.vhp"
           @calculated="updateTotalVhp"
         />
         <q-separator vertical />
         <token-holder-balances-metric
+          v-if="tokenHolders && tokenHolders.length > 0"
           title="Virtual total"
           :token-holders="tokenHolders"
+          :contract="koinerConstants.contracts.koin"
           :contract-ids="[
-            koinerConstants.contracts.koin,
-            koinerConstants.contracts.vhp,
+            koinerConstants.contracts.koin.id,
+            koinerConstants.contracts.vhp.id,
           ]"
           @calculated="updateTotalVirtualKoin"
         />
         <q-separator vertical />
         <counter-metric
-          v-if="totalVhp && totalVirtualKoin"
           name="Burned"
           :value="burned"
           :decimals="2"
@@ -41,8 +44,8 @@
         <div class="text-overline">Portfolio</div>
 
         <token-balances-table
-          v-if="addressFilter.length > 0"
-          :addresses="addressFilter"
+          v-if="accountStore.addressesFilter.length > 0"
+          :addresses="accountStore.addressesFilter"
           @change="updateTokenHolders"
         />
       </q-card-section>
@@ -53,7 +56,7 @@
         <div class="text-overline">Addresses</div>
 
         <div class="q-pa-lg">
-          <account-addresses-filter @change="updateFilter" />
+          <account-addresses-filter />
         </div>
       </q-card-section>
     </q-card>
@@ -68,6 +71,7 @@ import TokenHolderBalancesMetric from '@koiner/tokenize/components/holder/metric
 import { TokenHolder, TokenHoldersConnection } from '@koiner/sdk';
 import { koinerConstants } from '@koiner/koiner-constants';
 import CounterMetric from '@koiner/components/metrics/counter-metric.vue';
+import { useAccountStore } from 'stores/account';
 
 export default defineComponent({
   name: 'AccountPortfolioPage',
@@ -79,14 +83,10 @@ export default defineComponent({
   },
 
   setup() {
-    const addressFilter: Ref<string[]> = ref([]);
+    const accountStore = useAccountStore();
     const tokenHolders: Ref<TokenHolder[]> = ref([]);
     const totalVhp: Ref<number | undefined> = ref();
     const totalVirtualKoin: Ref<number | undefined> = ref();
-
-    const updateFilter = (newFilter: string[]) => {
-      addressFilter.value = newFilter;
-    };
 
     const updateTokenHolders = (newConnection: TokenHoldersConnection) => {
       if (newConnection?.edges) {
@@ -95,8 +95,7 @@ export default defineComponent({
     };
 
     return {
-      addressFilter,
-      updateFilter,
+      accountStore,
       updateTokenHolders,
       tokenHolders,
       koinerConstants,
@@ -111,7 +110,7 @@ export default defineComponent({
       },
       burned: computed(() => {
         return totalVirtualKoin.value && totalVhp.value
-          ? totalVhp.value / totalVirtualKoin.value
+          ? (totalVhp.value / totalVirtualKoin.value) * 100
           : 0;
       }),
     };

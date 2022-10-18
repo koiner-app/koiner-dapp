@@ -6,7 +6,7 @@
     <q-card class="stats-cards" flat bordered>
       <q-card-section horizontal>
         <token-holder-balances-metric
-          v-if="blockProducersSearch.connection.value"
+          v-if="tokenHolders && tokenHolders.length > 0"
           title="Rewards"
           :token-holders="tokenHolders"
         />
@@ -27,8 +27,8 @@
       <q-card-section class="q-pt-xs">
         <div class="text-overline">Blocks Produced</div>
         <block-rewards-component
-          v-if="addressFilter.length > 0"
-          :producer-ids="addressFilter"
+          v-if="accountStore.addressesFilter.length > 0"
+          :producer-ids="accountStore.addressesFilter"
         />
       </q-card-section>
     </q-card>
@@ -38,7 +38,7 @@
         <div class="text-overline">Addresses</div>
 
         <div class="q-pa-lg">
-          <account-addresses-filter @change="updateFilter" />
+          <account-addresses-filter />
         </div>
       </q-card-section>
     </q-card>
@@ -46,7 +46,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, Ref, ref, watch } from 'vue';
+import { computed, defineComponent, onMounted, watch } from 'vue';
 import BlockRewardsComponent from '@koiner/network/components/block-production/search/view/block-rewards-table.vue';
 import AccountAddressesFilter from '@koiner/chain/components/address/account-addresses-filter.vue';
 import { SearchRequestType, useSearchManager } from '@appvise/search-manager';
@@ -54,6 +54,7 @@ import { koinerConstants } from '@koiner/koiner-constants';
 import { TokenHolder } from '@koiner/sdk';
 import TokenHolderBalancesMetric from '@koiner/tokenize/components/holder/metric/token-holder-balances-metric.vue';
 import CounterMetric from '@koiner/components/metrics/counter-metric.vue';
+import { useAccountStore } from 'stores/account';
 
 export default defineComponent({
   name: 'AccountRewardsPage',
@@ -65,59 +66,58 @@ export default defineComponent({
   },
 
   setup() {
-    const addressFilter: Ref<string[]> = ref([]);
+    const accountStore = useAccountStore();
     const blockProducersSearch = useSearchManager('blockProducers');
 
-    watch(
-      addressFilter,
-      async () => {
-        if (addressFilter.value.length > 0) {
-          const request: SearchRequestType = {
-            first: 100,
-            filter: {
-              AND: [
-                {
-                  OR: addressFilter.value.map((address) => {
-                    return {
-                      addressId: {
-                        equals: address,
-                      },
-                    };
-                  }),
-                },
-              ],
-            },
-          };
+    const loadBlockProducers = async () => {
+      if (accountStore.addressesFilter.length > 0) {
+        const request: SearchRequestType = {
+          first: 100,
+          filter: {
+            AND: [
+              {
+                OR: accountStore.addressesFilter.map((address) => {
+                  return {
+                    addressId: {
+                      equals: address,
+                    },
+                  };
+                }),
+              },
+            ],
+          },
+        };
 
-          await blockProducersSearch.search(request);
-        } else {
-          blockProducersSearch.reset();
-        }
+        await blockProducersSearch.search(request);
+      } else {
+        blockProducersSearch.reset();
+      }
+    };
+
+    onMounted(async () => {
+      await loadBlockProducers();
+    });
+
+    watch(
+      accountStore,
+      async () => {
+        await loadBlockProducers();
       },
       { deep: true }
     );
 
-    const updateFilter = (newFilter: string[]) => {
-      addressFilter.value = newFilter;
-    };
-
     return {
-      addressFilter,
-      updateFilter,
+      accountStore,
       blockProducersSearch,
+      koinerConstants,
 
       tokenHolders: computed(() => {
         return blockProducersSearch.connection.value?.edges?.map((edge) => {
           return {
             addressId: edge.node.addressId,
             balance: edge.node.balance,
-            contract: {
-              id: koinerConstants.contracts.koin,
-              name: 'Test Koinos',
-              symbol: 'KOIN',
-              decimals: 8,
-            },
-            contractId: koinerConstants.contracts.koin,
+            contract: koinerConstants.contracts.koin,
+            contractId: koinerConstants.contracts.koin.id,
           } as TokenHolder;
         });
       }),

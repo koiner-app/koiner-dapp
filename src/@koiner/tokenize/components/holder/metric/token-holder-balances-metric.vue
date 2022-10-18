@@ -1,5 +1,5 @@
 <template>
-  <q-card v-if="tokenHolders.length > 0" class="stats-card" flat>
+  <q-card class="stats-card" flat>
     <q-card-section horizontal>
       <q-card-section class="q-pt-xs">
         <div class="text-overline">{{ computedTitle }}</div>
@@ -7,8 +7,36 @@
           {{ value }}
           <span style="font-size: 1.25rem">{{ computedCaption }}</span>
         </div>
-        <div class="text-caption" v-if="showAddressCount">
+        <div class="text-caption" v-if="showAddressCount && addressCount > 0">
           {{ `${addressCount} address${addressCount > 1 ? 'es' : ''}` }}
+          <q-tooltip
+            anchor="bottom start"
+            self="top left"
+            class="bg-primary text-white shadow-4"
+          >
+            <div class="q-pa-sm q-gutter-xs">
+              <div
+                class="row q-gutter-xs"
+                v-for="contractTokenHolder in contractTokenHolders"
+                :key="contractTokenHolder.id"
+              >
+                <div class="col" style="min-width: 220px">
+                  {{ contractTokenHolder.addressId }}
+                </div>
+                <div class="col">
+                  {{
+                    tokenAmount(
+                      contractTokenHolder.balance,
+                      contract.decimals,
+                      contract.decimals
+                    )
+                  }}
+                  &nbsp;
+                  {{ contract.symbol }}
+                </div>
+              </div>
+            </div>
+          </q-tooltip>
         </div>
       </q-card-section>
     </q-card-section>
@@ -18,6 +46,7 @@
 import { computed, defineComponent, PropType } from 'vue';
 import { TokenHolder } from '@koiner/sdk';
 import { round } from 'lodash';
+import { koinerConstants } from '@koiner/koiner-constants';
 
 export default defineComponent({
   name: 'TokenHolderBalancesMetric',
@@ -26,9 +55,15 @@ export default defineComponent({
       required: true,
       type: Object as PropType<TokenHolder[]>,
     },
-    contractId: {
+    contract: {
       required: false,
-      type: String,
+      type: Object as PropType<{
+        id: string;
+        name: string;
+        symbol: string;
+        decimals: number;
+      }>,
+      default: koinerConstants.contracts.koin,
     },
     contractIds: {
       required: false,
@@ -53,45 +88,27 @@ export default defineComponent({
   emits: ['calculated'],
 
   setup(props, { emit }) {
-    const tokenAmount = (units: number, decimals: number): number => {
-      return round(units / Math.pow(10, decimals), 0);
+    const tokenAmount = (
+      units: number,
+      decimals: number,
+      precision = 0
+    ): number => {
+      return round(units / Math.pow(10, decimals), precision);
     };
 
-    const propsContractIds: string[] | undefined =
-      props.contractIds ?? (props.contractId ? [props.contractId] : undefined);
-
-    const contract = computed(() => {
-      // Use first contract as default
-      let result = props.tokenHolders[0].contract;
-
-      // Try to find TokenHolder with requested contract if contractId is provided
-      if (propsContractIds) {
-        const thWithContract = props.tokenHolders.filter((tokenHolder) =>
-          propsContractIds.includes(tokenHolder.contractId)
-        );
-
-        if (thWithContract.length > 0) {
-          result = thWithContract[0].contract;
-        }
-      }
-
-      return result;
-    });
-
-    // Use contractId from first contract if no props are provided
-    const contractIds: string[] = propsContractIds ?? [contract.value.id];
-
     const contractTokenHolders = computed(() => {
+      const contractIds = props.contractIds ?? [props.contract.id];
+
       return props.tokenHolders.filter((node) =>
         contractIds.includes(node.contractId)
       );
     });
 
     return {
-      contract,
       contractTokenHolders,
+      tokenAmount,
       value: computed(() => {
-        const decimals = contract.value.decimals;
+        const decimals = props.contract.decimals;
         const balances = contractTokenHolders.value.map(
           (tokenHolder) => tokenHolder.balance
         );
@@ -109,13 +126,13 @@ export default defineComponent({
       }),
       computedTitle: computed(() => {
         return props.title
-          .replace('{token.name}', contract.value.name)
-          .replace('{token.symbol}', contract.value.symbol);
+          .replace('{token.name}', props.contract.name)
+          .replace('{token.symbol}', props.contract.symbol);
       }),
       computedCaption: computed(() => {
         return props.caption
-          .replace('{token.name}', contract.value.name)
-          .replace('{token.symbol}', contract.value.symbol);
+          .replace('{token.name}', props.contract.name)
+          .replace('{token.symbol}', props.contract.symbol);
       }),
       addressCount: computed(() => {
         return (

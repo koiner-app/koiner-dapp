@@ -1,6 +1,6 @@
 <template>
   <q-option-group
-    v-model="addressFilter"
+    v-model="accountStore.addressesFilter"
     type="checkbox"
     :options="addressesOpts"
   >
@@ -16,41 +16,46 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, ref, Ref, watch } from 'vue';
+import { computed, defineComponent, ref, Ref, watch } from 'vue';
 import BookmarkComponent from '@koiner/bookmarks/components/bookmark-component.vue';
 import { useBookmarkStore } from '@koiner/bookmarks';
+import { useAccountStore } from 'stores/account';
 
 export default defineComponent({
   name: 'AccountAddressesFilter',
   components: { BookmarkComponent },
   emits: ['change'],
 
-  setup(props, { emit }) {
+  setup() {
+    const accountStore = useAccountStore();
     const bookmarkStore = useBookmarkStore();
-    const addressFilter: Ref<string[]> = ref([]);
 
-    const addresses = computed(() => {
-      return bookmarkStore.bookmarkKeys('addresses');
-    });
-
-    onMounted(() => {
-      addressFilter.value = addresses.value;
-      emit('change', addressFilter.value);
-    });
-
-    watch(addressFilter, (newAddressFilter) => {
-      emit('change', newAddressFilter);
-    });
+    const addresses: Ref<string[]> = ref(
+      bookmarkStore.bookmarkKeys('addresses')
+    );
+    watch(
+      bookmarkStore.lists,
+      () => {
+        accountStore.syncAddressFilter(bookmarkStore.bookmarkKeys('addresses'));
+      },
+      { deep: true }
+    );
 
     return {
-      addressFilter,
+      accountStore,
+      bookmarkStore,
       addresses,
+      addressFilter: accountStore.addressesFilter,
       addressesOpts: computed(() => {
-        return addresses.value.map((address) => {
+        return bookmarkStore.bookmarkKeys('addresses').map((address) => {
           return {
             value: address,
             label: address,
-            icon: 'restaurant_menu',
+            icon: 'toll',
+            // Always keep 1 address selected
+            disable:
+              accountStore.addressesFilter.length === 1 &&
+              accountStore.addressesFilter[0] === address,
           };
         });
       }),

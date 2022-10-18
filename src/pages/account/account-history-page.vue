@@ -43,22 +43,22 @@
         <q-tab-panels v-model="tokenTab" animated>
           <q-tab-panel name="token-transfers">
             <tokens-operations-table
-              v-if="addressFilter.length > 0"
-              :addresses="addressFilter"
+              v-if="accountStore.addressesFilter.length > 0"
+              :addresses="accountStore.addressesFilter"
               :burn-filter="false"
               :mint-filter="false"
             />
           </q-tab-panel>
           <q-tab-panel name="transactions">
             <transactions-table
-              v-if="addressFilter.length > 0"
-              :addresses="addressFilter"
+              v-if="accountStore.addressesFilter.length > 0"
+              :addresses="accountStore.addressesFilter"
             />
           </q-tab-panel>
           <q-tab-panel name="contract-events">
             <contract-events-table
-              v-if="addressFilter.length > 0"
-              :addresses="addressFilter"
+              v-if="accountStore.addressesFilter.length > 0"
+              :addresses="accountStore.addressesFilter"
             />
           </q-tab-panel>
         </q-tab-panels>
@@ -70,7 +70,7 @@
         <div class="text-overline">Addresses</div>
 
         <div class="q-pa-lg">
-          <account-addresses-filter @change="updateFilter" />
+          <account-addresses-filter />
         </div>
       </q-card-section>
     </q-card>
@@ -84,6 +84,7 @@ import TransactionsTable from '@koiner/chain/components/transaction/search/view/
 import AccountAddressesFilter from '@koiner/chain/components/address/account-addresses-filter.vue';
 import ContractEventsTable from '@koiner/contracts/components/contract/search/view/contracts-events-table.vue';
 import CounterMetric from '@koiner/components/metrics/counter-metric.vue';
+import { useAccountStore } from 'stores/account';
 
 export default defineComponent({
   name: 'AccountHistoryPage',
@@ -96,17 +97,12 @@ export default defineComponent({
   },
 
   setup() {
+    const accountStore = useAccountStore();
     const tokenTab: Ref<string> = ref('token-transfers');
-    const addressFilter: Ref<string[]> = ref([]);
-
-    const updateFilter = (newFilter: string[]) => {
-      addressFilter.value = newFilter;
-    };
 
     return {
+      accountStore,
       tokenTab,
-      addressFilter,
-      updateFilter,
     };
   },
 });

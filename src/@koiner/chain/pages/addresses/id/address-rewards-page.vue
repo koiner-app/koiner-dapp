@@ -96,13 +96,8 @@ export default defineComponent({
           return {
             addressId: edge.node.addressId,
             balance: edge.node.balance,
-            contract: {
-              id: koinerConstants.contracts.koin,
-              name: 'Test Koinos',
-              symbol: 'KOIN',
-              decimals: 8,
-            },
-            contractId: koinerConstants.contracts.koin,
+            contract: koinerConstants.contracts.koin,
+            contractId: koinerConstants.contracts.koin.id,
           } as TokenHolder;
         });
       }),

@@ -6,30 +6,33 @@
     <q-card class="stats-cards" flat bordered>
       <q-card-section horizontal>
         <token-holder-balances-metric
+          v-if="tokenHolders && tokenHolders.length > 0"
           :token-holders="tokenHolders"
-          :contract-id="koinerConstants.contracts.koin"
+          :contract="koinerConstants.contracts.koin"
           :show-address-count="false"
         />
         <q-separator vertical />
         <token-holder-balances-metric
+          v-if="tokenHolders && tokenHolders.length > 0"
           :token-holders="tokenHolders"
-          :contract-id="koinerConstants.contracts.vhp"
+          :contract="koinerConstants.contracts.vhp"
           :show-address-count="false"
           @calculated="updateTotalVhp"
         />
         <token-holder-balances-metric
+          v-if="tokenHolders && tokenHolders.length > 0"
           title="Virtual total"
           :token-holders="tokenHolders"
+          :contract="koinerConstants.contracts.koin"
           :contract-ids="[
-            koinerConstants.contracts.koin,
-            koinerConstants.contracts.vhp,
+            koinerConstants.contracts.koin.id,
+            koinerConstants.contracts.vhp.id,
           ]"
           :show-address-count="false"
           @calculated="updateTotalVirtualKoin"
         />
         <q-separator vertical />
         <counter-metric
-          v-if="totalVhp && totalVirtualKoin"
           name="Burned"
           :value="burned"
           :decimals="2"
@@ -45,6 +48,7 @@
         <token-balances-table
           v-if="id"
           :addresses="[id]"
+          :show-address="false"
           @change="updateTokenHolders"
         />
       </q-card-section>
@@ -72,7 +76,7 @@ import { useRoute } from 'vue-router';
 import CounterMetric from '@koiner/components/metrics/counter-metric.vue';
 
 export default defineComponent({
-  name: 'AccountPortfolioPage',
+  name: 'AddressIndexPage',
   components: {
     CounterMetric,
     TokenBalancesTable,
@@ -92,7 +96,9 @@ export default defineComponent({
     watch(
       () => route.params.id,
       async (newId) => {
-        id.value = newId.toString();
+        if (newId) {
+          id.value = newId.toString();
+        }
       }
     );
 
@@ -113,14 +119,14 @@ export default defineComponent({
       totalVhp,
       totalVirtualKoin,
       updateTotalVhp: (newAmount: number) => {
-        totalVhp.value = newAmount;
+        totalVhp.value = newAmount ?? 0;
       },
       updateTotalVirtualKoin: (newAmount: number) => {
-        totalVirtualKoin.value = newAmount;
+        totalVirtualKoin.value = newAmount ?? 0;
       },
       burned: computed(() => {
         return totalVirtualKoin.value && totalVhp.value
-          ? totalVhp.value / totalVirtualKoin.value
+          ? (totalVhp.value / totalVirtualKoin.value) * 100
           : 0;
       }),
     };

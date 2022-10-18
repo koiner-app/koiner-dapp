@@ -30,6 +30,11 @@ export default defineComponent({
       required: false,
       type: Array as PropType<Array<string>>,
     },
+    showAddress: {
+      required: false,
+      type: Boolean,
+      default: true,
+    },
   },
   emits: ['change'],
 
@@ -85,10 +90,9 @@ export default defineComponent({
 
     return {
       schema: tokenHoldersSearchSchema,
-      uiSchema:
-        props.addresses?.length === 1
-          ? tokenAddressBalancesSearchUiSchema // Don't show address
-          : tokenBalancesSearchUiSchema,
+      uiSchema: !props.showAddress
+        ? tokenAddressBalancesSearchUiSchema // Don't show address
+        : tokenBalancesSearchUiSchema,
       request: request,
       renderers: KoinerRenderers,
       onChange: (data: TokenHoldersConnection) => {

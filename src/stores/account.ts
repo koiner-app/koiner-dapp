@@ -8,6 +8,7 @@ export const useAccountStore = defineStore({
   state: () => ({
     name: 'Mystery Koiner',
     addresses: [] as string[],
+    addressesFilter: [] as string[],
     connected: false,
   }),
 
@@ -37,6 +38,19 @@ export const useAccountStore = defineStore({
           addresses: [...this.addresses, id],
         });
       }
+    },
+
+    /**
+     * Remove addresses from addressesFilter that are not in provided array
+     *
+     * @param addresses
+     */
+    syncAddressFilter(addresses: string[]) {
+      this.$patch({
+        addressesFilter: this.addressesFilter.filter((addressFilter) =>
+          addresses.includes(addressFilter)
+        ),
+      });
     },
 
     removeAddress(id: string) {
