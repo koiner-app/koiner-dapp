@@ -171,13 +171,15 @@ export type BlockProducer = {
   __typename?: 'BlockProducer';
   address: Address;
   addressId: Scalars['String'];
-  balance: Scalars['Float'];
-  blocksProduced: Scalars['Float'];
+  balance: Scalars['String'];
+  blocksProduced: Scalars['BigInt'];
+  burnedTotal: Scalars['String'];
   contractId: Scalars['String'];
   /** Timestamp as to when this entity was created */
   createdAt: Scalars['DateTime'];
   /** Globally unique identifier for this entity */
   id: Scalars['ID'];
+  roi: Scalars['Float'];
   /** Timestamp as to when this entity was last updated */
   updatedAt: Scalars['DateTime'];
 };
@@ -218,35 +220,49 @@ export type BlockProducersSortInput = {
   field: BlockProducersSortField;
 };
 
+export type BlockProductionStats = {
+  __typename?: 'BlockProductionStats';
+  blocksProduced: Scalars['BigInt'];
+  burned: Scalars['String'];
+  contractId: Scalars['String'];
+  /** Timestamp as to when this entity was created */
+  createdAt: Scalars['DateTime'];
+  /** Globally unique identifier for this entity */
+  id: Scalars['ID'];
+  rewarded: Scalars['String'];
+  roi: Scalars['Float'];
+  /** Timestamp as to when this entity was last updated */
+  updatedAt: Scalars['DateTime'];
+};
+
 export type BlockReceipt = {
   __typename?: 'BlockReceipt';
-  computeBandwidthUsed: Scalars['BigInt'];
-  diskStorageUsed: Scalars['BigInt'];
+  computeBandwidthUsed: Scalars['String'];
+  diskStorageUsed: Scalars['String'];
   eventCount: Scalars['Int'];
-  networkBandwidthUsed: Scalars['BigInt'];
+  networkBandwidthUsed: Scalars['String'];
 };
 
 export type BlockReward = {
   __typename?: 'BlockReward';
-  blockHeight: Scalars['Float'];
+  blockHeight: Scalars['BigInt'];
   burnedContractId?: Maybe<Scalars['String']>;
-  burnedValue?: Maybe<Scalars['Float']>;
+  burnedValue: Scalars['String'];
   burner?: Maybe<Address>;
-  burnerId?: Maybe<Scalars['String']>;
   contractId: Scalars['String'];
   /** Timestamp as to when this entity was created */
   createdAt: Scalars['DateTime'];
-  height: Scalars['Float'];
+  height: Scalars['BigInt'];
   /** Globally unique identifier for this entity */
   id: Scalars['ID'];
   producer: BlockProducer;
   producerAddress?: Maybe<Address>;
   producerId: Scalars['String'];
-  roi?: Maybe<Scalars['Float']>;
-  timestamp: Scalars['Float'];
+  roi: Scalars['Float'];
+  timestamp: Scalars['BigInt'];
   /** Timestamp as to when this entity was last updated */
   updatedAt: Scalars['DateTime'];
-  value: Scalars['Float'];
+  value: Scalars['String'];
 };
 
 export type BlockRewardBulkResult = {
@@ -325,6 +341,29 @@ export type BooleanFilter = {
   equals?: InputMaybe<Scalars['Boolean']>;
 };
 
+export type Chain = {
+  __typename?: 'Chain';
+  burnCount: Scalars['BigInt'];
+  contractCount: Scalars['BigInt'];
+  /** Timestamp as to when this entity was created */
+  createdAt: Scalars['DateTime'];
+  /** Globally unique identifier for this entity */
+  id: Scalars['ID'];
+  mintCount: Scalars['BigInt'];
+  stats: ChainStats;
+  timestamp: Scalars['BigInt'];
+  transferCount: Scalars['BigInt'];
+  /** Timestamp as to when this entity was last updated */
+  updatedAt: Scalars['DateTime'];
+};
+
+export type ChainStats = {
+  __typename?: 'ChainStats';
+  addressCount: Scalars['BigInt'];
+  operationCount: Scalars['BigInt'];
+  transactionCount: Scalars['BigInt'];
+};
+
 export type Contract = {
   __typename?: 'Contract';
   abi?: Maybe<Scalars['String']>;
@@ -333,7 +372,7 @@ export type Contract = {
   createdAt: Scalars['DateTime'];
   /** Globally unique identifier for this entity */
   id: Scalars['ID'];
-  timestamp: Scalars['Float'];
+  timestamp: Scalars['BigInt'];
   /** Timestamp as to when this entity was last updated */
   updatedAt: Scalars['DateTime'];
 };
@@ -351,7 +390,7 @@ export type ContractEdge = {
 
 export type ContractEvent = {
   __typename?: 'ContractEvent';
-  blockHeight: Scalars['Int'];
+  blockHeight: Scalars['BigInt'];
   contract: Contract;
   contractId?: Maybe<Scalars['String']>;
   contractStandardType?: Maybe<ContractStandardType>;
@@ -364,8 +403,8 @@ export type ContractEvent = {
   name: Scalars['String'];
   parentId: Scalars['String'];
   parentType: Scalars['String'];
-  sequence?: Maybe<Scalars['Float']>;
-  timestamp: Scalars['Float'];
+  sequence?: Maybe<Scalars['Int']>;
+  timestamp: Scalars['BigInt'];
   /** Timestamp as to when this entity was last updated */
   updatedAt: Scalars['DateTime'];
 };
@@ -435,16 +474,16 @@ export type ContractOperationEdge = {
 export type ContractOperationWithDetails = {
   __typename?: 'ContractOperationWithDetails';
   args?: Maybe<Scalars['String']>;
-  blockHeight: Scalars['Int'];
+  blockHeight: Scalars['BigInt'];
   contract: Contract;
   contractId: Scalars['String'];
   contractStandardType?: Maybe<ContractStandardType>;
   /** Timestamp as to when this entity was created */
   createdAt: Scalars['DateTime'];
-  entryPoint: Scalars['Float'];
+  entryPoint: Scalars['Int'];
   /** Globally unique identifier for this entity */
   id: Scalars['ID'];
-  timestamp: Scalars['Float'];
+  timestamp: Scalars['BigInt'];
   transactionId: Scalars['String'];
   /** Timestamp as to when this entity was last updated */
   updatedAt: Scalars['DateTime'];
@@ -665,10 +704,12 @@ export type Query = {
   block: Block;
   blockProducer: BlockProducer;
   blockProducers: BlockProducersConnection;
+  blockProductionStats: BlockProductionStats;
   blockReward: BlockReward;
   blockRewards: BlockRewardsConnection;
   blockRewardsBulk: Array<BlockRewardBulkResult>;
   blocks: BlocksConnection;
+  chain: Chain;
   contract: Contract;
   contractEvent: ContractEvent;
   contractEvents: ContractEventsConnection;
@@ -689,6 +730,7 @@ export type Query = {
   tokenHolders: TokenHoldersConnection;
   tokenOperation: TokenOperation;
   tokenOperations: TokenOperationsConnection;
+  tokenStats: Chain;
   transaction: Transaction;
   transactions: TransactionsConnection;
 };
@@ -726,6 +768,10 @@ export type QueryBlockProducersArgs = {
   sort?: InputMaybe<Array<BlockProducersSortInput>>;
 };
 
+export type QueryBlockProductionStatsArgs = {
+  id?: InputMaybe<Scalars['ID']>;
+};
+
 export type QueryBlockRewardArgs = {
   height: Scalars['ID'];
 };
@@ -749,6 +795,10 @@ export type QueryBlocksArgs = {
   filter?: InputMaybe<BlocksFilter>;
   first?: InputMaybe<Scalars['Int']>;
   sort?: InputMaybe<Array<BlocksSortInput>>;
+};
+
+export type QueryChainArgs = {
+  id?: InputMaybe<Scalars['ID']>;
 };
 
 export type QueryContractArgs = {
@@ -869,6 +919,10 @@ export type QueryTokenOperationsArgs = {
   sort?: InputMaybe<Array<TokenOperationsSortInput>>;
 };
 
+export type QueryTokenStatsArgs = {
+  id?: InputMaybe<Scalars['ID']>;
+};
+
 export type QueryTransactionArgs = {
   id: Scalars['ID'];
 };
@@ -918,15 +972,15 @@ export type TokenContract = {
   __typename?: 'TokenContract';
   /** Timestamp as to when this entity was created */
   createdAt: Scalars['DateTime'];
-  decimals: Scalars['Float'];
+  decimals: Scalars['Int'];
   holders: TokenHoldersConnection;
   /** Globally unique identifier for this entity */
   id: Scalars['ID'];
   name: Scalars['String'];
   operations: TokenOperationsConnection;
   symbol: Scalars['String'];
-  timestamp: Scalars['Float'];
-  totalSupply: Scalars['Float'];
+  timestamp: Scalars['BigInt'];
+  totalSupply: Scalars['String'];
   /** Timestamp as to when this entity was last updated */
   updatedAt: Scalars['DateTime'];
 };
@@ -992,11 +1046,11 @@ export type TokenEvent = {
   /** Globally unique identifier for this entity */
   id: Scalars['ID'];
   name: Scalars['String'];
-  timestamp: Scalars['Float'];
+  timestamp: Scalars['BigInt'];
   to?: Maybe<Scalars['String']>;
   /** Timestamp as to when this entity was last updated */
   updatedAt: Scalars['DateTime'];
-  value: Scalars['Float'];
+  value: Scalars['String'];
 };
 
 export type TokenEventEdge = {
@@ -1039,13 +1093,17 @@ export type TokenEventsSortInput = {
 export type TokenHolder = {
   __typename?: 'TokenHolder';
   addressId: Scalars['String'];
-  balance: Scalars['Float'];
+  balance: Scalars['String'];
+  burnCount: Scalars['BigInt'];
   contract: TokenContract;
   contractId: Scalars['String'];
   /** Timestamp as to when this entity was created */
   createdAt: Scalars['DateTime'];
   /** Globally unique identifier for this entity */
   id: Scalars['ID'];
+  mintCount: Scalars['BigInt'];
+  transferInCount: Scalars['BigInt'];
+  transferOutCount: Scalars['BigInt'];
   /** Timestamp as to when this entity was last updated */
   updatedAt: Scalars['DateTime'];
 };
@@ -1093,12 +1151,12 @@ export type TokenOperation = {
   /** Globally unique identifier for this entity */
   id: Scalars['ID'];
   name: Scalars['String'];
-  timestamp: Scalars['Float'];
+  timestamp: Scalars['BigInt'];
   to?: Maybe<Scalars['String']>;
   transactionId: Scalars['String'];
   /** Timestamp as to when this entity was last updated */
   updatedAt: Scalars['DateTime'];
-  value: Scalars['Float'];
+  value: Scalars['String'];
 };
 
 export type TokenOperationEdge = {
@@ -1151,7 +1209,8 @@ export type Transaction = {
   index: Scalars['Int'];
   operationCount: Scalars['Int'];
   operations: Array<Operation>;
-  signature: Scalars['String'];
+  receipt: TransactionReceipt;
+  signatures: Array<Scalars['String']>;
   timestamp: Scalars['BigInt'];
   /** Timestamp as to when this entity was last updated */
   updatedAt: Scalars['DateTime'];
@@ -1175,8 +1234,22 @@ export type TransactionHeader = {
   __typename?: 'TransactionHeader';
   nonce?: Maybe<Scalars['String']>;
   operationMerkleRoot?: Maybe<Scalars['String']>;
+  payee?: Maybe<Scalars['String']>;
   payer: Scalars['String'];
   rcLimit: Scalars['String'];
+};
+
+export type TransactionReceipt = {
+  __typename?: 'TransactionReceipt';
+  computeBandwidthUsed: Scalars['String'];
+  diskStorageUsed: Scalars['String'];
+  eventCount: Scalars['Int'];
+  maxPayerRc: Scalars['String'];
+  networkBandwidthUsed: Scalars['String'];
+  payer: Scalars['String'];
+  rcLimit: Scalars['String'];
+  rcUsed: Scalars['String'];
+  reverted: Scalars['Boolean'];
 };
 
 export type TransactionsConnection = {
@@ -1192,13 +1265,10 @@ export type TransactionsFilter = {
   OR?: InputMaybe<Array<TransactionsFilter>>;
   blockHeight?: InputMaybe<NumericFilter>;
   id?: InputMaybe<StringFilter>;
-  nonce?: InputMaybe<StringFilter>;
   operationCount?: InputMaybe<NumericFilter>;
   payer?: InputMaybe<StringFilter>;
-  rcLimit?: InputMaybe<StringFilter>;
   search?: InputMaybe<StringFilter>;
   timestamp?: InputMaybe<NumericFilter>;
-  transactionIndex?: InputMaybe<NumericFilter>;
 };
 
 /** Sort field */
@@ -1348,9 +1418,9 @@ export type BlocksSearchQuery = {
         };
         reward?: {
           __typename?: 'BlockReward';
-          value: number;
+          value: string;
           producerId: string;
-          burnedValue?: number | null;
+          burnedValue: string;
         } | null;
       };
     }>;
@@ -1494,16 +1564,16 @@ export type BlockPageQuery = {
     };
     receipt: {
       __typename?: 'BlockReceipt';
-      diskStorageUsed: any;
-      networkBandwidthUsed: any;
-      computeBandwidthUsed: any;
+      diskStorageUsed: string;
+      networkBandwidthUsed: string;
+      computeBandwidthUsed: string;
       eventCount: number;
     };
     reward?: {
       __typename?: 'BlockReward';
       producerId: string;
-      value: number;
-      burnedValue?: number | null;
+      value: string;
+      burnedValue: string;
     } | null;
   };
 };
@@ -1520,7 +1590,7 @@ export type TransactionPageQuery = {
     blockHeight: any;
     operationCount: number;
     index: number;
-    signature: string;
+    signatures: Array<string>;
     header: {
       __typename?: 'TransactionHeader';
       payer: string;
@@ -1549,14 +1619,14 @@ export type ContractEventsSearchQuery = {
       node: {
         __typename?: 'ContractEvent';
         id: string;
-        blockHeight: number;
+        blockHeight: any;
         contractId?: string | null;
         contractStandardType?: ContractStandardType | null;
         impacted?: Array<string> | null;
         name: string;
         parentType: string;
         parentId: string;
-        timestamp: number;
+        timestamp: any;
       };
     }>;
     pageInfo: {
@@ -1589,11 +1659,11 @@ export type ContractOperationsSearchQuery = {
       node: {
         __typename?: 'ContractOperationWithDetails';
         id: string;
-        blockHeight: number;
+        blockHeight: any;
         contractId: string;
         transactionId: string;
         contractStandardType?: ContractStandardType | null;
-        timestamp: number;
+        timestamp: any;
       };
     }>;
     pageInfo: {
@@ -1625,7 +1695,7 @@ export type ContractsSearchQuery = {
         __typename?: 'Contract';
         id: string;
         contractStandardType?: ContractStandardType | null;
-        timestamp: number;
+        timestamp: any;
       };
     }>;
     pageInfo: {
@@ -1657,8 +1727,8 @@ export type BlockProducersSearchQuery = {
         __typename?: 'BlockProducer';
         id: string;
         addressId: string;
-        balance: number;
-        blocksProduced: number;
+        balance: string;
+        blocksProduced: any;
       };
     }>;
     pageInfo: {
@@ -1689,11 +1759,11 @@ export type BlockRewardsSearchQuery = {
       node: {
         __typename?: 'BlockReward';
         id: string;
-        blockHeight: number;
-        value: number;
+        blockHeight: any;
+        value: string;
         producerId: string;
-        burnedValue?: number | null;
-        timestamp: number;
+        burnedValue: string;
+        timestamp: any;
       };
     }>;
     pageInfo: {
@@ -1727,8 +1797,8 @@ export type TokenContractsSearchQuery = {
         name: string;
         symbol: string;
         decimals: number;
-        totalSupply: number;
-        timestamp: number;
+        totalSupply: string;
+        timestamp: any;
       };
     }>;
     pageInfo: {
@@ -1761,9 +1831,9 @@ export type TokenEventsSearchQuery = {
         id: string;
         from?: string | null;
         to?: string | null;
-        value: number;
+        value: string;
         name: string;
-        timestamp: number;
+        timestamp: any;
         contract: {
           __typename?: 'TokenContract';
           id: string;
@@ -1803,7 +1873,7 @@ export type TokenHoldersSearchQuery = {
         id: string;
         addressId: string;
         contractId: string;
-        balance: number;
+        balance: string;
         contract: {
           __typename?: 'TokenContract';
           id: string;
@@ -1845,9 +1915,9 @@ export type TokenOperationsSearchQuery = {
         contractId: string;
         from?: string | null;
         to?: string | null;
-        value: number;
+        value: string;
         name: string;
-        timestamp: number;
+        timestamp: any;
         contract: {
           __typename?: 'TokenContract';
           id: string;
@@ -1880,17 +1950,6 @@ export type TokenLayoutQuery = {
     symbol: string;
     decimals: number;
   };
-};
-
-export type ChainCountsQueryVariables = Exact<{ [key: string]: never }>;
-
-export type ChainCountsQuery = {
-  __typename?: 'Query';
-  blockProducers: {
-    __typename?: 'BlockProducersConnection';
-    totalCount: number;
-  };
-  transactions: { __typename?: 'TransactionsConnection'; totalCount: number };
 };
 
 export const AddressesSearchDocument = gql`
@@ -2275,7 +2334,7 @@ export const TransactionPageDocument = gql`
         rcLimit
       }
       index
-      signature
+      signatures
     }
   }
 `;
@@ -2758,28 +2817,6 @@ export function useTokenLayoutQuery(
 ) {
   return Urql.useQuery<TokenLayoutQuery>({
     query: TokenLayoutDocument,
-    ...options,
-  });
-}
-export const ChainCountsDocument = gql`
-  query ChainCounts {
-    blockProducers {
-      totalCount
-    }
-    transactions {
-      totalCount
-    }
-  }
-`;
-
-export function useChainCountsQuery(
-  options: Omit<
-    Urql.UseQueryArgs<never, ChainCountsQueryVariables>,
-    'query'
-  > = {}
-) {
-  return Urql.useQuery<ChainCountsQuery>({
-    query: ChainCountsDocument,
     ...options,
   });
 }
