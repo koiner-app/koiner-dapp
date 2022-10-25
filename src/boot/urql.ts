@@ -39,6 +39,7 @@ export default boot(({ app }) => {
         keys: {
           BlockHeader: () => null,
           BlockReward: () => null,
+          ChainStats: () => null,
         },
       }),
       fetchExchange,

@@ -1,7 +1,7 @@
 <template>
   <div class="tickers">
     <!--    <q-icon>mdi-pencil</q-icon>-->
-    <q-scroll-area style="height: 18px; width: 600px">
+    <q-scroll-area ref="scrollAreaRef" style="height: 18px; width: 600px">
       <div v-for="(ticker, i) in tickers" :key="'ticker-' + i" class="ticker">
         <span
           v-for="(tickerItem, j) in ticker.items"
@@ -22,7 +22,9 @@
               <span>{{ tickerItem.tooltip }}</span>
             </q-tooltip>
           </span>
-          <!--          <span v-else>{{ tickerItem.title }}</span>-->
+          <span v-if="tickerItem.value !== undefined">{{
+            tickerItem.value
+          }}</span>
           <span
             v-if="tickerItem.progress !== undefined"
             :class="
@@ -32,9 +34,6 @@
             "
             >{{ tickerItem.progress }}</span
           >
-          <span v-if="tickerItem.value !== undefined">{{
-            tickerItem.value
-          }}</span>
         </span>
       </div>
     </q-scroll-area>
@@ -42,91 +41,138 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, ref, Ref, watch } from 'vue';
+import { useKoinosStore } from 'stores/koinos';
+import { useStatsStore } from 'stores/stats';
+import { round } from 'lodash';
 
 export default defineComponent({
   components: {},
 
   setup() {
-    const tickers: {
-      items: {
-        title: string;
-        tooltip?: string;
-        progress?: string;
-        progressClass?: string;
-        value?: string;
-      }[];
-    }[] = [
+    const koinosStore = useKoinosStore();
+    const statsStore = useStatsStore();
+    const scrollAreaRef: Ref<any> = ref(null);
+    const tickers: Ref<
       {
-        items: [
-          {
-            title: 'MC',
-            tooltip: 'Market Cap',
-            value: '$ 35,620,884',
-          },
-          {
-            title: 'MRR GR',
-            tooltip: 'Monthly Recurring Revenue Growth Rate',
-            progress: '+250%',
-            progressClass: 'green--text',
-            value: '3x',
-          },
-          {
-            title: 'Net MRR Churn',
-            tooltip: 'Net MRR Churn Rate',
-            progress: '20%',
-            progressClass: 'red--text',
-          },
-        ],
+        items: {
+          title: string;
+          tooltip?: string;
+          progress?: string;
+          progressClass?: string;
+          value?: string;
+        }[];
+      }[]
+    > = ref([]);
+
+    const tokenAmount = (units: number, decimals: number): number => {
+      return round(units / Math.pow(10, decimals), decimals);
+    };
+
+    const reloadTicker = () => {
+      tickers.value = [
+        {
+          items: [
+            {
+              title: 'KOIN',
+              tooltip: 'Koin price',
+              value: koinosStore.formattedPrice,
+              progress: koinosStore.formattedPriceChange24hPercentage,
+              progressClass:
+                koinosStore.price.change24hPercentage &&
+                koinosStore.price.change24hPercentage > 0
+                  ? 'green--text'
+                  : 'red--text',
+            },
+            {
+              title: 'MC',
+              tooltip: 'Market Cap',
+              value: koinosStore.formattedMarketCap,
+            },
+            {
+              title: 'Txs',
+              tooltip: 'Transactions',
+              value: statsStore.chainStats.transactionCount.toString(),
+            },
+            {
+              title: 'Users',
+              tooltip: 'Amount of addresses registered on-chain',
+              value: statsStore.chainStats.addressCount.toString(),
+            },
+          ],
+        },
+        {
+          items: [
+            {
+              title: 'Rewarded',
+              tooltip: 'Total Koin rewarded to block producers',
+              value: tokenAmount(
+                statsStore.blockProduction.rewarded,
+                8
+              ).toFixed(),
+            },
+            {
+              title: 'VHP',
+              tooltip: 'Total VHP burned by producers',
+              value: tokenAmount(
+                statsStore.blockProduction.burned,
+                8
+              ).toFixed(),
+            },
+            {
+              title: 'ROI',
+              tooltip: 'Total ROI for all block producers',
+              progress: `${statsStore.blockProduction.roi.toString()}%`,
+              progressClass: 'green--text',
+            },
+          ],
+        },
+        {
+          items: [
+            {
+              title: 'Tokens',
+              tooltip: 'Total Token smart contracts',
+              value: statsStore.tokenStats.contractCount.toString(),
+            },
+            {
+              title: 'Transfers',
+              tooltip: 'Total token transfers',
+              value: statsStore.tokenStats.transferCount.toString(),
+            },
+          ],
+        },
+      ];
+    };
+
+    let intervalId = setInterval(scrollTicker, 15000);
+    const tickerRow = ref(0);
+
+    function scrollTicker() {
+      if (scrollAreaRef.value) {
+        scrollAreaRef.value.setScrollPosition(
+          'vertical', tickerRow.value * 18, 30);
+      }
+
+      // Show next row
+      tickerRow.value += 1;
+
+      if (tickerRow.value === tickers.value.length) {
+        // Back to first row
+        tickerRow.value = 0;
+      }
+    }
+
+    watch(
+      statsStore,
+      () => {
+        reloadTicker();
       },
-      {
-        items: [
-          {
-            title: 'Total users',
-            value: '120.507',
-          },
-          {
-            title: 'DAU',
-            tooltip: 'Daily Active Users',
-            progress: '+2.5%',
-            progressClass: 'green--text',
-            value: '3015',
-          },
-          {
-            title: 'MAU',
-            tooltip: 'Monthly Active Users',
-            progress: '+4.3%',
-            progressClass: 'green--text',
-            value: '1251',
-          },
-        ],
-      },
-      {
-        items: [
-          {
-            title: 'Support tickets',
-            value: '120.507',
-          },
-          {
-            title: 'DAU',
-            tooltip: 'Daily Active Users',
-            progress: '+2.5%',
-            progressClass: 'green--text',
-            value: '3015',
-          },
-          {
-            title: 'MAU',
-            tooltip: 'Monthly Active Users',
-            progress: '+4.3%',
-            progressClass: 'green--text',
-            value: '1251',
-          },
-        ],
-      },
-    ];
+      { deep: true }
+    );
 
     return {
       tickers,
+      scrollAreaRef,
     };
   },
 });

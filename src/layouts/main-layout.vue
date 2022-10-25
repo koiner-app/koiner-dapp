@@ -39,6 +39,7 @@ import MainNavigation from 'components/main-navigation.vue';
 import Ticker from 'components/ticker-component.vue';
 import SearchDialog from '@koiner/components/search/search-dialog.vue';
 import { useKoinosStore } from 'stores/koinos';
+import { useStatsStore } from 'stores/stats';
 
 export default defineComponent({
   name: 'MainLayout',
@@ -50,9 +51,11 @@ export default defineComponent({
   },
   setup() {
     const koinos = useKoinosStore();
+    const statsStore = useStatsStore();
     const leftDrawerOpen = ref(false);
 
     koinos.load();
+    statsStore.load();
 
     return {
       leftDrawerOpen,
