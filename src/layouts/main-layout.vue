@@ -4,6 +4,13 @@
       <q-toolbar>
         <q-toolbar-title>
           <koiner-logo />
+          <q-chip
+            size="xs"
+            color="primary"
+            text-color="white"
+            style="margin-left: 3rem; font-size: 0.3rem; margin-bottom: 10px;"
+            >Beta</q-chip
+          >
         </q-toolbar-title>
 
         <api-switcher />
