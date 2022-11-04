@@ -92,7 +92,7 @@ export default defineComponent({
 
     watchEffect(() => {
       if (!dialog.value && Control.value) {
-        if (lastPressedControl && Date.now() - lastPressedControl < 1000) {
+        if (lastPressedControl && Date.now() - lastPressedControl < 250) {
           dialog.value = true;
           lastPressedControl = undefined;
         } else {
