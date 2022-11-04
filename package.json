@@ -1,9 +1,9 @@
 {
   "name": "koiner",
   "version": "0.1.0",
-  "description": "Koinos Blockchain Explorer",
-  "productName": "Koiner - Koinos Blockchain Explorer",
-  "author": "Frank Weijers <frank@weijers.io>",
+  "description": "Koinos Blockchain Dashboard",
+  "productName": "Koiner - Koinos Blockchain Dashboard",
+  "author": "Frank Weijers <hello@frankweijers.me>",
   "private": true,
   "scripts": {
     "lint": "eslint --ext .js,.ts,.vue ./",
