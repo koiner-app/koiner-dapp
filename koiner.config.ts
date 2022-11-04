@@ -5,4 +5,7 @@ export const koinerConfig = {
   test: {
     api: process.env.GRAPHQL_URI_TEST ?? 'https://api.test.koiner.app/graphql',
   },
+  local: {
+    api: process.env.GRAPHQL_URI_TEST ?? 'http://api.local/graphql',
+  },
 };
