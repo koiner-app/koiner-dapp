@@ -6,6 +6,7 @@
           <koiner-logo />
         </q-toolbar-title>
 
+        <api-switcher />
         <search-dialog />
 
         <q-btn flat dense size="md" color="accent"
@@ -40,21 +41,23 @@ import Ticker from 'components/ticker-component.vue';
 import SearchDialog from '@koiner/components/search/search-dialog.vue';
 import { useKoinosStore } from 'stores/koinos';
 import { useStatsStore } from 'stores/stats';
+import ApiSwitcher from '@koiner/components/search/api-switcher.vue';
 
 export default defineComponent({
   name: 'MainLayout',
   components: {
+    ApiSwitcher,
     SearchDialog,
     MainNavigation,
     Ticker,
     KoinerLogo,
   },
   setup() {
-    const koinos = useKoinosStore();
+    const koinosStore = useKoinosStore();
     const statsStore = useStatsStore();
     const leftDrawerOpen = ref(false);
 
-    koinos.load();
+    koinosStore.load();
     statsStore.load();
 
     return {

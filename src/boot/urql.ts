@@ -3,11 +3,14 @@ import { devtoolsExchange } from '@urql/devtools';
 import urql, { dedupExchange, fetchExchange } from '@urql/vue';
 import { cacheExchange } from '@urql/exchange-graphcache';
 import { relayPagination } from '@urql/exchange-graphcache/extras';
+import { useKoinerStore } from 'stores/koiner';
 
 export default boot(({ app }) => {
+  const koinerStore = useKoinerStore();
+
   app.use(urql, {
-    url: process.env.GRAPHQL_URI || 'https://api.koiner.app/graphql',
-    requestPolicy: 'cache-first',
+    url: koinerStore.apiUrl,
+    requestPolicy: 'network-only',
     exchanges: [
       devtoolsExchange,
       dedupExchange,
