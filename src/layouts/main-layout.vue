@@ -54,7 +54,7 @@ import Ticker from 'components/ticker-component.vue';
 import SearchDialog from '@koiner/components/search/search-dialog.vue';
 import { useKoinosStore } from 'stores/koinos';
 import { useStatsStore } from 'stores/stats';
-import ApiSwitcher from '@koiner/components/search/api-switcher.vue';
+import ApiSwitcher from '@koiner/components/api-switcher.vue';
 
 export default defineComponent({
   name: 'MainLayout',

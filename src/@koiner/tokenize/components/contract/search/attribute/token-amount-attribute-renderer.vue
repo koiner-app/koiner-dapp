@@ -35,6 +35,7 @@ import {
   useJsonAttribute,
   useQuasarAttribute,
 } from '@appvise/jsonsearch-quasar';
+import { tokenAmount } from '@koiner/utils';
 
 export default defineComponent({
   name: 'TokenAmountAttributeRenderer',
@@ -59,10 +60,6 @@ export default defineComponent({
         name: 'token',
         params: { id: data },
       };
-    };
-
-    const tokenAmount = (units: number, decimals: number): string => {
-      return (units / Math.pow(10, decimals)).toFixed(decimals);
     };
 
     return {

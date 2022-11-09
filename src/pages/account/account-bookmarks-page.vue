@@ -203,7 +203,7 @@
 import { computed, defineComponent } from 'vue';
 import BookmarkComponent from '@koiner/bookmarks/components/bookmark-component.vue';
 import { BookmarkedItem, useBookmarkStore } from '@koiner/bookmarks';
-import { timeAgo } from '@appvise/jsonsearch-quasar';
+import { timeAgo } from '@koiner/utils';
 import { date, useQuasar } from 'quasar';
 
 export default defineComponent({

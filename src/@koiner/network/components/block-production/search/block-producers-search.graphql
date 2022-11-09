@@ -18,6 +18,7 @@ query BlockProducersSearch(
         id
         addressId
         balance
+        burnedTotal
         blocksProduced
       }
       __typename

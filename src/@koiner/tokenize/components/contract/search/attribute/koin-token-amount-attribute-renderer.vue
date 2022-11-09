@@ -10,7 +10,7 @@
       <router-link
         :to="{
           name: 'token',
-          params: { id: '19JntSm8pSNETT9aHTwAUHC5RMoaSmgZPJ' },
+          params: { id: koinerStore.koinContract.id },
         }"
         :class="`${styles.attribute.link}`"
       >
@@ -26,13 +26,14 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 import { rendererProps, RendererProps } from '@jsonforms/vue';
+import { tokenAmount } from '@koiner/utils';
 import {
   AttributeElement,
   AttributeWrapper,
   useJsonAttribute,
   useQuasarAttribute,
 } from '@appvise/jsonsearch-quasar';
-import { round } from 'lodash';
+import { useKoinerStore } from 'stores/koiner';
 
 export default defineComponent({
   name: 'KoinTokenAmountAttributeRenderer',
@@ -49,13 +50,11 @@ export default defineComponent({
     },
   },
   setup(props: RendererProps<AttributeElement>) {
+    const koinerStore = useKoinerStore();
     const attributeControl = useQuasarAttribute(useJsonAttribute(props));
 
-    const tokenAmount = (units: number, decimals: number): number => {
-      return round(units / Math.pow(10, decimals), decimals);
-    };
-
     return {
+      koinerStore,
       ...attributeControl,
       tokenAmount,
     };

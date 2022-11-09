@@ -46,7 +46,7 @@
 import { computed, defineComponent, PropType } from 'vue';
 import { TokenHolder } from '@koiner/sdk';
 import { round } from 'lodash';
-import { koinerConstants } from '@koiner/koiner-constants';
+import { useKoinerStore } from 'stores/koiner';
 
 export default defineComponent({
   name: 'TokenHolderBalancesMetric',
@@ -63,7 +63,6 @@ export default defineComponent({
         symbol: string;
         decimals: number;
       }>,
-      default: koinerConstants.contracts.koin,
     },
     contractIds: {
       required: false,
@@ -88,6 +87,11 @@ export default defineComponent({
   emits: ['calculated'],
 
   setup(props, { emit }) {
+    const koinerStore = useKoinerStore();
+
+    // Load koin contract from store as default if none is provided
+    const contract = props.contract ?? koinerStore.koinContract;
+
     const tokenAmount = (
       units: number,
       decimals: number,
@@ -97,7 +101,7 @@ export default defineComponent({
     };
 
     const contractTokenHolders = computed(() => {
-      const contractIds = props.contractIds ?? [props.contract.id];
+      const contractIds = props.contractIds ?? [contract.id];
 
       return props.tokenHolders.filter((node) =>
         contractIds.includes(node.contractId)
@@ -108,17 +112,18 @@ export default defineComponent({
       contractTokenHolders,
       tokenAmount,
       value: computed(() => {
-        const decimals = props.contract.decimals;
+        const decimals = contract.decimals;
         const balances = contractTokenHolders.value.map(
           (tokenHolder) => tokenHolder.balance
         );
+        // const burnedTotals =
 
-        let total = 0;
+        let totalBalance = 0;
         balances.forEach((balance) => {
-          total += balance;
+          totalBalance += parseInt(balance);
         });
 
-        const amount = tokenAmount(total, decimals);
+        const amount = tokenAmount(totalBalance, decimals);
 
         emit('calculated', amount);
 
@@ -126,13 +131,13 @@ export default defineComponent({
       }),
       computedTitle: computed(() => {
         return props.title
-          .replace('{token.name}', props.contract.name)
-          .replace('{token.symbol}', props.contract.symbol);
+          .replace('{token.name}', contract.name)
+          .replace('{token.symbol}', contract.symbol);
       }),
       computedCaption: computed(() => {
         return props.caption
-          .replace('{token.name}', props.contract.name)
-          .replace('{token.symbol}', props.contract.symbol);
+          .replace('{token.name}', contract.name)
+          .replace('{token.symbol}', contract.symbol);
       }),
       addressCount: computed(() => {
         return (

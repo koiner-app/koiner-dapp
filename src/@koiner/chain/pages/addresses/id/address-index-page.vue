@@ -8,14 +8,14 @@
         <token-holder-balances-metric
           v-if="tokenHolders && tokenHolders.length > 0"
           :token-holders="tokenHolders"
-          :contract="koinerConstants.contracts.koin"
+          :contract="koinerStore.koinContract"
           :show-address-count="false"
         />
         <q-separator vertical />
         <token-holder-balances-metric
           v-if="tokenHolders && tokenHolders.length > 0"
           :token-holders="tokenHolders"
-          :contract="koinerConstants.contracts.vhp"
+          :contract="koinerStore.vhpContract"
           :show-address-count="false"
           @calculated="updateTotalVhp"
         />
@@ -23,10 +23,10 @@
           v-if="tokenHolders && tokenHolders.length > 0"
           title="Virtual total"
           :token-holders="tokenHolders"
-          :contract="koinerConstants.contracts.koin"
+          :contract="koinerStore.koinContract"
           :contract-ids="[
-            koinerConstants.contracts.koin.id,
-            koinerConstants.contracts.vhp.id,
+            koinerStore.koinContract.id,
+            koinerStore.vhpContract.id,
           ]"
           :show-address-count="false"
           @calculated="updateTotalVirtualKoin"
@@ -71,9 +71,9 @@ import { computed, defineComponent, onMounted, ref, Ref, watch } from 'vue';
 import TokenBalancesTable from '@koiner/tokenize/components/holder/search/view/token-balances-table.vue';
 import TokenHolderBalancesMetric from '@koiner/tokenize/components/holder/metric/token-holder-balances-metric.vue';
 import { TokenHolder, TokenHoldersConnection } from '@koiner/sdk';
-import { koinerConstants } from '@koiner/koiner-constants';
 import { useRoute } from 'vue-router';
 import CounterMetric from '@koiner/components/metrics/counter-metric.vue';
+import { useKoinerStore } from 'stores/koiner';
 
 export default defineComponent({
   name: 'AddressIndexPage',
@@ -84,6 +84,8 @@ export default defineComponent({
   },
 
   setup() {
+    const koinerStore = useKoinerStore();
+
     let id: Ref<string | undefined> = ref();
     const route = useRoute();
     const totalVhp: Ref<number | undefined> = ref();
@@ -114,7 +116,7 @@ export default defineComponent({
       id,
       updateTokenHolders,
       tokenHolders,
-      koinerConstants,
+      koinerStore,
 
       totalVhp,
       totalVirtualKoin,

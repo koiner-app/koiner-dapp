@@ -5,7 +5,7 @@ export const useKoinerStore = defineStore({
   id: 'koiner',
   persist: true,
   state: () => ({
-    environment: 'prod' as 'prod' | 'test' | 'local',
+    environment: 'production' as 'production' | 'test' | 'local',
   }),
 
   getters: {
@@ -21,24 +21,37 @@ export const useKoinerStore = defineStore({
       return koinerConfig.production.api;
     },
     isProd: (state): boolean => {
-      return state.environment === 'prod';
+      return state.environment === 'production';
+    },
+    koinContract: (
+      state
+    ): { id: string; name: string; symbol: string; decimals: number } => {
+      return koinerConfig[state.environment].contracts.koin;
+    },
+    vhpContract: (
+      state
+    ): { id: string; name: string; symbol: string; decimals: number } => {
+      return koinerConfig[state.environment].contracts.vhp;
+    },
+    pobContract: (state): { id: string; name: string } => {
+      return koinerConfig[state.environment].contracts.pob;
     },
   },
 
   actions: {
     switch() {
-      if (this.environment === 'prod') {
+      if (this.environment === 'production') {
         this.$patch({
           environment: 'test',
         });
       } else if (this.environment === 'test') {
         this.$patch({
           environment:
-            window.location.hostname === 'dapp.local' ? 'local' : 'prod',
+            window.location.hostname === 'dapp.local' ? 'local' : 'production',
         });
       } else if (this.environment === 'local') {
         this.$patch({
-          environment: 'prod',
+          environment: 'production',
         });
       }
 

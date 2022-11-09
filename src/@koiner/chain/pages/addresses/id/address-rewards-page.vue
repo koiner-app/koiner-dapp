@@ -39,8 +39,8 @@ import BlockRewardsComponent from '@koiner/network/components/block-production/s
 import CounterMetric from '@koiner/components/metrics/counter-metric.vue';
 import TokenHolderBalancesMetric from '@koiner/tokenize/components/holder/metric/token-holder-balances-metric.vue';
 import { SearchRequestType, useSearchManager } from '@appvise/search-manager';
-import { koinerConstants } from '@koiner/koiner-constants';
 import { TokenHolder } from '@koiner/sdk';
+import { useKoinerStore } from 'stores/koiner';
 
 export default defineComponent({
   name: 'AddressRewardsPage',
@@ -51,6 +51,7 @@ export default defineComponent({
   },
 
   setup() {
+    const koinerStore = useKoinerStore();
     let id: Ref<string | undefined> = ref();
     const route = useRoute();
     const blockProducersSearch = useSearchManager('blockProducers');
@@ -96,8 +97,8 @@ export default defineComponent({
           return {
             addressId: edge.node.addressId,
             balance: edge.node.balance,
-            contract: koinerConstants.contracts.koin,
-            contractId: koinerConstants.contracts.koin.id,
+            contract: koinerStore.koinContract,
+            contractId: koinerStore.koinContract.id,
           } as TokenHolder;
         });
       }),

@@ -54,7 +54,7 @@
                 <router-link
                   :to="{
                     name: 'token',
-                    params: { id: '19JntSm8pSNETT9aHTwAUHC5RMoaSmgZPJ' },
+                    params: { id: koinerStore.koinContract.id },
                   }"
                 >
                   <span>
@@ -68,7 +68,7 @@
                 <router-link
                   :to="{
                     name: 'token',
-                    params: { id: '1JZqj7dDrK5LzvdJgufYBJNUFo88xBoWC8' },
+                    params: { id: koinerStore.vhpContract.id },
                   }"
                 >
                   <span>
@@ -210,13 +210,16 @@ import { defineComponent, ref, Ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { ItemState } from '@appvise/search-manager';
 import { Block, useBlockPageQuery } from '@koiner/sdk';
-import { round } from 'lodash';
+import { tokenAmount } from '@koiner/utils';
 import AddressLink from '@koiner/chain/components/address/address-link.vue';
+import { useKoinerStore } from 'stores/koiner';
 
 export default defineComponent({
   name: 'BlockPage',
   components: { AddressLink },
   setup() {
+    const koinerStore = useKoinerStore();
+
     let height: Ref<string | string[] | undefined> = ref();
     const itemState = ItemState.create<Block>();
     const variables: Ref<{ height: string }> = ref({ height: '' });
@@ -256,11 +259,8 @@ export default defineComponent({
       }
     );
 
-    const tokenAmount = (units: number, decimals: number): number => {
-      return round(units / Math.pow(10, decimals), decimals);
-    };
-
     return {
+      koinerStore,
       tokenAmount,
       itemState,
       block: itemState.item,

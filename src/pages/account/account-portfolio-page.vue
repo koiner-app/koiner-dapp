@@ -8,13 +8,13 @@
         <token-holder-balances-metric
           v-if="tokenHolders && tokenHolders.length > 0"
           :token-holders="tokenHolders"
-          :contract="koinerConstants.contracts.koin"
+          :contract="koinerStore.koinContract"
         />
         <q-separator vertical />
         <token-holder-balances-metric
           v-if="tokenHolders && tokenHolders.length > 0"
           :token-holders="tokenHolders"
-          :contract="koinerConstants.contracts.vhp"
+          :contract="koinerStore.vhpContract"
           @calculated="updateTotalVhp"
         />
         <q-separator vertical />
@@ -22,10 +22,10 @@
           v-if="tokenHolders && tokenHolders.length > 0"
           title="Virtual total"
           :token-holders="tokenHolders"
-          :contract="koinerConstants.contracts.koin"
+          :contract="koinerStore.koinContract"
           :contract-ids="[
-            koinerConstants.contracts.koin.id,
-            koinerConstants.contracts.vhp.id,
+            koinerStore.koinContract.id,
+            koinerStore.vhpContract.id,
           ]"
           @calculated="updateTotalVirtualKoin"
         />
@@ -69,9 +69,9 @@ import AccountAddressesFilter from '@koiner/chain/components/address/account-add
 import TokenBalancesTable from '@koiner/tokenize/components/holder/search/view/token-balances-table.vue';
 import TokenHolderBalancesMetric from '@koiner/tokenize/components/holder/metric/token-holder-balances-metric.vue';
 import { TokenHolder, TokenHoldersConnection } from '@koiner/sdk';
-import { koinerConstants } from '@koiner/koiner-constants';
 import CounterMetric from '@koiner/components/metrics/counter-metric.vue';
 import { useAccountStore } from 'stores/account';
+import { useKoinerStore } from 'stores/koiner';
 
 export default defineComponent({
   name: 'AccountPortfolioPage',
@@ -84,6 +84,7 @@ export default defineComponent({
 
   setup() {
     const accountStore = useAccountStore();
+    const koinerStore = useKoinerStore();
     const tokenHolders: Ref<TokenHolder[]> = ref([]);
     const totalVhp: Ref<number | undefined> = ref();
     const totalVirtualKoin: Ref<number | undefined> = ref();
@@ -96,9 +97,9 @@ export default defineComponent({
 
     return {
       accountStore,
+      koinerStore,
       updateTokenHolders,
       tokenHolders,
-      koinerConstants,
 
       totalVhp,
       totalVirtualKoin,
