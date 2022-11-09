@@ -5,60 +5,37 @@
   >
     <q-card class="stats-cards" flat bordered>
       <q-card-section horizontal>
-        <q-card class="stats-card" flat>
-          <q-card-section horizontal>
-            <q-card-section class="q-pt-xs">
-              <div class="text-overline">Total Rewarded</div>
-              <div class="text-h4 q-mt-sm q-mb-xs">
-                122.300 <span style="font-size: 1.25rem">tKOIN</span>
-              </div>
-              <div class="text-caption">
-                ...
-              </div>
-            </q-card-section>
-          </q-card-section>
-        </q-card>
+        <token-amount-metric
+          name="Total Rewarded"
+          :value="statsStore.blockProduction.rewarded"
+          :caption="koinerStore.koinContract.symbol"
+          :token-decimals="koinerStore.koinContract.decimals"
+        />
 
         <q-separator vertical />
 
-        <q-card class="stats-card" flat>
-          <q-card-section horizontal>
-            <q-card-section class="q-pt-xs">
-              <div class="text-overline">Total VHP</div>
-              <div class="text-h4 q-mt-sm q-mb-xs">
-                114.851 <span style="font-size: 1.25rem">VHP</span>
-              </div>
-              <div class="text-caption">...</div>
-            </q-card-section>
-          </q-card-section>
-        </q-card>
+        <token-amount-metric
+          name="VHP Burned"
+          :value="statsStore.blockProduction.burned"
+          :caption="koinerStore.vhpContract.symbol"
+          :token-decimals="koinerStore.vhpContract.decimals"
+        />
 
         <q-separator vertical />
 
-        <q-card class="stats-card" flat>
-          <q-card-section horizontal>
-            <q-card-section class="q-pt-xs">
-              <div class="text-overline">ROI</div>
-              <div class="text-h4 q-mt-sm q-mb-xs">
-                2.05 <span style="font-size: 1.25rem">%</span>
-              </div>
-            </q-card-section>
-          </q-card-section>
-        </q-card>
+        <counter-metric
+          name="ROI"
+          :value="statsStore.blockProduction.roi"
+          caption="%"
+          :decimals="2"
+        />
 
         <q-separator vertical />
 
-        <q-card class="stats-card" flat>
-          <q-card-section horizontal>
-            <q-card-section class="q-pt-xs">
-              <div class="text-overline">Producers</div>
-              <div class="text-h4 q-mt-sm q-mb-xs">
-                20
-                <br />&nbsp;
-              </div>
-            </q-card-section>
-          </q-card-section>
-        </q-card>
+        <counter-metric
+          name="Block Producers"
+          :value="statsStore.blockProduction.blockProducerCount"
+        />
       </q-card-section>
     </q-card>
 
@@ -82,15 +59,33 @@
 import { defineComponent } from 'vue';
 import BlockProducersComponent from '../components/block-production/search/view/block-producers-table.vue';
 import BlockRewardsComponent from '../components/block-production/search/view/block-rewards-table.vue';
+import { useKoinerStore } from 'stores/koiner';
+import { useStatsStore } from 'stores/stats';
+import CounterMetric from '@koiner/components/metrics/counter-metric.vue';
+import TokenAmountMetric from '@koiner/components/metrics/token-amount-metric.vue';
 
 export default defineComponent({
   name: 'NetworkIndexPage',
-  components: { BlockRewardsComponent, BlockProducersComponent },
+  components: {
+    TokenAmountMetric,
+    CounterMetric,
+    BlockRewardsComponent,
+    BlockProducersComponent,
+  },
+
+  setup() {
+    const koinerStore = useKoinerStore();
+    const statsStore = useStatsStore();
+
+    return {
+      koinerStore,
+      statsStore,
+    };
+  },
 });
 </script>
 
 <style lang="scss" scoped>
-
 .rewards-card {
   width: 100%;
   max-width: calc(60% - 24px);
