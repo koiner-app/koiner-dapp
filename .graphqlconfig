@@ -4,7 +4,7 @@
   "extensions": {
     "endpoints": {
       "Default GraphQL Endpoint": {
-        "url": "http://gateway.docker:3000/graphql",
+        "url": "http://api.local/graphql",
         "headers": {
           "user-agent": "JS GraphQL"
         },
