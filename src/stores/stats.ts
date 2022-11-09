@@ -13,6 +13,7 @@ export const useStatsStore = defineStore({
       transactionCount: 0 as number,
     },
     blockProduction: {
+      blockProducerCount: 0 as number,
       blocksProduced: 0 as number,
       rewarded: 0 as number,
       burned: 0 as number,
@@ -30,7 +31,7 @@ export const useStatsStore = defineStore({
 
   actions: {
     load() {
-      const countsQuery = `query ChainCounts {
+      const countsQuery = `query KoinerStats {
   chain {
     id
     stats {
@@ -38,18 +39,19 @@ export const useStatsStore = defineStore({
       operationCount
       transactionCount
     }
-  }
-  blockProductionStats {
-    id
-    blocksProduced
-    rewarded
-    burned
-    roi
-  }
-  tokenStats {
-    id
-    contractCount
-    transferCount
+    blockProductionStats {
+      id
+      producerCount
+      blocksProduced
+      rewarded
+      burnedTotal
+      roi
+    }
+    tokenStats {
+      id
+      contractCount
+      transferCount
+    }
   }
 }
 `;
@@ -58,39 +60,45 @@ export const useStatsStore = defineStore({
         query: countsQuery,
       });
 
-      watch(result.data, (updatedData) => {
-        console.log('updatedData', updatedData);
-        if (updatedData) {
+      watch(
+        result.data,
+        (updatedData) => {
+          const chain = result.data.value.chain;
+
           this.$patch({
             chainStats: {
-              addressCount: updatedData.chain.stats.addressCount,
-              operationCount: updatedData.chain.stats.operationCount,
-              transactionCount: updatedData.chain.stats.transactionCount,
+              addressCount: chain.stats.addressCount,
+              operationCount: chain.stats.operationCount,
+              transactionCount: chain.stats.transactionCount,
             },
             blockProduction: {
-              blocksProduced: updatedData.blockProductionStats.blocksProduced,
-              rewarded: parseInt(updatedData.blockProductionStats.rewarded),
-              burned: parseInt(updatedData.blockProductionStats.burned),
-              roi: updatedData.blockProductionStats.roi,
+              blockProducerCount: chain.blockProductionStats.producerCount,
+              blocksProduced: chain.blockProductionStats.blocksProduced,
+              rewarded: parseInt(chain.blockProductionStats.rewarded),
+              burned: parseInt(chain.blockProductionStats.burnedTotal),
+              roi: chain.blockProductionStats.roi,
             },
             tokenStats: {
-              contractCount: updatedData.tokenStats.contractCount,
-              transferCount: updatedData.tokenStats.transferCount,
+              contractCount: chain.tokenStats.contractCount,
+              transferCount: chain.tokenStats.transferCount,
             },
             updatedAt: Date.now(),
           });
-        }
-      });
+        },
+        { deep: true }
+      );
 
       // Fetch stats every 15 seconds
       const intervalId = setInterval(reloadStats, 15000);
 
-      function reloadStats() {
+      async function reloadStats() {
         // Reload
         result.executeQuery({
           requestPolicy: 'network-only',
         });
       }
+
+      reloadStats().then();
     },
   },
 });
