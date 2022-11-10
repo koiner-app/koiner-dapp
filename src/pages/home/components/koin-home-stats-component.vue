@@ -8,6 +8,7 @@
             <div class="text-h4 q-mt-sm q-mb-xs token-price">
               {{ koinosStore.formattedPrice }}
               <span
+                v-if="koinosStore.formattedPriceChange24hPercentage"
                 :class="`text-caption text-${
                   koinosStore.price.change24hPercentage > 0
                     ? 'positive'
@@ -17,7 +18,10 @@
               >
             </div>
             <div class="text-caption">
-              <br />Marketcap: <span class="market-cap">{{ koinosStore.formattedMarketCap }}</span>
+              <br />Marketcap:
+              <span class="market-cap">{{
+                koinosStore.formattedMarketCap
+              }}</span>
             </div>
           </q-card-section>
         </q-card-section>

@@ -10,7 +10,7 @@
         >
           <span v-if="j > 0" class="divider--extra-small"></span>
           <span>
-            {{ tickerItem.title }}
+            <span v-html="tickerItem.title" />
             <q-tooltip
               v-if="tickerItem.tooltip !== undefined"
               top
@@ -44,7 +44,7 @@
 import { defineComponent, ref, Ref, watch } from 'vue';
 import { useKoinosStore } from 'stores/koinos';
 import { useStatsStore } from 'stores/stats';
-import { round } from 'lodash';
+import { tokenAmount } from '@koiner/utils';
 
 export default defineComponent({
   components: {},
@@ -64,10 +64,6 @@ export default defineComponent({
         }[];
       }[]
     > = ref([]);
-
-    const tokenAmount = (units: number, decimals: number): number => {
-      return round(units / Math.pow(10, decimals), decimals);
-    };
 
     const reloadTicker = () => {
       tickers.value = [
@@ -141,6 +137,14 @@ export default defineComponent({
             },
           ],
         },
+        {
+          items: [
+            {
+              title:
+                '<span style="color: #ef8fff;">Accelerating decentralization</span> by making Koinos blockchain data more accessible',
+            },
+          ],
+        },
       ];
     };
 
@@ -150,7 +154,10 @@ export default defineComponent({
     function scrollTicker() {
       if (scrollAreaRef.value) {
         scrollAreaRef.value.setScrollPosition(
-          'vertical', tickerRow.value * 18, 30);
+          'vertical',
+          tickerRow.value * 18,
+          30
+        );
       }
 
       // Show next row
