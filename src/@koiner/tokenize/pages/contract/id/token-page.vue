@@ -74,7 +74,7 @@
     <q-card class="token-contracts-card" flat bordered>
       <q-card-section>
         <q-card-section class="q-pt-xs">
-          <div class="text-overline">Tokens</div>
+          <div class="text-overline">Token Holders</div>
           <token-holders-table :contract-id="id" />
         </q-card-section>
       </q-card-section>

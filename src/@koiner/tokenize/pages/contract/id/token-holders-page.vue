@@ -2,7 +2,7 @@
   <q-page class="row items-baseline justify-evenly">
     <q-card class="table-card shadow-1">
       <q-card-section>
-        <token-holders-table v-if="id" title="Holders" :contract-id="id" />
+        <token-holders-table v-if="id" title="Token Holders" :contract-id="id" />
       </q-card-section>
     </q-card>
   </q-page>
