@@ -8,7 +8,12 @@
             size="xs"
             color="primary"
             text-color="white"
-            style="margin-left: 3rem; font-size: 0.3rem; margin-bottom: 10px;"
+            style="
+              margin-left: 3rem;
+              font-size: 0.5rem;
+              margin-bottom: 10px;
+              height: 0.8rem;
+            "
             >Beta</q-chip
           >
         </q-toolbar-title>
