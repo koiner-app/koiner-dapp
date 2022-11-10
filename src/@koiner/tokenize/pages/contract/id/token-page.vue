@@ -1,27 +1,174 @@
 <template>
-  <q-page class="row items-baseline justify-evenly">
-    <h1>Token {{ id }}</h1>
+  <q-page
+    v-if="tokenContract"
+    class="q-pa-xl row items-start q-gutter-lg"
+    style="padding-top: 7.5rem !important"
+  >
+    <q-card class="stats-cards" flat bordered>
+      <q-card-section horizontal>
+        <token-amount-metric
+          name="Total Supply"
+          :value="parseInt(tokenContract.totalSupply)"
+          :caption="tokenContract.symbol"
+          :token-decimals="tokenContract.decimals"
+        />
+
+        <q-separator vertical />
+
+        <counter-metric
+          name="Holders"
+          :value="tokenContract.holders.totalCount"
+        />
+
+        <q-separator vertical />
+
+        <counter-metric name="Transfers" :value="tokenContract.transferCount" />
+
+        <q-separator vertical />
+
+        <counter-metric
+          name="Events"
+          :value="
+            parseInt(tokenContract.burnCount) +
+            parseInt(tokenContract.mintCount) +
+            parseInt(tokenContract.transferCount)
+          "
+        />
+      </q-card-section>
+    </q-card>
+
+    <q-card class="tabs-cards" flat bordered>
+      <q-card-section class="q-pt-xs">
+        <q-tabs v-model="tab" dense align="left" style="width: 100%">
+          <q-tab
+            class="text-overline"
+            :ripple="false"
+            label="Operations"
+            name="token-operations"
+          />
+          <q-tab
+            class="text-overline"
+            :ripple="false"
+            label="Events"
+            name="token-events"
+          />
+        </q-tabs>
+
+        <q-separator />
+
+        <q-tab-panels v-model="tab" animated>
+          <q-tab-panel name="token-operations">
+            <tokens-operations-table
+              :contract-ids="[id]"
+              :burn-filter="false"
+              :mint-filter="false"
+            />
+          </q-tab-panel>
+          <q-tab-panel name="token-events">
+            <tokens-events-table :contract-ids="[id]" />
+          </q-tab-panel>
+        </q-tab-panels>
+      </q-card-section>
+    </q-card>
+
+    <q-card class="token-contracts-card" flat bordered>
+      <q-card-section>
+        <q-card-section class="q-pt-xs">
+          <div class="text-overline">Tokens</div>
+          <token-holders-table :contract-id="id" />
+        </q-card-section>
+      </q-card-section>
+    </q-card>
   </q-page>
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref, Ref } from 'vue';
+import { defineComponent, onMounted, ref, Ref, watch } from 'vue';
+import { useKoinerStore } from 'stores/koiner';
+import { useStatsStore } from 'stores/stats';
+import CounterMetric from '@koiner/components/metrics/counter-metric.vue';
+import TokensOperationsTable from '../../../components/operation/search/view/tokens-operations-table.vue';
+import TokensEventsTable from '../../../components/event/search/view/tokens-events-table.vue';
+import { ItemState } from '@appvise/search-manager';
+import { TokenContract, useTokenLayoutQuery } from '@koiner/sdk';
 import { useRoute } from 'vue-router';
+import TokenAmountMetric from '@koiner/components/metrics/token-amount-metric.vue';
+import TokenHoldersTable from '@koiner/tokenize/components/holder/search/view/token-holders-table.vue';
 
 export default defineComponent({
-  name: 'TokenPage',
+  name: 'NetworkIndexPage',
+  components: {
+    TokenHoldersTable,
+    TokenAmountMetric,
+    TokensEventsTable,
+    TokensOperationsTable,
+    CounterMetric,
+  },
 
   setup() {
-    let id: Ref<string | string[] | undefined> = ref();
+    const koinerStore = useKoinerStore();
+    const statsStore = useStatsStore();
+
+    const tab: Ref<string> = ref('token-operations');
+    let id: Ref<string | undefined> = ref();
+
+    const itemState = ItemState.create<TokenContract>();
+    const variables: Ref<{ id: string }> = ref({ id: '' });
     const route = useRoute();
 
+    const executeQuery = () => {
+      const { data, fetching, error, isPaused } = useTokenLayoutQuery({
+        variables,
+      });
+
+      watch(data, (updatedData) => {
+        itemState.item.value = updatedData?.tokenContract as TokenContract;
+      });
+
+      itemState.error = error;
+      itemState.fetching = fetching;
+      itemState.isPaused = isPaused;
+    };
+
     onMounted(async () => {
-      id.value = route.params.id;
+      id.value = route.params.id.toString();
+      variables.value.id = route.params.id.toString();
+      executeQuery();
+      itemState.isPaused.value = true;
+      itemState.isPaused.value = false;
     });
+
+    watch(
+      () => route.params.id,
+      async (newId) => {
+        itemState.isPaused.value = !newId;
+        variables.value.id = newId ? newId.toString() : '';
+      }
+    );
 
     return {
       id,
+
+      tab,
+      koinerStore,
+      statsStore,
+
+      itemState,
+      tokenContract: itemState.item,
+      error: itemState.error,
+      executeQuery,
     };
   },
 });
 </script>
+
+<style lang="scss" scoped>
+.tabs-cards {
+  width: 100%;
+  max-width: calc(60% - 24px);
+}
+.token-contracts-card {
+  width: 100%;
+  max-width: calc(40% - 24px);
+}
+</style>

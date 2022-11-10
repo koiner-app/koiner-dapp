@@ -1003,17 +1003,20 @@ export type SystemContractOperation = {
 
 export type TokenContract = {
   __typename?: 'TokenContract';
+  burnCount: Scalars['BigInt'];
   /** Timestamp as to when this entity was created */
   createdAt: Scalars['DateTime'];
   decimals: Scalars['Int'];
   holders: TokenHoldersConnection;
   /** Globally unique identifier for this entity */
   id: Scalars['ID'];
+  mintCount: Scalars['BigInt'];
   name: Scalars['String'];
   operations: TokenOperationsConnection;
   symbol: Scalars['String'];
   timestamp: Scalars['BigInt'];
   totalSupply: Scalars['String'];
+  transferCount: Scalars['BigInt'];
   /** Timestamp as to when this entity was last updated */
   updatedAt: Scalars['DateTime'];
 };
@@ -1552,7 +1555,7 @@ export type TokenLayoutQueryVariables = Exact<{
 }>;
 
 
-export type TokenLayoutQuery = { __typename?: 'Query', tokenContract: { __typename?: 'TokenContract', id: string, name: string, symbol: string, decimals: number } };
+export type TokenLayoutQuery = { __typename?: 'Query', tokenContract: { __typename?: 'TokenContract', id: string, name: string, symbol: string, decimals: number, totalSupply: string, burnCount: any, mintCount: any, transferCount: any, holders: { __typename?: 'TokenHoldersConnection', totalCount: number } } };
 
 
 export const AddressesSearchDocument = gql`
@@ -2193,6 +2196,13 @@ export const TokenLayoutDocument = gql`
     name
     symbol
     decimals
+    totalSupply
+    burnCount
+    mintCount
+    transferCount
+    holders {
+      totalCount
+    }
   }
 }
     `;

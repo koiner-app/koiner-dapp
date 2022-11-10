@@ -102,10 +102,10 @@ export default defineComponent({
 <style lang="scss" scoped>
 .tabs-cards {
   width: 100%;
-  max-width: calc(66% - 24px);
+  max-width: calc(68% - 24px);
 }
 .token-contracts-card {
   width: 100%;
-  max-width: calc(34% - 24px);
+  max-width: calc(32% - 24px);
 }
 </style>
