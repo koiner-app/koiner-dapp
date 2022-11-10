@@ -1,11 +1,11 @@
 <template>
-  <div class="koiner-topbar fixed-top" v-if="id">
+  <div class="koiner-topbar fixed-top" v-if="address">
     <q-icon class="topbar-icon" name="account_balance_wallet"></q-icon>
     <div class="topbar-header">
-      <span class="selected-item">{{ id }}</span>
+      <span class="selected-item">{{ address.id }}</span>
 
       <bookmark-component
-        :item="{ id, type: 'address' }"
+        :item="{ id: address.id, type: 'address' }"
         list-id="addresses"
         item-translation="koiner.chain.item.address"
       />
@@ -16,19 +16,20 @@
         <q-route-tab
           :ripple="false"
           label="Overview"
-          :to="{ name: 'address', params: { id } }"
+          :to="{ name: 'address', params: { id: address.id } }"
           exact
         />
         <q-route-tab
           :ripple="false"
           label="History"
-          :to="{ name: 'address.history', params: { id } }"
+          :to="{ name: 'address.history', params: { id: address.id } }"
           exact
         />
         <q-route-tab
+          :disable="!address.isProducer"
           :ripple="false"
           label="Rewards"
-          :to="{ name: 'address.rewards', params: { id } }"
+          :to="{ name: 'address.rewards', params: { id: address.id } }"
           exact
         />
       </q-tabs>
@@ -42,27 +43,51 @@
 import { defineComponent, onMounted, Ref, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import BookmarkComponent from '@koiner/bookmarks/components/bookmark-component.vue';
+import { ItemState } from '@appvise/search-manager';
+import { Address, useAddressLayoutQuery } from '@koiner/sdk';
 
 export default defineComponent({
   name: 'AddressLayout',
   components: { BookmarkComponent },
   setup() {
-    let id: Ref<string | undefined> = ref();
+    const itemState = ItemState.create<Address>();
+    const variables: Ref<{ id: string }> = ref({ id: '' });
     const route = useRoute();
 
+    const executeQuery = () => {
+      const { data, fetching, error, isPaused } = useAddressLayoutQuery({
+        variables,
+      });
+
+      watch(data, (updatedData) => {
+        itemState.item.value = updatedData?.address as Address;
+      });
+
+      itemState.error = error;
+      itemState.fetching = fetching;
+      itemState.isPaused = isPaused;
+    };
+
     onMounted(async () => {
-      id.value = route.params.id ? route.params.id.toString() : undefined;
+      variables.value.id = route.params.id.toString();
+      executeQuery();
+      itemState.isPaused.value = true;
+      itemState.isPaused.value = false;
     });
 
     watch(
       () => route.params.id,
       async (newId) => {
-        id.value = newId ? newId.toString() : undefined;
+        itemState.isPaused.value = !newId;
+        variables.value.id = newId ? newId.toString() : '';
       }
     );
 
     return {
-      id,
+      itemState,
+      address: itemState.item,
+      error: itemState.error,
+      executeQuery,
     };
   },
 });

@@ -1,0 +1,8 @@
+query AddressLayout($id: ID!) {
+  address(id: $id) {
+    id
+    isContract
+    isProducer
+    isTokenContract
+  }
+}

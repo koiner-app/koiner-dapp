@@ -43,7 +43,7 @@ import { useRoute } from 'vue-router';
 import BookmarkComponent from '@koiner/bookmarks/components/bookmark-component.vue';
 
 export default defineComponent({
-  name: 'AddressLayout',
+  name: 'TransactionLayout',
   components: { BookmarkComponent },
   setup() {
     const route = useRoute();
