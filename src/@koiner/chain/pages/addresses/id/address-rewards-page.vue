@@ -1,19 +1,29 @@
 <template>
   <q-page
+    v-if="tokenHolders && tokenHolders.length > 0"
     class="q-pa-xl row items-start q-gutter-lg"
     style="padding-top: 7.5rem !important"
   >
     <q-card class="stats-cards" flat bordered>
       <q-card-section horizontal>
         <token-holder-balances-metric
-          v-if="blockProducersSearch.connection.value"
           title="Rewards"
           :token-holders="tokenHolders"
         />
         <q-separator vertical />
-        <counter-metric name="VHP" :value="0" />
+        <token-holder-balances-metric
+          v-if="vhpBurners && vhpBurners.length > 0"
+          title="VHP Burned"
+          :token-holders="vhpBurners"
+          :contract="koinerStore.vhpContract"
+        />
         <q-separator vertical />
-        <counter-metric name="ROI" :value="0" />
+        <counter-metric
+          name="ROI"
+          :value="totalRoi"
+          :decimals="2"
+          caption="%"
+        />
         <q-separator vertical />
         <counter-metric
           v-if="blockProducersSearch.connection.value"
@@ -27,6 +37,18 @@
       <q-card-section class="q-pt-xs">
         <div class="text-overline">Blocks Produced</div>
         <block-rewards-component v-if="id" :producer-ids="[id]" />
+      </q-card-section>
+    </q-card>
+  </q-page>
+
+  <q-page
+    class="q-pa-xl row items-start q-gutter-lg"
+    style="padding-top: 7.5rem !important"
+    v-else
+  >
+    <q-card flat bordered style="width: 100%">
+      <q-card-section class="q-pt-xs">
+        <div class="text-overline">Not a producer</div>
       </q-card-section>
     </q-card>
   </q-page>
@@ -90,6 +112,7 @@ export default defineComponent({
 
     return {
       id,
+      koinerStore,
       blockProducersSearch,
 
       tokenHolders: computed(() => {
@@ -99,6 +122,17 @@ export default defineComponent({
             balance: edge.node.balance,
             contract: koinerStore.koinContract,
             contractId: koinerStore.koinContract.id,
+          } as TokenHolder;
+        });
+      }),
+      vhpBurners: computed(() => {
+        // Transform BlockProducer profits to TokenHolder for input of component
+        return blockProducersSearch.connection.value?.edges?.map((edge) => {
+          return {
+            addressId: edge.node.addressId,
+            balance: edge.node.burnedTotal,
+            contract: koinerStore.vhpContract,
+            contractId: koinerStore.vhpContract.id,
           } as TokenHolder;
         });
       }),
@@ -112,6 +146,27 @@ export default defineComponent({
         );
 
         return total;
+      }),
+      burnedTotal: computed(() => {
+        let burnedTotal = 0;
+
+        blockProducersSearch.connection.value?.edges?.forEach((edge) => {
+          burnedTotal += parseInt(edge.node.burnedTotal);
+        });
+
+        return burnedTotal;
+      }),
+      totalRoi: computed(() => {
+        let profits = 0;
+        let burnedTotal = 0;
+
+        blockProducersSearch.connection.value?.edges?.forEach((edge) => {
+          profits +=
+            parseInt(edge.node.mintedTotal) - parseInt(edge.node.burnedTotal);
+          burnedTotal += parseInt(edge.node.burnedTotal);
+        });
+
+        return (profits / burnedTotal) * 100;
       }),
     };
   },

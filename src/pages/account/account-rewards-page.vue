@@ -127,9 +127,7 @@ export default defineComponent({
         return blockProducersSearch.connection.value?.edges?.map((edge) => {
           return {
             addressId: edge.node.addressId,
-            balance: (
-              parseInt(edge.node.balance) - parseInt(edge.node.burnedTotal)
-            ).toString(),
+            balance: edge.node.balance,
             contract: koinerStore.koinContract,
             contractId: koinerStore.koinContract.id,
           } as TokenHolder;
@@ -172,7 +170,7 @@ export default defineComponent({
 
         blockProducersSearch.connection.value?.edges?.forEach((edge) => {
           profits +=
-            parseInt(edge.node.balance) - parseInt(edge.node.burnedTotal);
+            parseInt(edge.node.mintedTotal) - parseInt(edge.node.burnedTotal);
           burnedTotal += parseInt(edge.node.burnedTotal);
         });
 

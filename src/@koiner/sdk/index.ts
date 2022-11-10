@@ -180,6 +180,7 @@ export type BlockProducer = {
   createdAt: Scalars['DateTime'];
   /** Globally unique identifier for this entity */
   id: Scalars['ID'];
+  mintedTotal: Scalars['String'];
   roi: Scalars['Float'];
   /** Timestamp as to when this entity was last updated */
   updatedAt: Scalars['DateTime'];
@@ -224,12 +225,14 @@ export type BlockProducersSortInput = {
 export type BlockProductionStats = {
   __typename?: 'BlockProductionStats';
   blocksProduced: Scalars['BigInt'];
-  burned: Scalars['String'];
+  burnedTotal: Scalars['String'];
   contractId: Scalars['String'];
   /** Timestamp as to when this entity was created */
   createdAt: Scalars['DateTime'];
   /** Globally unique identifier for this entity */
   id: Scalars['ID'];
+  mintedTotal: Scalars['String'];
+  producerCount: Scalars['BigInt'];
   rewarded: Scalars['String'];
   roi: Scalars['Float'];
   /** Timestamp as to when this entity was last updated */
@@ -256,6 +259,7 @@ export type BlockReward = {
   height: Scalars['BigInt'];
   /** Globally unique identifier for this entity */
   id: Scalars['ID'];
+  mintedValue: Scalars['String'];
   producer: BlockProducer;
   producerAddress?: Maybe<Address>;
   producerId: Scalars['String'];
@@ -344,14 +348,14 @@ export type BooleanFilter = {
 
 export type Chain = {
   __typename?: 'Chain';
-  contractCount: Scalars['BigInt'];
+  blockProductionStats: BlockProductionStats;
   /** Timestamp as to when this entity was created */
   createdAt: Scalars['DateTime'];
   /** Globally unique identifier for this entity */
   id: Scalars['ID'];
   stats: ChainStats;
   timestamp: Scalars['BigInt'];
-  transferCount: Scalars['BigInt'];
+  tokenStats: TokenStats;
   /** Timestamp as to when this entity was last updated */
   updatedAt: Scalars['DateTime'];
 };
@@ -724,7 +728,7 @@ export type Query = {
   tokenHolders: TokenHoldersConnection;
   tokenOperation: TokenOperation;
   tokenOperations: TokenOperationsConnection;
-  tokenStats: Chain;
+  tokenStats: TokenStats;
   transaction: Transaction;
   transactions: TransactionsConnection;
 };
@@ -1236,6 +1240,19 @@ export type TokenOperationsSortInput = {
   field: TokenOperationsSortField;
 };
 
+export type TokenStats = {
+  __typename?: 'TokenStats';
+  contractCount: Scalars['BigInt'];
+  /** Timestamp as to when this entity was created */
+  createdAt: Scalars['DateTime'];
+  /** Globally unique identifier for this entity */
+  id: Scalars['ID'];
+  timestamp: Scalars['BigInt'];
+  transferCount: Scalars['BigInt'];
+  /** Timestamp as to when this entity was last updated */
+  updatedAt: Scalars['DateTime'];
+};
+
 export type Transaction = {
   __typename?: 'Transaction';
   blockHeight: Scalars['BigInt'];
@@ -1410,6 +1427,13 @@ export type TransactionsSearchQueryVariables = Exact<{
 
 export type TransactionsSearchQuery = { __typename?: 'Query', transactions: { __typename?: 'TransactionsConnection', edges: Array<{ __typename: 'TransactionEdge', cursor: string, node: { __typename?: 'Transaction', id: string, blockHeight: any, operationCount: number, timestamp: any } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null, endCursor?: string | null } } };
 
+export type AddressLayoutQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type AddressLayoutQuery = { __typename?: 'Query', address: { __typename?: 'Address', id: string, isContract: boolean, isProducer: boolean, isTokenContract: boolean } };
+
 export type BlockPageQueryVariables = Exact<{
   height: Scalars['ID'];
 }>;
@@ -1466,7 +1490,7 @@ export type BlockProducersSearchQueryVariables = Exact<{
 }>;
 
 
-export type BlockProducersSearchQuery = { __typename?: 'Query', blockProducers: { __typename?: 'BlockProducersConnection', edges: Array<{ __typename: 'BlockProducerEdge', cursor: string, node: { __typename?: 'BlockProducer', id: string, addressId: string, balance: string, burnedTotal: string, blocksProduced: any } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null, endCursor?: string | null } } };
+export type BlockProducersSearchQuery = { __typename?: 'Query', blockProducers: { __typename?: 'BlockProducersConnection', edges: Array<{ __typename: 'BlockProducerEdge', cursor: string, node: { __typename?: 'BlockProducer', id: string, addressId: string, balance: string, mintedTotal: string, burnedTotal: string, blocksProduced: any } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null, endCursor?: string | null } } };
 
 export type BlockRewardsSearchQueryVariables = Exact<{
   after?: InputMaybe<Scalars['String']>;
@@ -1768,6 +1792,20 @@ export const TransactionsSearchDocument = gql`
 export function useTransactionsSearchQuery(options: Omit<Urql.UseQueryArgs<never, TransactionsSearchQueryVariables>, 'query'> = {}) {
   return Urql.useQuery<TransactionsSearchQuery>({ query: TransactionsSearchDocument, ...options });
 };
+export const AddressLayoutDocument = gql`
+    query AddressLayout($id: ID!) {
+  address(id: $id) {
+    id
+    isContract
+    isProducer
+    isTokenContract
+  }
+}
+    `;
+
+export function useAddressLayoutQuery(options: Omit<Urql.UseQueryArgs<never, AddressLayoutQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<AddressLayoutQuery>({ query: AddressLayoutDocument, ...options });
+};
 export const BlockPageDocument = gql`
     query BlockPage($height: ID!) {
   block(height: $height) {
@@ -1941,6 +1979,7 @@ export const BlockProducersSearchDocument = gql`
         id
         addressId
         balance
+        mintedTotal
         burnedTotal
         blocksProduced
       }
