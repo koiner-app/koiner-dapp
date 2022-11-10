@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, onMounted, PropType, ref, Ref} from 'vue';
+import { defineComponent, onMounted, PropType, ref, Ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { KoinerRenderers } from '@koiner/renderers';
 import SearchFilters from '@appvise/search-manager/search-filters.vue';
@@ -44,21 +44,14 @@ export default defineComponent({
   },
 
   setup(props) {
-    let request: Ref<QueryTokenHoldersArgs> = ref({ filter: {} });
-    let id: Ref<string | undefined> = ref();
-    const route = useRoute();
-
-    onMounted(async () => {
-      id.value = route.params.id.toString();
-      request.value.filter = {
-        contractId: { equals: props.contractId },
-      };
-    });
-
     return {
       schema: tokenHoldersSearchSchema,
       uiSchema: tokenHoldersSearchUiSchema,
-      request: request,
+      request: {
+        filter: {
+          contractId: { equals: props.contractId },
+        },
+      },
       renderers: KoinerRenderers,
     };
   },
