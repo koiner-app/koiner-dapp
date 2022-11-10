@@ -85,7 +85,7 @@ export default defineComponent({
         },
         {
           name: 'Tokenize',
-          to: '/tokens',
+          to: '/tokenize',
           icon: 'toll',
           disabled: false,
         },

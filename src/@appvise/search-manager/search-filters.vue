@@ -74,7 +74,7 @@ export default defineComponent({
 <style lang="scss">
 .wildcard-search {
   border: 0;
-  width: 94px !important;
+  width: 102px !important;
   max-width: 100%;
 
   &.q-field--dense .q-field__control,
