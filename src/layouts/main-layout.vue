@@ -13,6 +13,7 @@
               font-size: 0.5rem;
               margin-bottom: 10px;
               height: 0.8rem;
+              padding: 0 0.4rem;
             "
             >Beta</q-chip
           >
