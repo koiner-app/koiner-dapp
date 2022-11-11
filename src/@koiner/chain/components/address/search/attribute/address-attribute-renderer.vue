@@ -43,11 +43,11 @@ export default defineComponent({
     const attributeControl = useQuasarAttribute(useJsonAttribute(props));
 
     const to = (data: Record<string, unknown>) => {
-        // Use route with params
-        return {
-          name: 'address',
-          params: { id: data },
-        };
+      // Use route with params
+      return {
+        name: attributeControl.appliedOptions.value['route'] ?? 'address',
+        params: { id: data },
+      };
     };
 
     return {

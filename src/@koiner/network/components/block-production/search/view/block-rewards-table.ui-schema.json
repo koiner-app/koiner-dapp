@@ -38,7 +38,8 @@
           "scope": "#/properties/producerId",
           "options": {
             "format": "address",
-            "mapping": "producerId"
+            "mapping": "producerId",
+            "route": "address.rewards"
           }
         },
         {
