@@ -1,5 +1,5 @@
 <template>
-  <q-card class="transactions-card" flat bordered>
+  <q-card class="tabs-card" flat bordered>
     <q-card-section class="q-pt-xs">
       <div class="text-overline">Token events</div>
 

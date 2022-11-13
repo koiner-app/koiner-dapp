@@ -19,7 +19,7 @@
       </q-card-section>
     </q-card>
 
-    <q-card class="tabs-cards" flat bordered>
+    <q-card class="tabs-card" flat bordered>
       <q-card-section class="q-pt-xs">
         <q-tabs v-model="tab" dense align="left" style="width: 100%">
           <q-tab
@@ -98,7 +98,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.tabs-cards {
+.tabs-card {
   width: 100%;
   max-width: calc(60% - 24px);
 }

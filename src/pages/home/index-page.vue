@@ -5,7 +5,7 @@
   >
     <koinos-home-stats-component />
 
-    <q-card class="transactions-card" flat bordered>
+    <q-card class="tabs-card" flat bordered>
       <q-card-section class="q-pt-xs">
         <q-tabs v-model="tokenTab" dense align="left" style="width: 100%">
           <q-tab
@@ -89,11 +89,6 @@ export default defineComponent({
   .q-table {
     min-width: 500px;
     width: 100%;
-  }
-}
-.transactions-card {
-  .q-tab__label {
-    text-transform: none;
   }
 }
 </style>

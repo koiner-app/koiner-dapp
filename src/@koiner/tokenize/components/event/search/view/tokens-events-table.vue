@@ -88,6 +88,10 @@ export default defineComponent({
       required: false,
       type: String,
     },
+    heights: {
+      required: false,
+      type: Array as PropType<Array<number>>,
+    },
     addresses: {
       required: false,
       type: Array as PropType<Array<string>>,
@@ -125,6 +129,7 @@ export default defineComponent({
     const burn: Ref<boolean> = ref(props.burnFilter);
     const mint: Ref<boolean> = ref(props.mintFilter);
     const transfer: Ref<boolean> = ref(props.transferFilter);
+    let heightsFilter: any;
     let addressFilter: any;
     let contractsFilter: any;
 
@@ -153,6 +158,14 @@ export default defineComponent({
 
       searchStore.tokenEvents.request.filter = { AND: [] };
 
+      if (props.heights && props.heights.length > 0) {
+        heightsFilter = props.heights.map((height) => {
+          return {
+            blockHeight: { equals: height },
+          };
+        });
+      }
+
       if (props.addresses && props.addresses.length > 0) {
         addressFilter = props.addresses.map((address) => {
           return {
@@ -173,6 +186,12 @@ export default defineComponent({
       if (nameFilters.value.length === 1 || nameFilters.value.length === 2) {
         searchStore.tokenEvents.request.filter.AND!.push({
           OR: [...nameFilters.value],
+        });
+      }
+
+      if (heightsFilter) {
+        searchStore.tokenEvents.request.filter.AND!.push({
+          OR: heightsFilter,
         });
       }
 

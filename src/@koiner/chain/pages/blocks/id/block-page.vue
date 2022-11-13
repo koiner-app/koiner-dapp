@@ -18,7 +18,7 @@
       </q-card-section>
     </q-card>
 
-    <q-card class="tabs-cards" flat bordered>
+    <q-card class="tabs-card" flat bordered>
       <q-card-section class="q-pt-xs">
         <q-tabs v-model="tab" dense align="left" style="width: 100%">
           <q-tab
@@ -60,22 +60,24 @@
             <tokens-operations-table
               :burn-filter="false"
               :mint-filter="false"
+              :heights="[block.header.height]"
             />
           </q-tab-panel>
           <q-tab-panel name="transactions">
-            <transactions-table :height="block.header.height" />
+            <transactions-table :heights="[block.header.height]" />
           </q-tab-panel>
           <q-tab-panel name="operations">
             <contract-operations-table
               :burn-filter="false"
               :mint-filter="false"
+              :heights="[block.header.height]"
             />
           </q-tab-panel>
           <q-tab-panel name="token-events">
-            <tokens-events-table />
+            <tokens-events-table :heights="[block.header.height]" />
           </q-tab-panel>
           <q-tab-panel name="events">
-            <tokens-events-table />
+            <tokens-events-table :heights="[block.header.height]" />
           </q-tab-panel>
         </q-tab-panels>
       </q-card-section>
@@ -188,7 +190,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.tabs-cards {
+.tabs-card {
   width: 100%;
   max-width: calc(68% - 24px);
 }

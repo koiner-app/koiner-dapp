@@ -36,6 +36,10 @@ export default defineComponent({
       required: false,
       type: String,
     },
+    heights: {
+      required: false,
+      type: Array as PropType<Array<number>>,
+    },
     addresses: {
       required: false,
       type: Array as PropType<Array<string>>,
@@ -44,6 +48,7 @@ export default defineComponent({
 
   setup(props) {
     const searchStore = useSearchStore();
+    let heightsFilter: any;
     let addressFilter: any;
 
     const onScroll = (newScrollPosition: number) => {
@@ -57,11 +62,25 @@ export default defineComponent({
 
       searchStore.contractOperations.request.filter = { AND: [] };
 
+      if (props.heights && props.heights.length > 0) {
+        heightsFilter = props.heights.map((height) => {
+          return {
+            blockHeight: { equals: height },
+          };
+        });
+      }
+
       if (props.addresses && props.addresses.length > 0) {
         addressFilter = props.addresses.map((address) => {
           return {
             OR: [{ from: { equals: address } }, { to: { equals: address } }],
           };
+        });
+      }
+
+      if (heightsFilter) {
+        searchStore.contractOperations.request.filter.AND!.push({
+          OR: heightsFilter,
         });
       }
 
