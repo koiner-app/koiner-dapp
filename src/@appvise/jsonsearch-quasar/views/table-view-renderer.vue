@@ -76,6 +76,7 @@ export default defineComponent({
       name: string;
       label: string;
       field: string;
+      visible: boolean;
     }[] = childElements.map((childElement: ControlElement) => {
       // TODO: Integrate uischema options
       return {
@@ -83,6 +84,7 @@ export default defineComponent({
         label: childElement.label,
         field: childElement.scope.replace('#/properties/', ''),
         align: 'left',
+        visible: childElement.options?.visible ?? true,
       };
     });
 
@@ -185,7 +187,7 @@ export default defineComponent({
       // Table
       tableOffsetTop,
       tableView,
-      columns,
+      columns: columns.filter((column) => column.visible),
       onScroll,
       onRequest,
       rowKeyName,
