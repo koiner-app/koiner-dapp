@@ -42,6 +42,10 @@ export default defineComponent({
       required: false,
       type: Array as PropType<Array<string>>,
     },
+    height: {
+      required: false,
+      type: String,
+    },
   },
 
   setup(props) {
@@ -70,6 +74,12 @@ export default defineComponent({
       if (addressFilter) {
         searchStore.transactions.request.filter.AND!.push({
           OR: addressFilter,
+        });
+      }
+
+      if (props.height) {
+        searchStore.transactions.request.filter.AND!.push({
+          blockHeight: { equals: parseInt(props.height) },
         });
       }
     };

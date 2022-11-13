@@ -62,10 +62,14 @@
               :contract-ids="[id]"
               :burn-filter="false"
               :mint-filter="false"
+              :show-token-field="false"
             />
           </q-tab-panel>
           <q-tab-panel name="token-events">
-            <tokens-events-table :contract-ids="[id]" />
+            <tokens-events-table
+              :contract-ids="[id]"
+              :show-token-field="false"
+            />
           </q-tab-panel>
         </q-tab-panels>
       </q-card-section>

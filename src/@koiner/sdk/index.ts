@@ -1428,7 +1428,7 @@ export type TransactionsSearchQueryVariables = Exact<{
 }>;
 
 
-export type TransactionsSearchQuery = { __typename?: 'Query', transactions: { __typename?: 'TransactionsConnection', edges: Array<{ __typename: 'TransactionEdge', cursor: string, node: { __typename?: 'Transaction', id: string, blockHeight: any, operationCount: number, timestamp: any } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null, endCursor?: string | null } } };
+export type TransactionsSearchQuery = { __typename?: 'Query', transactions: { __typename?: 'TransactionsConnection', edges: Array<{ __typename: 'TransactionEdge', cursor: string, node: { __typename?: 'Transaction', id: string, blockHeight: any, operationCount: number, timestamp: any, receipt: { __typename?: 'TransactionReceipt', eventCount: number, rcUsed: string } } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null, endCursor?: string | null } } };
 
 export type AddressLayoutQueryVariables = Exact<{
   id: Scalars['ID'];
@@ -1778,6 +1778,10 @@ export const TransactionsSearchDocument = gql`
         id
         blockHeight
         operationCount
+        receipt {
+          eventCount
+          rcUsed
+        }
         timestamp
       }
       __typename

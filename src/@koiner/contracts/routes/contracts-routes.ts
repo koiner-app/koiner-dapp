@@ -6,9 +6,15 @@ export const contractsRoutes: RouteRecordRaw[] = [
     component: () => import('../layouts/contracts-layout.vue'),
     children: [
       {
+        name: 'contracts.overview',
+        path: '/contracts/overview',
+        component: () =>
+          import('../pages/contract/contracts-overview-page.vue'),
+      },
+      {
         name: 'contracts',
-        path: '',
-        component: () => import('../pages/contract/contracts-index-page.vue'),
+        path: '/contracts',
+        component: () => import('../pages/contract/contracts-search-page.vue'),
       },
       {
         name: 'contracts.events',

@@ -1,205 +1,106 @@
 <template>
-  <q-page class="row items-baseline justify-evenly" style="padding-top: 8rem">
-    <q-card class="table-card shadow-1" v-if="block">
-      <q-card-section>
-        <div class="row no-wrap items-center">
-          <div class="text-h6">Block overview</div>
-        </div>
+  <q-page
+    v-if="block"
+    class="q-pa-xl row items-start q-gutter-lg"
+    style="padding-top: 7.5rem !important"
+  >
+    <q-card class="stats-cards" flat bordered>
+      <q-card-section horizontal>
+        <counter-metric name="Height" :value="block.header.height" />
+
+        <q-separator vertical />
+
+        <counter-metric name="Transactions" :value="block.transactionCount" />
+
+        <q-separator vertical />
+
+        <counter-metric name="Events" :value="block.receipt.eventCount" />
       </q-card-section>
+    </q-card>
 
-      <q-card-section>
-        <q-list bordered class="rounded-borders">
-          <q-item>
-            <q-item-section class="col-2 gt-sm">
-              <q-item-label>Block Height:</q-item-label>
-            </q-item-section>
+    <q-card class="tabs-cards" flat bordered>
+      <q-card-section class="q-pt-xs">
+        <q-tabs v-model="tab" dense align="left" style="width: 100%">
+          <q-tab
+            class="text-overline"
+            :ripple="false"
+            label="Transfers"
+            name="token-transfers"
+          />
+          <q-tab
+            class="text-overline"
+            :ripple="false"
+            label="Tx"
+            name="transactions"
+          />
+          <q-tab
+            class="text-overline"
+            :ripple="false"
+            label="Contract Ops"
+            name="operations"
+          />
+          <q-tab
+            class="text-overline"
+            :ripple="false"
+            label="Token Events"
+            name="token-events"
+          />
+          <q-tab
+            class="text-overline"
+            :ripple="false"
+            label="Events"
+            name="events"
+          />
+        </q-tabs>
 
-            <q-item-section>
-              {{ block.header.height }}
-            </q-item-section>
-          </q-item>
+        <q-separator />
 
-          <q-separator inset="item" />
+        <q-tab-panels v-model="tab" animated>
+          <q-tab-panel name="token-transfers">
+            <tokens-operations-table
+              :burn-filter="false"
+              :mint-filter="false"
+            />
+          </q-tab-panel>
+          <q-tab-panel name="transactions">
+            <transactions-table :height="block.header.height" />
+          </q-tab-panel>
+          <q-tab-panel name="operations">
+            <contract-operations-table
+              :burn-filter="false"
+              :mint-filter="false"
+            />
+          </q-tab-panel>
+          <q-tab-panel name="token-events">
+            <tokens-events-table />
+          </q-tab-panel>
+          <q-tab-panel name="events">
+            <tokens-events-table />
+          </q-tab-panel>
+        </q-tab-panels>
+      </q-card-section>
+    </q-card>
 
-          <q-item>
-            <q-item-section class="col-2 gt-sm">
-              <q-item-label>Block ID:</q-item-label>
-            </q-item-section>
+    <q-card class="token-contracts-card bg-transparent" flat>
+      <q-card-section class="q-pa-none">
+        <q-card flat bordered class="q-mb-lg">
+          <q-card-section>
+            <q-card-section class="q-pt-xs">
+              <div class="text-overline">Details</div>
 
-            <q-item-section>
-              {{ block.id }}
-            </q-item-section>
-          </q-item>
+              <block-details-component :block="block" />
+            </q-card-section>
+          </q-card-section>
+        </q-card>
 
-          <q-separator inset="item" />
-
-          <q-item>
-            <q-item-section class="col-2 gt-sm">
-              <q-item-label>Timestamp</q-item-label>
-            </q-item-section>
-            <q-item-section
-              >19 secs ago (May-18-2022 05:34:03 PM +UTC)</q-item-section
-            >
-          </q-item>
-
-          <q-separator inset="item" />
-
-          <q-item v-if="block.reward">
-            <q-item-section>
-              <q-item-label> Producer </q-item-label>
-            </q-item-section>
-            <q-item-section>
-              <span>
-                {{ tokenAmount(block.reward?.value, 8) }}
-                <router-link
-                  :to="{
-                    name: 'token',
-                    params: { id: koinerStore.koinContract.id },
-                  }"
-                >
-                  <span>
-                    tKOIN
-                    <q-tooltip :delay="500">Test Koinos</q-tooltip>
-                  </span>
-                </router-link>
-              </span>
-              <span>
-                {{ tokenAmount(block.reward?.burnedValue, 8) }}
-                <router-link
-                  :to="{
-                    name: 'token',
-                    params: { id: koinerStore.vhpContract.id },
-                  }"
-                >
-                  <span>
-                    VHP
-                    <q-tooltip :delay="500">Virtual Hash Power</q-tooltip>
-                  </span>
-                </router-link>
-              </span>
-              <router-link
-                :to="{
-                  name: 'address',
-                  params: { id: block.reward.producerId },
-                }"
-              >
-                {{ block.reward?.producerId }}
-              </router-link>
-            </q-item-section>
-          </q-item>
-
-          <q-item>
-            <q-item-section class="col-2 gt-sm">
-              <q-item-label>Transactions</q-item-label>
-            </q-item-section>
-            <q-item-section>
-              <div v-if="block.transactionCount > 0">
-                <q-btn
-                  :to="`/blocks/${height}/transactions`"
-                  flat
-                  class="q-pa-none"
-                  style="min-height: auto"
-                >
-                  <q-badge color="secondary" text-color="black"
-                    >{{ block.transactionCount }} transaction
-                    {{ block.transactionCount > 1 ? 's' : '' }}</q-badge
-                  >
-                </q-btn>
-
-                and 4 contract internal transactions in this block
-              </div>
-              <div v-else>
-                <q-badge color="grey" text-color="black"
-                  >No transactions</q-badge
-                >
-              </div>
-            </q-item-section>
-          </q-item>
-
-          <q-separator v-if="block.reward" inset="item" />
-
-          <q-item v-if="block.reward">
-            <q-item-section class="col-2 gt-sm">
-              <q-item-label>Produced by:</q-item-label>
-            </q-item-section>
-            <q-item-section
-              ><address-link :address="block.reward.producerId" />
-            </q-item-section>
-          </q-item>
-
-          <q-separator v-if="block.reward" inset="item" />
-
-          <q-item v-if="block.reward">
-            <q-item-section class="col-2 gt-sm">
-              <q-item-label>Block Reward:</q-item-label>
-            </q-item-section>
-            <q-item-section>
-              {{ block.reward.value }} {{ block.reward.contractId }}
-            </q-item-section>
-          </q-item>
-
-          <q-separator inset="item" />
-
-          <q-item>
-            <q-item-section class="col-2 gt-sm">
-              <q-item-label>Size:</q-item-label>
-            </q-item-section>
-            <q-item-section>12,257 bytes</q-item-section>
-          </q-item>
-
-          <q-separator inset="item" />
-
-          <q-item>
-            <q-item-section class="col-2 gt-sm">
-              <q-item-label>Mana Used:</q-item-label>
-            </q-item-section>
-            <q-item-section>12,257 bytes</q-item-section>
-          </q-item>
-
-          <q-separator inset="item" />
-
-          <q-item>
-            <q-item-section class="col-2 gt-sm">
-              <q-item-label>Disk Storage Used:</q-item-label>
-            </q-item-section>
-            <q-item-section>
-              {{ block.receipt.diskStorageUsed }}
-            </q-item-section>
-          </q-item>
-
-          <q-separator inset="item" />
-
-          <q-item>
-            <q-item-section class="col-2 gt-sm">
-              <q-item-label>Network Bandwidth Used:</q-item-label>
-            </q-item-section>
-            <q-item-section>
-              {{ block.receipt.networkBandwidthUsed }}
-            </q-item-section>
-          </q-item>
-
-          <q-separator inset="item" />
-
-          <q-item>
-            <q-item-section class="col-2 gt-sm">
-              <q-item-label>Compute Bandwidth Used:</q-item-label>
-            </q-item-section>
-            <q-item-section>
-              {{ block.receipt.computeBandwidthUsed }}
-            </q-item-section>
-          </q-item>
-
-          <q-separator inset="item" />
-
-          <q-item>
-            <q-item-section class="col-2 gt-sm">
-              <q-item-label>Events:</q-item-label>
-            </q-item-section>
-            <q-item-section>
-              {{ block.receipt.eventCount }}
-            </q-item-section>
-          </q-item>
-        </q-list>
+        <q-card flat bordered>
+          <q-card-section>
+            <q-card-section class="q-pt-xs">
+              <div class="text-overline">Block Reward</div>
+              <block-producer-component :block="block" />
+            </q-card-section>
+          </q-card-section>
+        </q-card>
       </q-card-section>
     </q-card>
   </q-page>
@@ -207,23 +108,38 @@
 
 <script lang="ts">
 import { defineComponent, ref, Ref, watch } from 'vue';
+import { useStatsStore } from 'stores/stats';
+import CounterMetric from '@koiner/components/metrics/counter-metric.vue';
+import TokensOperationsTable from '../../../../tokenize/components/operation/search/view/tokens-operations-table.vue';
+import TokensEventsTable from '../../../../tokenize/components/event/search/view/tokens-events-table.vue';
 import { useRoute } from 'vue-router';
+import BlockDetailsComponent from '@koiner/chain/components/block/block-details-component.vue';
+import ContractOperationsTable from '@koiner/contracts/components/contract/search/view/contracts-operations-table.vue';
+import TransactionsTable from '@koiner/chain/components/transaction/search/view/transactions-table.vue';
 import { ItemState } from '@appvise/search-manager';
 import { Block, useBlockPageQuery } from '@koiner/sdk';
-import { tokenAmount } from '@koiner/utils';
-import AddressLink from '@koiner/chain/components/address/address-link.vue';
-import { useKoinerStore } from 'stores/koiner';
+import BlockProducerComponent from '@koiner/chain/components/block/block-producer-component.vue';
 
 export default defineComponent({
-  name: 'BlockPage',
-  components: { AddressLink },
-  setup() {
-    const koinerStore = useKoinerStore();
+  name: 'NetworkIndexPage',
+  components: {
+    BlockProducerComponent,
+    TransactionsTable,
+    ContractOperationsTable,
+    BlockDetailsComponent,
+    TokensEventsTable,
+    TokensOperationsTable,
+    CounterMetric,
+  },
 
-    let height: Ref<string | string[] | undefined> = ref();
+  setup() {
+    const statsStore = useStatsStore();
+    const route = useRoute();
+
+    const tab: Ref<string> = ref('token-transfers');
+
     const itemState = ItemState.create<Block>();
     const variables: Ref<{ height: string }> = ref({ height: '' });
-    const route = useRoute();
 
     // const account = useAccountStore();
     // const block: Ref<Block | undefined> = ref();
@@ -260,28 +176,24 @@ export default defineComponent({
     );
 
     return {
-      koinerStore,
-      tokenAmount,
+      tab,
+      statsStore,
+
       itemState,
       block: itemState.item,
       error: itemState.error,
     };
-
-    //
-    // watch(
-    //   () => route.params.height,
-    //   async (newHeight) => {
-    //     block.value = undefined;
-    //     height.value = newHeight;
-    //     executeQuery();
-    //   }
-    // );
-
-    // return {
-    //   height,
-    //   // account,
-    //   // block,
-    // };
   },
 });
 </script>
+
+<style lang="scss" scoped>
+.tabs-cards {
+  width: 100%;
+  max-width: calc(68% - 24px);
+}
+.token-contracts-card {
+  width: 100%;
+  max-width: calc(32% - 24px);
+}
+</style>

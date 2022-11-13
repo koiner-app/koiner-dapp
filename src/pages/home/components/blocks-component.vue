@@ -41,28 +41,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<style lang="scss">
-.dashboard-home-search {
-  .q-table {
-    width: 100%;
-    tbody td {
-      font-size: 12px !important;
-    }
-  }
-  .search-view-table .q-table thead tr,
-  .search-view-table .q-table tbody.q-virtual-scroll__content td {
-    padding: 0 12px !important;
-    height: 40px !important;
-  }
-  .q-td {
-    &:nth-child(2) {
-      .attribute-wrapper {
-        .link-attribute span {
-          max-width: 50px !important;
-        }
-      }
-    }
-  }
-}
-</style>

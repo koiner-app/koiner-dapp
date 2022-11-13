@@ -199,14 +199,18 @@ a {
     padding: 0 12px !important;
     height: 40px !important;
   }
-  .q-td {
-    &:nth-child(2) {
-      .attribute-wrapper {
-        .link-attribute span {
-          max-width: 50px !important;
-        }
-      }
-    }
+}
+
+[id*="#/properties/transactionId"] a span,
+[id*="#/properties/id"] a span,
+.address-attribute span {
+  @media screen and (max-width: 1800px) {
+    inline-size: 168px !important;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    display: inline-block;
+    padding-top: 0.35rem;
   }
 }
 

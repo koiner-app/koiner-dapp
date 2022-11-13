@@ -48,12 +48,9 @@
     </q-card>
 
     <q-card class="blocks-card" flat bordered>
-      <q-card-section horizontal>
-        <q-card-section class="q-pt-xs">
-          <div class="text-overline">Blocks</div>
-
-          <blocks-component />
-        </q-card-section>
+      <q-card-section class="q-pt-xs">
+        <div class="text-overline">Blocks</div>
+        <blocks-component />
       </q-card-section>
     </q-card>
   </q-page>
@@ -91,6 +88,7 @@ export default defineComponent({
 .blocks-card {
   .q-table {
     min-width: 500px;
+    width: 100%;
   }
 }
 .transactions-card {

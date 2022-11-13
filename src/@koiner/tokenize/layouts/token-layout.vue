@@ -23,14 +23,14 @@
         />
         <q-route-tab
           :ripple="false"
-          label="Events"
-          :to="`/tokens/${tokenContract.id}/events`"
+          label="Operations"
+          :to="`/tokens/${tokenContract.id}/operations`"
           exact
         />
         <q-route-tab
           :ripple="false"
-          label="Operations"
-          :to="`/tokens/${tokenContract.id}/operations`"
+          label="Events"
+          :to="`/tokens/${tokenContract.id}/events`"
           exact
         />
         <q-route-tab

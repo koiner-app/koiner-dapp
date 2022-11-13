@@ -7,7 +7,7 @@
   >
     <router-link
       :to="to(rawValue(result.node))"
-      :class="`${styles.attribute.link}`"
+      :class="`${styles.attribute.link} address-attribute`"
     >
       <q-icon v-if="appliedOptions.icon" :name="appliedOptions.icon" />
       <span v-if="!appliedOptions.icon">{{ rawValue(result.node) }}</span>

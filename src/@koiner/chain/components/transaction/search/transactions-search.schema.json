@@ -12,6 +12,16 @@
     },
     "timestamp": {
       "type": "number"
+    },
+    "receipt": {
+      "properties": {
+        "eventCount": {
+          "type": "number"
+        },
+        "rcUsed": {
+          "type": "number"
+        }
+      }
     }
   }
 }

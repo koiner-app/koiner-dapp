@@ -14,16 +14,18 @@
           "label": "Address",
           "scope": "#/properties/addressId",
           "options": {
-            "format": "address"
+            "format": "address",
+            "route": "address.rewards"
           }
         },
         {
           "type": "Attribute",
-          "label": "Block reward",
+          "label": "Total rewards",
           "scope": "#/properties/balance",
           "options": {
             "format": "koinTokenAmount",
-            "mapping": "balance"
+            "mapping": "balance",
+            "decimals": 2
           }
         },
         {

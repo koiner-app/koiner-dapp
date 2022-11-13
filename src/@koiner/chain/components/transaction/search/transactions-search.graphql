@@ -18,6 +18,10 @@ query TransactionsSearch(
         id
         blockHeight
         operationCount
+        receipt {
+          eventCount
+          rcUsed
+        }
         timestamp
       }
       __typename

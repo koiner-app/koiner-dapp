@@ -17,13 +17,6 @@ query ContractOperationsSearch(
       node {
         id
         blockHeight
-#        details {
-#          __typename
-#          ... on TokenOperation {
-#            from
-#            name
-#          }
-#        }
         contractId
         transactionId
         contractStandardType

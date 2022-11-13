@@ -2,7 +2,11 @@
   <q-page class="row items-baseline justify-evenly">
     <q-card class="table-card shadow-1">
       <q-card-section>
-        <tokens-events-table title="Events" :contract-ids="[id]" />
+        <tokens-events-table
+          title="Events"
+          :contract-ids="[id]"
+          :show-token-field="false"
+        />
       </q-card-section>
     </q-card>
   </q-page>

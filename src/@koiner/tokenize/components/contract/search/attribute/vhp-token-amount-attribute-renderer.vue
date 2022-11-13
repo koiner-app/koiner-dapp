@@ -15,8 +15,8 @@
         :class="`${styles.attribute.link}`"
       >
         <span>
-          VHP
-          <q-tooltip :delay="500">Virtual Hash Power</q-tooltip>
+          {{ koinerStore.vhpContract.symbol }}
+          <q-tooltip :delay="500">{{ koinerStore.vhpContract.name }}</q-tooltip>
         </span>
       </router-link>
     </span>
@@ -26,13 +26,14 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 import { rendererProps, RendererProps } from '@jsonforms/vue';
+import { tokenAmount } from '@koiner/utils';
 import {
   AttributeElement,
   AttributeWrapper,
   useJsonAttribute,
   useQuasarAttribute,
 } from '@appvise/jsonsearch-quasar';
-import { round } from 'lodash';
+import { useKoinerStore } from 'stores/koiner';
 
 export default defineComponent({
   name: 'VhpTokenAmountAttributeRenderer',
@@ -49,13 +50,11 @@ export default defineComponent({
     },
   },
   setup(props: RendererProps<AttributeElement>) {
+    const koinerStore = useKoinerStore();
     const attributeControl = useQuasarAttribute(useJsonAttribute(props));
 
-    const tokenAmount = (units: number, decimals: number): number => {
-      return round(units / Math.pow(10, decimals), decimals);
-    };
-
     return {
+      koinerStore,
       ...attributeControl,
       tokenAmount,
     };

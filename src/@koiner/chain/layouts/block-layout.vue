@@ -28,18 +28,6 @@
           :to="`/blocks/${height}`"
           exact
         />
-        <q-route-tab
-          :ripple="false"
-          label="Transactions"
-          :to="`/blocks/${height}/transactions`"
-          exact
-        />
-        <q-route-tab
-          :ripple="false"
-          label="Operations"
-          :to="`/blocks/${height}/operations`"
-          exact
-        />
       </q-tabs>
     </div>
   </div>

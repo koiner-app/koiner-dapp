@@ -7,6 +7,9 @@
     "transactionId": {
       "type": "string"
     },
+    "blockHeight": {
+      "type": "number"
+    },
     "timestamp": {
       "type": "number"
     }

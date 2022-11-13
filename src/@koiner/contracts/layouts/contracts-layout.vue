@@ -7,7 +7,13 @@
 
     <div class="topbar-navigation">
       <q-tabs dense align="left" style="width: 100%">
-        <q-route-tab :ripple="false" label="Search" to="/contracts" exact />
+        <q-route-tab
+          :ripple="false"
+          label="Overview"
+          to="/contracts/overview"
+          exact
+        />
+        <q-route-tab :ripple="false" label="Contracts" to="/contracts" exact />
         <q-route-tab
           :ripple="false"
           label="Events"
@@ -20,12 +26,7 @@
           :to="{ name: 'contracts.operations' }"
           exact
         />
-        <q-route-tab
-          :disabled="true"
-          :ripple="false"
-          label="Standards"
-          exact
-        />
+        <q-route-tab :disabled="true" :ripple="false" label="Standards" exact />
       </q-tabs>
     </div>
   </div>

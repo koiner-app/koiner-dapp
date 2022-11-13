@@ -40,16 +40,27 @@
 
 .transactions-card {
   width: 100%;
-  max-width: calc(66.66% - 24px);
+
+  @media screen and (min-width: 1024px) {
+    max-width: calc(66.66% - 24px);
+  }
 }
 .blocks-card {
   width: 100%;
-  max-width: calc(33.33% - 24px);
+
+  @media screen and (min-width: 1024px) {
+    max-width: calc(33.33% - 24px);
+  }
 }
 .large-card {
-  width: calc(50% - 24px);
+  @media screen and (min-width: 1024px) {
+    width: calc(50% - 24px);
+  }
 }
 .my-card {
   width: 100%;
-  max-width: calc(25%);
+
+  @media screen and (min-width: 1024px) {
+    max-width: calc(25%);
+  }
 }

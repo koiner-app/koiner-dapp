@@ -111,10 +111,17 @@ export default defineComponent({
       type: Boolean,
       default: true,
     },
+    showTokenField: {
+      required: false,
+      type: Boolean,
+      default: true,
+    },
   },
 
   setup(props) {
+    const uiSchema = ref(tokenEventsSearchUiSchema);
     const searchStore = useSearchStore();
+
     const burn: Ref<boolean> = ref(props.burnFilter);
     const mint: Ref<boolean> = ref(props.mintFilter);
     const transfer: Ref<boolean> = ref(props.transferFilter);
@@ -223,13 +230,22 @@ export default defineComponent({
       searchStore.tokenEvents.position = newScrollPosition;
     };
 
+    uiSchema.value.elements[0].elements =
+      tokenEventsSearchUiSchema.elements[0].elements.filter((element) => {
+        if (element.scope === '#/properties/contractId') {
+          element.options.visible = props.showTokenField;
+        }
+
+        return element;
+      });
+
     return {
       transfer,
       mint,
       burn,
       onScroll,
       schema: tokenEventsSearchSchema,
-      uiSchema: tokenEventsSearchUiSchema,
+      uiSchema,
       request: searchStore.tokenEvents.request,
       position: searchStore.tokenEvents.position,
       renderers: KoinerRenderers,

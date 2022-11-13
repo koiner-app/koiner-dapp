@@ -88,6 +88,10 @@ export default defineComponent({
       required: false,
       type: String,
     },
+    contractIds: {
+      required: false,
+      type: Array as PropType<Array<string>>,
+    },
     addresses: {
       required: false,
       type: Array as PropType<Array<string>>,
@@ -107,14 +111,22 @@ export default defineComponent({
       type: Boolean,
       default: true,
     },
+    showTokenField: {
+      required: false,
+      type: Boolean,
+      default: true,
+    },
   },
 
   setup(props) {
+    const uiSchema = ref(tokenOperationsSearchUiSchema);
     const searchStore = useSearchStore();
+
     const burn: Ref<boolean> = ref(props.burnFilter);
     const mint: Ref<boolean> = ref(props.mintFilter);
     const transfer: Ref<boolean> = ref(props.transferFilter);
     let addressFilter: any;
+    let contractsFilter: any;
     const nameFilters: Ref<
       Array<{
         name: { equals: string };
@@ -148,6 +160,14 @@ export default defineComponent({
         });
       }
 
+      if (props.contractIds && props.contractIds.length > 0) {
+        contractsFilter = props.contractIds.map((contractId) => {
+          return {
+            contractId: { equals: contractId },
+          };
+        });
+      }
+
       // Ignore when none or all are selected
       if (nameFilters.value.length === 1 || nameFilters.value.length === 2) {
         searchStore.tokenOperations.request.filter.AND!.push({
@@ -158,6 +178,12 @@ export default defineComponent({
       if (addressFilter) {
         searchStore.tokenOperations.request.filter.AND!.push({
           OR: addressFilter,
+        });
+      }
+
+      if (contractsFilter) {
+        searchStore.tokenOperations.request.filter.AND!.push({
+          OR: contractsFilter,
         });
       }
     };
@@ -203,13 +229,22 @@ export default defineComponent({
       searchStore.tokenOperations.position = newScrollPosition;
     };
 
+    uiSchema.value.elements[0].elements =
+      tokenOperationsSearchUiSchema.elements[0].elements.filter((element) => {
+        if (element.scope === '#/properties/contractId') {
+          element.options.visible = props.showTokenField;
+        }
+
+        return element;
+      });
+
     return {
       transfer,
       mint,
       burn,
       onScroll,
       schema: tokenOperationsSearchSchema,
-      uiSchema: tokenOperationsSearchUiSchema,
+      uiSchema,
       request: searchStore.tokenOperations.request,
       position: searchStore.tokenOperations.position,
       renderers: KoinerRenderers,

@@ -46,15 +46,24 @@
         },
         {
           "type": "Attribute",
-          "label": "Operations",
-          "scope": "#/properties/operationCount",
+          "label": "Ops",
+          "scope": "#/properties/operationCount"
+        },
+        {
+          "type": "Attribute",
+          "label": "Events",
+          "scope": "#/properties/receipt/properties/eventCount",
           "options": {
-            "route": "transaction.operations",
-            "format": "link",
-            "linkParams": ["id"],
-            "mappings": {
-              "id": "id"
-            }
+            "mapping": "receipt.eventCount"
+          }
+        },
+        {
+          "type": "Attribute",
+          "label": "Mana used",
+          "scope": "#/properties/receipt/properties/rcUsed",
+          "options": {
+            "format": "manaTokenAmount",
+            "mapping": "receipt.rcUsed"
           }
         }
       ]

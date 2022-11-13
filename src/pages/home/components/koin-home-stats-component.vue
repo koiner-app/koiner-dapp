@@ -29,42 +29,24 @@
 
       <q-separator vertical />
 
-      <q-card class="stats-card" flat>
-        <q-card-section horizontal>
-          <q-card-section class="q-pt-xs">
-            <div class="text-overline">VHP</div>
-            <div class="text-h4 q-mt-sm q-mb-xs">
-              1154851
-              <br />&nbsp; <br />&nbsp;
-            </div>
-          </q-card-section>
-        </q-card-section>
-      </q-card>
+      <counter-metric
+        name="Transactions"
+        :value="statsStore.chainStats.transactionCount"
+      />
 
       <q-separator vertical />
 
-      <q-card class="stats-card" flat>
-        <q-card-section horizontal>
-          <q-card-section class="q-pt-xs">
-            <div class="text-overline">Transactions</div>
-            <div class="text-h4 q-mt-sm q-mb-xs">12354</div>
-          </q-card-section>
-        </q-card-section>
-      </q-card>
+      <counter-metric
+        name="Token Transfers"
+        :value="statsStore.tokenStats.transferCount"
+      />
 
       <q-separator vertical />
 
-      <q-card class="stats-card" flat>
-        <q-card-section horizontal>
-          <q-card-section class="q-pt-xs">
-            <div class="text-overline">Producers</div>
-            <div class="text-h4 q-mt-sm q-mb-xs">
-              15
-              <br />&nbsp; <br />&nbsp;
-            </div>
-          </q-card-section>
-        </q-card-section>
-      </q-card>
+      <counter-metric
+        name="Addresses"
+        :value="statsStore.chainStats.addressCount"
+      />
     </q-card-section>
   </q-card>
 </template>
@@ -72,16 +54,20 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { useKoinosStore } from 'stores/koinos';
+import { useStatsStore } from 'stores/stats';
+import CounterMetric from '@koiner/components/metrics/counter-metric.vue';
 
 export default defineComponent({
   name: 'KoinosHomeStatsComponent',
-  components: {},
+  components: { CounterMetric },
 
   setup() {
     const koinosStore = useKoinosStore();
+    const statsStore = useStatsStore();
 
     return {
       koinosStore,
+      statsStore,
     };
   },
 });

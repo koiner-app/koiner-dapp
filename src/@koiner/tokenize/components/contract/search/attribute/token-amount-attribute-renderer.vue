@@ -5,15 +5,25 @@
     :applied-options="appliedOptions"
   >
     <span>
-      {{
-        tokenAmount(
-          parseInt(rawValue(result.node)),
-          mappedValue(result.node, 'contract.decimals')
-        )
-      }}
+      <span v-if="displayedDecimals"
+        >{{
+          formattedTokenAmount(
+            parseInt(rawValue(result.node)),
+            mappedValue(result.node, 'contract.decimals'),
+            displayedDecimals
+          )
+        }} </span
+      ><span v-else>
+        {{
+          tokenAmount(
+            parseInt(rawValue(result.node)),
+            mappedValue(result.node, 'contract.decimals')
+          )
+        }}
+      </span>
       <router-link
         :to="to(mappedValue(result.node, 'contract.id'))"
-        :class="`${styles.attribute.link}`"
+        :class="`${styles.attribute.link} q-ml-xs`"
       >
         <span>
           {{ mappedValue(result.node, 'contract.symbol') }}
@@ -35,7 +45,7 @@ import {
   useJsonAttribute,
   useQuasarAttribute,
 } from '@appvise/jsonsearch-quasar';
-import { tokenAmount } from '@koiner/utils';
+import { formattedTokenAmount, tokenAmount } from '@koiner/utils';
 
 export default defineComponent({
   name: 'TokenAmountAttributeRenderer',
@@ -53,6 +63,9 @@ export default defineComponent({
   },
   setup(props: RendererProps<AttributeElement>) {
     const attributeControl = useQuasarAttribute(useJsonAttribute(props));
+    const displayedDecimals = attributeControl.appliedOptions.value['decimals']
+      ? parseInt(attributeControl.appliedOptions.value['decimals'])
+      : undefined;
 
     const to = (data: Record<string, unknown>) => {
       // Use route with params
@@ -66,6 +79,8 @@ export default defineComponent({
       ...attributeControl,
       to,
       tokenAmount,
+      formattedTokenAmount,
+      displayedDecimals,
     };
   },
 });

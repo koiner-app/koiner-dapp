@@ -8,6 +8,7 @@ import {
 import TokenAttributeRenderer from './token-attribute-renderer.vue';
 import TokenAmountAttributeRenderer from './token-amount-attribute-renderer.vue';
 import KoinTokenAmountAttributeRenderer from './koin-token-amount-attribute-renderer.vue';
+import ManaTokenAmountAttributeRenderer from './mana-token-amount-attribute-renderer.vue';
 import VhpTokenAmountAttributeRenderer from './vhp-token-amount-attribute-renderer.vue';
 import {
   isNumericAttributeControl,
@@ -38,6 +39,14 @@ const koinTokenAmountAttributeRendererEntry: JsonFormsRendererRegistryEntry = {
   ),
 };
 
+const manaTokenAmountAttributeRendererEntry: JsonFormsRendererRegistryEntry = {
+  renderer: ManaTokenAmountAttributeRenderer,
+  tester: rankWith(
+    2,
+    and(isNumericAttributeControl, optionIs('format', 'manaTokenAmount'))
+  ),
+};
+
 const vhpTokenAmountAttributeRendererEntry: JsonFormsRendererRegistryEntry = {
   renderer: VhpTokenAmountAttributeRenderer,
   tester: rankWith(
@@ -50,6 +59,7 @@ export {
   TokenAttributeRenderer,
   TokenAmountAttributeRenderer,
   KoinTokenAmountAttributeRenderer,
+  ManaTokenAmountAttributeRenderer,
   VhpTokenAmountAttributeRenderer,
 };
 
@@ -57,5 +67,6 @@ export const contractAttributeRenderers = [
   tokenAttributeRendererEntry,
   tokenAmountAttributeRendererEntry,
   koinTokenAmountAttributeRendererEntry,
+  manaTokenAmountAttributeRendererEntry,
   vhpTokenAmountAttributeRendererEntry,
 ];

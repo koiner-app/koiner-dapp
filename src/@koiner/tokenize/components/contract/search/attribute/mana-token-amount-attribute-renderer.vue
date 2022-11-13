@@ -13,20 +13,10 @@
           formattedDecimals
         )
       }}
-      <router-link
-        :to="{
-          name: 'token',
-          params: { id: koinerStore.koinContract.id },
-        }"
-        :class="`${styles.attribute.link}`"
-      >
-        <span>
-          {{ koinerStore.koinContract.symbol }}
-          <q-tooltip :delay="500">{{
-            koinerStore.koinContract.name
-          }}</q-tooltip>
-        </span>
-      </router-link>
+      <span>
+        Mana
+        <q-tooltip :delay="500">Resource Credits</q-tooltip>
+      </span>
     </span>
   </attribute-wrapper>
 </template>
@@ -44,7 +34,7 @@ import {
 import { useKoinerStore } from 'stores/koiner';
 
 export default defineComponent({
-  name: 'KoinTokenAmountAttributeRenderer',
+  name: 'ManaTokenAmountAttributeRenderer',
   components: {
     AttributeWrapper,
   },
