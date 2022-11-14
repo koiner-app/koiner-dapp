@@ -10,7 +10,7 @@
         formattedTokenAmount(
           parseInt(rawValue(result.node)),
           koinerStore.koinContract.decimals,
-          formattedDecimals
+          displayedDecimals
         )
       }}
       <router-link
@@ -60,15 +60,15 @@ export default defineComponent({
   setup(props: RendererProps<AttributeElement>) {
     const koinerStore = useKoinerStore();
     const attributeControl = useQuasarAttribute(useJsonAttribute(props));
-    const formattedDecimals = attributeControl.appliedOptions.value['decimals']
+    const displayedDecimals = attributeControl.appliedOptions.value['decimals']
       ? parseInt(attributeControl.appliedOptions.value['decimals'])
-      : koinerStore.koinContract.decimals;
+      : undefined;
 
     return {
       koinerStore,
       ...attributeControl,
       formattedTokenAmount,
-      formattedDecimals,
+      displayedDecimals,
     };
   },
 });

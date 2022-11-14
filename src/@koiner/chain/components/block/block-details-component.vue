@@ -39,7 +39,6 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 import { Block } from '@koiner/sdk';
-import { tokenAmount } from '@koiner/utils';
 import { useKoinerStore } from 'stores/koiner';
 
 export default defineComponent({
@@ -51,12 +50,11 @@ export default defineComponent({
     },
   },
 
-  setup(props) {
+  setup() {
     const koinerStore = useKoinerStore();
 
     return {
       koinerStore,
-      tokenAmount,
     };
   },
 });

@@ -4,7 +4,7 @@
       <q-card-section class="q-pt-xs">
         <div class="text-overline">{{ computedTitle }}</div>
         <div class="text-h4 q-mt-sm q-mb-xs">
-          {{ value }}
+          {{ value.toFixed(decimals) }}
           <span style="font-size: 1.25rem">{{ computedCaption }}</span>
         </div>
         <div class="text-caption" v-if="showAddressCount && addressCount > 0">
@@ -25,9 +25,8 @@
                 </div>
                 <div class="col">
                   {{
-                    tokenAmount(
+                    formattedTokenAmount(
                       contractTokenHolder.balance,
-                      contractTokenHolder.contract.decimals,
                       contractTokenHolder.contract.decimals
                     )
                   }}
@@ -45,8 +44,8 @@
 <script lang="ts">
 import { computed, defineComponent, PropType } from 'vue';
 import { TokenHolder } from '@koiner/sdk';
-import { round } from 'lodash';
 import { useKoinerStore } from 'stores/koiner';
+import { formattedTokenAmount, tokenAmount } from '@koiner/utils';
 
 export default defineComponent({
   name: 'TokenHolderBalancesMetric',
@@ -83,6 +82,11 @@ export default defineComponent({
       type: Boolean,
       default: true,
     },
+    decimals: {
+      required: false,
+      type: Number,
+      default: 0
+    }
   },
   emits: ['calculated'],
 
@@ -91,14 +95,6 @@ export default defineComponent({
 
     // Load koin contract from store as default if none is provided
     const contract = props.contract ?? koinerStore.koinContract;
-
-    const tokenAmount = (
-      units: number,
-      decimals: number,
-      precision = 0
-    ): number => {
-      return round(units / Math.pow(10, decimals), precision);
-    };
 
     const contractTokenHolders = computed(() => {
       const contractIds = props.contractIds ?? [contract.id];
@@ -110,7 +106,7 @@ export default defineComponent({
 
     return {
       contractTokenHolders,
-      tokenAmount,
+      formattedTokenAmount,
       value: computed(() => {
         const decimals = contract.decimals;
         const balances = contractTokenHolders.value.map(

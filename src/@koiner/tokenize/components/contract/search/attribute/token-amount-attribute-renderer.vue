@@ -5,19 +5,12 @@
     :applied-options="appliedOptions"
   >
     <span>
-      <span v-if="displayedDecimals"
+      <span
         >{{
           formattedTokenAmount(
             parseInt(rawValue(result.node)),
             mappedValue(result.node, 'contract.decimals'),
             displayedDecimals
-          )
-        }} </span
-      ><span v-else>
-        {{
-          tokenAmount(
-            parseInt(rawValue(result.node)),
-            mappedValue(result.node, 'contract.decimals')
           )
         }}
       </span>
@@ -45,7 +38,7 @@ import {
   useJsonAttribute,
   useQuasarAttribute,
 } from '@appvise/jsonsearch-quasar';
-import { formattedTokenAmount, tokenAmount } from '@koiner/utils';
+import { formattedTokenAmount } from '@koiner/utils';
 
 export default defineComponent({
   name: 'TokenAmountAttributeRenderer',
@@ -78,7 +71,6 @@ export default defineComponent({
     return {
       ...attributeControl,
       to,
-      tokenAmount,
       formattedTokenAmount,
       displayedDecimals,
     };

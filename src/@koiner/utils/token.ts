@@ -7,7 +7,7 @@ export function tokenAmount(units: number, decimals: number): number {
 export function formattedTokenAmount(
   units: number,
   decimals: number,
-  displayedDecimals: number
+  displayedDecimals?: number
 ): string {
-  return tokenAmount(units, decimals).toFixed(displayedDecimals);
+  return tokenAmount(units, decimals).toFixed(displayedDecimals ?? decimals);
 }

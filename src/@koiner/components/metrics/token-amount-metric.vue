@@ -13,7 +13,7 @@
 </template>
 <script lang="ts">
 import { computed, defineComponent } from 'vue';
-import { tokenAmount } from '@koiner/utils';
+import { formattedTokenAmount } from '@koiner/utils';
 
 export default defineComponent({
   name: 'TokenAmountMetric',
@@ -44,7 +44,9 @@ export default defineComponent({
   setup(props) {
     return {
       formattedValue: computed(() => {
-        return tokenAmount(props.value, props.tokenDecimals).toFixed(
+        return formattedTokenAmount(
+          props.value,
+          props.tokenDecimals,
           props.decimals
         );
       }),

@@ -43,14 +43,16 @@
 <script lang="ts">
 import { defineComponent, ref, Ref, watch } from 'vue';
 import { useKoinosStore } from 'stores/koinos';
+import { useKoinerStore } from 'stores/koiner';
 import { useStatsStore } from 'stores/stats';
-import { tokenAmount } from '@koiner/utils';
+import { formattedTokenAmount } from '@koiner/utils';
 
 export default defineComponent({
   components: {},
 
   setup() {
     const koinosStore = useKoinosStore();
+    const koinerStore = useKoinerStore();
     const statsStore = useStatsStore();
     const scrollAreaRef: Ref<any> = ref(null);
     const tickers: Ref<
@@ -102,18 +104,18 @@ export default defineComponent({
             {
               title: 'Rewarded',
               tooltip: 'Total Koin rewarded to block producers',
-              value: tokenAmount(
+              value: formattedTokenAmount(
                 statsStore.blockProduction.rewarded,
-                8
-              ).toFixed(),
+                koinerStore.koinContract.decimals
+              ),
             },
             {
               title: 'VHP',
               tooltip: 'Total VHP burned by producers',
-              value: tokenAmount(
+              value: formattedTokenAmount(
                 statsStore.blockProduction.burned,
-                8
-              ).toFixed(),
+                koinerStore.vhpContract.decimals
+              ),
             },
             {
               title: 'ROI',

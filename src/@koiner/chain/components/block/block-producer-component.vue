@@ -21,7 +21,12 @@
         <q-item-label caption>Block reward</q-item-label>
         <q-item-label>
           <span>
-            {{ tokenAmount(block.reward?.value, 8) }}
+            {{
+              formattedTokenAmount(
+                parseInt(block.reward?.value),
+                koinerStore.koinContract.decimals
+              )
+            }}
             <router-link
               :to="{
                 name: 'token',
@@ -45,7 +50,12 @@
         <q-item-label caption>Burned VHP</q-item-label>
         <q-item-label>
           <span>
-            {{ tokenAmount(block.reward?.burnedValue, 8) }}
+            {{
+              formattedTokenAmount(
+                parseInt(block.reward?.burnedValue),
+                koinerStore.vhpContract.decimals
+              )
+            }}
             <router-link
               :to="{
                 name: 'token',
@@ -69,7 +79,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 import { Block } from '@koiner/sdk';
-import { tokenAmount } from '@koiner/utils';
+import { formattedTokenAmount } from '@koiner/utils';
 import { useKoinerStore } from 'stores/koiner';
 
 export default defineComponent({
@@ -86,7 +96,7 @@ export default defineComponent({
 
     return {
       koinerStore,
-      tokenAmount,
+      formattedTokenAmount,
     };
   },
 });

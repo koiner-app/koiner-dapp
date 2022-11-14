@@ -10,7 +10,7 @@
         formattedTokenAmount(
           parseInt(rawValue(result.node)),
           koinerStore.koinContract.decimals,
-          formattedDecimals
+          displayedDecimals
         )
       }}
       <span>
@@ -50,7 +50,7 @@ export default defineComponent({
   setup(props: RendererProps<AttributeElement>) {
     const koinerStore = useKoinerStore();
     const attributeControl = useQuasarAttribute(useJsonAttribute(props));
-    const formattedDecimals = attributeControl.appliedOptions.value['decimals']
+    const displayedDecimals = attributeControl.appliedOptions.value['decimals']
       ? parseInt(attributeControl.appliedOptions.value['decimals'])
       : koinerStore.koinContract.decimals;
 
@@ -58,7 +58,7 @@ export default defineComponent({
       koinerStore,
       ...attributeControl,
       formattedTokenAmount,
-      formattedDecimals,
+      displayedDecimals,
     };
   },
 });

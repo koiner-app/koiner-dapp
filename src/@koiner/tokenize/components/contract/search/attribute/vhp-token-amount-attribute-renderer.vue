@@ -6,7 +6,13 @@
     :applied-options="appliedOptions"
   >
     <span :class="`${rawValue(result.node)}`">
-      {{ tokenAmount(parseInt(rawValue(result.node)), 8) }}
+      {{
+        formattedTokenAmount(
+          parseInt(rawValue(result.node)),
+          koinerStore.vhpContract.decimals,
+          displayedDecimals
+        )
+      }}
       <router-link
         :to="{
           name: 'token',
@@ -26,7 +32,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 import { rendererProps, RendererProps } from '@jsonforms/vue';
-import { tokenAmount } from '@koiner/utils';
+import { formattedTokenAmount } from '@koiner/utils';
 import {
   AttributeElement,
   AttributeWrapper,
@@ -52,11 +58,15 @@ export default defineComponent({
   setup(props: RendererProps<AttributeElement>) {
     const koinerStore = useKoinerStore();
     const attributeControl = useQuasarAttribute(useJsonAttribute(props));
+    const displayedDecimals = attributeControl.appliedOptions.value['decimals']
+      ? parseInt(attributeControl.appliedOptions.value['decimals'])
+      : undefined;
 
     return {
       koinerStore,
       ...attributeControl,
-      tokenAmount,
+      formattedTokenAmount,
+      displayedDecimals,
     };
   },
 });
