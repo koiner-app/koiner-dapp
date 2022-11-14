@@ -2,7 +2,7 @@
   <div class="koiner-topbar fixed-top">
     <q-icon class="topbar-icon" name="dashboard"></q-icon>
     <div class="topbar-header">
-      <span class="selected-item">{{ account.name }}</span>
+      <span class="selected-item">{{ accountStore.name }}</span>
 
       <q-btn flat dense size="sm" class="action-menu">
         <q-icon name="expand_more"></q-icon>
@@ -45,20 +45,28 @@
   </div>
 
   <router-view class="koiner-topbar-page" />
+  <q-page
+    v-if="accountStore.addressesFilter.length === 0"
+    class="q-pa-xl row items-start q-gutter-lg"
+    style="padding-top: 7.5rem !important"
+  >
+    <first-address-search class="absolute-center" />
+  </q-page>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { useAccountStore } from 'stores/account';
+import FirstAddressSearch from '@koiner/components/search/first-address-search/first-address-search.vue';
 
 export default defineComponent({
   name: 'AccountLayout',
-  components: {},
+  components: { FirstAddressSearch },
   setup() {
-    const account = useAccountStore();
+    const accountStore = useAccountStore();
 
     return {
-      account,
+      accountStore,
     };
   },
 });
