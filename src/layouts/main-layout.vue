@@ -53,11 +53,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, watch } from 'vue';
 import KoinerLogo from 'components/koiner-logo.vue';
 import MainNavigation from 'components/main-navigation.vue';
 import Ticker from 'components/ticker-component.vue';
 import SearchDialog from '@koiner/components/search/search-dialog.vue';
+import { useAccountStore } from 'stores/account';
 import { useKoinosStore } from 'stores/koinos';
 import { useKoinerStore } from 'stores/koiner';
 import { useStatsStore } from 'stores/stats';
@@ -74,6 +75,7 @@ export default defineComponent({
     KoinerLogo,
   },
   setup() {
+    const accountStore = useAccountStore();
     const koinosStore = useKoinosStore();
     const koinerStore = useKoinerStore();
     const statsStore = useStatsStore();
@@ -82,7 +84,16 @@ export default defineComponent({
 
     koinosStore.load();
     statsStore.load();
+    accountStore.load(koinerStore.environment);
     bookmarkStore.load(koinerStore.environment);
+
+    watch(
+      bookmarkStore.lists,
+      () => {
+        accountStore.syncAddressFilter(bookmarkStore.bookmarkKeys('addresses'));
+      },
+      { deep: true }
+    );
 
     return {
       leftDrawerOpen,
