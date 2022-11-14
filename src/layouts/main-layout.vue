@@ -59,7 +59,9 @@ import MainNavigation from 'components/main-navigation.vue';
 import Ticker from 'components/ticker-component.vue';
 import SearchDialog from '@koiner/components/search/search-dialog.vue';
 import { useKoinosStore } from 'stores/koinos';
+import { useKoinerStore } from 'stores/koiner';
 import { useStatsStore } from 'stores/stats';
+import { useBookmarkStore } from '@koiner/bookmarks';
 import ApiSwitcher from '@koiner/components/api-switcher.vue';
 
 export default defineComponent({
@@ -73,11 +75,14 @@ export default defineComponent({
   },
   setup() {
     const koinosStore = useKoinosStore();
+    const koinerStore = useKoinerStore();
     const statsStore = useStatsStore();
+    const bookmarkStore = useBookmarkStore();
     const leftDrawerOpen = ref(false);
 
     koinosStore.load();
     statsStore.load();
+    bookmarkStore.load(koinerStore.environment);
 
     return {
       leftDrawerOpen,

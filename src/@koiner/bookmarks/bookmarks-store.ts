@@ -27,6 +27,7 @@ export interface BookmarksState {
 export const useBookmarkStore = defineStore({
   id: 'bookmarks',
   state: () => ({
+    prefix: '' as '' | 'test-' | 'local-',
     activeList: 'main' as string,
     lists: new Map<string, BookmarkList>([
       [
@@ -45,6 +46,52 @@ export const useBookmarkStore = defineStore({
       ],
       [
         'main',
+        {
+          name: 'Main list',
+          bookmarks: new Map<string, Bookmark>(),
+        } as BookmarkList,
+      ],
+
+      // Test
+      [
+        'test-addresses',
+        {
+          name: 'Address list',
+          bookmarks: new Map<string, Bookmark>(),
+        } as BookmarkList,
+      ],
+      [
+        'test-tokens',
+        {
+          name: 'Tokens watchlist',
+          bookmarks: new Map<string, Bookmark>(),
+        } as BookmarkList,
+      ],
+      [
+        'test-main',
+        {
+          name: 'Main list',
+          bookmarks: new Map<string, Bookmark>(),
+        } as BookmarkList,
+      ],
+
+      // Local
+      [
+        'local-addresses',
+        {
+          name: 'Address list',
+          bookmarks: new Map<string, Bookmark>(),
+        } as BookmarkList,
+      ],
+      [
+        'local-tokens',
+        {
+          name: 'Tokens watchlist',
+          bookmarks: new Map<string, Bookmark>(),
+        } as BookmarkList,
+      ],
+      [
+        'local-main',
         {
           name: 'Main list',
           bookmarks: new Map<string, Bookmark>(),
@@ -130,40 +177,57 @@ export const useBookmarkStore = defineStore({
 
   getters: {
     list: (state) => {
-      return (listId?: string) => state.lists.get(listId ?? state.activeList);
+      return (listId?: string) =>
+        state.lists.get(`${state.prefix}${listId ?? state.activeList}`);
     },
     hasList: (state) => {
-      return (listId: string) => state.lists.has(listId);
+      return (listId: string) => state.lists.has(`${state.prefix}${listId}`);
     },
     hasBookmark: (state) => {
       return (id: string, listId?: string) => {
-        const list = state.lists.get(listId ?? state.activeList);
+        const list = state.lists.get(
+          `${state.prefix}${listId ?? state.activeList}`
+        );
 
         return list && list.bookmarks.has(id);
       };
     },
     bookmark: (state) => {
       return (id: string, listId?: string) => {
-        const list = state.lists.get(listId ?? state.activeList);
+        const list = state.lists.get(
+          `${state.prefix}${listId ?? state.activeList}`
+        );
 
         return list ? list.bookmarks.get(id) : undefined;
       };
     },
     bookmarks: (state) => {
       return (listId?: string) => {
-        const list = state.lists.get(listId ?? state.activeList);
+        const list = state.lists.get(
+          `${state.prefix}${listId ?? state.activeList}`
+        );
         return list ? [...list?.bookmarks.values()] : [];
       };
     },
     bookmarkKeys: (state) => {
       return (listId?: string) => {
-        const list = state.lists.get(listId ?? state.activeList);
+        const list = state.lists.get(
+          `${state.prefix}${listId ?? state.activeList}`
+        );
         return list ? [...list?.bookmarks.keys()] : [];
       };
     },
   },
 
   actions: {
+    load(environment: 'production' | 'test' | 'local') {
+      this.$patch({
+        prefix: environment === 'production' ? '' : `${environment}-`,
+        activeList:
+          environment === 'production' ? 'main' : `${environment}-main`,
+      });
+    },
+
     addBookmark(bookmarkedItem: BookmarkedItem, listId?: string) {
       const list = this.list(listId);
 
@@ -213,6 +277,52 @@ export const useBookmarkStore = defineStore({
           ],
           [
             'main',
+            {
+              name: 'Main list',
+              bookmarks: new Map<string, Bookmark>(),
+            } as BookmarkList,
+          ],
+
+          // Test
+          [
+            'test-addresses',
+            {
+              name: 'Address list',
+              bookmarks: new Map<string, Bookmark>(),
+            } as BookmarkList,
+          ],
+          [
+            'test-tokens',
+            {
+              name: 'Tokens watchlist',
+              bookmarks: new Map<string, Bookmark>(),
+            } as BookmarkList,
+          ],
+          [
+            'test-main',
+            {
+              name: 'Main list',
+              bookmarks: new Map<string, Bookmark>(),
+            } as BookmarkList,
+          ],
+
+          // Local
+          [
+            'local-addresses',
+            {
+              name: 'Address list',
+              bookmarks: new Map<string, Bookmark>(),
+            } as BookmarkList,
+          ],
+          [
+            'local-tokens',
+            {
+              name: 'Tokens watchlist',
+              bookmarks: new Map<string, Bookmark>(),
+            } as BookmarkList,
+          ],
+          [
+            'local-main',
             {
               name: 'Main list',
               bookmarks: new Map<string, Bookmark>(),
