@@ -7,13 +7,13 @@
       <q-card-section horizontal>
         <token-holder-balances-metric
           v-if="tokenHolders && tokenHolders.length > 0"
-          title="Rewards"
+          title="Total Rewards"
           :token-holders="tokenHolders"
         />
         <q-separator vertical />
         <token-holder-balances-metric
           v-if="vhpBurners && vhpBurners.length > 0"
-          title="VHP Burned"
+          title="Total VHP Burned"
           :token-holders="vhpBurners"
           :contract="koinerStore.vhpContract"
         />
