@@ -44,6 +44,7 @@ export default boot(({ app }) => {
           BlockReward: () => null,
           BlockReceipt: () => null,
           ChainStats: () => null,
+          TransactionReceipt: () => null,
         },
       }),
       fetchExchange,
