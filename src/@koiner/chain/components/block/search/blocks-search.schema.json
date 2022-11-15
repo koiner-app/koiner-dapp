@@ -16,17 +16,21 @@
     "producerId": {
       "type": "string"
     },
-    "eventCount": {
-      "type": "number"
-    },
-    "computeBandwidthUsed": {
-      "type": "number"
-    },
-    "diskStorageUsed": {
-      "type": "number"
-    },
-    "networkBandwidthUsed": {
-      "type": "number"
+    "receipt": {
+      "properties": {
+        "eventCount": {
+          "type": "number"
+        },
+        "computeBandwidthUsed": {
+          "type": "number"
+        },
+        "diskStorageUsed": {
+          "type": "number"
+        },
+        "networkBandwidthUsed": {
+          "type": "number"
+        }
+      }
     }
   }
 }

@@ -40,7 +40,7 @@
         {
           "type": "Attribute",
           "label": "Events",
-          "scope": "#/properties/eventCount",
+          "scope": "#/properties/receipt/properties/eventCount",
           "options": {
             "mapping": "receipt.eventCount"
           }
@@ -48,7 +48,7 @@
         {
           "type": "Attribute",
           "label": "Compute used",
-          "scope": "#/properties/computeBandwidthUsed",
+          "scope": "#/properties/receipt/properties/computeBandwidthUsed",
           "options": {
             "mapping": "receipt.computeBandwidthUsed"
           }
@@ -56,7 +56,7 @@
         {
           "type": "Attribute",
           "label": "Storage used",
-          "scope": "#/properties/diskStorageUsed",
+          "scope": "#/properties/receipt/properties/diskStorageUsed",
           "options": {
             "mapping": "receipt.diskStorageUsed"
           }
@@ -64,7 +64,7 @@
         {
           "type": "Attribute",
           "label": "Network used",
-          "scope": "#/properties/networkBandwidthUsed",
+          "scope": "#/properties/receipt/properties/networkBandwidthUsed",
           "options": {
             "mapping": "receipt.networkBandwidthUsed"
           }
