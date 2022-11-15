@@ -75,6 +75,7 @@ export default defineComponent({
   &:hover {
     .delete-icon {
       display: block;
+      cursor: pointer !important;
     }
   }
 }
