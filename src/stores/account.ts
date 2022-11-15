@@ -84,20 +84,12 @@ export const useAccountStore = defineStore({
           },
         });
       } else {
-        // Remove addresses that have been deleted from bookmarks
-        const oldAddresses = this[this.environment].addressesFilter.filter(
-          (addressFilter) => addresses.includes(addressFilter)
-        );
-
-        // Add new bookmarked addresses
-        const newAddresses = addresses.filter(
-          (address) => !this[this.environment].addressesFilter.includes(address)
-        );
-
         // Remove addresses from addressesFilter that are not in provided array
         this.$patch({
           [this.environment]: {
-            addressesFilter: [...newAddresses, ...oldAddresses],
+            addressesFilter: this[this.environment].addressesFilter.filter(
+              (addressFilter) => addresses.includes(addressFilter)
+            ),
           },
         });
       }
