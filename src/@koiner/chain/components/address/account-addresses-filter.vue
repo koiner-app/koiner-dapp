@@ -1,8 +1,9 @@
 <template>
   <q-option-group
-    v-model="accountStore.addressesFilter"
+    v-model="accountStore[accountStore.environment].addressesFilter"
     type="checkbox"
     :options="addressesOpts"
+    class="delete-on-hover"
   >
     <template v-slot:label="opt">
       {{ opt.value }}
@@ -10,6 +11,8 @@
         :item="{ id: opt.value, type: 'address' }"
         list-id="addresses"
         item-translation="koiner.chain.item.address"
+        icon-delete="close"
+        :show-delete-on-hover="true"
       />
     </template>
   </q-option-group>
@@ -63,3 +66,24 @@ export default defineComponent({
   },
 });
 </script>
+
+<style lang="scss">
+.delete-on-hover .q-checkbox {
+  width: 100%;
+
+  .delete-icon {
+    display: none;
+  }
+
+  .favorite-icon {
+    position: absolute;
+    right: 2rem;
+  }
+
+  &:hover {
+    .delete-icon {
+      display: block;
+    }
+  }
+}
+</style>
