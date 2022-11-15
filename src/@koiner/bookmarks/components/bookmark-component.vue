@@ -1,9 +1,15 @@
 <template>
-  <q-btn flat dense size="sm" class="favorite-icon">
+  <q-btn
+    flat
+    dense
+    size="sm"
+    class="favorite-icon"
+  >
     <q-icon
       v-if="hasBookmark(item.id, listId)"
       @click="bookmarkStore.removeBookmark(item.id, listId)"
       :name="iconDelete"
+      class="delete-icon"
     >
       <q-tooltip class="bg-primary" :offset="[0, 0]"
         >Remove {{ itemTranslation ? t(itemTranslation) : 'item' }} from
@@ -46,13 +52,13 @@ export default defineComponent({
     iconAdd: {
       required: false,
       type: String,
-      default: 'star_border'
+      default: 'star_border',
     },
     iconDelete: {
       required: false,
       type: String,
-      default: 'star'
-    }
+      default: 'star',
+    },
   },
   setup() {
     const t = useI18n().t;
