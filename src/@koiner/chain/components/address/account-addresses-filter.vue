@@ -19,7 +19,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, Ref, watch } from 'vue';
+import { computed, defineComponent, ref, Ref } from 'vue';
 import BookmarkComponent from '@koiner/bookmarks/components/bookmark-component.vue';
 import { useBookmarkStore } from '@koiner/bookmarks';
 import { useAccountStore } from 'stores/account';
@@ -35,13 +35,6 @@ export default defineComponent({
 
     const addresses: Ref<string[]> = ref(
       bookmarkStore.bookmarkKeys('addresses')
-    );
-    watch(
-      bookmarkStore.lists,
-      () => {
-        accountStore.syncAddressFilter(bookmarkStore.bookmarkKeys('addresses'));
-      },
-      { deep: true }
     );
 
     return {
