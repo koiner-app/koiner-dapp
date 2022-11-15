@@ -10,12 +10,7 @@
         v-ripple
         v-for="edge in addressesSearch.connection.value.edges"
         :key="edge.cursor"
-        @click="
-          bookmarkStore.addBookmark(
-            { id: edge.node.id, type: 'address' },
-            'addresses'
-          )
-        "
+        @click="addAddress(edge.node.id)"
       >
         <q-item-section>
           <q-item-label class="text-white">
@@ -23,7 +18,9 @@
           </q-item-label>
         </q-item-section>
         <q-item-section side class="help-text">
-          <span class="text-caption text-white" style="display:none;">Add to portfolio</span>
+          <span class="text-caption text-white" style="display: none"
+            >Add to portfolio</span
+          >
         </q-item-section>
       </q-item>
     </q-list>
@@ -33,6 +30,7 @@
 <script lang="ts">
 import { defineComponent, watch } from 'vue';
 import { SearchRequestType, useSearchManager } from '@appvise/search-manager';
+import { useAccountStore } from 'stores/account';
 import { useBookmarkStore } from '@koiner/bookmarks';
 
 export default defineComponent({
@@ -46,6 +44,7 @@ export default defineComponent({
 
   setup(props) {
     const addressesSearch = useSearchManager('addresses');
+    const accountStore = useAccountStore();
     const bookmarkStore = useBookmarkStore();
 
     watch(
@@ -71,7 +70,13 @@ export default defineComponent({
 
     return {
       addressesSearch,
-      bookmarkStore,
+      addAddress: (addressId: string) => {
+        bookmarkStore.addBookmark(
+          { id: addressId, type: 'address' },
+          'addresses'
+        );
+        accountStore[accountStore.environment].addressesFilter = [addressId];
+      },
     };
   },
 });
