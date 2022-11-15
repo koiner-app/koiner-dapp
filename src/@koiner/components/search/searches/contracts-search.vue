@@ -10,7 +10,9 @@
         v-ripple
         v-for="edge in contractsSearch.connection.value.edges"
         :key="edge.cursor"
-        :to="{ name: 'contract', params: { id: edge.node.id } }"
+        @click.prevent="
+          router.push({ name: 'contract', params: { id: edge.node.id } })
+        "
       >
         <q-item-section>
           <q-item-label class="text-white"
@@ -37,6 +39,7 @@
 import { defineComponent, watch } from 'vue';
 import { SearchRequestType, useSearchManager } from '@appvise/search-manager';
 import BookmarkComponent from '@koiner/bookmarks/components/bookmark-component.vue';
+import { useRouter } from 'vue-router';
 
 export default defineComponent({
   name: 'ContractsSearch',
@@ -50,6 +53,7 @@ export default defineComponent({
 
   setup(props) {
     const contractsSearch = useSearchManager('contracts');
+    const router = useRouter();
 
     watch(
       props,
@@ -75,6 +79,7 @@ export default defineComponent({
 
     return {
       contractsSearch,
+      router,
     };
   },
 });

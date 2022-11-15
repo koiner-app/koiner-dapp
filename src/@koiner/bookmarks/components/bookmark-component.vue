@@ -1,13 +1,8 @@
 <template>
-  <q-btn
-    flat
-    dense
-    size="sm"
-    class="favorite-icon"
-  >
+  <q-btn flat dense size="sm" class="favorite-icon">
     <q-icon
       v-if="hasBookmark(item.id, listId)"
-      @click="bookmarkStore.removeBookmark(item.id, listId)"
+      @click.capture.stop="bookmarkStore.removeBookmark(item.id, listId)"
       :name="iconDelete"
       class="delete-icon"
     >
@@ -18,7 +13,7 @@
     </q-icon>
     <q-icon
       v-else
-      @click="bookmarkStore.addBookmark(item, listId)"
+      @click.capture.stop="bookmarkStore.addBookmark(item, listId)"
       :name="iconAdd"
     >
       <q-tooltip class="bg-primary" :offset="[0, 0]"

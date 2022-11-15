@@ -10,7 +10,12 @@
         v-ripple
         v-for="edge in blocksSearch.connection.value.edges"
         :key="edge.cursor"
-        :to="{ name: 'block', params: { height: edge.node.header.height } }"
+        @click.prevent="
+          router.push({
+            name: 'block',
+            params: { height: edge.node.header.height },
+          })
+        "
       >
         <q-item-section>
           <q-item-label class="text-white">
@@ -39,6 +44,7 @@
 import { defineComponent, watch } from 'vue';
 import { SearchRequestType, useSearchManager } from '@appvise/search-manager';
 import BookmarkComponent from '@koiner/bookmarks/components/bookmark-component.vue';
+import { useRouter } from 'vue-router';
 
 export default defineComponent({
   name: 'BlocksSearch',
@@ -52,6 +58,7 @@ export default defineComponent({
 
   setup(props) {
     const blocksSearch = useSearchManager('blocksGlobal');
+    const router = useRouter();
 
     watch(
       props,
@@ -91,6 +98,7 @@ export default defineComponent({
 
     return {
       blocksSearch,
+      router,
     };
   },
 });
