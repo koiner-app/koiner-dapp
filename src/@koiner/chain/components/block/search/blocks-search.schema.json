@@ -16,25 +16,17 @@
     "producerId": {
       "type": "string"
     },
-    "reward": {
-      "properties": {
-        "value": {
-          "type": "number"
-        },
-        "contractId": {
-          "type": "string"
-        }
-      }
+    "eventCount": {
+      "type": "number"
     },
-    "burned": {
-      "properties": {
-        "burnedValue": {
-          "type": "number"
-        },
-        "burnedContractId": {
-          "type": "string"
-        }
-      }
+    "computeBandwidthUsed": {
+      "type": "number"
+    },
+    "diskStorageUsed": {
+      "type": "number"
+    },
+    "networkBandwidthUsed": {
+      "type": "number"
     }
   }
 }

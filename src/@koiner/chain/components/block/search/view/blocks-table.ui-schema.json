@@ -35,54 +35,39 @@
         {
           "type": "Attribute",
           "label": "Transactions",
-          "scope": "#/properties/transactionCount",
+          "scope": "#/properties/transactionCount"
+        },
+        {
+          "type": "Attribute",
+          "label": "Events",
+          "scope": "#/properties/eventCount",
           "options": {
-            "route": "block.transactions",
-            "format": "link",
-            "linkParams": ["height"],
-            "mappings": {
-              "height": "header.height"
-            }
+            "mapping": "receipt.eventCount"
           }
         },
         {
           "type": "Attribute",
-          "label": "Producer",
-          "scope": "#/properties/producerId",
+          "label": "Compute used",
+          "scope": "#/properties/computeBandwidthUsed",
           "options": {
-            "format": "address",
-            "mapping": "reward.producerId"
+            "mapping": "receipt.computeBandwidthUsed"
           }
         },
         {
-          "type": "AttributeGroup",
-          "label": "Block reward",
-          "scope": "#/properties/reward",
-          "elements": [
-            {
-              "type": "Attribute",
-              "scope": "#/properties/value",
-              "options": {
-                "format": "koinTokenAmount",
-                "mapping": "reward.value"
-              }
-            }
-          ]
+          "type": "Attribute",
+          "label": "Storage used",
+          "scope": "#/properties/diskStorageUsed",
+          "options": {
+            "mapping": "receipt.diskStorageUsed"
+          }
         },
         {
-          "type": "AttributeGroup",
-          "label": "Burned VHP",
-          "scope": "#/properties/burned",
-          "elements": [
-            {
-              "type": "Attribute",
-              "scope": "#/properties/burnedValue",
-              "options": {
-                "format": "vhpTokenAmount",
-                "mapping": "reward.burnedValue"
-              }
-            }
-          ]
+          "type": "Attribute",
+          "label": "Network used",
+          "scope": "#/properties/networkBandwidthUsed",
+          "options": {
+            "mapping": "receipt.networkBandwidthUsed"
+          }
         }
       ]
     }

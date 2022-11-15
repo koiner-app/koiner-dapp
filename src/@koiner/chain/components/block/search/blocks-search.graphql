@@ -23,10 +23,11 @@ query BlocksSearch(
           previousStateMerkleRoot
           signer
         }
-        reward {
-          value
-          producerId
-          burnedValue
+        receipt {
+          eventCount
+          computeBandwidthUsed
+          diskStorageUsed
+          networkBandwidthUsed
         }
         transactionCount
       }
