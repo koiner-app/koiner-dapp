@@ -88,7 +88,7 @@ export default defineComponent({
     bookmarkStore.load(koinerStore.environment);
 
     watch(
-      bookmarkStore.lists,
+      bookmarkStore,
       () => {
         accountStore.syncAddressFilter(bookmarkStore.bookmarkKeys('addresses'));
       },
