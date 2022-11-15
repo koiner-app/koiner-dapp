@@ -1,5 +1,6 @@
 // @ts-check
 import { defineStore } from 'pinia';
+import { Dialog } from 'quasar';
 
 export interface BookmarkedItem {
   id: string;
@@ -232,12 +233,24 @@ export const useBookmarkStore = defineStore({
       const list = this.list(listId);
 
       if (list) {
-        list.bookmarks.set(bookmarkedItem.id, {
-          id: bookmarkedItem.id,
-          type: bookmarkedItem.type,
-          item: bookmarkedItem,
-          timestamp: Date.now(),
-        });
+        if (listId?.includes('addresses') && list.bookmarks.size === 10) {
+          Dialog.create({
+            title: 'Max reached',
+            message: 'You have reached the maximum amount of 10 addresses',
+            cancel: false,
+            ok: {
+              color: 'primary',
+            },
+            persistent: true,
+          });
+        } else {
+          list.bookmarks.set(bookmarkedItem.id, {
+            id: bookmarkedItem.id,
+            type: bookmarkedItem.type,
+            item: bookmarkedItem,
+            timestamp: Date.now(),
+          });
+        }
       }
     },
 
