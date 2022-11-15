@@ -15,10 +15,25 @@
     },
     "receipt": {
       "properties": {
+        "payer": {
+          "type": "string"
+        },
         "eventCount": {
           "type": "number"
         },
         "rcUsed": {
+          "type": "string"
+        },
+        "rcLimit": {
+          "type": "string"
+        },
+        "computeBandwidthUsed": {
+          "type": "number"
+        },
+        "diskStorageUsed": {
+          "type": "number"
+        },
+        "networkBandwidthUsed": {
           "type": "number"
         }
       }

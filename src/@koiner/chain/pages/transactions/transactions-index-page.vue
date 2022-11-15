@@ -1,5 +1,5 @@
 <template>
-  <q-page class="row items-baseline justify-evenly">
+  <q-page class="row items-baseline justify-evenly transactions-search-page">
     <q-card class="table-card shadow-1">
       <q-card-section>
         <transactions-table title="Transactions" />

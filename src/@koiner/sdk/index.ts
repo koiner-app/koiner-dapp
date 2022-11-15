@@ -1556,8 +1556,13 @@ export type TransactionsSearchQuery = {
         timestamp: any;
         receipt: {
           __typename?: 'TransactionReceipt';
+          payer: string;
           eventCount: number;
           rcUsed: string;
+          rcLimit: string;
+          computeBandwidthUsed: string;
+          diskStorageUsed: string;
+          networkBandwidthUsed: string;
         };
       };
     }>;
@@ -2311,8 +2316,13 @@ export const TransactionsSearchDocument = gql`
           blockHeight
           operationCount
           receipt {
+            payer
             eventCount
             rcUsed
+            rcLimit
+            computeBandwidthUsed
+            diskStorageUsed
+            networkBandwidthUsed
           }
           timestamp
         }

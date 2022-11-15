@@ -19,8 +19,13 @@ query TransactionsSearch(
         blockHeight
         operationCount
         receipt {
+          payer
           eventCount
           rcUsed
+          rcLimit
+          computeBandwidthUsed
+          diskStorageUsed
+          networkBandwidthUsed
         }
         timestamp
       }

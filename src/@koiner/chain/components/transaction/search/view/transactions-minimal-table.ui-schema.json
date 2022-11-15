@@ -59,30 +59,6 @@
         },
         {
           "type": "Attribute",
-          "label": "Compute",
-          "scope": "#/properties/receipt/properties/computeBandwidthUsed",
-          "options": {
-            "mapping": "receipt.computeBandwidthUsed"
-          }
-        },
-        {
-          "type": "Attribute",
-          "label": "Storage",
-          "scope": "#/properties/receipt/properties/diskStorageUsed",
-          "options": {
-            "mapping": "receipt.diskStorageUsed"
-          }
-        },
-        {
-          "type": "Attribute",
-          "label": "Network",
-          "scope": "#/properties/receipt/properties/networkBandwidthUsed",
-          "options": {
-            "mapping": "receipt.networkBandwidthUsed"
-          }
-        },
-        {
-          "type": "Attribute",
           "label": "Mana used",
           "scope": "#/properties/receipt/properties/rcUsed",
           "options": {
