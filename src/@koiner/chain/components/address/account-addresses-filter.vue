@@ -41,7 +41,6 @@ export default defineComponent({
       accountStore,
       bookmarkStore,
       addresses,
-      addressFilter: accountStore.addressesFilter,
       addressesOpts: computed(() => {
         return bookmarkStore.bookmarkKeys('addresses').map((address) => {
           return {
