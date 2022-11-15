@@ -149,5 +149,8 @@ export default defineComponent({
     min-height: 32px;
     padding: 2px 16px;
   }
+  .favorite-icon .q-icon {
+    padding: 0.25rem 1rem;
+  }
 }
 </style>
