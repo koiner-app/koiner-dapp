@@ -26,7 +26,6 @@
           exact
         />
         <q-route-tab
-          :disable="!address.isProducer"
           :ripple="false"
           label="Rewards"
           :to="{ name: 'address.rewards', params: { id: address.id } }"
