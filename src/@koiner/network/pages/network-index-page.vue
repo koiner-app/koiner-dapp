@@ -39,17 +39,23 @@
       </q-card-section>
     </q-card>
 
-    <q-card class="rewards-card" flat bordered>
-      <q-card-section class="q-pt-xs">
+    <q-card class="search-card-large" flat bordered>
+      <q-card-section>
         <div class="text-overline">Rewards</div>
-        <block-rewards-component />
+
+        <div class="search-card-content">
+          <block-rewards-component />
+        </div>
       </q-card-section>
     </q-card>
 
-    <q-card class="producers-card" flat bordered>
-      <q-card-section class="q-pt-xs">
+    <q-card class="search-card" flat bordered>
+      <q-card-section>
         <div class="text-overline">Producers</div>
-        <block-producers-component />
+
+        <div class="search-card-content">
+          <block-producers-component />
+        </div>
       </q-card-section>
     </q-card>
   </q-page>

@@ -40,17 +40,15 @@
       </q-card-section>
     </q-card>
 
-    <q-card class="tabs-card" flat bordered>
+    <q-card class="search-card-large" flat bordered>
       <q-card-section>
-        <q-card-section>
-          <div class="text-overline">Portfolio</div>
+        <div class="text-overline">Portfolio</div>
 
-          <token-balances-table
-            v-if="accountStore.addressesFilter.length > 0"
-            :addresses="accountStore.addressesFilter"
-            @change="updateTokenHolders"
-          />
-        </q-card-section>
+        <token-balances-table
+          v-if="accountStore.addressesFilter.length > 0"
+          :addresses="accountStore.addressesFilter"
+          @change="updateTokenHolders"
+        />
       </q-card-section>
     </q-card>
 
