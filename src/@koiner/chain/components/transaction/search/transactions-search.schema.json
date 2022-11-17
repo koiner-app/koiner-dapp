@@ -22,10 +22,10 @@
           "type": "number"
         },
         "rcUsed": {
-          "type": "string"
+          "type": "number"
         },
         "rcLimit": {
-          "type": "string"
+          "type": "number"
         },
         "computeBandwidthUsed": {
           "type": "number"
