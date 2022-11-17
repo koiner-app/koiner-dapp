@@ -3,15 +3,6 @@
     <q-icon class="topbar-icon" name="dashboard"></q-icon>
     <div class="topbar-header">
       <span class="selected-item">{{ accountStore.name }}</span>
-
-      <q-btn flat dense size="sm" class="action-menu">
-        <q-icon name="expand_more"></q-icon>
-        <q-menu anchor="bottom left" self="top left">
-          <q-item clickable>
-            <q-item-section>Change my name</q-item-section>
-          </q-item>
-        </q-menu>
-      </q-btn>
     </div>
 
     <div class="topbar-navigation">
