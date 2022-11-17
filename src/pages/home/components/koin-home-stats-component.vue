@@ -35,6 +35,7 @@
             <div class="text-overline">Burned Koin</div>
             <div class="text-h4 q-mt-sm q-mb-xs">
               {{ formattedBurn }}
+              <span style="font-size: 1.25rem">%</span>
             </div>
             <div
               class="text-caption"
@@ -42,7 +43,7 @@
             >
               <br />Virtual Supply:
               <span class="market-cap"
-                >{{ statsStore.formattedVirtualTotalSupply() }}
+                >{{ statsStore.formattedVirtualTotalSupply() }} KOIN
               </span>
               <q-tooltip
                 anchor="bottom start"
