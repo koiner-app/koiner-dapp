@@ -15,6 +15,10 @@
     :style="`height: calc(100vh - ${tableOffsetTop}px)`"
     @virtual-scroll="onScroll"
     @request="onRequest"
+    :pagination-label="
+      (firstRowIndex, endRowIndex, totalRowsNumber) =>
+        `${totalRowsNumber} items`
+    "
   >
     <template
       v-for="(column, index) in columns"
