@@ -1,5 +1,7 @@
 <template>
   <div class="row no-wrap items-center">
+    <q-space />
+
     <search-filters
       :request="request"
       search-placeholder="Search by block id or signer"

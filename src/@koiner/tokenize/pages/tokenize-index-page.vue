@@ -5,7 +5,6 @@
   >
     <q-card class="stats-cards" flat bordered>
       <q-card-section horizontal>
-
         <counter-metric
           name="Transfers"
           :value="statsStore.tokenStats.transferCount"
@@ -17,7 +16,6 @@
           name="Tokens"
           :value="statsStore.tokenStats.contractCount"
         />
-
       </q-card-section>
     </q-card>
 
@@ -54,13 +52,13 @@
       </q-card-section>
     </q-card>
 
-    <q-card class="token-contracts-card" flat bordered>
+    <q-card class="search-card" flat bordered>
       <q-card-section>
-        <q-card-section class="q-pt-xs">
-          <div class="text-overline">Tokens</div>
+        <div class="text-overline">Tokens</div>
 
+        <div class="search-card-content">
           <token-contracts-table />
-        </q-card-section>
+        </div>
       </q-card-section>
     </q-card>
   </q-page>
@@ -98,14 +96,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<style lang="scss" scoped>
-.tabs-card {
-  width: 100%;
-  max-width: calc(68% - 24px);
-}
-.token-contracts-card {
-  width: 100%;
-  max-width: calc(32% - 24px);
-}
-</style>

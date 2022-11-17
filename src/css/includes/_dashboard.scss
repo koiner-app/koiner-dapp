@@ -41,11 +41,35 @@
 .tabs-card {
   width: 100%;
 
+  > .q-card__section:first-child {
+    padding-top: 4px;
+  }
+  .q-tab-panel {
+    padding: 1rem 0.5rem 0;
+  }
+
   @media screen and (min-width: 1024px) {
     max-width: calc(66.66% - 24px);
   }
 }
-.sidebar-card {
+.search-card {
+  > .q-card__section:first-child {
+    padding-top: 8px;
+  }
+
+  .search-card-content {
+    padding: 1rem 0.5rem 0;
+  }
+
+  .text-overline {
+    font-size: 0.875rem;
+    line-height: 1.715em;
+    font-weight: 500;
+    padding: 0.125rem 1rem 0;
+    margin-bottom: 7px;
+  }
+}
+.search-card {
   width: 100%;
 
   @media screen and (min-width: 1024px) {

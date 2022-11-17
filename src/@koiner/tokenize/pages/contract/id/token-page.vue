@@ -75,12 +75,13 @@
       </q-card-section>
     </q-card>
 
-    <q-card class="token-contracts-card" flat bordered>
+    <q-card class="search-card" flat bordered>
       <q-card-section>
-        <q-card-section class="q-pt-xs">
-          <div class="text-overline">Token Holders</div>
+        <div class="text-overline">Token Holders</div>
+
+        <div class="search-card-content">
           <token-holders-table :contract-id="id" />
-        </q-card-section>
+        </div>
       </q-card-section>
     </q-card>
   </q-page>
@@ -165,14 +166,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<style lang="scss" scoped>
-.tabs-card {
-  width: 100%;
-  max-width: calc(60% - 24px);
-}
-.token-contracts-card {
-  width: 100%;
-  max-width: calc(40% - 24px);
-}
-</style>

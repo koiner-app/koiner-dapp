@@ -45,11 +45,11 @@
       </q-card-section>
     </q-card>
 
-    <q-card class="sidebar-card" flat bordered>
-      <q-card-section class="q-pt-xs">
+    <q-card class="search-card" flat bordered>
+      <q-card-section>
         <div class="text-overline">Addresses</div>
 
-        <div class="q-pa-lg">
+        <div class="search-card-content">
           <account-addresses-filter />
         </div>
       </q-card-section>

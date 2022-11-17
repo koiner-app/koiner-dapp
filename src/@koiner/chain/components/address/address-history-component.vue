@@ -7,10 +7,13 @@
     </q-card-section>
   </q-card>
 
-  <q-card class="sidebar-card" flat bordered>
-    <q-card-section class="q-pt-xs">
+  <q-card class="search-card" flat bordered>
+    <q-card-section>
       <div class="text-overline">Wallet</div>
-      {{ ids }}
+
+      <div class="search-card-content">
+        {{ ids }}
+      </div>
     </q-card-section>
   </q-card>
 </template>
