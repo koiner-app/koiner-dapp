@@ -2,6 +2,8 @@ import { defineStore } from 'pinia';
 import { watch } from 'vue';
 
 import { useQuery } from '@urql/vue';
+import { useKoinerStore } from 'stores/koiner';
+import { localizedTokenAmount } from '@koiner/utils';
 
 export const useStatsStore = defineStore({
   id: 'stats',
@@ -23,14 +25,46 @@ export const useStatsStore = defineStore({
       contractCount: 0 as number,
       transferCount: 0 as number,
     },
+    totalSupply: {
+      koinTotalSupply: '' as string,
+      vhpTotalSupply: '' as string,
+      virtualTotalSupply: '' as string,
+      burned: 0 as number,
+    },
     intervalId: null as null | NodeJS.Timeout,
     updatedAt: null as null | number,
   }),
 
-  getters: {},
+  getters: {
+    formattedKoinTotalSupply: (state) => {
+      return (displayedDecimals = 0) =>
+        localizedTokenAmount(
+          parseInt(state.totalSupply.koinTotalSupply),
+          8,
+          displayedDecimals
+        );
+    },
+    formattedVhpTotalSupply: (state) => {
+      return (displayedDecimals = 0) =>
+        localizedTokenAmount(
+          parseInt(state.totalSupply.vhpTotalSupply),
+          8,
+          displayedDecimals
+        );
+    },
+    formattedVirtualTotalSupply: (state) => {
+      return (displayedDecimals = 0) =>
+        localizedTokenAmount(
+          parseInt(state.totalSupply.virtualTotalSupply),
+          8,
+          displayedDecimals
+        );
+    },
+  },
 
   actions: {
     load() {
+      const koinerStore = useKoinerStore();
       const countsQuery = `query KoinerStats {
   chain {
     id
@@ -56,13 +90,35 @@ export const useStatsStore = defineStore({
 }
 `;
 
+      const totalSuppliesQuery = `query KoinVHPTotalSupplies {
+  tokenContracts(
+    first: 2
+    filter: {
+      OR: [
+        { id: { equals: "${koinerStore.koinContract.id}" } },
+        { id: { equals: "${koinerStore.vhpContract.id}" } }
+      ]
+    }
+  ) {
+    nodes {
+      id
+      name
+      totalSupply
+    }
+  }
+}`;
+
       const result = useQuery({
         query: countsQuery,
       });
 
+      const resultTS = useQuery({
+        query: totalSuppliesQuery,
+      });
+
       watch(
         result.data,
-        (updatedData) => {
+        () => {
           const chain = result.data.value.chain;
 
           this.$patch({
@@ -88,12 +144,53 @@ export const useStatsStore = defineStore({
         { deep: true }
       );
 
+      watch(
+        resultTS.data,
+        () => {
+          const tokenContracts = resultTS.data.value.tokenContracts.nodes;
+
+          const koinContract = tokenContracts.find(
+            (tokenContract: { id: string; totalSupply: string }) =>
+              tokenContract.id === koinerStore.koinContract.id
+          );
+
+          const vhpContract = tokenContracts.find(
+            (tokenContract: { id: string; totalSupply: string }) =>
+              tokenContract.id === koinerStore.vhpContract.id
+          );
+
+          if (koinContract && vhpContract) {
+            const vhpTotalSupply = parseInt(vhpContract.totalSupply);
+            const virtualTotalSupply =
+              parseInt(koinContract.totalSupply) +
+              parseInt(vhpContract.totalSupply);
+
+            this.$patch({
+              totalSupply: {
+                koinTotalSupply: koinContract.totalSupply,
+                vhpTotalSupply: vhpContract.totalSupply,
+                virtualTotalSupply: virtualTotalSupply.toString(),
+                burned:
+                  virtualTotalSupply && vhpTotalSupply
+                    ? (vhpTotalSupply / virtualTotalSupply) * 100
+                    : 0,
+              },
+            });
+          }
+        },
+        { deep: true }
+      );
+
       // Fetch stats every 15 seconds
       const intervalId = setInterval(reloadStats, 15000);
 
       async function reloadStats() {
         // Reload
         result.executeQuery({
+          requestPolicy: 'network-only',
+        });
+
+        resultTS.executeQuery({
           requestPolicy: 'network-only',
         });
       }

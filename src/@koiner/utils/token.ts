@@ -11,3 +11,13 @@ export function formattedTokenAmount(
 ): string {
   return tokenAmount(units, decimals).toFixed(displayedDecimals ?? decimals);
 }
+
+export function localizedTokenAmount(
+  units: number,
+  decimals: number,
+  displayedDecimals?: number
+): string {
+  return tokenAmount(units, decimals).toLocaleString(undefined, {
+    maximumFractionDigits: displayedDecimals ?? decimals,
+  });
+}
