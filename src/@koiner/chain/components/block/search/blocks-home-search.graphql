@@ -16,6 +16,9 @@ query BlocksHomeSearch(
           height
           timestamp
         }
+        receipt {
+          eventCount
+        }
         transactionCount
       }
       __typename

@@ -1402,6 +1402,7 @@ export type BlocksHomeSearchQuery = {
         id: string;
         transactionCount: number;
         header: { __typename?: 'BlockHeader'; height: any; timestamp: any };
+        receipt: { __typename?: 'BlockReceipt'; eventCount: number };
       };
     }>;
     pageInfo: {
@@ -2112,6 +2113,9 @@ export const BlocksHomeSearchDocument = gql`
           header {
             height
             timestamp
+          }
+          receipt {
+            eventCount
           }
           transactionCount
         }
