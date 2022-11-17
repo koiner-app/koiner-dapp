@@ -24,6 +24,12 @@
     },
     "contractId": {
       "type": "string"
+    },
+    "parentId": {
+      "type": "string"
+    },
+    "parentType": {
+      "type": "string"
     }
   }
 }

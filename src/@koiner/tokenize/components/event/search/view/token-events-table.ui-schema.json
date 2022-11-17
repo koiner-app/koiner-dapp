@@ -72,6 +72,43 @@
             },
             "visible": true
           }
+        },
+        {
+          "type": "AttributeGroup",
+          "label": "",
+          "scope": "#/properties/links",
+          "elements": [
+            {
+              "type": "Attribute",
+              "scope": "#/properties/blockHeight",
+              "options": {
+                "route": "block",
+                "format": "link",
+                "icon": "token",
+                "linkParams": [
+                  "height"
+                ],
+                "mappings": {
+                  "height": "blockHeight"
+                }
+              }
+            },
+            {
+              "type": "Attribute",
+              "scope": "#/properties/parentId",
+              "options": {
+                "route": "transaction",
+                "format": "link",
+                "icon": "receipt",
+                "linkParams": [
+                  "id"
+                ],
+                "mappings": {
+                  "id": "parentId"
+                }
+              }
+            }
+          ]
         }
       ]
     }

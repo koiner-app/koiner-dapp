@@ -16,11 +16,9 @@ query TokenEventsSearch(
       cursor
       node {
         id
-        #        contractEvent {
-        #          blockHeight
-        #          parentId
-        #          parentType
-        #        }
+        blockHeight
+        parentId
+        parentType
         contract {
           id
           name
