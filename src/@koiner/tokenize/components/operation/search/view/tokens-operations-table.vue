@@ -67,7 +67,6 @@
     @on-scroll="onScroll"
     :scroll-position="position"
     :additional-renderers="renderers"
-    class="dashboard-home-search"
   />
 </template>
 

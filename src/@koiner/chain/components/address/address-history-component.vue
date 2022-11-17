@@ -7,7 +7,7 @@
     </q-card-section>
   </q-card>
 
-  <q-card class="blocks-card" flat bordered>
+  <q-card class="sidebar-card" flat bordered>
     <q-card-section class="q-pt-xs">
       <div class="text-overline">Wallet</div>
       {{ ids }}

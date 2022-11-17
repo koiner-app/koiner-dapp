@@ -12,7 +12,6 @@
     :request="request"
     :data="{}"
     :additional-renderers="renderers"
-    class="dashboard-home-search"
   />
 </template>
 
