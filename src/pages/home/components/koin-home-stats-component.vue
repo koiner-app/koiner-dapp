@@ -16,6 +16,7 @@
                 }`"
                 >({{ koinosStore.formattedPriceChange24hPercentage }})</span
               >
+              <span style="font-size: 1.25rem"></span>
             </div>
             <div class="text-caption">
               <br />Marketcap:
@@ -52,7 +53,9 @@
               >
                 <div class="q-pa-sm q-gutter-xs">
                   <div class="row q-gutter-xs">
-                    <div class="col" style="min-width: 100px">KOIN Total Supply</div>
+                    <div class="col" style="min-width: 100px">
+                      KOIN Total Supply
+                    </div>
                     <div class="col">
                       {{ statsStore.formattedKoinTotalSupply() }}
                       &nbsp;
@@ -60,7 +63,9 @@
                     </div>
                   </div>
                   <div class="row q-gutter-xs">
-                    <div class="col" style="min-width: 100px">VHP Total Supply</div>
+                    <div class="col" style="min-width: 100px">
+                      VHP Total Supply
+                    </div>
                     <div class="col">
                       {{ statsStore.formattedVhpTotalSupply() }}
                       &nbsp;
@@ -76,17 +81,46 @@
 
       <q-separator vertical />
 
-      <counter-metric
-        name="Transactions"
-        :value="statsStore.chainStats.transactionCount"
-      />
+      <q-card class="stats-card" flat>
+        <q-card-section horizontal>
+          <q-card-section class="q-pt-xs">
+            <div class="text-overline">Transactions</div>
+            <div class="text-h4 q-mt-sm q-mb-xs">
+              {{ statsStore.chainStats.transactionCount }}
+              <span style="font-size: 1.25rem"></span>
+            </div>
+            <div
+              class="text-caption"
+              v-if="statsStore.tokenStats.transferCount"
+            >
+              <br />Token transfer events:
+              <span class="market-cap"
+                >{{ statsStore.tokenStats.transferCount }}
+              </span>
+            </div>
+          </q-card-section>
+        </q-card-section>
+      </q-card>
 
       <q-separator vertical />
 
-      <counter-metric
-        name="Addresses"
-        :value="statsStore.chainStats.addressCount"
-      />
+      <q-card class="stats-card" flat>
+        <q-card-section horizontal>
+          <q-card-section class="q-pt-xs">
+            <div class="text-overline">Claimed Koin</div>
+            <div class="text-h4 q-mt-sm q-mb-xs">
+              {{ formattedClaimed }}
+              <span style="font-size: 1.25rem">%</span>
+            </div>
+            <div class="text-caption" v-if="statsStore.chainStats.addressCount">
+              <br />Total accounts:
+              <span class="market-cap"
+                >{{ statsStore.chainStats.addressCount }}
+              </span>
+            </div>
+          </q-card-section>
+        </q-card-section>
+      </q-card>
     </q-card-section>
   </q-card>
 </template>
@@ -96,12 +130,10 @@ import { computed, defineComponent } from 'vue';
 import { useKoinosStore } from 'stores/koinos';
 import { useKoinerStore } from 'stores/koiner';
 import { useStatsStore } from 'stores/stats';
-import CounterMetric from '@koiner/components/metrics/counter-metric.vue';
 import { round } from 'lodash';
 
 export default defineComponent({
   name: 'KoinosHomeStatsComponent',
-  components: { CounterMetric },
 
   setup() {
     const koinosStore = useKoinosStore();
@@ -114,6 +146,9 @@ export default defineComponent({
       statsStore,
       formattedBurn: computed(() => {
         return round(statsStore.totalSupply.burned ?? 0, 2).toLocaleString();
+      }),
+      formattedClaimed: computed(() => {
+        return round(statsStore.totalSupply.claimed ?? 0, 2).toLocaleString();
       }),
     };
   },

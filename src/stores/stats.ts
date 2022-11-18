@@ -29,6 +29,7 @@ export const useStatsStore = defineStore({
       koinTotalSupply: '' as string,
       vhpTotalSupply: '' as string,
       virtualTotalSupply: '' as string,
+      claimed: 0 as number,
       burned: 0 as number,
     },
     intervalId: null as null | NodeJS.Timeout,
@@ -174,6 +175,9 @@ export const useStatsStore = defineStore({
                   virtualTotalSupply && vhpTotalSupply
                     ? (vhpTotalSupply / virtualTotalSupply) * 100
                     : 0,
+                claimed: vhpTotalSupply
+                  ? (virtualTotalSupply / 9973874402587864) * 100
+                  : 0,
               },
             });
           }
