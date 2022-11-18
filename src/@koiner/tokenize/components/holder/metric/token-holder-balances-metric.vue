@@ -3,9 +3,9 @@
     <q-card-section horizontal>
       <q-card-section class="q-pt-xs">
         <div class="text-overline">{{ computedTitle }}</div>
-        <div class="text-h4 q-mt-sm q-mb-xs">
+        <div class="text-h4">
           {{ value.toFixed(decimals) }}
-          <span style="font-size: 1.25rem">{{ computedCaption }}</span>
+          <span>{{ computedCaption }}</span>
         </div>
         <div class="text-caption" v-if="showAddressCount && addressCount > 0">
           {{ `${addressCount} address${addressCount > 1 ? 'es' : ''}` }}

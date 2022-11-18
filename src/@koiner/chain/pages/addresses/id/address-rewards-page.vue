@@ -1,8 +1,7 @@
 <template>
   <q-page
     v-if="tokenHolders && tokenHolders.length > 0"
-    class="q-pa-xl row items-start q-gutter-lg"
-    style="padding-top: 7.5rem !important"
+    class="row items-start"
   >
     <q-card class="stats-cards" flat bordered>
       <q-card-section horizontal>
@@ -42,8 +41,7 @@
   </q-page>
 
   <q-page
-    class="q-pa-xl row items-start q-gutter-lg"
-    style="padding-top: 7.5rem !important"
+    class="row items-start"
     v-else
   >
     <q-card flat bordered style="width: 100%">

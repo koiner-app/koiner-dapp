@@ -2,19 +2,18 @@
   <q-layout view="hHh LpR lFf">
     <q-header elevated>
       <q-toolbar>
+        <q-btn
+          @click="drawer = !drawer"
+          flat
+          round
+          dense
+          icon="menu"
+          class="lt-md q-mr-sm"
+        />
+        <q-separator dark vertical inset class="lt-md" />
         <q-toolbar-title>
           <koiner-logo />
-          <q-chip
-            size="xs"
-            color="primary"
-            text-color="white"
-            style="
-              margin-left: 3rem;
-              font-size: 0.5rem;
-              margin-bottom: 10px;
-              height: 0.8rem;
-              padding: 0 0.4rem;
-            "
+          <q-chip size="xs" color="primary" text-color="white" class="beta-chip"
             >Beta</q-chip
           >
         </q-toolbar-title>
@@ -23,6 +22,7 @@
         <search-dialog />
 
         <q-btn
+          class="show-love-button"
           target="_blank"
           flat
           dense
@@ -34,7 +34,14 @@
       </q-toolbar>
     </q-header>
 
-    <q-drawer show-if-above :mini="true" :width="200" bordered>
+    <q-drawer
+      show-if-above
+      :mini="true"
+      v-model="drawer"
+      :breakpoint="1029"
+      :width="200"
+      bordered
+    >
       <q-scroll-area class="fit">
         <main-navigation />
       </q-scroll-area>
@@ -80,7 +87,6 @@ export default defineComponent({
     const koinerStore = useKoinerStore();
     const statsStore = useStatsStore();
     const bookmarkStore = useBookmarkStore();
-    const leftDrawerOpen = ref(false);
 
     koinosStore.load();
     statsStore.load();
@@ -96,7 +102,7 @@ export default defineComponent({
     );
 
     return {
-      leftDrawerOpen,
+      drawer: ref(false),
     };
   },
 });

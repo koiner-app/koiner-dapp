@@ -1,8 +1,7 @@
 <template>
   <q-page
     v-if="tokenContract"
-    class="q-pa-xl row items-start q-gutter-lg"
-    style="padding-top: 7.5rem !important"
+    class="row items-start"
   >
     <q-card class="stats-cards" flat bordered>
       <q-card-section horizontal>
@@ -75,7 +74,7 @@
       </q-card-section>
     </q-card>
 
-    <q-card class="search-card" flat bordered>
+    <q-card class="search-card gt-md" flat bordered>
       <q-card-section>
         <div class="text-overline">Token Holders</div>
 

@@ -1,5 +1,5 @@
 <template>
-  <q-page class="row q-pa-lg items-center justify-evenly">
+  <q-page class="row items-center justify-evenly">
     <q-card class="q-pa-md table-card" style="min-width: 440px">
       <q-card-section>
         <div class="text-h6">Transfer funds</div>

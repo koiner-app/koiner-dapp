@@ -26,7 +26,7 @@
           to="/operations"
           exact
         />
-        <q-route-tab :ripple="false" label="Addresses" to="/addresses" exact />
+        <q-route-tab :ripple="false" label="Accounts" to="/addresses" exact />
         <q-route-tab
           :ripple="false"
           label="Claims"

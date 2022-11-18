@@ -1,8 +1,8 @@
 <template>
-  <q-page class="row items-baseline justify-evenly">
+  <q-page class="row items-baseline justify-evenly page--addresses-search">
     <q-card class="table-card shadow-1">
       <q-card-section>
-        <addresses-table title="Addresses" />
+        <addresses-table title="Accounts" />
       </q-card-section>
     </q-card>
   </q-page>

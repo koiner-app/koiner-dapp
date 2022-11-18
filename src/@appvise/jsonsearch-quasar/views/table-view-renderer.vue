@@ -12,7 +12,7 @@
     :loading="fetching"
     virtual-scroll
     flat
-    :style="`height: calc(100vh - ${tableOffsetTop}px)`"
+    :style="`height: calc(100vh - ${tableOffsetTop}px);`"
     @virtual-scroll="onScroll"
     @request="onRequest"
     :pagination-label="
@@ -149,7 +149,7 @@ export default defineComponent({
 
     watch(tableView, (newValue) => {
       if (newValue != null) {
-        tableOffsetTop.value = offset(newValue.$el).top + 104;
+        tableOffsetTop.value = offset(newValue.$el).top + 80;
       }
     });
 

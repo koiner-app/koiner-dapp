@@ -1,7 +1,6 @@
 <template>
   <q-page
-    class="q-pa-xl row items-start q-gutter-lg"
-    style="padding-top: 7.5rem !important"
+    class="row items-start"
   >
     <q-card class="stats-cards" flat bordered>
       <q-card-section horizontal>
@@ -39,17 +38,37 @@
       </q-card-section>
     </q-card>
 
-    <q-card class="search-card-large" flat bordered>
-      <q-card-section>
-        <div class="text-overline">Rewards</div>
+    <q-card class="tabs-card" flat bordered>
+      <q-card-section class="q-pt-xs">
+        <q-tabs v-model="tab" dense align="left" style="width: 100%">
+          <q-tab
+            class="text-overline lt-lg"
+            :ripple="false"
+            label="Producers"
+            name="producers"
+          />
+          <q-tab
+            class="text-overline"
+            :ripple="false"
+            label="Rewards"
+            name="rewards"
+          />
+        </q-tabs>
 
-        <div class="search-card-content">
-          <block-rewards-component />
-        </div>
+        <q-separator />
+
+        <q-tab-panels v-model="tab" animated>
+          <q-tab-panel name="producers">
+            <block-producers-component />
+          </q-tab-panel>
+          <q-tab-panel name="rewards">
+            <block-rewards-component />
+          </q-tab-panel>
+        </q-tab-panels>
       </q-card-section>
     </q-card>
 
-    <q-card class="search-card" flat bordered>
+    <q-card class="search-card gt-md" flat bordered>
       <q-card-section>
         <div class="text-overline">Producers</div>
 
@@ -62,13 +81,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import {defineComponent, ref, Ref, watch} from 'vue';
 import BlockProducersComponent from '../components/block-production/search/view/block-producers-table.vue';
 import BlockRewardsComponent from '../components/block-production/search/view/block-rewards-table.vue';
 import { useKoinerStore } from 'stores/koiner';
 import { useStatsStore } from 'stores/stats';
 import CounterMetric from '@koiner/components/metrics/counter-metric.vue';
 import TokenAmountMetric from '@koiner/components/metrics/token-amount-metric.vue';
+import {useWindowSize} from '@vueuse/core';
 
 export default defineComponent({
   name: 'NetworkIndexPage',
@@ -83,21 +103,23 @@ export default defineComponent({
     const koinerStore = useKoinerStore();
     const statsStore = useStatsStore();
 
+    const { width } = useWindowSize();
+
+    const tab: Ref<string> = ref(
+      width.value < 1440 ? 'producers' : 'rewards'
+    );
+
+    watch(width, () => {
+      if (width.value > 1439.99 && tab.value === 'producers') {
+        tab.value = 'rewards';
+      }
+    });
+
     return {
       koinerStore,
       statsStore,
+      tab,
     };
   },
 });
 </script>
-
-<style lang="scss" scoped>
-.rewards-card {
-  width: 100%;
-  max-width: calc(60% - 24px);
-}
-.producers-card {
-  width: 100%;
-  max-width: calc(40% - 24px);
-}
-</style>

@@ -1,13 +1,16 @@
 <template>
-  <q-page
-    class="q-pa-xl row items-start q-gutter-lg"
-    style="padding-top: 2.5rem !important"
-  >
+  <q-page class="row items-start">
     <koinos-home-stats-component />
 
     <q-card class="tabs-card" flat bordered>
       <q-card-section>
-        <q-tabs v-model="tokenTab" dense align="left" style="width: 100%">
+        <q-tabs v-model="tab" dense align="left" style="width: 100%">
+          <q-tab
+            class="text-overline lt-lg"
+            :ripple="false"
+            label="Blocks"
+            name="blocks"
+          />
           <q-tab
             class="text-overline"
             :ripple="false"
@@ -30,7 +33,10 @@
 
         <q-separator />
 
-        <q-tab-panels v-model="tokenTab" animated>
+        <q-tab-panels v-model="tab" animated>
+          <q-tab-panel name="blocks">
+            <blocks-component />
+          </q-tab-panel>
           <q-tab-panel name="token-transfers">
             <tokens-operations-table
               :burn-filter="false"
@@ -47,7 +53,7 @@
       </q-card-section>
     </q-card>
 
-    <q-card class="search-card" flat bordered>
+    <q-card class="search-card gt-md" flat bordered>
       <q-card-section>
         <div class="text-overline">Blocks</div>
 
@@ -60,12 +66,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, Ref, ref } from 'vue';
+import { defineComponent, Ref, ref, watch } from 'vue';
 import BlocksComponent from './components/blocks-component.vue';
 import KoinosHomeStatsComponent from './components/koin-home-stats-component.vue';
 import ContractOperationsTable from '@koiner/contracts/components/contract/search/view/contracts-operations-table.vue';
 import TransactionsTable from '@koiner/chain/components/transaction/search/view/transactions-table.vue';
 import TokensOperationsTable from '@koiner/tokenize/components/operation/search/view/tokens-operations-table.vue';
+import { useWindowSize } from '@vueuse/core';
 
 export default defineComponent({
   name: 'DashboardIndexPage',
@@ -78,10 +85,20 @@ export default defineComponent({
   },
 
   setup() {
-    const tokenTab: Ref<string> = ref('token-transfers');
+    const { width } = useWindowSize();
+
+    const tab: Ref<string> = ref(
+      width.value < 1440 ? 'blocks' : 'token-transfers'
+    );
+
+    watch(width, () => {
+      if (width.value > 1439.99 && tab.value === 'blocks') {
+        tab.value = 'token-transfers';
+      }
+    });
 
     return {
-      tokenTab,
+      tab,
     };
   },
 });

@@ -5,14 +5,9 @@
     :applied-options="appliedOptions"
   >
     <span :class="`${styles.attribute.age}`">
-      {{ timeAgo(rawValue(result.node)) }}
+      {{ timeAgo(rawValue(result.node)) }} <span class="ago">ago</span>
       <q-tooltip>
-        {{
-          date.formatDate(
-            rawValue(result.node),
-            'YYYY-MM-DD HH:mm:ss.SSSZ'
-          )
-        }}
+        {{ date.formatDate(rawValue(result.node), 'YYYY-MM-DD HH:mm:ss.SSSZ') }}
       </q-tooltip>
     </span>
   </attribute-wrapper>

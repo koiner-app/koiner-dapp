@@ -1,7 +1,6 @@
 <template>
   <q-page
-    class="q-pa-xl row items-start q-gutter-lg"
-    style="padding-top: 7.5rem !important"
+    class="row items-start"
   >
     <q-card class="stats-cards" flat bordered>
       <q-card-section horizontal>

@@ -1,5 +1,86 @@
+//Extra Small	xs	0px	599.99px
+//Small	sm	600px	1023.99px
+//Medium	md	1024px	1439.99px
+//Large	lg	1440px	1919.99px
+//Extra Large	xl	1920px	Infinity
+
+.q-page {
+  padding: 12px 12px;
+  margin-top: -6px;
+  margin-left: -6px;
+  > * {
+    margin-top: 6px;
+    margin-left: 6px;
+  }
+}
+
+.search-card,
+.search-card-large,
+.tabs-card {
+  width: 100%;
+}
+
+.table-card {
+  width: 100%;
+}
+
+.koiner-logo {
+  position: absolute;
+  left: 4.5rem;
+  top: 0;
+}
+
+.beta-chip {
+  font-size: 0.5rem;
+  height: 0.8rem;
+  margin-left: 3.25rem;
+  margin-bottom: 10px;
+  padding: 0 0.4rem;
+}
+
+.show-love-button {
+  display: none;
+}
+
+.koiner-topbar-page {
+  padding-top: 6.5rem !important;
+}
+
+.koiner-topbar {
+  left: 0;
+}
+
+.q-drawer {
+  .q-item__section--avatar {
+    .q-item__label {
+      display: none;
+    }
+  }
+}
+
+.q-drawer.q-drawer--mini.fixed {
+  .q-item__section--avatar {
+    .q-item__label {
+      display: block;
+    }
+  }
+}
+
+.transactions-search-page [id*='#/properties/id'] a span,
+[id*='#/properties/transactionId'] a span,
+.q-page:not(.page--addresses-search) [id*='#/properties/id'] a span,
+.q-page:not(.page--addresses-search) .address-attribute span {
+  inline-size: 100px !important;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  display: inline-block;
+  padding-top: 0.35rem;
+}
+
 .stats-cards {
   width: 100%;
+
   .q-separator--vertical {
     max-height: 92px !important;
     margin-top: 1.875rem;
@@ -8,10 +89,7 @@
 
   .stats-card {
     width: 100%;
-    max-width: calc(25%);
-    padding-top: 1rem;
-    padding-left: 1rem;
-    margin-bottom: 0.5rem;
+    max-width: 100%;
 
     .text-h4 {
       font-weight: bold !important;
@@ -20,6 +98,200 @@
     }
   }
 }
+
+@media screen and (min-width: 560px) {
+  .show-love-button {
+    display: block;
+  }
+}
+
+@media screen and (max-width: 599.99px) {
+  .ago {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 600px) and (max-width: 1023.99px) {
+  .ago {
+    display: none;
+  }
+}
+
+@media screen and (min-width: 600px) {
+  .q-page {
+    padding: 24px 24px;
+    margin-top: -12px;
+    margin-left: -12px;
+    > * {
+      margin-top: 12px;
+      margin-left: 12px;
+    }
+  }
+}
+
+@media (max-width: 1023.99px) {
+  .stats-cards {
+    padding: 1rem;
+
+    .stats-card {
+      max-width: 100%;
+
+      > .q-card__section.q-card__section--horiz.row.no-wrap {
+        display: block !important;
+        flex-wrap: wrap;
+        width: 100%;
+      }
+
+      .text-overline {
+        display: block;
+        float: left;
+        width: 45%;
+      }
+      .text-h4 {
+        font-size: 1.125rem;
+        span {
+          font-size: 0.875rem;
+        }
+        display: block;
+        float: left;
+        width: 35%;
+      }
+      .text-caption {
+        display: block;
+        float: left;
+        width: 20%;
+      }
+    }
+
+    > .q-card__section.q-card__section--horiz.row.no-wrap {
+      display: block !important;
+      flex-wrap: wrap;
+      width: 100%;
+    }
+  }
+}
+
+
+@media screen and (max-width: 1439.99px) {
+  .ago {
+    display: none;
+  }
+
+  .stats-card {
+    .text-h4 {
+      font-size: 1.5rem;
+    }
+  }
+
+  .transactions-search-page [id*='#/properties/id'] a span,
+  [id*='#/properties/transactionId'] a span,
+  .q-page:not(.page--addresses-search) [id*='#/properties/id'] a span,
+  .q-page:not(.page--addresses-search) .address-attribute span {
+    inline-size: 180px !important;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    display: inline-block;
+    padding-top: 0.35rem;
+  }
+}
+
+@media screen and (min-width: 1024px) and (max-width: 1439.99px) {
+}
+
+@media screen and (min-width: 1024px) {
+  .koiner-logo {
+    left: 0.75rem;
+  }
+
+  .beta-chip {
+    margin-left: 2.15rem;
+  }
+
+  .koiner-topbar {
+    left: 65px;
+  }
+
+  .q-page {
+    padding: 36px 36px;
+    margin-top: -18px;
+    margin-left: -18px;
+    > * {
+      margin-top: 18px;
+      margin-left: 18px;
+    }
+  }
+
+  .stats-cards {
+    .stats-card {
+      max-width: 25%;
+      padding-top: 1rem;
+      padding-left: 1rem;
+      margin-bottom: 0.5rem;
+
+      .text-h4 {
+        span {
+          font-size: 1.125rem;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .koiner-topbar-page {
+    padding-top: 7.5rem !important;
+  }
+
+  .search-card-large,
+  .tabs-card {
+    max-width: calc(66.66% - 24px);
+  }
+
+  .search-card {
+    max-width: calc(33.33% - 24px);
+  }
+
+  .q-page {
+    padding: 48px 48px;
+    margin-top: -24px;
+    margin-left: -24px;
+    > * {
+      margin-top: 24px;
+      margin-left: 24px;
+    }
+  }
+
+  .transactions-search-page [id*='#/properties/id'] a span,
+  [id*='#/properties/transactionId'] a span,
+  .q-page:not(.page--addresses-search) [id*='#/properties/id'] a span,
+  .q-page:not(.page--addresses-search) .address-attribute span {
+    inline-size: auto !important;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    display: inline-block;
+    padding-top: 0.35rem;
+  }
+}
+
+@media screen and (min-width: 1440px) and (max-width: 1919.99px) {
+}
+
+@media screen and (min-width: 1920px) {
+}
+
+//.transactions-search-page [id*="#/properties/id"] a span,
+//[id*="#/properties/transactionId"] a span,
+//[id*="#/properties/id"] a span,
+//.address-attribute span {
+//  inline-size: 168px !important;
+//  overflow: hidden;
+//  white-space: nowrap;
+//  text-overflow: ellipsis;
+//  display: inline-block;
+//  padding-top: 0.35rem;
+//}
 
 .token-price::first-letter {
   font-size: 1.5rem;
@@ -40,17 +312,12 @@
 
 .search-card-large,
 .tabs-card {
-  width: 100%;
-
   > .q-card__section:first-child {
     padding-top: 4px;
   }
   .q-tab-panel {
     padding: 1rem 0.5rem 0;
-  }
-
-  @media screen and (min-width: 1024px) {
-    max-width: calc(66.66% - 24px);
+    overflow: hidden;
   }
 }
 .search-card-large,
@@ -69,24 +336,5 @@
     font-weight: 500;
     padding: 0.125rem 1rem 0;
     margin-bottom: 7px;
-  }
-}
-.search-card {
-  width: 100%;
-
-  @media screen and (min-width: 1024px) {
-    max-width: calc(33.33% - 24px);
-  }
-}
-.large-card {
-  @media screen and (min-width: 1024px) {
-    width: calc(50% - 24px);
-  }
-}
-.my-card {
-  width: 100%;
-
-  @media screen and (min-width: 1024px) {
-    max-width: calc(25%);
   }
 }

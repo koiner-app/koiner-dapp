@@ -21,7 +21,7 @@
         <span class="text-caption">Search anything</span>
 
         <q-space />
-        <span class="text-caption q-pr-md text-italic" style="opacity: 0.7"
+        <span class="text-caption q-pr-md text-italic desktop-only gt-sm" style="opacity: 0.7"
           >Double tap ctrl to open this dialog next time</span
         >
 

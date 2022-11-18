@@ -1,8 +1,5 @@
 <template>
-  <q-page
-    class="q-pa-xl row items-start q-gutter-lg"
-    style="padding-top: 7.5rem !important"
-  >
+  <q-page class="row items-start">
     <q-card class="stats-cards" flat bordered>
       <q-card-section horizontal>
         <counter-metric
@@ -23,6 +20,12 @@
       <q-card-section class="q-pt-xs">
         <q-tabs v-model="tab" dense align="left" style="width: 100%">
           <q-tab
+            class="text-overline lt-lg"
+            :ripple="false"
+            label="Tokens"
+            name="token-contracts"
+          />
+          <q-tab
             class="text-overline"
             :ripple="false"
             label="Operations"
@@ -39,6 +42,9 @@
         <q-separator />
 
         <q-tab-panels v-model="tab" animated>
+          <q-tab-panel name="token-contracts">
+            <token-contracts-table />
+          </q-tab-panel>
           <q-tab-panel name="token-operations">
             <tokens-operations-table
               :burn-filter="false"
@@ -52,7 +58,7 @@
       </q-card-section>
     </q-card>
 
-    <q-card class="search-card" flat bordered>
+    <q-card class="search-card gt-md" flat bordered>
       <q-card-section>
         <div class="text-overline">Tokens</div>
 
@@ -65,13 +71,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, Ref } from 'vue';
+import { defineComponent, ref, Ref, watch } from 'vue';
 import { useKoinerStore } from 'stores/koiner';
 import { useStatsStore } from 'stores/stats';
 import CounterMetric from '@koiner/components/metrics/counter-metric.vue';
 import TokensOperationsTable from '../components/operation/search/view/tokens-operations-table.vue';
 import TokensEventsTable from '../components/event/search/view/tokens-events-table.vue';
 import TokenContractsTable from '../components/contract/search/view/token-contracts-table.vue';
+import { useWindowSize } from '@vueuse/core';
 
 export default defineComponent({
   name: 'NetworkIndexPage',
@@ -86,7 +93,17 @@ export default defineComponent({
     const koinerStore = useKoinerStore();
     const statsStore = useStatsStore();
 
-    const tab: Ref<string> = ref('token-operations');
+    const { width } = useWindowSize();
+
+    const tab: Ref<string> = ref(
+      width.value < 1440 ? 'token-contracts' : 'token-operations'
+    );
+
+    watch(width, () => {
+      if (width.value > 1439.99 && tab.value === 'token-contracts') {
+        tab.value = 'token-operations';
+      }
+    });
 
     return {
       tab,

@@ -6,6 +6,9 @@ a {
 .q-page {
   padding-top: 2rem;
   padding-bottom: 2rem;
+}
+
+.q-page-container {
   background: #f0f2f8;
 }
 
@@ -132,6 +135,7 @@ a {
 
 /* width */
 ::-webkit-scrollbar {
+  height: 6px;
   width: 6px;
 }
 
@@ -198,20 +202,6 @@ a {
   .search-view-table .q-table tbody.q-virtual-scroll__content td {
     padding: 0 12px !important;
     height: 40px !important;
-  }
-}
-
-.transactions-search-page [id*="#/properties/id"] a span,
-[id*="#/properties/transactionId"] a span,
-[id*="#/properties/id"] a span,
-.address-attribute span {
-  @media screen and (max-width: 1800px) {
-    inline-size: 168px !important;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    display: inline-block;
-    padding-top: 0.35rem;
   }
 }
 

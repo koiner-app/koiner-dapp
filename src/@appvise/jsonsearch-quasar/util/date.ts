@@ -35,7 +35,7 @@ export function timeAgo(timestamp: number): string {
     const diffResult = date.getDateDiff(now, ts, diffs[i].type);
 
     if (diffResult < diffs[i].threshold) {
-      return `${diffResult.toString()} ${diffs[i].translationKey} ago`;
+      return `${diffResult.toString()} ${diffs[i].translationKey}`;
     }
   }
 

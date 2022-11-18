@@ -38,8 +38,7 @@
   <router-view class="koiner-topbar-page" />
   <q-page
     v-if="accountStore.addressesFilter.length === 0"
-    class="q-pa-xl row items-start q-gutter-lg"
-    style="padding-top: 7.5rem !important"
+    class="row items-start"
   >
     <first-address-search class="absolute-center" />
   </q-page>

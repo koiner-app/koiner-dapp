@@ -1,5 +1,5 @@
 <template>
-  <router-link :to="'/'" style="position: absolute; left: 0.75rem; top: 0">
+  <router-link :to="'/'" class="koiner-logo">
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="120"

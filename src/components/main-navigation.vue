@@ -13,6 +13,9 @@
         <q-icon v-if="menuItem.icon != null" :name="menuItem.icon" />
         <q-item-label>{{ menuItem.name }}</q-item-label>
       </q-item-section>
+      <q-item-section>
+        {{ menuItem.name }}
+      </q-item-section>
     </q-item>
   </q-list>
 </template>
