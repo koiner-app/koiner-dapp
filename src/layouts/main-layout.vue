@@ -52,7 +52,9 @@
     </q-page-container>
 
     <q-footer reveal elevated>
-      <q-toolbar>
+      <mobile-main-navigation class="lt-lg" />
+
+      <q-toolbar class="gt-md">
         <ticker />
       </q-toolbar>
     </q-footer>
@@ -71,10 +73,12 @@ import { useKoinerStore } from 'stores/koiner';
 import { useStatsStore } from 'stores/stats';
 import { useBookmarkStore } from '@koiner/bookmarks';
 import ApiSwitcher from '@koiner/components/api-switcher.vue';
+import MobileMainNavigation from 'components/mobile-main-navigation.vue';
 
 export default defineComponent({
   name: 'MainLayout',
   components: {
+    MobileMainNavigation,
     ApiSwitcher,
     SearchDialog,
     MainNavigation,

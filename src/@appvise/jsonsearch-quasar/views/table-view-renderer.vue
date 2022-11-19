@@ -149,7 +149,7 @@ export default defineComponent({
 
     watch(tableView, (newValue) => {
       if (newValue != null) {
-        tableOffsetTop.value = offset(newValue.$el).top + 80;
+        tableOffsetTop.value = offset(newValue.$el).top;
       }
     });
 

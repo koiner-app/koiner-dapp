@@ -3,11 +3,6 @@ a {
   color: darken($primary, 14);
 }
 
-.q-page {
-  padding-top: 2rem;
-  padding-bottom: 2rem;
-}
-
 .q-page-container {
   background: #f0f2f8;
 }
@@ -214,3 +209,4 @@ a {
 @import 'includes/topbar';
 @import 'includes/table';
 @import 'includes/dashboard';
+@import 'includes/mobile-navigation';

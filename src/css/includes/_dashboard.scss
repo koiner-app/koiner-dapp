@@ -4,16 +4,6 @@
 //Large	lg	1440px	1919.99px
 //Extra Large	xl	1920px	Infinity
 
-.q-page {
-  padding: 12px 12px;
-  margin-top: -6px;
-  margin-left: -6px;
-  > * {
-    margin-top: 6px;
-    margin-left: 6px;
-  }
-}
-
 .search-card,
 .search-card-large,
 .tabs-card {
@@ -43,7 +33,7 @@
 }
 
 .koiner-topbar-page {
-  padding-top: 6.5rem !important;
+  padding-top: 2.25rem !important;
 }
 
 .koiner-topbar {
@@ -118,19 +108,15 @@
 }
 
 @media screen and (min-width: 600px) {
-  .q-page {
-    padding: 24px 24px;
-    margin-top: -12px;
-    margin-left: -12px;
-    > * {
-      margin-top: 12px;
-      margin-left: 12px;
-    }
-  }
+
 }
 
 @media (max-width: 1023.99px) {
+  .tabs-card .q-card__section--vert {
+    padding: 0 !important;
+  }
   .stats-cards {
+    display: none;
     padding: 1rem;
 
     .stats-card {
@@ -220,6 +206,10 @@
       margin-top: 18px;
       margin-left: 18px;
     }
+  }
+
+  .koiner-topbar-page {
+    padding-top: 6.5rem !important;
   }
 
   .stats-cards {
