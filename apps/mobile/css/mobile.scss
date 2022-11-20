@@ -1,4 +1,26 @@
 .layout--mobile {
   @import 'includes/stats-card';
   @import 'includes/stats-carousel';
+
+  .q-tab-panel {
+    .q-space {
+      display: none;
+    }
+  }
+  .wildcard-search {
+    width: 100% !important;
+    display: block !important;
+  }
+
+  .mobile-tab-page {
+    padding-top: 2.25rem;
+
+    .q-tab {
+      text-transform: none;
+    }
+    .q-page-sticky {
+      background: white;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    }
+  }
 }

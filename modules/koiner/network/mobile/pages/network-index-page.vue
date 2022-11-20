@@ -1,24 +1,7 @@
 <template>
-  <q-page class="row items-start">
+  <q-page class="row items-start mobile-tab-page">
     <q-card class="tabs-card" flat bordered>
       <q-card-section class="q-pt-xs">
-        <q-tabs v-model="tab" dense align="left" style="width: 100%">
-          <q-tab
-            class="text-overline lt-lg"
-            :ripple="false"
-            label="Producers"
-            name="producers"
-          />
-          <q-tab
-            class="text-overline"
-            :ripple="false"
-            label="Rewards"
-            name="rewards"
-          />
-        </q-tabs>
-
-        <q-separator />
-
         <q-tab-panels v-model="tab" animated>
           <q-tab-panel name="producers">
             <block-producer-stats />
@@ -31,6 +14,23 @@
         </q-tab-panels>
       </q-card-section>
     </q-card>
+
+    <q-page-sticky expand position="top">
+      <q-tabs v-model="tab" dense align="justify" style="width: 100%">
+        <q-tab
+          class="text-overline"
+          :ripple="false"
+          label="Producers"
+          name="producers"
+        />
+        <q-tab
+          class="text-overline"
+          :ripple="false"
+          label="Rewards"
+          name="rewards"
+        />
+      </q-tabs>
+    </q-page-sticky>
   </q-page>
 </template>
 
@@ -59,7 +59,6 @@ export default defineComponent({
     return {
       koinerStore,
       statsStore,
-      statsSlide: ref(1),
       tab,
     };
   },

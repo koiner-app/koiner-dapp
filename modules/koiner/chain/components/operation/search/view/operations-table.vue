@@ -1,24 +1,44 @@
 <template>
-  <q-page class="row items-baseline justify-evenly">
-    <q-card class="table-card shadow-1">
-      <q-card-section>
-        <operations-table title="System operations" />
-      </q-card-section>
-    </q-card>
-  </q-page>
+  <div class="row no-wrap items-center">
+    <div v-if="title" class="text-h6">{{ title }}</div>
+
+    <q-space />
+
+    <search-filters
+      :request="request"
+      search-placeholder="Search by operation id or transaction id"
+    />
+  </div>
+
+  <q-json-search
+    :schema="schema"
+    :uischema="uiSchema"
+    :request="request"
+    :data="{}"
+    @on-scroll="onScroll"
+    :scroll-position="position"
+    :additional-renderers="renderers"
+  />
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { useSearchStore } from 'stores/search';
 import { KoinerRenderers } from '@koiner/renderers';
+import SearchFilters from '@appvise/search-manager/search-filters.vue';
+import QJsonSearch from '@appvise/q-json-forms/QJsonSearch.vue';
 import operationsSearchSchema from '@koiner/chain/components/operation/search/operations-search.schema.json';
 import operationsSearchUiSchema from '@koiner/chain/components/operation/search/view/operations-table.ui-schema.json';
-import OperationsTable from '@koiner/chain/components/operation/search/view/operations-table.vue';
 
 export default defineComponent({
-  name: 'OperationsIndexPage',
-  components: { OperationsTable },
+  name: 'OperationsTable',
+  components: { SearchFilters, QJsonSearch },
+  props: {
+    title: {
+      required: false,
+      type: String,
+    },
+  },
 
   setup() {
     const searchStore = useSearchStore();

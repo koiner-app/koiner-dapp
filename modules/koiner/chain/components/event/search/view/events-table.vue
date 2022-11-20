@@ -1,24 +1,44 @@
 <template>
-  <q-page class="row items-baseline justify-evenly">
-    <q-card class="table-card shadow-1">
-      <q-card-section>
-        <events-table title="Events" />
-      </q-card-section>
-    </q-card>
-  </q-page>
+  <div class="row no-wrap items-center">
+    <div v-if="title" class="text-h6">{{ title }}</div>
+
+    <q-space />
+
+    <search-filters
+      :request="request"
+      search-placeholder="Search by event id, parent (block id or transaction id), contract id, name or impacted addresses"
+    />
+  </div>
+
+  <q-json-search
+    :schema="schema"
+    :uischema="uiSchema"
+    :request="request"
+    :data="{}"
+    @on-scroll="onScroll"
+    :scroll-position="position"
+    :additional-renderers="renderers"
+  />
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { useSearchStore } from 'stores/search';
 import { KoinerRenderers } from '@koiner/renderers';
+import SearchFilters from '@appvise/search-manager/search-filters.vue';
+import QJsonSearch from '@appvise/q-json-forms/QJsonSearch.vue';
 import eventsSearchSchema from '@koiner/chain/components/event/search/events-search.schema.json';
 import eventsSearchUiSchema from '@koiner/chain/components/event/search/view/events-table.ui-schema.json';
-import EventsTable from '@koiner/chain/components/event/search/view/events-table.vue';
 
 export default defineComponent({
-  name: 'EventsIndexPage',
-  components: { EventsTable },
+  name: 'EventsTable',
+  components: { SearchFilters, QJsonSearch },
+  props: {
+    title: {
+      required: false,
+      type: String,
+    },
+  },
 
   setup() {
     const searchStore = useSearchStore();
