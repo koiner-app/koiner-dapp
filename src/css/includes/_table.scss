@@ -93,7 +93,6 @@
 }
 .search-view-table {
   /* height or max-height is important for virtual scroll */
-  margin-top: 1.5rem;
 
   &:before {
     display: block;
@@ -204,5 +203,58 @@
       white-space: nowrap;
       overflow: hidden;
     }
+  }
+}
+
+// Responsiveness
+.table-card {
+  .text-h6 {
+    display: none;
+  }
+}
+
+.q-table__bottom {
+  display: none;
+}
+
+.table-card {
+  @media (min-width: 1024px) {
+    .text-h6 {
+      display: block;
+    }
+
+    .q-table__bottom {
+      display: block;
+    }
+  }
+}
+
+.attribute-group {
+  .attribute-root {
+    display: block;
+    width: 100%;
+  }
+
+  .attribute-group {
+    .attribute-root {
+      display: inline-block;
+      width: auto;
+    }
+  }
+}
+
+.search-view-table {
+  //margin-top: 0;
+}
+
+@media (min-width: 1024px) {
+  .attribute-group {
+    .attribute-root {
+      display: inline-block;
+    }
+  }
+
+  .search-view-table {
+    margin-top: 1.5rem;
   }
 }

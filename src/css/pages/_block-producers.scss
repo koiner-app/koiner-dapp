@@ -1,0 +1,30 @@
+.attribute--blocks-produced {
+  color: grey;
+}
+
+.attribute-group {
+  padding: 0.625rem 0;
+}
+
+.attribute--address {
+  span {
+    inline-size: calc(90px + 20vw) !important;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    display: inline-block;
+    padding-top: 0.35rem;
+
+    @media screen and (min-width: 500px) {
+      inline-size: calc(140px + 20vw) !important;
+    }
+    //
+    //@media screen and (min-width: 800px) {
+    //  inline-size: 180px !important;
+    //}
+    //
+    //@media screen and (min-width: 1024px) {
+    //  inline-size: 200px !important;
+    //}
+  }
+}

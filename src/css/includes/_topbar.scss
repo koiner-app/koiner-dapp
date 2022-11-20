@@ -5,7 +5,6 @@
 
   .q-tab {
     text-transform: none;
-    padding: 0;
 
     &:first-child {
       margin-left: 0;
@@ -78,6 +77,14 @@
     display: none;
   }
 
+  .q-tab {
+    min-height: 40px;
+
+    .q-tab__label {
+      letter-spacing: 0.1rem;
+    }
+  }
+
   @media screen and (min-width: 1024px) {
     top: 2.75rem;
     padding: 0 1rem 0 6.5rem;
@@ -93,6 +100,12 @@
 
     .q-tab {
       margin: 0 1rem;
+      padding: 0;
+      min-height: 36px;
+
+      .q-tab__label {
+        letter-spacing: initial;
+      }
     }
   }
 }

@@ -1,0 +1,61 @@
+{
+  "type": "object",
+  "elements": [
+    {
+      "type": "TableView",
+      "options": {
+        "search": {
+          "provider": "blockProducers"
+        }
+      },
+      "elements": [
+        {
+          "type": "Attribute",
+          "label": "#",
+          "scope": "#/properties/id",
+          "options": {
+            "format": "index"
+          }
+        },
+        {
+          "type": "AttributeGroup",
+          "label": "Producer",
+          "scope": "#/properties/rewardsGroup",
+          "elements": [
+            {
+              "type": "Attribute",
+              "label": "Address",
+              "scope": "#/properties/addressId",
+              "options": {
+                "format": "address",
+                "route": "address.rewards",
+                "mapping": "addressId",
+                "class": "attribute--address"
+              }
+            },
+            {
+              "type": "Attribute",
+              "label": "Blocks produced",
+              "scope": "#/properties/blocksProduced",
+              "options": {
+                "mapping": "blocksProduced",
+                "after": " blocks produced",
+                "class": "attribute--blocks-produced"
+              }
+            }
+          ]
+        },
+        {
+          "type": "Attribute",
+          "label": "Total rewards",
+          "scope": "#/properties/balanceShort",
+          "options": {
+            "format": "koinTokenAmount",
+            "mapping": "balance",
+            "decimals": 2
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -2,11 +2,12 @@
   <q-btn
     color="primary"
     size="sm"
-    label="Search"
     icon="search"
     @click="dialog = true"
     class="btn-search-dialog q-px-sm q-mx-sm"
-  />
+  >
+    <span class="gt-sm">Search</span>
+  </q-btn>
 
   <q-dialog
     v-model="dialog"

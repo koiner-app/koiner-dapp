@@ -1,13 +1,11 @@
 <template>
   <q-card class="stats-card" flat>
-    <q-card-section horizontal>
-      <q-card-section class="q-pt-xs">
-        <div class="text-overline">{{ name }}</div>
-        <div class="text-h4 q-mt-sm q-mb-xs">
-          {{ formattedValue }}
-          <span v-if="caption" style="font-size: 1.25rem">{{ caption }}</span>
-        </div>
-      </q-card-section>
+    <q-card-section>
+      <div class="stat-title">{{ name }}</div>
+      <div class="stat-content">
+        {{ formattedValue }}
+        <span v-if="caption" class="stat-unit">{{ caption }}</span>
+      </div>
     </q-card-section>
   </q-card>
 </template>

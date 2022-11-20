@@ -1,4 +1,8 @@
 <template>
+  <div class="row no-wrap items-center" v-if="title">
+    <div v-if="title" class="text-h6">{{ title }}</div>
+  </div>
+
   <q-json-search
     :schema="schema"
     :uischema="uiSchema"
@@ -20,6 +24,10 @@ export default defineComponent({
   name: 'BlockRewardsComponent',
   components: { QJsonSearch },
   props: {
+    title: {
+      required: false,
+      type: String,
+    },
     contractIds: {
       required: false,
       type: Array as PropType<Array<string>>,

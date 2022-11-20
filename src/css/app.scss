@@ -7,6 +7,10 @@ a {
   background: #f0f2f8;
 }
 
+.btn--active {
+  color: lighten($primary, 30%);
+}
+
 .q-header,
 .q-footer {
   .q-toolbar {
@@ -210,3 +214,5 @@ a {
 @import 'includes/table';
 @import 'includes/dashboard';
 @import 'includes/mobile-navigation';
+@import 'includes/stats-card';
+@import 'pages/block-producers';

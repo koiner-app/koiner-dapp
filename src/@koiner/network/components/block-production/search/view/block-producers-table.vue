@@ -1,4 +1,8 @@
 <template>
+  <div class="row no-wrap items-center" v-if="title">
+    <div v-if="title" class="text-h6">{{ title }}</div>
+  </div>
+
   <q-json-search
     :schema="schema"
     :uischema="uiSchema"
@@ -13,13 +17,18 @@ import { defineComponent, PropType, ref, Ref } from 'vue';
 import { KoinerRenderers } from '@koiner/renderers';
 import QJsonSearch from '@appvise/q-json-forms/QJsonSearch.vue';
 import blockProducersSearchSchema from '..//block-producers-search.schema.json';
-import tokenBalancesSearchUiSchema from '../view/block-producers-table.ui-schema.json';
+import desktopUiSchema from '../view/block-producers-table.ui-schema.json';
+import mobileUiSchema from '../view/block-producers-table.mobile-ui-schema.json';
 import { QueryBlockProducersArgs } from '@koiner/sdk';
 
 export default defineComponent({
   name: 'BlockProducersComponent',
   components: { QJsonSearch },
   props: {
+    title: {
+      required: false,
+      type: String,
+    },
     contractIds: {
       required: false,
       type: Array as PropType<Array<string>>,
@@ -28,6 +37,11 @@ export default defineComponent({
       required: false,
       type: Array as PropType<Array<string>>,
     },
+    mobile: {
+      required: false,
+      type: Boolean,
+      default: false,
+    }
   },
 
   setup(props) {
@@ -67,7 +81,7 @@ export default defineComponent({
 
     return {
       schema: blockProducersSearchSchema,
-      uiSchema: tokenBalancesSearchUiSchema,
+      uiSchema: props.mobile ? mobileUiSchema : desktopUiSchema,
       request: request,
       renderers: KoinerRenderers,
     };
