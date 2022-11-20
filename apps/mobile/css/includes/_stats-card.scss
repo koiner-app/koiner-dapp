@@ -1,0 +1,41 @@
+.stats-cards {
+  //display: none;
+  padding: 1rem;
+
+  .stats-card {
+    max-width: 100%;
+
+    > .q-card__section.q-card__section--horiz.row.no-wrap {
+      display: block !important;
+      flex-wrap: wrap;
+      width: 100%;
+    }
+
+    .stat-title {
+      display: block;
+      float: left;
+      width: 45%;
+    }
+
+    .stat-title {
+      font-size: 1.125rem;
+      span {
+        font-size: 0.875rem;
+      }
+      display: block;
+      float: left;
+      width: 35%;
+    }
+    .stat-footer {
+      display: block;
+      float: left;
+      width: 20%;
+    }
+  }
+
+  > .q-card__section.q-card__section--horiz.row.no-wrap {
+    display: block !important;
+    flex-wrap: wrap;
+    width: 100%;
+  }
+}

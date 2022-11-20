@@ -1,0 +1,48 @@
+.stats-carousel {
+  width: 100% !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  max-height: 5rem;
+  height: 5rem;
+  background-color: transparent;
+
+  .q-carousel__slide {
+    padding: 0 0.5rem;
+
+    > .row {
+      padding-top: 0.75rem;
+      padding-bottom: 0.75rem;
+      margin-top: -8px;
+      margin-left: -8px;
+
+      > * {
+        margin-top: 8px;
+        margin-left: 8px;
+      }
+    }
+  }
+
+  .stats-card {
+    .q-card__section {
+      padding: 0.25rem 0.5rem;
+    }
+  }
+
+  .q-card {
+    background: transparent;
+    box-shadow: 0 1px 3px rgb(0 0 0 / 10%), 0 1px 1px rgb(0 0 0 / 7%), 0 2px 1px -1px rgb(0 0 0 / 6%) !important;
+
+    //padding: 0;
+    background: #fff;
+    //margin: 0.5rem 0.5rem;
+    //border-left: solid 5px $accent;
+  }
+
+  .stats-card .q-card__section.q-card__section--vert {
+    //padding: 0;
+    //background: #fff;
+    //margin: 0.5rem 0.5rem;
+    //border: solid 1px #7f6185;
+    //border-left: solid 10px #9c27b0;
+  }
+}
