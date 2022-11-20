@@ -36,11 +36,11 @@ export const useKoinosStore = defineStore({
 
       this.$patch({
         price: {
-          usd: 0.0,
-          change24h: 0.0,
-          change24hPercentage: 0.0,
+          usd: 0.51,
+          change24h: 0.05,
+          change24hPercentage: 4.2,
         },
-        marketCap: 0,
+        marketCap: 51351515,
         updatedAt: Date.now(),
       });
 

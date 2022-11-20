@@ -27,7 +27,7 @@
 .beta-chip {
   font-size: 0.5rem;
   height: 0.8rem;
-  margin-left: 50px;
+  margin-left: 3.25rem;
   margin-bottom: 10px;
   padding: 0 0.4rem;
 }
@@ -55,18 +55,6 @@
     }
   }
 }
-
-//.transactions-search-page [id*='#/properties/id'] a span,
-//[id*='#/properties/transactionId'] a span,
-//.q-page:not(.page--addresses-search) [id*='#/properties/id'] a span,
-//.q-page:not(.page--addresses-search) .address-attribute span {
-//  inline-size: 100px !important;
-//  overflow: hidden;
-//  white-space: nowrap;
-//  text-overflow: ellipsis;
-//  display: inline-block;
-//  padding-top: 0.35rem;
-//}
 
 
 @media screen and (min-width: 560px) {
@@ -100,18 +88,6 @@
   .ago {
     display: none;
   }
-
-  //.transactions-search-page [id*='#/properties/id'] a span,
-  //[id*='#/properties/transactionId'] a span,
-  //.q-page:not(.page--addresses-search) [id*='#/properties/id'] a span,
-  //.q-page:not(.page--addresses-search) .address-attribute span {
-  //  inline-size: 180px !important;
-  //  overflow: hidden;
-  //  white-space: nowrap;
-  //  text-overflow: ellipsis;
-  //  display: inline-block;
-  //  padding-top: 0.35rem;
-  //}
 }
 
 @media screen and (min-width: 1024px) and (max-width: 1439.99px) {
@@ -123,7 +99,7 @@
   }
 
   .beta-chip {
-    margin-left: 2.15rem;
+    margin-left: 2.75rem;
   }
 
   .koiner-topbar {

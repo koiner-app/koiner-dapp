@@ -73,8 +73,11 @@ module.exports = configure(function (/* ctx */) {
       // viteVuePluginOptions: {},
 
       alias: {
-        '@appvise': path.resolve(__dirname, './src/@appvise'),
-        '@koiner': path.resolve(__dirname, './src/@koiner'),
+        '@appvise': path.resolve(__dirname, './modules/appvise'),
+        '@koiner': path.resolve(__dirname, './modules/koiner'),
+        '@desktop': path.resolve(__dirname, './apps/desktop'),
+        '@mobile': path.resolve(__dirname, './apps/mobile'),
+        src: path.resolve(__dirname, './src'),
       },
 
       vitePlugins: [
@@ -95,7 +98,7 @@ module.exports = configure(function (/* ctx */) {
     devServer: {
       // https: true
       port: 9000,
-      open: true, // opens browser window automatically
+      open: false, // opens browser window automatically
       allowedHosts: ['api.koinos.io', 'api.koiner.app', 'api.docker'],
       proxy: {
         '/graphql': {

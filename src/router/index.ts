@@ -6,8 +6,8 @@ import {
   createWebHistory,
 } from 'vue-router';
 
-import { desktopRoutes } from '../desktop/routes';
-import { mobileRoutes } from '../mobile/routes';
+import { desktopRoutes } from '@desktop/routes';
+import { mobileRoutes } from '@mobile/routes';
 
 /*
  * If not building with SSR mode, you can
