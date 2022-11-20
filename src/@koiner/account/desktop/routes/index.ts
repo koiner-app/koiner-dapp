@@ -3,8 +3,7 @@ import { RouteRecordRaw } from 'vue-router';
 export const accountModuleDesktopRoutes: RouteRecordRaw[] = [
   {
     path: '/account',
-    component: () =>
-      import('layouts/../../../../desktop/layouts/account/account-layout.vue'),
+    component: () => import('../layouts/account-layout.vue'),
     children: [
       {
         name: 'account.portfolio',
