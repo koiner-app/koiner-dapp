@@ -3,15 +3,9 @@
     <q-card class="tabs-card" flat bordered>
       <q-card-section class="q-pt-xs">
         <q-tab-panels v-model="tab" animated>
-          <q-tab-panel name="portfolio">
-            Portfolio
-          </q-tab-panel>
-          <q-tab-panel name="history">
-            History
-          </q-tab-panel>
-          <q-tab-panel name="rewards">
-            Rewards
-          </q-tab-panel>
+          <q-tab-panel name="portfolio"> Portfolio </q-tab-panel>
+          <q-tab-panel name="history"> History </q-tab-panel>
+          <q-tab-panel name="rewards"> Rewards </q-tab-panel>
         </q-tab-panels>
       </q-card-section>
     </q-card>
@@ -37,19 +31,12 @@
 
 <script lang="ts">
 import { defineComponent, ref, Ref } from 'vue';
-import BlockProducersComponent from '../../components/block-production/search/view/block-producers-table.vue';
-import BlockRewardsComponent from '../../components/block-production/search/view/block-rewards-table.vue';
 import { useKoinerStore } from 'stores/koiner';
 import { useStatsStore } from 'stores/stats';
-import BlockProducerStats from '@koiner/network/components/block-production/stats/mobile/block-producer-stats.vue';
 
 export default defineComponent({
   name: 'NetworkIndexPage',
-  components: {
-    BlockProducerStats,
-    BlockRewardsComponent,
-    BlockProducersComponent,
-  },
+  components: {},
 
   setup() {
     const koinerStore = useKoinerStore();
