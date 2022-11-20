@@ -51,7 +51,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch } from 'vue';
+import { defineComponent, onMounted, ref, watch } from 'vue';
 import KoinerLogo from 'components/koiner-logo.vue';
 import SearchDialog from '@koiner/components/search/search-dialog.vue';
 import { useAccountStore } from 'stores/account';
@@ -105,6 +105,12 @@ export default defineComponent({
       },
       { deep: true }
     );
+
+    onMounted(() => {
+      if (width.value >= 1024) {
+        router.push({ name: 'home' });
+      }
+    });
 
     return {
       drawer: ref(false),

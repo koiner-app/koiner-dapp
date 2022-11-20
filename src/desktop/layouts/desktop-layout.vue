@@ -44,7 +44,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch } from 'vue';
+import { defineComponent, onMounted, ref, watch } from 'vue';
 import KoinerLogo from 'components/koiner-logo.vue';
 import MainNavigation from 'src/desktop/components/main-navigation.vue';
 import Ticker from 'src/desktop/components/ticker-component.vue';
@@ -98,6 +98,12 @@ export default defineComponent({
       },
       { deep: true }
     );
+
+    onMounted(() => {
+      if (width.value < 1024) {
+        router.push({ name: 'mobile.home' });
+      }
+    });
 
     return {
       drawer: ref(false),
