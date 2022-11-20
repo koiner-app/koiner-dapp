@@ -6,6 +6,7 @@
           title="Total Rewarded"
           :value="statsStore.blockProduction.rewarded"
           :unit="koinerStore.koinContract.symbol"
+          :decimals="0"
           :token-decimals="koinerStore.koinContract.decimals"
         />
 
@@ -15,6 +16,7 @@
           title="VHP Burned"
           :value="statsStore.blockProduction.burned"
           :unit="koinerStore.vhpContract.symbol"
+          :decimals="0"
           :token-decimals="koinerStore.vhpContract.decimals"
         />
 
