@@ -4,7 +4,7 @@
       :renderers="mergedRenderers"
       :data="data"
       :schema="schema"
-      :uischema="uischema"
+      :uischema="mergedUischema"
       :cells="cells"
       :config="config"
       :uischemas="uischemas"
@@ -30,6 +30,7 @@ import {
 import { useI18n } from 'vue-i18n';
 import { jsonSearchRenderers } from '@appvise/jsonsearch-quasar';
 import { SearchRequestType } from '@appvise/search-manager';
+import { useWindowSize } from '@vueuse/core';
 
 const renderers = [...extendedQuasarRenderers, ...jsonSearchRenderers];
 
@@ -136,6 +137,30 @@ export default defineComponent({
       mergedRenderers = [...mergedRenderers, ...props.additionalRenderers];
     }
 
+    // TODO: Use better way to use default settings for all tables
+    const mergedUischema = ref(props.uischema);
+    const { width } = useWindowSize();
+
+    // Add default settings to enable table fullHeight mode
+    if (
+      mergedUischema.value?.elements[0] &&
+      mergedUischema.value.elements[0].type === 'TableView'
+    ) {
+      if (!mergedUischema.value.elements[0].options) {
+        mergedUischema.value.elements[0].options = {};
+      }
+
+      console.log(mergedUischema.value.elements[0].options.fullHeight);
+      console.log(mergedUischema.value.elements[0].options.fullHeight === undefined);
+      if (mergedUischema.value.elements[0].options.fullHeight === undefined) {
+        mergedUischema.value.elements[0].options.fullHeight = true;
+        // 64 = mobile footer menu
+        // 80 = desktop footer bar + q-page padding
+        mergedUischema.value.elements[0].options.fullHeightMargin =
+          width.value < 1024 ? 64 : 64;
+      }
+    }
+
     return {
       ajv,
       i18n,
@@ -150,6 +175,8 @@ export default defineComponent({
         request: props.request,
         scrollPosition: props.scrollPosition,
       },
+
+      mergedUischema,
     };
   },
 });

@@ -12,7 +12,7 @@
     :loading="fetching"
     virtual-scroll
     flat
-    :style="`height: calc(100vh - ${tableOffsetTop}px);`"
+    :style="fullHeightCss"
     @virtual-scroll="onScroll"
     @request="onRequest"
     :pagination-label="
@@ -150,19 +150,33 @@ export default defineComponent({
       onRequest();
     });
 
+    // Show table in full view height - offset from top - provided margin
+    const fullHeight = ref(false);
+    const fullHeightMargin = ref(0);
+
+    if (uischema?.options?.fullHeight) {
+      fullHeight.value = uischema.options.fullHeight;
+    }
+
+    if (uischema?.options?.fullHeightMargin) {
+      fullHeightMargin.value = uischema.options.fullHeightMargin;
+    }
+
     // Used for calculation height when using vh
     const tableOffsetTop = ref(0);
 
     watch(tableView, (newValue) => {
       if (newValue != null) {
-        tableOffsetTop.value = offset(newValue.$el).top + 66;
+        tableOffsetTop.value =
+          offset(newValue.$el).top + fullHeightMargin.value;
       }
     });
 
     const windowSize = useWindowSize();
 
     watch(windowSize, () => {
-      tableOffsetTop.value = offset(tableView.value.$el).top + 66;
+      tableOffsetTop.value =
+        offset(tableView.value.$el).top + fullHeightMargin.value;
     });
 
     watch(
@@ -201,14 +215,14 @@ export default defineComponent({
       fetching: searchManager.fetching,
 
       // Table
-      tableOffsetTop,
       tableView,
       columns: computed(() => {
         return columns.filter((column) => {
           return (
             column.visible &&
             (!column.screenSize ||
-              (column.screenSize === 'gt-md' && windowSize.width.value > 1439.99) ||
+              (column.screenSize === 'gt-md' &&
+                windowSize.width.value > 1439.99) ||
               (column.screenSize === 'lt-lg' && windowSize.width.value < 1440))
           );
         });
@@ -225,6 +239,13 @@ export default defineComponent({
       onRequest,
       rowKeyName,
       searchOptions,
+      fullHeightCss: computed(() => {
+        if (fullHeight.value) {
+          return `height: calc(100vh - ${tableOffsetTop.value}px);`;
+        }
+
+        return '';
+      }),
 
       // View
       ...quasarSearchView,
