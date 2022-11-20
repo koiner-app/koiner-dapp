@@ -1,43 +1,48 @@
 <template>
   <q-card class="stats-card" flat>
-    <q-card-section horizontal>
-      <q-card-section class="q-pt-xs">
-        <div class="text-overline">{{ computedTitle }}</div>
-        <div class="text-h4">
-          {{ value.toFixed(decimals) }}
-          <span>{{ computedCaption }}</span>
-        </div>
-        <div class="text-caption" v-if="showAddressCount && addressCount > 0">
-          {{ `${addressCount} address${addressCount > 1 ? 'es' : ''}` }}
-          <q-tooltip
-            anchor="bottom start"
-            self="top left"
-            class="bg-primary text-white shadow-4"
-          >
-            <div class="q-pa-sm q-gutter-xs">
-              <div
-                class="row q-gutter-xs"
-                v-for="contractTokenHolder in contractTokenHolders"
-                :key="contractTokenHolder.id"
-              >
-                <div class="col" style="min-width: 220px">
-                  {{ contractTokenHolder.addressId }}
-                </div>
-                <div class="col">
-                  {{
-                    formattedTokenAmount(
-                      contractTokenHolder.balance,
-                      contractTokenHolder.contract.decimals
-                    )
-                  }}
-                  &nbsp;
-                  {{ contractTokenHolder.contract.symbol }}
-                </div>
+    <q-card-section>
+      <div class="stat-title">{{ computedTitle }}</div>
+      <div class="stat-content">
+        {{ value.toFixed(decimals) }}
+        <span class="stat-unit">{{ computedCaption }}</span>
+      </div>
+      <div class="stat-footer" v-if="showAddressCount && addressCount > 0">
+        <span class="stat-footer-stat"
+          >{{ addressCount }}
+          <span class="stat-unit">{{
+            `address${addressCount > 1 ? 'es' : ''}`
+          }}</span>
+        </span>
+        <q-tooltip
+          anchor="bottom start"
+          self="top left"
+          class="bg-primary text-white shadow-4"
+        >
+          <div class="q-pa-sm q-gutter-xs">
+            <div
+              class="row q-gutter-xs"
+              v-for="contractTokenHolder in contractTokenHolders"
+              :key="contractTokenHolder.id"
+            >
+              <div class="col" style="min-width: 220px">
+                {{ contractTokenHolder.addressId }}
+              </div>
+              <div class="col">
+                {{
+                  formattedTokenAmount(
+                    contractTokenHolder.balance,
+                    contractTokenHolder.contract.decimals
+                  )
+                }}
+                &nbsp;
+                <span class="stat-unit">{{
+                  contractTokenHolder.contract.symbol
+                }}</span>
               </div>
             </div>
-          </q-tooltip>
-        </div>
-      </q-card-section>
+          </div>
+        </q-tooltip>
+      </div>
     </q-card-section>
   </q-card>
 </template>
@@ -85,8 +90,8 @@ export default defineComponent({
     decimals: {
       required: false,
       type: Number,
-      default: 0
-    }
+      default: 0,
+    },
   },
   emits: ['calculated'],
 
