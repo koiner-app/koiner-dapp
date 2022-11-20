@@ -150,14 +150,14 @@ export default defineComponent({
         mergedUischema.value.elements[0].options = {};
       }
 
-      console.log(mergedUischema.value.elements[0].options.fullHeight);
-      console.log(mergedUischema.value.elements[0].options.fullHeight === undefined);
-      if (mergedUischema.value.elements[0].options.fullHeight === undefined) {
+      if (
+        mergedUischema.value.elements[0].options.fullHeight === undefined &&
+        width.value >= 1024
+      ) {
         mergedUischema.value.elements[0].options.fullHeight = true;
-        // 64 = mobile footer menu
         // 80 = desktop footer bar + q-page padding
         mergedUischema.value.elements[0].options.fullHeightMargin =
-          width.value < 1024 ? 64 : 64;
+          width.value >= 1440 ? 92 : 64;
       }
     }
 
