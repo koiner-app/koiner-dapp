@@ -7,7 +7,7 @@
     }`"
     :rows-per-page-options="[0]"
     :row-key="rowKeyName"
-    :rows="connection?.edges"
+    :rows="rows"
     :columns="columns"
     :loading="fetching"
     virtual-scroll
@@ -29,12 +29,13 @@
         <slot :name="[`${column.name}`]" :props="props" :result="props.row">
           <dispatch-renderer
             :schema="searchView.schema"
-            :uischema="searchView.uischema.elements[index]"
+            :uischema="searchView.uischema.elements[column.elementIndex]"
             :path="searchView.path"
             :enabled="searchView.enabled"
             :renderers="searchView.renderers"
             :cells="searchView.cells"
             :result="props.row"
+            :index="props.row.rowIndex"
           />
         </slot>
       </q-td>
@@ -43,7 +44,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, watch } from 'vue';
+import { computed, defineComponent, watch } from 'vue';
 import { DispatchRenderer, rendererProps, RendererProps } from '@jsonforms/vue';
 import { useI18n } from 'vue-i18n';
 import { onMounted, ref, unref } from 'vue';
@@ -61,6 +62,7 @@ import {
   SearchOptionsDefaults,
   UISchemaSearchOptions,
 } from '@appvise/jsonforms-search-manager';
+import { useWindowSize } from '@vueuse/core';
 
 export default defineComponent({
   name: 'TableViewRenderer',
@@ -77,18 +79,22 @@ export default defineComponent({
     // @ts-ignore
     const childElements = unref(quasarSearchView.searchView).uischema.elements;
     const columns: {
+      elementIndex: number;
       name: string;
       label: string;
       field: string;
       visible: boolean;
-    }[] = childElements.map((childElement: ControlElement) => {
+      screenSize?: string;
+    }[] = childElements.map((childElement: ControlElement, index: number) => {
       // TODO: Integrate uischema options
       return {
+        elementIndex: index,
         name: childElement.scope.replace('#/properties/', ''),
         label: childElement.label,
         field: childElement.scope.replace('#/properties/', ''),
         align: 'left',
         visible: childElement.options?.visible ?? true,
+        screenSize: childElement.options?.screenSize,
       };
     });
 
@@ -149,8 +155,14 @@ export default defineComponent({
 
     watch(tableView, (newValue) => {
       if (newValue != null) {
-        tableOffsetTop.value = offset(newValue.$el).top;
+        tableOffsetTop.value = offset(newValue.$el).top + 66;
       }
+    });
+
+    const windowSize = useWindowSize();
+
+    watch(windowSize, () => {
+      tableOffsetTop.value = offset(tableView.value.$el).top + 66;
     });
 
     watch(
@@ -191,7 +203,24 @@ export default defineComponent({
       // Table
       tableOffsetTop,
       tableView,
-      columns: columns.filter((column) => column.visible),
+      columns: computed(() => {
+        return columns.filter((column) => {
+          return (
+            column.visible &&
+            (!column.screenSize ||
+              (column.screenSize === 'gt-md' && windowSize.width.value > 1439.99) ||
+              (column.screenSize === 'lt-lg' && windowSize.width.value < 1440))
+          );
+        });
+      }),
+      rows: computed(() => {
+        return searchManager.connection.value?.edges?.map((edge, index) => {
+          return {
+            rowIndex: index,
+            ...edge,
+          };
+        });
+      }),
       onScroll,
       onRequest,
       rowKeyName,

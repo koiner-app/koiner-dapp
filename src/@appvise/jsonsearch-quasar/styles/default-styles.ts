@@ -10,6 +10,7 @@ export const defaultStyles: Styles = {
   attribute: {
     root: 'attribute-root',
     wrapper: 'attribute-wrapper',
+    index: 'index-attribute',
     age: 'age-attribute',
     button: 'button-attribute',
     link: 'link-attribute',

@@ -3,4 +3,7 @@ export interface Options {
   hideRequiredAsterisk?: boolean;
   focus?: boolean;
   step?: number;
+  before?: string;
+  after?: string;
+  class?: string;
 }
