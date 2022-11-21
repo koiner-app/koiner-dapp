@@ -90,7 +90,7 @@ export default defineComponent({
     },
     footerTooltips: {
       required: false,
-      type: [] as PropType<Array<StatItem>>,
+      type: Array as PropType<Array<StatItem>>,
       default: () => [],
     },
     tooltipTitleWidth: {
