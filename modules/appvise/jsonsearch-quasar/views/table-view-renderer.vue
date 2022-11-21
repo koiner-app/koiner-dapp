@@ -172,9 +172,9 @@ export default defineComponent({
       }
     });
 
-    const windowSize = useWindowSize();
+    const { width } = useWindowSize();
 
-    watch(windowSize, () => {
+    watch(width, () => {
       tableOffsetTop.value =
         offset(tableView.value.$el).top + fullHeightMargin.value;
     });
@@ -219,11 +219,19 @@ export default defineComponent({
       columns: computed(() => {
         return columns.filter((column) => {
           return (
-            column.visible &&
-            (!column.screenSize ||
-              (column.screenSize === 'gt-md' &&
-                windowSize.width.value > 1439.99) ||
-              (column.screenSize === 'lt-lg' && windowSize.width.value < 1440))
+            (column.visible &&
+              (!column.screenSize ||
+                (column.screenSize === 'lt-smd' &&
+                  width.value < 600) ||
+                (column.screenSize === 'gt-sm' &&
+                  width.value >= 1024) ||
+                (column.screenSize === 'lt-md' &&
+                  width.value < 1024) ||
+                (column.screenSize === 'gt-md' &&
+                  width.value >= 1440) ||
+                (column.screenSize === 'lt-lg' &&
+                  width.value < 1440))) ||
+            (column.screenSize === 'gt-lg' && width.value >= 1920)
           );
         });
       }),
