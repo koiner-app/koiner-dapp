@@ -6,8 +6,8 @@
           <q-tab
             class="text-overline"
             :ripple="false"
-            label="Transfers"
-            name="token-transfers"
+            label="Token Ops"
+            name="token-operations"
           />
           <q-tab
             class="text-overline"
@@ -20,6 +20,12 @@
             :ripple="false"
             label="Contract Events"
             name="contract-events"
+          />
+          <q-tab
+            class="text-overline"
+            :ripple="false"
+            label="Token Events"
+            name="token-events"
           />
         </q-tabs>
 
@@ -39,6 +45,9 @@
           <q-tab-panel name="contract-events">
             <contract-events-table :addresses="[id]" />
           </q-tab-panel>
+          <q-tab-panel name="token-events">
+            <tokens-events-table :addresses="[id]" />
+          </q-tab-panel>
         </q-tab-panels>
       </q-card-section>
     </q-card>
@@ -51,10 +60,12 @@ import TokensOperationsTable from '@koiner/tokenize/components/operation/search/
 import TransactionsTable from '@koiner/chain/components/transaction/search/view/transactions-table.vue';
 import ContractEventsTable from '@koiner/contracts/components/contract/search/view/contracts-events-table.vue';
 import { useRoute } from 'vue-router';
+import TokensEventsTable from '@koiner/tokenize/components/event/search/view/tokens-events-table.vue';
 
 export default defineComponent({
   name: 'AccountHistoryPage',
   components: {
+    TokensEventsTable,
     ContractEventsTable,
     TransactionsTable,
     TokensOperationsTable,
@@ -75,7 +86,7 @@ export default defineComponent({
       }
     );
 
-    const tokenTab: Ref<string> = ref('token-transfers');
+    const tokenTab: Ref<string> = ref('token-operations');
     const addressFilter: Ref<string[]> = ref([]);
 
     const updateFilter = (newFilter: string[]) => {
