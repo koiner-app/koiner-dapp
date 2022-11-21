@@ -67,7 +67,6 @@
     @on-scroll="onScroll"
     :scroll-position="position"
     :additional-renderers="renderers"
-    class="dashboard-tokens-search"
   />
 </template>
 
@@ -99,6 +98,14 @@ export default defineComponent({
     contractIds: {
       required: false,
       type: Array as PropType<Array<string>>,
+    },
+    parentId: {
+      required: false,
+      type: String,
+    },
+    parentType: {
+      required: false,
+      type: String,
     },
     burnFilter: {
       required: false,
@@ -204,6 +211,13 @@ export default defineComponent({
       if (contractsFilter) {
         searchStore.tokenEvents.request.filter.AND!.push({
           OR: contractsFilter,
+        });
+      }
+
+      if (props.parentId && props.parentType) {
+        searchStore.tokenEvents.request.filter.AND!.push({
+          parentId: { equals: props.parentId },
+          parentType: { equals: props.parentType },
         });
       }
     };

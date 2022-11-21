@@ -91,11 +91,15 @@ export default defineComponent({
       required: false,
       type: Array as PropType<Array<number>>,
     },
+    addresses: {
+      required: false,
+      type: Array as PropType<Array<string>>,
+    },
     contractIds: {
       required: false,
       type: Array as PropType<Array<string>>,
     },
-    addresses: {
+    transactionIds: {
       required: false,
       type: Array as PropType<Array<string>>,
     },
@@ -131,6 +135,7 @@ export default defineComponent({
     let heightsFilter: any;
     let addressFilter: any;
     let contractsFilter: any;
+    let transactionIdsFilter: any;
     const nameFilters: Ref<
       Array<{
         name: { equals: string };
@@ -180,6 +185,14 @@ export default defineComponent({
         });
       }
 
+      if (props.transactionIds && props.transactionIds.length > 0) {
+        transactionIdsFilter = props.transactionIds.map((transactionId) => {
+          return {
+            transactionId: { equals: transactionId },
+          };
+        });
+      }
+
       // Ignore when none or all are selected
       if (nameFilters.value.length === 1 || nameFilters.value.length === 2) {
         searchStore.tokenOperations.request.filter.AND!.push({
@@ -202,6 +215,12 @@ export default defineComponent({
       if (contractsFilter) {
         searchStore.tokenOperations.request.filter.AND!.push({
           OR: contractsFilter,
+        });
+      }
+
+      if (transactionIdsFilter) {
+        searchStore.tokenOperations.request.filter.AND!.push({
+          OR: transactionIdsFilter,
         });
       }
     };

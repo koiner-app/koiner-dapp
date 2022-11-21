@@ -1,7 +1,6 @@
 query TransactionPage($id: ID!) {
   transaction(id: $id) {
     id
-    id
     blockHeight
     operationCount
     header {
@@ -9,6 +8,17 @@ query TransactionPage($id: ID!) {
       nonce
       operationMerkleRoot
       rcLimit
+      payee
+    }
+    receipt {
+      diskStorageUsed
+      networkBandwidthUsed
+      computeBandwidthUsed
+      eventCount
+      rcLimit
+      rcUsed
+      maxPayerRc
+      reverted
     }
     index
     signatures
