@@ -1,5 +1,6 @@
 <template>
-  <div class="text-grey-8 q-gutter-xs attribute-group">
+  <div :class="`text-grey-8 q-gutter-xs attribute-group ${customClass}`">
+    <span v-if="before" class="before-attribute-group">{{ before }}</span>
     <dispatch-renderer
       v-for="(attribute, index) in control.uischema.elements"
       :key="`${control.path}-attribute-${index}`"
@@ -11,11 +12,12 @@
       :cells="control.cells"
       :result="result"
     />
+    <span v-if="after" class="after-attribute-group">{{ after }}</span>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue';
+import { computed, defineComponent, PropType } from 'vue';
 import { DispatchRenderer, RendererProps, rendererProps } from '@jsonforms/vue';
 import {
   AttributeElement,
@@ -36,7 +38,20 @@ export default defineComponent({
     },
   },
   setup(props: RendererProps<AttributeElement>) {
-    return useQuasarAttribute(useJsonAttribute(props));
+    const attribute = useQuasarAttribute(useJsonAttribute(props));
+    return {
+      control: attribute.control,
+
+      customClass: computed(() => {
+        return attribute.control.value?.uischema?.options?.class ?? '';
+      }),
+      before: computed(() => {
+        return attribute.control.value?.uischema?.options?.before;
+      }),
+      after: computed(() => {
+        return attribute.control.value?.uischema?.options?.after;
+      }),
+    };
   },
 });
 </script>
