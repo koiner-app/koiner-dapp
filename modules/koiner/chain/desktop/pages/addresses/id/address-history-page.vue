@@ -1,21 +1,6 @@
 <template>
-  <q-page
-    v-if="id"
-    class="row items-start"
-  >
-    <q-card class="stats-cards" flat bordered>
-      <q-card-section horizontal>
-        <counter-metric title="Transactions" :value="0" />
-        <q-separator vertical />
-        <counter-metric title="Transfers" :value="0" />
-        <q-separator vertical />
-        <counter-metric title="Mana spent" :value="0" />
-        <q-separator vertical />
-        <counter-metric title="Contract Operations" :value="0" />
-      </q-card-section>
-    </q-card>
-
-    <q-card class="tabs-card" flat bordered>
+  <q-page v-if="id" class="row items-start">
+    <q-card class="tabs-card" flat bordered style="max-width: 100%">
       <q-card-section class="q-pt-xs">
         <q-tabs v-model="tokenTab" dense align="left" style="width: 100%">
           <q-tab
@@ -57,16 +42,6 @@
         </q-tab-panels>
       </q-card-section>
     </q-card>
-
-    <q-card class="search-card" flat bordered>
-      <q-card-section>
-        <div class="text-overline">...</div>
-
-        <div class="search-card-content">
-          <br />
-        </div>
-      </q-card-section>
-    </q-card>
   </q-page>
 </template>
 
@@ -76,12 +51,10 @@ import TokensOperationsTable from '@koiner/tokenize/components/operation/search/
 import TransactionsTable from '@koiner/chain/components/transaction/search/view/transactions-table.vue';
 import ContractEventsTable from '@koiner/contracts/components/contract/search/view/contracts-events-table.vue';
 import { useRoute } from 'vue-router';
-import CounterMetric from '@koiner/components/metrics/counter-metric.vue';
 
 export default defineComponent({
   name: 'AccountHistoryPage',
   components: {
-    CounterMetric,
     ContractEventsTable,
     TransactionsTable,
     TokensOperationsTable,

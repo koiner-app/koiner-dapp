@@ -1,7 +1,5 @@
 <template>
-  <q-page
-    class="row items-start"
-  >
+  <q-page class="row items-start">
     <q-card class="stats-cards" flat bordered>
       <q-card-section horizontal>
         <token-holder-balances-metric
@@ -31,16 +29,11 @@
           @calculated="updateTotalVirtualKoin"
         />
         <q-separator vertical />
-        <counter-metric
-          title="Burned"
-          :value="burned"
-          :decimals="2"
-          unit="%"
-        />
+        <counter-metric title="Burned" :value="burned" :decimals="2" unit="%" />
       </q-card-section>
     </q-card>
 
-    <q-card class="tabs-card" flat bordered>
+    <q-card class="tabs-card" flat bordered style="max-width: 100%">
       <q-card-section class="q-pt-xs">
         <div class="text-overline">Portfolio</div>
 
@@ -50,16 +43,6 @@
           :show-address="false"
           @change="updateTokenHolders"
         />
-      </q-card-section>
-    </q-card>
-
-    <q-card class="search-card" flat bordered>
-      <q-card-section>
-        <div class="text-overline">...</div>
-
-        <div class="search-card-content">
-          <br />
-        </div>
       </q-card-section>
     </q-card>
   </q-page>
