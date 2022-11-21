@@ -6,24 +6,7 @@
     </div>
 
     <div class="topbar-navigation">
-      <q-tabs dense align="justify" class="lt-md">
-        <q-route-tab :ripple="false" label="Tokens" to="/tokens" exact />
-        <q-route-tab
-          :ripple="false"
-          label="Operations"
-          to="/tokens/operations"
-          exact
-        />
-        <q-route-tab :ripple="false" label="Events" to="/tokens/events" exact />
-      </q-tabs>
-
-      <q-tabs dense align="left" class="gt-sm">
-        <q-route-tab
-          :ripple="false"
-          label="Overview"
-          to="/tokenize"
-          exact
-        />
+      <q-tabs dense align="left">
         <q-route-tab :ripple="false" label="Tokens" to="/tokens" exact />
         <q-route-tab
           :ripple="false"

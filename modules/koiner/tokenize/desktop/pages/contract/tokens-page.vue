@@ -1,5 +1,21 @@
 <template>
   <q-page class="row items-baseline justify-evenly">
+    <q-card class="stats-cards" flat bordered>
+      <q-card-section horizontal>
+        <counter-metric
+          title="Tokens"
+          :value="statsStore.tokenStats.contractCount"
+        />
+
+        <q-separator vertical />
+
+        <counter-metric
+          title="Transfers"
+          :value="statsStore.tokenStats.transferCount"
+        />
+      </q-card-section>
+    </q-card>
+
     <q-card class="table-card shadow-1">
       <q-card-section>
         <token-contracts-table title="Tokens" />
@@ -15,12 +31,15 @@ import { KoinerRenderers } from '@koiner/renderers';
 import tokenContractsSearchSchema from '../../../components/contract/search/token-contracts-search.schema.json';
 import tokenContractsSearchUiSchema from '../../../components/contract/search/view/token-contracts-table.ui-schema.json';
 import TokenContractsTable from '../../../components/contract/search/view/token-contracts-table.vue';
+import CounterMetric from '@koiner/components/metrics/counter-metric.vue';
+import { useStatsStore } from 'stores/stats';
 
 export default defineComponent({
   name: 'TokenContractsIndexPage',
-  components: { TokenContractsTable },
+  components: { CounterMetric, TokenContractsTable },
 
   setup() {
+    const statsStore = useStatsStore();
     const searchStore = useSearchStore();
 
     const onScroll = (newScrollPosition: number) => {
@@ -28,6 +47,7 @@ export default defineComponent({
     };
 
     return {
+      statsStore,
       onScroll,
       schema: tokenContractsSearchSchema,
       uiSchema: tokenContractsSearchUiSchema,

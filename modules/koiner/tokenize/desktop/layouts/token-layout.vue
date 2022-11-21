@@ -4,7 +4,7 @@
     <div class="topbar-header">
       <span class="selected-item"
         >{{ tokenContract.name
-        }}<q-chip>{{ tokenContract.symbol }}</q-chip></span
+        }}<q-chip xs>{{ tokenContract.symbol }}</q-chip></span
       >
       <bookmark-component
         :item="{ ...tokenContract, type: 'token' }"

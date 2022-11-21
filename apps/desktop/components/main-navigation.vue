@@ -94,8 +94,8 @@ export default defineComponent({
           disabled: false,
         },
         {
-          name: 'Tokenize',
-          to: '/tokenize',
+          name: 'Tokens',
+          to: '/tokens',
           icon: 'toll',
           disabled: false,
         },
