@@ -95,7 +95,7 @@ import CounterMetric from '@koiner/components/metrics/counter-metric.vue';
 import TokensOperationsTable from '../../../../components/operation/search/view/tokens-operations-table.vue';
 import TokensEventsTable from '../../../../components/event/search/view/tokens-events-table.vue';
 import { ItemState } from '@appvise/search-manager';
-import { TokenContract, useTokenLayoutQuery } from '@koiner/sdk';
+import { TokenContract, useTokenDesktopLayoutQuery } from '@koiner/sdk';
 import { useRoute } from 'vue-router';
 import TokenHoldersTable from '@koiner/tokenize/components/holder/search/view/token-holders-table.vue';
 
@@ -120,7 +120,7 @@ export default defineComponent({
     const route = useRoute();
 
     const executeQuery = () => {
-      const { data, fetching, error, isPaused } = useTokenLayoutQuery({
+      const { data, fetching, error, isPaused } = useTokenDesktopLayoutQuery({
         variables,
       });
 
