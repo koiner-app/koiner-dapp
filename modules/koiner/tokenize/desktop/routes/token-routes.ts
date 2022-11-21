@@ -3,7 +3,7 @@ import { RouteRecordRaw } from 'vue-router';
 export const tokenContractRoutes: RouteRecordRaw[] = [
   {
     path: '/tokens/:id',
-    component: () => import('../layouts/token-layout.vue'),
+    component: () => import('../layouts/token-desktop-layout.vue'),
     children: [
       {
         name: 'token',

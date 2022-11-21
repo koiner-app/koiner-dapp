@@ -1995,11 +1995,11 @@ export type TokenOperationsSearchQuery = {
   };
 };
 
-export type TokenLayoutQueryVariables = Exact<{
+export type TokenDesktopLayoutQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
-export type TokenLayoutQuery = {
+export type TokenDesktopLayoutQuery = {
   __typename?: 'Query';
   tokenContract: {
     __typename?: 'TokenContract';
@@ -2902,8 +2902,8 @@ export function useTokenOperationsSearchQuery(
     ...options,
   });
 }
-export const TokenLayoutDocument = gql`
-  query TokenLayout($id: ID!) {
+export const TokenDesktopLayoutDocument = gql`
+  query TokenDesktopLayout($id: ID!) {
     tokenContract(id: $id) {
       id
       name
@@ -2920,14 +2920,14 @@ export const TokenLayoutDocument = gql`
   }
 `;
 
-export function useTokenLayoutQuery(
+export function useTokenDesktopLayoutQuery(
   options: Omit<
-    Urql.UseQueryArgs<never, TokenLayoutQueryVariables>,
+    Urql.UseQueryArgs<never, TokenDesktopLayoutQueryVariables>,
     'query'
   > = {}
 ) {
-  return Urql.useQuery<TokenLayoutQuery>({
-    query: TokenLayoutDocument,
+  return Urql.useQuery<TokenDesktopLayoutQuery>({
+    query: TokenDesktopLayoutDocument,
     ...options,
   });
 }

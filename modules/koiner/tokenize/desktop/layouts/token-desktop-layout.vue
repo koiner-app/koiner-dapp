@@ -49,9 +49,10 @@
 <script lang="ts">
 import { defineComponent, onMounted, Ref, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
-import { TokenContract, useTokenLayoutQuery } from '@koiner/sdk';
+import { TokenContract } from '@koiner/sdk';
 import BookmarkComponent from '@koiner/bookmarks/components/bookmark-component.vue';
 import { ItemState } from '@appvise/search-manager';
+import { useTokenDesktopLayoutQuery } from '@koiner/sdk';
 
 export default defineComponent({
   name: 'TokenLayout',
@@ -62,7 +63,7 @@ export default defineComponent({
     const route = useRoute();
 
     const executeQuery = () => {
-      const { data, fetching, error, isPaused } = useTokenLayoutQuery({
+      const { data, fetching, error, isPaused } = useTokenDesktopLayoutQuery({
         variables,
       });
 
