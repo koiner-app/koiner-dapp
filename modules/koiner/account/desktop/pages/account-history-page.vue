@@ -9,8 +9,8 @@
           <q-tab
             class="text-overline"
             :ripple="false"
-            label="Transfers"
-            name="token-transfers"
+            label="Token Ops"
+            name="token-operations"
           />
           <q-tab
             class="text-overline"
@@ -24,17 +24,21 @@
             label="Contract Events"
             name="contract-events"
           />
+          <q-tab
+            class="text-overline"
+            :ripple="false"
+            label="Token Events"
+            name="token-events"
+          />
         </q-tabs>
 
         <q-separator />
 
         <q-tab-panels v-model="tokenTab" animated>
-          <q-tab-panel name="token-transfers">
+          <q-tab-panel name="token-operations">
             <tokens-operations-table
               v-if="accountStore.addressesFilter.length > 0"
               :addresses="accountStore.addressesFilter"
-              :burn-filter="false"
-              :mint-filter="false"
             />
           </q-tab-panel>
           <q-tab-panel name="transactions">
@@ -48,6 +52,9 @@
               v-if="accountStore.addressesFilter.length > 0"
               :addresses="accountStore.addressesFilter"
             />
+          </q-tab-panel>
+          <q-tab-panel name="token-events">
+            <tokens-events-table :addresses="accountStore.addressesFilter" />
           </q-tab-panel>
         </q-tab-panels>
       </q-card-section>
@@ -72,10 +79,12 @@ import TransactionsTable from '@koiner/chain/components/transaction/search/view/
 import AccountAddressesFilter from '@koiner/chain/components/address/account-addresses-filter.vue';
 import ContractEventsTable from '@koiner/contracts/components/contract/search/view/contracts-events-table.vue';
 import { useAccountStore } from 'stores/account';
+import TokensEventsTable from '@koiner/tokenize/components/event/search/view/tokens-events-table.vue';
 
 export default defineComponent({
   name: 'AccountHistoryPage',
   components: {
+    TokensEventsTable,
     ContractEventsTable,
     AccountAddressesFilter,
     TransactionsTable,
@@ -84,7 +93,7 @@ export default defineComponent({
 
   setup() {
     const accountStore = useAccountStore();
-    const tokenTab: Ref<string> = ref('token-transfers');
+    const tokenTab: Ref<string> = ref('token-operations');
 
     return {
       accountStore,
