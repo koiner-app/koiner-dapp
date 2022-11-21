@@ -101,7 +101,7 @@ export default defineComponent({
         },
         {
           name: 'Contracts',
-          to: '/contracts/overview',
+          to: '/contracts',
           icon: 'document_scanner',
           disabled: false,
         },

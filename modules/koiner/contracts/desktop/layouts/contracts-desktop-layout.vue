@@ -6,29 +6,7 @@
     </div>
 
     <div class="topbar-navigation">
-      <q-tabs dense align="justify" class="lt-md">
-        <q-route-tab :ripple="false" label="Contracts" to="/contracts" exact />
-        <q-route-tab
-          :ripple="false"
-          label="Events"
-          :to="{ name: 'contracts.events' }"
-          exact
-        />
-        <q-route-tab
-          :ripple="false"
-          label="Operations"
-          :to="{ name: 'contracts.operations' }"
-          exact
-        />
-      </q-tabs>
-
-      <q-tabs dense align="left" class="gt-sm">
-        <q-route-tab
-          :ripple="false"
-          label="Overview"
-          to="/contracts/overview"
-          exact
-        />
+      <q-tabs dense align="left">
         <q-route-tab :ripple="false" label="Contracts" to="/contracts" exact />
         <q-route-tab
           :ripple="false"
