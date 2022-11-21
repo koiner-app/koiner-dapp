@@ -6,7 +6,7 @@
 
     <search-filters
       :request="request"
-      search-placeholder="Search by transaction id or payer"
+      search-info="Search by transaction id or payer"
     />
   </div>
 

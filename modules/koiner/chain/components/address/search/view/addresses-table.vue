@@ -5,7 +5,7 @@
     <search-filters
       v-if="showFilters"
       :request="request"
-      search-placeholder="Search by Address Id"
+      search-info="Search by Address Id"
     />
   </div>
 

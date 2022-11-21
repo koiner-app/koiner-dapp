@@ -3,7 +3,7 @@
     <q-input
       outlined
       v-model="search"
-      placeholder="Search"
+      :placeholder="searchPlaceholder"
       class="col-grow wildcard-search"
       dense
     >
@@ -20,14 +20,14 @@
         />
         <q-icon name="info" size="15px" color="grey" style="opacity: 0.75" />
         <q-tooltip
-          v-if="searchPlaceholder"
+          v-if="searchInfo"
           top
           nudge-right="54"
           close-delay="25"
           z-index="98"
           transition="hide-on-leave"
         >
-          <span>{{ searchPlaceholder }}</span>
+          <span>{{ searchInfo }}</span>
         </q-tooltip>
       </template>
     </q-input>
@@ -50,6 +50,11 @@ export default defineComponent({
       required: true,
     },
     searchPlaceholder: {
+      type: String,
+      required: false,
+      default: 'Search'
+    },
+    searchInfo: {
       type: String,
       required: false,
     },

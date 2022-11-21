@@ -7,7 +7,7 @@
     <search-filters
       class="token-contracts-filters"
       :request="request"
-      search-placeholder="Search token name, symbol or contract id"
+      search-info="Search token name, symbol or contract id"
     />
   </div>
 

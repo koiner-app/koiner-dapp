@@ -6,7 +6,7 @@
 
     <search-filters
       :request="request"
-      search-placeholder="Search by event id, parent (block id or transaction id), contract id, name or impacted addresses"
+      search-info="Search by event id, parent (block id or transaction id), contract id, name or impacted addresses"
     />
   </div>
 

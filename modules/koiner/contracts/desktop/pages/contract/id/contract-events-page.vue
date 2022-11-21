@@ -7,7 +7,7 @@
           <q-space />
           <search-filters
             :request="request"
-            search-placeholder="Search by event id"
+            search-info="Search by event id"
           />
         </div>
 

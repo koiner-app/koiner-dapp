@@ -55,7 +55,7 @@
 
     <search-filters
       :request="request"
-      search-placeholder="Search by block id or transaction id, contract id or impacted addresses"
+      search-info="Search by block id or transaction id, contract id or impacted addresses"
     />
   </div>
 

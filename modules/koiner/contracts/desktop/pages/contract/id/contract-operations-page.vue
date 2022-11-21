@@ -7,7 +7,7 @@
           <q-space />
           <search-filters
             :request="request"
-            search-placeholder="Search by operation id"
+            search-info="Search by operation id"
           />
         </div>
 

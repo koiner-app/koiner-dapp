@@ -6,7 +6,7 @@
 
     <search-filters
       :request="request"
-      search-placeholder="Search by address id"
+      search-info="Search by address id"
     />
   </div>
 
@@ -20,14 +20,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, PropType, ref, Ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { defineComponent } from 'vue';
 import { KoinerRenderers } from '@koiner/renderers';
 import SearchFilters from '@appvise/search-manager/search-filters.vue';
 import QJsonSearch from '@appvise/q-json-forms/QJsonSearch.vue';
 import tokenHoldersSearchSchema from '../token-holders-search.schema.json';
 import tokenHoldersSearchUiSchema from './token-holders-table.ui-schema.json';
-import { QueryTokenHoldersArgs } from '@koiner/sdk';
 
 export default defineComponent({
   name: 'TokenHoldersTable',
