@@ -6,7 +6,7 @@
     </div>
 
     <div class="topbar-navigation">
-      <q-tabs dense align="justify" class="lt-md">
+      <q-tabs dense align="left">
         <q-route-tab :ripple="false" label="Blocks" to="/blocks" exact />
         <q-route-tab
           :ripple="false"
@@ -29,36 +29,6 @@
         <q-route-tab :ripple="false" label="Accounts" to="/addresses" exact />
       </q-tabs>
 
-      <q-tabs dense align="left" class="gt-sm">
-        <q-route-tab :ripple="false" label="Blocks" to="/blocks" exact />
-        <q-route-tab
-          :ripple="false"
-          label="Transactions"
-          to="/transactions"
-          exact
-        />
-        <q-route-tab
-          :ripple="false"
-          label="Events"
-          to="/events"
-          exact
-        />
-        <q-route-tab
-          :ripple="false"
-          label="Operations"
-          to="/operations"
-          exact
-        />
-        <q-route-tab :ripple="false" label="Accounts" to="/addresses" exact />
-        <q-route-tab
-          :ripple="false"
-          label="Claims"
-          to="/claims"
-          exact
-          disabled
-        />
-
-      </q-tabs>
     </div>
   </div>
 
@@ -66,26 +36,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, Ref, ref } from 'vue';
-import { useAccountStore } from 'stores/account';
-import { useRoute } from 'vue-router';
+import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'ChainLayout',
-  components: {},
-  setup() {
-    let id: Ref<string | string[] | undefined> = ref();
-    const route = useRoute();
-    const account = useAccountStore();
-
-    onMounted(async () => {
-      id.value = route.params.id;
-    });
-
-    return {
-      id,
-      account,
-    };
-  },
 });
 </script>
