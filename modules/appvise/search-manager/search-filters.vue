@@ -3,12 +3,32 @@
     <q-input
       outlined
       v-model="search"
-      :placeholder="searchPlaceholder"
+      placeholder="Search"
       class="col-grow wildcard-search"
       dense
     >
       <template v-slot:prepend>
         <q-icon name="search" size="xs" />
+      </template>
+      <template v-slot:append>
+        <q-icon
+          v-if="search?.length > 0"
+          @click="search = ''"
+          name="close"
+          size="18px"
+          color="#333"
+        />
+        <q-icon name="info" size="15px" color="grey" style="opacity: 0.75" />
+        <q-tooltip
+          v-if="searchPlaceholder"
+          top
+          nudge-right="54"
+          close-delay="25"
+          z-index="98"
+          transition="hide-on-leave"
+        >
+          <span>{{ searchPlaceholder }}</span>
+        </q-tooltip>
       </template>
     </q-input>
     <!--    <q-btn flat icon="filter_list" label="Filter"></q-btn>-->
@@ -32,7 +52,6 @@ export default defineComponent({
     searchPlaceholder: {
       type: String,
       required: false,
-      default: 'Search',
     },
   },
 
@@ -74,7 +93,7 @@ export default defineComponent({
 <style lang="scss">
 .wildcard-search {
   border: 0;
-  width: 102px !important;
+  width: 120px !important;
   max-width: 100%;
 
   &.q-field--dense .q-field__control,
