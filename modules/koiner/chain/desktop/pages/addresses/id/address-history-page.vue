@@ -2,7 +2,7 @@
   <q-page v-if="id" class="row items-start">
     <q-card class="tabs-card" flat bordered style="max-width: 100%">
       <q-card-section class="q-pt-xs">
-        <q-tabs v-model="tokenTab" dense align="left" style="width: 100%">
+        <q-tabs v-model="tab" dense align="left" style="width: 100%">
           <q-tab
             class="text-overline"
             :ripple="false"
@@ -31,13 +31,9 @@
 
         <q-separator />
 
-        <q-tab-panels v-model="tokenTab" animated>
-          <q-tab-panel name="token-transfers">
-            <tokens-operations-table
-              :addresses="[id]"
-              :burn-filter="false"
-              :mint-filter="false"
-            />
+        <q-tab-panels v-model="tab" animated>
+          <q-tab-panel name="token-operations">
+            <tokens-operations-table :addresses="[id]" />
           </q-tab-panel>
           <q-tab-panel name="transactions">
             <transactions-table :addresses="[id]" />
@@ -86,7 +82,7 @@ export default defineComponent({
       }
     );
 
-    const tokenTab: Ref<string> = ref('token-operations');
+    const tab: Ref<string> = ref('token-operations');
     const addressFilter: Ref<string[]> = ref([]);
 
     const updateFilter = (newFilter: string[]) => {
@@ -95,7 +91,7 @@ export default defineComponent({
 
     return {
       id,
-      tokenTab,
+      tab,
       addressFilter,
       updateFilter,
     };

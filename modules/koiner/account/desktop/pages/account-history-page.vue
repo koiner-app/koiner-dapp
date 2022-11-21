@@ -5,7 +5,7 @@
   >
     <q-card class="tabs-card" flat bordered>
       <q-card-section class="q-pt-xs">
-        <q-tabs v-model="tokenTab" dense align="left" style="width: 100%">
+        <q-tabs v-model="tab" dense align="left" style="width: 100%">
           <q-tab
             class="text-overline"
             :ripple="false"
@@ -34,7 +34,7 @@
 
         <q-separator />
 
-        <q-tab-panels v-model="tokenTab" animated>
+        <q-tab-panels v-model="tab" animated>
           <q-tab-panel name="token-operations">
             <tokens-operations-table
               v-if="accountStore.addressesFilter.length > 0"
@@ -93,11 +93,11 @@ export default defineComponent({
 
   setup() {
     const accountStore = useAccountStore();
-    const tokenTab: Ref<string> = ref('token-operations');
+    const tab: Ref<string> = ref('token-operations');
 
     return {
       accountStore,
-      tokenTab,
+      tab,
     };
   },
 });
