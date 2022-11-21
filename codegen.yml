@@ -1,7 +1,10 @@
 schema: ./schema.graphql
-documents: ./src/**/*.graphql
+documents:
+  - ./apps/**/*.graphql
+  - ./modules/**/*.graphql
+  - ./src/**/*.graphql
 generates:
-  ./src/@koiner/sdk/index.ts:
+  ./modules/koiner/sdk/index.ts:
     plugins:
       - typescript
       - typescript-operations
