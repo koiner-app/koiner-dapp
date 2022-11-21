@@ -3,18 +3,6 @@
     v-if="accountStore.addressesFilter.length > 0"
     class="row items-start"
   >
-    <q-card class="stats-cards" flat bordered>
-      <q-card-section horizontal>
-        <counter-metric title="Transactions" :value="0" />
-        <q-separator vertical />
-        <counter-metric title="Transfers" :value="0" />
-        <q-separator vertical />
-        <counter-metric title="Mana spent" :value="0" />
-        <q-separator vertical />
-        <counter-metric title="Contract Operations" :value="0" />
-      </q-card-section>
-    </q-card>
-
     <q-card class="tabs-card" flat bordered>
       <q-card-section class="q-pt-xs">
         <q-tabs v-model="tokenTab" dense align="left" style="width: 100%">
@@ -83,13 +71,11 @@ import TokensOperationsTable from '@koiner/tokenize/components/operation/search/
 import TransactionsTable from '@koiner/chain/components/transaction/search/view/transactions-table.vue';
 import AccountAddressesFilter from '@koiner/chain/components/address/account-addresses-filter.vue';
 import ContractEventsTable from '@koiner/contracts/components/contract/search/view/contracts-events-table.vue';
-import CounterMetric from '@koiner/components/metrics/counter-metric.vue';
 import { useAccountStore } from 'stores/account';
 
 export default defineComponent({
   name: 'AccountHistoryPage',
   components: {
-    CounterMetric,
     ContractEventsTable,
     AccountAddressesFilter,
     TransactionsTable,
