@@ -1,14 +1,4 @@
 <template>
-  <hotkey-navigator
-    v-if="height"
-    :current="height.toString()"
-    :back="backLink"
-    :previous="previousLink"
-    :next="nextLink"
-    :previous-tab="previousTab"
-    :next-tab="nextTab"
-  />
-
   <div class="koiner-topbar fixed-top" v-if="height">
     <q-icon class="topbar-icon" name="account_balance_wallet"></q-icon>
     <div class="topbar-header">
@@ -17,6 +7,16 @@
       <bookmark-component
         :item="{ id: height.toString(), type: 'block' }"
         item-translation="koiner.chain.item.block"
+      />
+
+      <hotkey-navigator
+        v-if="height && false"
+        :current="height.toString()"
+        :back="backLink"
+        :previous="previousLink"
+        :next="nextLink"
+        :previous-tab="previousTab"
+        :next-tab="nextTab"
       />
     </div>
 

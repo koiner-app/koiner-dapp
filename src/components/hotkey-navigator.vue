@@ -1,27 +1,20 @@
 <template>
-  <q-page-sticky
-    style="z-index: 9999"
-    position="top-left"
-    :offset="[20, -34]"
-    class="hotkeys"
-  >
-    <q-btn
-      v-if="previous"
-      :to="previous"
-      size="xs"
-      color="secondary"
-      icon="navigate_before"
-      :class="Control && ArrowLeft ? 'q-btn--active' : ''"
-    />
-    <q-btn
-      v-if="next"
-      :to="next"
-      size="xs"
-      color="secondary"
-      icon="navigate_next"
-      :class="Control && ArrowLeft ? 'q-btn--active' : ''"
-    />
-  </q-page-sticky>
+  <q-btn
+    v-if="previous"
+    :to="previous"
+    size="xs"
+    color="secondary"
+    icon="navigate_before"
+    :class="Control && ArrowLeft ? 'q-btn--active' : ''"
+  />
+  <q-btn
+    v-if="next"
+    :to="next"
+    size="xs"
+    color="secondary"
+    icon="navigate_next"
+    :class="Control && ArrowLeft ? 'q-btn--active' : ''"
+  />
 </template>
 <script lang="ts">
 import { defineComponent, PropType, watchEffect } from 'vue';
