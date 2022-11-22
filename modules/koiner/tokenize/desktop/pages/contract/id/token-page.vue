@@ -60,8 +60,6 @@
           <q-tab-panel name="token-operations">
             <tokens-operations-table
               :contract-ids="[id]"
-              :burn-filter="false"
-              :mint-filter="false"
               :show-token-field="false"
             />
           </q-tab-panel>
