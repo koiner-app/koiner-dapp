@@ -18,7 +18,13 @@
           size="18px"
           color="#333"
         />
-        <q-icon name="info" size="15px" color="grey" style="opacity: 0.75" />
+        <q-icon
+          v-if="searchInfo"
+          name="info"
+          size="15px"
+          color="grey"
+          style="opacity: 0.75"
+        />
         <q-tooltip
           v-if="searchInfo"
           top
@@ -52,7 +58,7 @@ export default defineComponent({
     searchPlaceholder: {
       type: String,
       required: false,
-      default: 'Search'
+      default: 'Search',
     },
     searchInfo: {
       type: String,
