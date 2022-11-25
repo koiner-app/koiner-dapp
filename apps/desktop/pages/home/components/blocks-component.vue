@@ -4,7 +4,7 @@
 
     <search-filters
       :request="request"
-      search-placeholder="Search by block id or signer"
+      search-info="Search by block id or signer"
     />
   </div>
 
