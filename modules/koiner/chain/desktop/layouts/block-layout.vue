@@ -43,7 +43,7 @@ import HotkeyNavigator from 'src/components/hotkey-navigator.vue';
 import BookmarkComponent from '@koiner/bookmarks/components/bookmark-component.vue';
 
 export default defineComponent({
-  name: 'AddressLayout',
+  name: 'BlockLayout',
   components: { BookmarkComponent, HotkeyNavigator },
   setup() {
     const tabs = ['block', 'block.transactions', 'block.operations'];
