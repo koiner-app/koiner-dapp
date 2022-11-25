@@ -2,22 +2,7 @@
   <q-page class="row items-baseline justify-evenly">
     <q-card class="table-card shadow-1">
       <q-card-section>
-        <div class="row no-wrap items-center">
-          <div class="text-h6">Operations</div>
-          <q-space />
-          <search-filters
-            :request="request"
-            search-info="Search by operation id"
-          />
-        </div>
-
-        <q-json-search
-          :schema="schema"
-          :uischema="uiSchema"
-          :request="request"
-          :data="{}"
-          :additional-renderers="renderers"
-        />
+        <contract-operations-table title="Operations" :contract-ids="[id]" />
       </q-card-section>
     </q-card>
   </q-page>
@@ -26,34 +11,22 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref, Ref } from 'vue';
 import { useRoute } from 'vue-router';
-import { KoinerRenderers } from '@koiner/renderers';
-import SearchFilters from '@appvise/search-manager/search-filters.vue';
-import QJsonSearch from '@appvise/q-json-forms/QJsonSearch.vue';
-import operationsSearchSchema from '../../../../components/contract/search/contract-operations-search.schema.json';
-import operationsSearchUiSchema from '../../../../components/contract/search/view/contract-operations-table.ui-schema.json';
-import { QueryContractOperationsArgs } from '@koiner/sdk';
+import ContractOperationsTable from '../../../../components/contract/search/view/contracts-operations-table.vue';
 
 export default defineComponent({
   name: 'ContractOperationsPage',
-  components: { SearchFilters, QJsonSearch },
+  components: {ContractOperationsTable },
 
   setup() {
-    let request: Ref<QueryContractOperationsArgs> = ref({ filter: {} });
     let id: Ref<string | undefined> = ref();
     const route = useRoute();
 
     onMounted(async () => {
       id.value = route.params.id.toString();
-      request.value.filter = {
-        contractId: { equals: id.value },
-      };
     });
 
     return {
-      schema: operationsSearchSchema,
-      uiSchema: operationsSearchUiSchema,
-      request: request,
-      renderers: KoinerRenderers,
+      id,
     };
   },
 });

@@ -4,7 +4,7 @@
     <q-space />
     <search-filters
       :request="request"
-      search-info="Search by event id or contract id"
+      search-info="Search by event name, id or contract id"
     />
   </div>
 
@@ -40,11 +40,16 @@ export default defineComponent({
       required: false,
       type: Array as PropType<Array<string>>,
     },
+    contractIds: {
+      required: true,
+      type: Array as PropType<Array<string>>,
+    },
   },
 
   setup(props) {
     const searchStore = useSearchStore();
     let addressFilter: any;
+    let contractsFilter: any;
 
     const onScroll = (newScrollPosition: number) => {
       searchStore.contractEvents.position = newScrollPosition;
@@ -65,9 +70,23 @@ export default defineComponent({
         });
       }
 
+      if (props.contractIds && props.contractIds.length > 0) {
+        contractsFilter = props.contractIds.map((contractId) => {
+          return {
+            contractId: { equals: contractId },
+          };
+        });
+      }
+
       if (addressFilter) {
         searchStore.contractEvents.request.filter.AND!.push({
           OR: addressFilter,
+        });
+      }
+
+      if (contractsFilter) {
+        searchStore.contractEvents.request.filter.AND!.push({
+          OR: contractsFilter,
         });
       }
     };
