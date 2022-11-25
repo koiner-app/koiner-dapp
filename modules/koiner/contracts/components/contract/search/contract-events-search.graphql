@@ -21,6 +21,7 @@ query ContractEventsSearch(
         contractStandardType
         impacted
         name
+        decodedData
         parentType
         parentId
         timestamp

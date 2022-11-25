@@ -22,6 +22,11 @@
           "type": "Attribute",
           "label": "Name",
           "scope": "#/properties/name"
+        },
+        {
+          "type": "Attribute",
+          "label": "Data",
+          "scope": "#/properties/decodedData"
         }
       ]
     }

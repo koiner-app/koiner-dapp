@@ -4,6 +4,12 @@
     "id": {
       "type": "string"
     },
+    "name": {
+      "type": "string"
+    },
+    "data": {
+      "type": "string"
+    },
     "transactionId": {
       "type": "string"
     },

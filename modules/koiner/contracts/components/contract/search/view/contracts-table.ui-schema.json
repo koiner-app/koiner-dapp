@@ -14,7 +14,7 @@
           "label": "Contract Hash",
           "scope": "#/properties/id",
           "options": {
-            "route": "contract",
+            "route": "contract.operations",
             "format": "link",
             "linkParams": ["id"],
             "mappings": {

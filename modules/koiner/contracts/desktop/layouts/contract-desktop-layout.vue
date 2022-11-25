@@ -14,20 +14,14 @@
       <q-tabs dense align="left" style="width: 100%">
         <q-route-tab
           :ripple="false"
-          label="Overview"
-          :to="{ name: 'contract', params: { id } }"
+          label="Operations"
+          :to="{ name: 'contract.operations', params: { id } }"
           exact
         />
         <q-route-tab
           :ripple="false"
           label="Events"
           :to="{ name: 'contract.events', params: { id } }"
-          exact
-        />
-        <q-route-tab
-          :ripple="false"
-          label="Operations"
-          :to="{ name: 'contract.operations', params: { id } }"
           exact
         />
       </q-tabs>

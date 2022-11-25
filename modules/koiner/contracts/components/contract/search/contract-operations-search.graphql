@@ -20,6 +20,8 @@ query ContractOperationsSearch(
         contractId
         transactionId
         contractStandardType
+        name
+        data
         timestamp
       }
       __typename

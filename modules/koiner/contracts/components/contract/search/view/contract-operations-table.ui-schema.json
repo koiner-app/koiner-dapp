@@ -20,6 +20,16 @@
         },
         {
           "type": "Attribute",
+          "label": "Name",
+          "scope": "#/properties/name"
+        },
+        {
+          "type": "Attribute",
+          "label": "Name",
+          "scope": "#/properties/data"
+        },
+        {
+          "type": "Attribute",
           "label": "Block",
           "scope": "#/properties/blockHeight",
           "options": {
