@@ -35,15 +35,7 @@
         {
           "type": "Attribute",
           "label": "Tx",
-          "scope": "#/properties/transactionCount",
-          "options": {
-            "route": "block.transactions",
-            "format": "link",
-            "linkParams": ["height"],
-            "mappings": {
-              "height": "header.height"
-            }
-          }
+          "scope": "#/properties/transactionCount"
         },
         {
           "type": "Attribute",
