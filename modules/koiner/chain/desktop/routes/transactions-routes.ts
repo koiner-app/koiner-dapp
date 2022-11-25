@@ -12,18 +12,11 @@ export const transactionsRoutes: RouteRecordRaw[] = [
         component: () =>
           import('../pages/transactions/transactions-index-page.vue'),
       },
-      {
-        path: '/transactions/:id',
-        component: () => import('../layouts/transaction-layout.vue'),
-        children: [
-          {
-            name: 'transaction',
-            path: '',
-            component: () =>
-              import('../pages/transactions/id/transaction-page.vue'),
-          },
-        ],
-      },
     ],
+  },
+  {
+    name: 'transaction',
+    path: '/transactions/:id',
+    component: () => import('../pages/transactions/id/transaction-page.vue'),
   },
 ];

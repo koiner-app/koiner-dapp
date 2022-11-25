@@ -1,9 +1,5 @@
 <template>
-  <q-page
-    v-if="transaction"
-    class="row items-baseline justify-evenly"
-    style="padding-top: 8rem"
-  >
+  <q-page v-if="transaction" class="row items-baseline justify-evenly">
     <q-card class="stats-cards" flat bordered>
       <q-card-section horizontal>
         <counter-metric title="Block Height" :value="transaction.blockHeight" />
