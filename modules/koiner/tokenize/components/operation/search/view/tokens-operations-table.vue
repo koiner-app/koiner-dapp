@@ -55,7 +55,7 @@
 
     <search-filters
       :request="request"
-      search-info="Search by event id, parent (block id or transaction id), contract id, name or impacted addresses"
+      search-info="Search by impacted addresses, block id or transaction id"
     />
   </div>
 
