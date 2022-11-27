@@ -64,6 +64,7 @@ import MobileMainNavigation from '../components/mobile-main-navigation.vue';
 import MobileDrawerNavigation from '../components/mobile-drawer-navigation.vue';
 import { useWindowSize } from '@vueuse/core';
 import { useRouter } from 'vue-router';
+import { useQuasar } from 'quasar';
 
 export default defineComponent({
   name: 'MainLayout',
@@ -88,6 +89,9 @@ export default defineComponent({
     accountStore.load(koinerStore.environment);
     bookmarkStore.load(koinerStore.environment);
 
+    const $q = useQuasar();
+
+
     watch(
       bookmarkStore,
       () => {
@@ -109,6 +113,15 @@ export default defineComponent({
     onMounted(() => {
       if (width.value >= 1024) {
         router.push({ name: 'home' });
+      }
+
+      if (window.location.host === 'koiner.app') {
+        $q.dialog({
+          title: 'Work in progress',
+          message: 'Mobile version is being developed. Please use a larger screen.',
+          ok: false,
+          persistent: true,
+        });
       }
     });
 
