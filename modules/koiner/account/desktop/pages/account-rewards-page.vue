@@ -45,7 +45,7 @@
       </q-card-section>
     </q-card>
 
-    <q-card class="search-card" flat bordered>
+    <q-card class="search-card gt-md" flat bordered>
       <q-card-section>
         <div class="text-overline">Addresses</div>
 

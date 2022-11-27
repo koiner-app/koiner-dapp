@@ -1,12 +1,14 @@
 .layout--mobile {
   @import 'includes/stats-card';
   @import 'includes/stats-carousel';
+  @import 'search/table';
 
   .q-tab-panel {
     .q-space {
       display: none;
     }
   }
+
   .wildcard-search {
     width: 100% !important;
     display: block !important;

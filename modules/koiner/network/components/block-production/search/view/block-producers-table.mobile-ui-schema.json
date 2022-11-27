@@ -30,7 +30,7 @@
                 "format": "address",
                 "route": "address.rewards",
                 "mapping": "addressId",
-                "class": "attribute--address"
+                "class": "attribute-wrapper--address"
               }
             },
             {

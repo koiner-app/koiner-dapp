@@ -118,11 +118,6 @@ export default defineComponent({
       type: Boolean,
       default: true,
     },
-    showTokenField: {
-      required: false,
-      type: Boolean,
-      default: true,
-    },
   },
 
   setup(props) {
@@ -265,15 +260,6 @@ export default defineComponent({
     const onScroll = (newScrollPosition: number) => {
       searchStore.tokenOperations.position = newScrollPosition;
     };
-
-    uiSchema.value.elements[0].elements =
-      tokenOperationsSearchUiSchema.elements[0].elements.filter((element) => {
-        if (element.scope === '#/properties/contractId') {
-          element.options.visible = props.showTokenField;
-        }
-
-        return element;
-      });
 
     return {
       transfer,

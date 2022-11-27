@@ -1,0 +1,27 @@
+.page--home {
+  @media screen and (min-width: 1440px) {
+    .tabs-card {
+      .search-view-table {
+        .attribute-wrapper--transaction {
+          span {
+            inline-size: calc(120px) !important;
+          }
+        }
+      }
+    }
+
+    .token-transfers {
+      .search-view-table {
+        .attribute-wrapper--address {
+          span {
+            inline-size: calc(140px) !important;
+          }
+        }
+      }
+    }
+  }
+}
+
+.attribute--blocks-produced {
+  color: grey;
+}

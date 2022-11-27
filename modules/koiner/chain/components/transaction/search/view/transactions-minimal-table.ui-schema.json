@@ -15,7 +15,8 @@
           "scope": "#/properties/timestamp",
           "options": {
             "format": "age",
-            "mapping": "timestamp"
+            "mapping": "timestamp",
+            "class": "attribute-wrapper--age"
           }
         },
         {

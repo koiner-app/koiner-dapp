@@ -15,7 +15,34 @@
           "scope": "#/properties/timestamp",
           "options": {
             "format": "age",
-            "mapping": "timestamp"
+            "mapping": "timestamp",
+            "class": "attribute-wrapper--age"
+          }
+        },
+        {
+          "type": "Attribute",
+          "scope": "#/properties/transactionId",
+          "options": {
+            "format": "transaction",
+            "icon": "receipt",
+            "mappings": {
+              "id": "transactionId"
+            }
+          }
+        },
+        {
+          "type": "Attribute",
+          "label": "Height",
+          "scope": "#/properties/blockHeight",
+          "options": {
+            "route": "block",
+            "format": "link",
+            "linkParams": [
+              "height"
+            ],
+            "mappings": {
+              "height": "blockHeight"
+            }
           }
         },
         {
@@ -27,32 +54,6 @@
           "type": "Attribute",
           "label": "Name",
           "scope": "#/properties/data"
-        },
-        {
-          "type": "Attribute",
-          "label": "Block",
-          "scope": "#/properties/blockHeight",
-          "options": {
-            "route": "block",
-            "format": "link",
-            "linkParams": ["height"],
-            "mappings": {
-              "height": "blockHeight"
-            }
-          }
-        },
-        {
-          "type": "Attribute",
-          "label": "Tx",
-          "scope": "#/properties/transactionId",
-          "options": {
-            "route": "transaction",
-            "format": "link",
-            "linkParams": ["id"],
-            "mappings": {
-              "id": "transactionId"
-            }
-          }
         }
       ]
     }

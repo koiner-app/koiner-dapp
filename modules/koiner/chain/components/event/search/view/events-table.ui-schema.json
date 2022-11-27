@@ -24,8 +24,13 @@
         },
         {
           "type": "Attribute",
-          "label": "Contract",
-          "scope": "#/properties/contractId"
+          "label": "Age",
+          "scope": "#/properties/timestamp",
+          "options": {
+            "format": "age",
+            "mapping": "timestamp",
+            "class": "attribute-wrapper--age"
+          }
         },
         {
           "type": "Attribute",
@@ -34,43 +39,12 @@
         },
         {
           "type": "Attribute",
-          "label": "Age",
-          "scope": "#/properties/timestamp",
-          "options": {
-            "format": "age",
-            "mapping": "timestamp"
-          }
-        },
-        {
-          "type": "Attribute",
-          "label": "ID",
-          "scope": "#/properties/id",
-          "options": {
-            "route": "event",
-            "format": "link",
-            "linkParams": ["id"],
-            "mappings": {
-              "id": "id"
-            }
-          }
-        },
-        {
-          "type": "Attribute",
           "label": "Txn",
           "scope": "#/properties/parentId",
           "options": {
-            "route": "transaction",
-            "format": "link",
-            "linkParams": ["id"],
-            "mappings": {
-              "id": "parentId"
-            }
+            "format": "parent",
+            "class": "attribute-wrapper--parent"
           }
-        },
-        {
-          "type": "Attribute",
-          "label": "Type",
-          "scope": "#/properties/parentType"
         },
         {
           "type": "Attribute",

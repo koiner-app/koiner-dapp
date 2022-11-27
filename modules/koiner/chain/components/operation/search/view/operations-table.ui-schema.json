@@ -28,7 +28,8 @@
           "scope": "#/properties/timestamp",
           "options": {
             "format": "age",
-            "mapping": "timestamp"
+            "mapping": "timestamp",
+            "class": "attribute-wrapper--age"
           }
         },
         {
@@ -36,12 +37,8 @@
           "label": "Txn",
           "scope": "#/properties/transactionId",
           "options": {
-            "route": "transaction",
-            "format": "link",
-            "linkParams": ["id"],
-            "mappings": {
-              "id": "transactionId"
-            }
+            "format": "transaction",
+            "class": "attribute-wrapper--address"
           }
         },
         {

@@ -29,7 +29,8 @@
           "scope": "#/properties/timestamp",
           "options": {
             "format": "age",
-            "mapping": "timestamp"
+            "mapping": "timestamp",
+            "class": "attribute-wrapper--age"
           }
         },
         {
@@ -39,7 +40,8 @@
           "options": {
             "format": "address",
             "mapping": "producerId",
-            "route": "address.rewards"
+            "route": "address.rewards",
+            "class": "attribute-wrapper--address"
           }
         },
         {

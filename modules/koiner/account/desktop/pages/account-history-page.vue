@@ -1,7 +1,7 @@
 <template>
   <q-page
     v-if="accountStore.addressesFilter.length > 0"
-    class="row items-start"
+    class="row items-baseline"
   >
     <q-card class="tabs-card" flat bordered>
       <q-card-section class="q-pt-xs">
@@ -60,7 +60,7 @@
       </q-card-section>
     </q-card>
 
-    <q-card class="search-card" flat bordered>
+    <q-card class="search-card gt-md" flat bordered>
       <q-card-section>
         <div class="text-overline">Addresses</div>
 

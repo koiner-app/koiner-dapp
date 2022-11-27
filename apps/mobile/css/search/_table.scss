@@ -1,0 +1,13 @@
+.search-view-table {
+  font-family: 'Roboto Mono', serif !important;
+
+  .ago {
+    display: none;
+  }
+
+  @media screen and (min-width: 1440px) {
+    .ago {
+      display: inline-block;
+    }
+  }
+}

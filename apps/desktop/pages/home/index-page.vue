@@ -37,7 +37,7 @@
           <q-tab-panel name="blocks">
             <blocks-component />
           </q-tab-panel>
-          <q-tab-panel name="token-transfers">
+          <q-tab-panel name="token-transfers" class="token-transfers">
             <tokens-operations-table
               :burn-filter="false"
               :mint-filter="false"
@@ -92,7 +92,7 @@ export default defineComponent({
     );
 
     watch(width, () => {
-      if (width.value > 1439.99 && tab.value === 'blocks') {
+      if (width.value >= 1440 && tab.value === 'blocks') {
         tab.value = 'token-transfers';
       }
     });

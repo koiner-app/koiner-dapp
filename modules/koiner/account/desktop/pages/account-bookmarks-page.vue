@@ -1,8 +1,7 @@
 <template>
   <q-page
-    class="row items-start"
+    class="row items-baseline"
   >
-    <div class="q-pa-md full-width">
       <div class="row">
         <div class="col-9 q-pr-lg">
           <q-card flat bordered>
@@ -194,7 +193,6 @@
           </q-card>
         </div>
       </div>
-    </div>
   </q-page>
 </template>
 

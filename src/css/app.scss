@@ -190,19 +190,6 @@ a {
   width: 28px !important;
   height: 28px !important;
 }
-.dashboard-tokens-search {
-  .q-table {
-    width: 100%;
-    tbody td {
-      font-size: 12px !important;
-    }
-  }
-  .search-view-table .q-table thead tr,
-  .search-view-table .q-table tbody.q-virtual-scroll__content td {
-    padding: 0 12px !important;
-    height: 40px !important;
-  }
-}
 
 .tabs-card {
   .q-tab__label {
@@ -216,5 +203,6 @@ a {
 @import 'includes/mobile-navigation';
 @import 'includes/stats-card';
 @import 'pages/block-producers';
-@import '../../apps/desktop/css/desktop';
+@import 'pages/home';
 @import '../../apps/mobile/css/mobile';
+@import '../../apps/desktop/css/desktop';

@@ -58,16 +58,10 @@
 
         <q-tab-panels v-model="tab" animated>
           <q-tab-panel name="token-operations">
-            <tokens-operations-table
-              :contract-ids="[id]"
-              :show-token-field="false"
-            />
+            <tokens-operations-table :contract-ids="[id]" />
           </q-tab-panel>
           <q-tab-panel name="token-events">
-            <tokens-events-table
-              :contract-ids="[id]"
-              :show-token-field="false"
-            />
+            <tokens-events-table :contract-ids="[id]" />
           </q-tab-panel>
         </q-tab-panels>
       </q-card-section>

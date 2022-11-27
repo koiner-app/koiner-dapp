@@ -1,0 +1,114 @@
+.search-view-table {
+  font-family: 'Roboto Mono', serif !important;
+
+
+  .q-table {
+    width: 100%;
+    thead th,
+    tbody td{
+      font-size: 0.75rem !important;
+      padding: 0 0.5rem !important;
+    }
+  }
+  //.search-view-table .q-table thead tr,
+  //.search-view-table .q-table tbody.q-virtual-scroll__content td {
+  //  padding: 0 0.5rem !important;
+  //  height: 40px !important;
+  //}
+
+  .ago {
+    display: none;
+  }
+
+  .q-td:has(.attribute-wrapper--address) {
+    width: 246px;
+  }
+  .q-td:has(.attribute--icon) {
+    width: 20px;
+  }
+
+  .attribute-wrapper--address {
+    span {
+      inline-size: calc(246px) !important;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      display: inline-block;
+      padding-top: 0.35rem;
+
+      @media screen and (min-width: 1440px) {
+        //inline-size: calc(140px + 20vw) !important;
+      }
+      //
+      //@media screen and (min-width: 800px) {
+      //  inline-size: 180px !important;
+      //}
+      //
+      //@media screen and (min-width: 1024px) {
+      //  inline-size: 200px !important;
+      //}
+    }
+  }
+
+  .attribute-group--actions {
+    .attribute-root {
+      display: inline-block;
+      width: 16px;
+    }
+  }
+}
+
+//.attribute-group {
+//  padding: 0.625rem 0;
+//}
+
+.attribute-wrapper--address {
+  span {
+    inline-size: calc(90px + 20vw) !important;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    display: inline-block;
+    padding-top: 0.35rem;
+
+    @media screen and (min-width: 500px) {
+      inline-size: calc(140px + 20vw) !important;
+    }
+  }
+}
+
+.attribute-wrapper--transaction {
+  span {
+    inline-size: calc(90px + 20vw) !important;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    display: inline-block;
+    padding-top: 0.35rem;
+
+    @media screen and (min-width: 500px) {
+      inline-size: calc(80px + 20vw) !important;
+    }
+  }
+}
+
+.attribute-wrapper--parent {
+  span {
+    inline-size: calc(90px + 20vw) !important;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    display: inline-block;
+    padding-top: 0.35rem;
+
+    @media screen and (min-width: 500px) {
+      inline-size: calc(140px + 20vw) !important;
+    }
+  }
+}
+
+.attribute-wrapper--age {
+  span {
+    //
+  }
+}

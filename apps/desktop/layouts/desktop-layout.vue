@@ -31,7 +31,7 @@
       </q-scroll-area>
     </q-drawer>
 
-    <q-page-container>
+    <q-page-container :class="`page--${route.name}`">
       <router-view />
     </q-page-container>
 
@@ -56,7 +56,7 @@ import { useStatsStore } from 'stores/stats';
 import { useBookmarkStore } from '@koiner/bookmarks';
 import ApiSwitcher from '@koiner/components/api-switcher.vue';
 import { useWindowSize } from '@vueuse/core';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 
 export default defineComponent({
   name: 'MainLayout',
@@ -75,6 +75,7 @@ export default defineComponent({
     const bookmarkStore = useBookmarkStore();
     const { width } = useWindowSize();
     const router = useRouter();
+    const route = useRoute();
 
     koinosStore.load();
     statsStore.load();
@@ -107,6 +108,7 @@ export default defineComponent({
 
     return {
       drawer: ref(false),
+      route,
     };
   },
 });

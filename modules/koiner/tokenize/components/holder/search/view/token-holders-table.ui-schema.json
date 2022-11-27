@@ -14,7 +14,8 @@
           "label": "Address",
           "scope": "#/properties/addressId",
           "options": {
-            "format": "address"
+            "format": "address",
+            "class": "attribute-wrapper--address"
           }
         },
         {

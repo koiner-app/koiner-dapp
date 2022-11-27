@@ -15,7 +15,8 @@
           "scope": "#/properties/timestamp",
           "options": {
             "format": "age",
-            "mapping": "timestamp"
+            "mapping": "timestamp",
+            "class": "attribute-wrapper--age"
           }
         },
         {
@@ -24,14 +25,16 @@
           "scope": "#/properties/from",
           "options": {
             "format": "address",
-            "mapping": "from"
+            "mapping": "from",
+            "class": "attribute-wrapper--address"
           }
         },
         {
           "type": "Attribute",
           "scope": "#/properties/name",
           "options": {
-            "format": "tokenEventName"
+            "format": "tokenEventName",
+            "class": "attribute--icon"
           }
         },
         {
@@ -40,7 +43,8 @@
           "scope": "#/properties/to",
           "options": {
             "format": "address",
-            "mapping": "to"
+            "mapping": "to",
+            "class": "attribute-wrapper--address"
           }
         },
         {
@@ -62,6 +66,7 @@
           "label": "Token",
           "scope": "#/properties/contractId",
           "mapping": "contract.id",
+          "class": "attribute-wrapper--address",
           "options": {
             "format": "token",
             "mappings": {
@@ -70,42 +75,24 @@
               "contract.symbol": "contract.symbol",
               "contract.decimals": "contract.decimals"
             },
-            "visible": true
+            "screenSize": "gt-md"
           }
         },
         {
           "type": "AttributeGroup",
           "label": "",
           "scope": "#/properties/links",
+          "options": {
+            "class": "attribute-group--actions"
+          },
           "elements": [
-            {
-              "type": "Attribute",
-              "scope": "#/properties/blockHeight",
-              "options": {
-                "route": "block",
-                "format": "link",
-                "icon": "token",
-                "linkParams": [
-                  "height"
-                ],
-                "mappings": {
-                  "height": "blockHeight"
-                }
-              }
-            },
             {
               "type": "Attribute",
               "scope": "#/properties/parentId",
               "options": {
-                "route": "transaction",
-                "format": "link",
+                "format": "parent",
                 "icon": "receipt",
-                "linkParams": [
-                  "id"
-                ],
-                "mappings": {
-                  "id": "parentId"
-                }
+                "class": "attribute-wrapper--parent"
               }
             }
           ]

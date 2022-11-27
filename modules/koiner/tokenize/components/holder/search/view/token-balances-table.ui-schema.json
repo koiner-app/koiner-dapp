@@ -14,6 +14,7 @@
           "label": "Token",
           "scope": "#/properties/contractId",
           "mapping": "contract.id",
+          "class": "attribute-wrapper--address",
           "options": {
             "format": "token",
             "mappings": {
@@ -29,7 +30,8 @@
           "label": "Address",
           "scope": "#/properties/addressId",
           "options": {
-            "format": "address"
+            "format": "address",
+            "class": "attribute-wrapper--address"
           }
         },
         {

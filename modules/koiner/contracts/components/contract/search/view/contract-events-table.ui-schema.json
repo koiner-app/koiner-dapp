@@ -15,7 +15,23 @@
           "scope": "#/properties/timestamp",
           "options": {
             "format": "age",
-            "mapping": "timestamp"
+            "mapping": "timestamp",
+            "class": "attribute-wrapper--age"
+          }
+        },
+        {
+          "type": "Attribute",
+          "label": "Height",
+          "scope": "#/properties/blockHeight",
+          "options": {
+            "route": "block",
+            "format": "link",
+            "linkParams": [
+              "height"
+            ],
+            "mappings": {
+              "height": "blockHeight"
+            }
           }
         },
         {
