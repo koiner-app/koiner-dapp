@@ -1,6 +1,6 @@
 <template>
   <div class="koiner-topbar fixed-top">
-    <q-icon class="topbar-icon" name="dashboard"></q-icon>
+    <q-icon class="topbar-icon" name="pie_chart"></q-icon>
     <div class="topbar-header">
       <span class="selected-item">{{ accountStore.name }}</span>
     </div>

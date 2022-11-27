@@ -82,15 +82,9 @@ export default defineComponent({
           disabled: false,
         },
         {
-          name: 'Dashboard',
+          name: 'Portfolio',
           to: '/account',
-          icon: 'dashboard',
-          disabled: false,
-        },
-        {
-          name: 'Chain',
-          to: '/blocks',
-          icon: 'token',
+          icon: 'pie_chart',
           disabled: false,
         },
         {
@@ -100,15 +94,21 @@ export default defineComponent({
           disabled: false,
         },
         {
-          name: 'Contracts',
-          to: '/contracts',
-          icon: 'document_scanner',
-          disabled: false,
-        },
-        {
           name: 'Network',
           to: '/network',
           icon: 'hub',
+          disabled: false,
+        },
+        {
+          name: 'Chain',
+          to: '/blocks',
+          icon: 'token',
+          disabled: false,
+        },
+        {
+          name: 'Contracts',
+          to: '/contracts',
+          icon: 'document_scanner',
           disabled: false,
         },
         {
