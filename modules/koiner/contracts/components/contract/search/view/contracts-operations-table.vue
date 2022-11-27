@@ -45,7 +45,7 @@ export default defineComponent({
       type: Array as PropType<Array<string>>,
     },
     contractIds: {
-      required: true,
+      required: false,
       type: Array as PropType<Array<string>>,
     },
   },
