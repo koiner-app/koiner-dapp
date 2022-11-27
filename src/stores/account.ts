@@ -1,12 +1,14 @@
 // @ts-check
 import { defineStore } from 'pinia';
 import { kondor } from 'boot/kondor';
+import { v4 as uuidv4 } from 'uuid';
 
 export const useAccountStore = defineStore({
   id: 'account',
   persist: true,
   state: () => ({
     environment: 'production' as 'production' | 'test' | 'local',
+    anonymousId: uuidv4().toString() as string,
     production: {
       name: 'Mystery Koiner',
       addresses: [] as string[],

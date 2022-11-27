@@ -32,6 +32,7 @@ import { defineComponent, watch } from 'vue';
 import { SearchRequestType, useSearchManager } from '@appvise/search-manager';
 import { useAccountStore } from 'stores/account';
 import { useBookmarkStore } from '@koiner/bookmarks';
+import posthog from 'posthog-js';
 
 export default defineComponent({
   name: 'FirstAddressesSearchResults',
@@ -71,10 +72,13 @@ export default defineComponent({
     return {
       addressesSearch,
       addAddress: (addressId: string) => {
+        posthog.capture('addAddress', { property: addressId });
+
         bookmarkStore.addBookmark(
           { id: addressId, type: 'address' },
           'addresses'
         );
+        
         accountStore[accountStore.environment].addressesFilter = [addressId];
       },
     };

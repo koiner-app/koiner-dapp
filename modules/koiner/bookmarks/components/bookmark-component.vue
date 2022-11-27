@@ -2,7 +2,7 @@
   <q-btn flat dense size="sm" class="favorite-icon">
     <q-icon
       v-if="hasBookmark(item.id, listId)"
-      @click.capture.stop="bookmarkStore.removeBookmark(item.id, listId)"
+      @click.capture.stop="removeBookmark(item.id, listId)"
       :name="iconDelete"
       class="delete-icon"
     >
@@ -13,7 +13,7 @@
     </q-icon>
     <q-icon
       v-else
-      @click.capture.stop="bookmarkStore.addBookmark(item, listId)"
+      @click.capture.stop="addBookmark(item, listId)"
       :name="iconAdd"
     >
       <q-tooltip class="bg-primary" :offset="[0, 0]"
@@ -28,6 +28,7 @@
 import { defineComponent, PropType } from 'vue';
 import { BookmarkedItem, useBookmarkStore } from '@koiner/bookmarks';
 import { useI18n } from 'vue-i18n';
+import posthog from 'posthog-js';
 
 export default defineComponent({
   name: 'BookmarkComponent',
@@ -64,6 +65,18 @@ export default defineComponent({
       bookmarkStore,
       hasBookmark: bookmarkStore.hasBookmark,
       bookmark: bookmarkStore.bookmark,
+      addBookmark: (item: BookmarkedItem, listId?: string) => {
+        bookmarkStore.addBookmark(item, listId);
+        posthog.capture('addBookmark', {
+          property: item.id,
+          type: item.type,
+          listId,
+        });
+      },
+      removeBookmark: (itemId: string, listId?: string) => {
+        bookmarkStore.removeBookmark(itemId, listId);
+        posthog.capture('removeBookmark', { property: itemId, listId });
+      },
     };
   },
 });

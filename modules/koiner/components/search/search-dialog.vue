@@ -22,7 +22,9 @@
         <span class="text-caption">Search anything</span>
 
         <q-space />
-        <span class="text-caption q-pr-md text-italic desktop-only gt-sm" style="opacity: 0.7"
+        <span
+          class="text-caption q-pr-md text-italic desktop-only gt-sm"
+          style="opacity: 0.7"
           >Double tap ctrl to open this dialog next time</span
         >
 
@@ -65,6 +67,7 @@ import ContractsSearch from '@koiner/components/search/searches/contracts-search
 import BlocksSearch from '@koiner/components/search/searches/blocks-search.vue';
 import TransactionsSearch from '@koiner/components/search/searches/transactions-search.vue';
 import PagesSearch from '@koiner/components/search/searches/pages-search.vue';
+import posthog from 'posthog-js';
 
 export default defineComponent({
   name: 'SearchDialog',
@@ -94,6 +97,8 @@ export default defineComponent({
     watchEffect(() => {
       if (!dialog.value && Control.value) {
         if (lastPressedControl && Date.now() - lastPressedControl < 250) {
+          posthog.capture('hotkey', { property: 'searchDialog' });
+
           dialog.value = true;
           lastPressedControl = undefined;
         } else {
@@ -123,6 +128,8 @@ export default defineComponent({
       dialog,
       search,
       trimmedSearch: computed(() => {
+        posthog.capture('searched', { property: search.value.trim() });
+
         return search.value.trim();
       }),
     };
@@ -146,7 +153,8 @@ export default defineComponent({
     padding-bottom: 0.5rem;
     display: inline-block;
   }
-  .q-list > .q-item, .q-item {
+  .q-list > .q-item,
+  .q-item {
     min-height: 32px;
     padding: 2px 16px;
   }
