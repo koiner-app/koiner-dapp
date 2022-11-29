@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia';
 import { watch } from 'vue';
-
 import { useQuery } from '@urql/vue';
 import { useKoinerStore } from 'stores/koiner';
 import { localizedTokenAmount } from '@koiner/utils';
@@ -9,6 +8,7 @@ export const useStatsStore = defineStore({
   id: 'stats',
   persist: true,
   state: () => ({
+    realtimeUpdates: true as boolean,
     chainStats: {
       addressCount: 0 as number,
       operationCount: 0 as number,
@@ -31,6 +31,9 @@ export const useStatsStore = defineStore({
       virtualTotalSupply: '' as string,
       claimed: 0 as number,
       burned: 0 as number,
+    },
+    settings: {
+      realtimeUpdates: true as boolean,
     },
     intervalId: null as null | NodeJS.Timeout,
     updatedAt: null as null | number,
@@ -64,6 +67,25 @@ export const useStatsStore = defineStore({
   },
 
   actions: {
+    stopUpdates() {
+      if (this.intervalId) {
+        clearInterval(this.intervalId);
+      }
+
+      this.$patch({
+        realtimeUpdates: false,
+        intervalId: undefined,
+      });
+    },
+    startUpdates() {
+      this.$patch({
+        realtimeUpdates: true,
+      });
+
+      // Reload whole site to re-init stats store.
+      // Calling load method now will cause cannot useQuery outside setup error.
+      window.location.reload();
+    },
     load() {
       const koinerStore = useKoinerStore();
       const countsQuery = `query KoinerStats {
@@ -185,8 +207,12 @@ export const useStatsStore = defineStore({
         { deep: true }
       );
 
-      // Fetch stats every 15 seconds
-      const intervalId = setInterval(reloadStats, 15000);
+      if (this.realtimeUpdates) {
+        // Fetch stats every 15 seconds
+        this.$patch({
+          intervalId: setInterval(reloadStats, 15000),
+        });
+      }
 
       async function reloadStats() {
         // Reload
