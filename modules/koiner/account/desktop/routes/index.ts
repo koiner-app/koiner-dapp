@@ -23,11 +23,27 @@ export const accountModuleDesktopRoutes: RouteRecordRaw[] = [
         component: () =>
           import('@koiner/account/desktop/pages/account-rewards-page.vue'),
       },
+    ],
+  },
+  {
+    path: '/settings',
+    component: () => import('../layouts/settings-layout.vue'),
+    children: [
       {
         name: 'account.bookmarks',
-        path: '/bookmarks',
+        path: '/settings/bookmarks',
         component: () =>
-          import('@koiner/account/desktop/pages/account-bookmarks-page.vue'),
+          import(
+            '@koiner/account/desktop/pages/settings/account-bookmarks-page.vue'
+          ),
+      },
+      {
+        name: 'account.settings',
+        path: '/settings',
+        component: () =>
+          import(
+            '@koiner/account/desktop/pages/settings/account-settings-page.vue'
+          ),
       },
     ],
   },

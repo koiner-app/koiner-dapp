@@ -1,8 +1,8 @@
 <template>
   <div class="koiner-topbar fixed-top">
-    <q-icon class="topbar-icon" name="pie_chart"></q-icon>
+    <q-icon class="topbar-icon" name="settings"></q-icon>
     <div class="topbar-header">
-      <span class="selected-item">{{ accountStore.name }}</span>
+      <span class="selected-item">Settings</span>
     </div>
 
     <div class="topbar-navigation">
@@ -10,19 +10,13 @@
         <q-route-tab
           :ripple="false"
           label="Portfolio"
-          :to="{ name: 'account.portfolio' }"
+          :to="{ name: 'account.settings' }"
           exact
         />
         <q-route-tab
           :ripple="false"
-          label="History"
-          :to="{ name: 'account.history' }"
-          exact
-        />
-        <q-route-tab
-          :ripple="false"
-          label="Rewards"
-          :to="{ name: 'account.rewards' }"
+          label="Bookmarks"
+          :to="{ name: 'account.bookmarks' }"
           exact
         />
       </q-tabs>

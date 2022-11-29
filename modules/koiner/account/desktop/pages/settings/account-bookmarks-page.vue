@@ -3,7 +3,7 @@
     class="row items-baseline"
   >
       <div class="row">
-        <div class="col-9 q-pr-lg">
+        <div class="col-8 q-pr-lg">
           <q-card flat bordered>
             <q-card-section class="q-pt-xs">
               <div class="row items-center no-wrap">
@@ -63,7 +63,7 @@
             </q-card-section>
           </q-card>
         </div>
-        <div class="col-3">
+        <div class="col-4">
           <q-card flat bordered class="q-mb-lg">
             <q-card-section class="q-pt-xs">
               <div class="row items-center no-wrap">

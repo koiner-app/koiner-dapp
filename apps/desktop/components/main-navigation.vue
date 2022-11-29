@@ -18,6 +18,15 @@
       </q-item-section>
     </q-item>
   </q-list>
+
+  <q-list padding class="absolute-bottom">
+    <q-item :to="{ name: 'account.settings' }">
+      <q-item-section avatar>
+        <q-icon name="settings" />
+      </q-item-section>
+      <q-item-section> Settings </q-item-section>
+    </q-item>
+  </q-list>
 </template>
 
 <script lang="ts">
