@@ -16,6 +16,20 @@
   }
 }
 
+.data-attribute-field {
+  &.producer,
+  &.burn_address,
+  &.koin_address,
+  &.account {
+    background: #d0aaff7a;
+  }
+
+  &.value,
+  &.token_amount {
+    background: #9c269124;
+  }
+}
+
 //.q-card.search-table-card {
 .search-filters {
   .q-btn {

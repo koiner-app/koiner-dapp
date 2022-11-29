@@ -18,20 +18,6 @@
   }
 }
 
-.koiner-logo {
-  position: absolute;
-  left: 4.5rem;
-  top: 0;
-}
-
-.beta-chip {
-  font-size: 0.5rem;
-  height: 0.8rem;
-  margin-left: 3.25rem;
-  margin-bottom: 10px;
-  padding: 0 0.4rem;
-}
-
 .koiner-topbar-page {
   padding-top: 2.55rem !important;
   padding-bottom: 0 !important;
@@ -55,61 +41,6 @@
       display: block;
     }
   }
-}
-
-@media screen and (min-width: 1024px) {
-  .koiner-logo {
-    left: 0.75rem;
-  }
-
-  .beta-chip {
-    margin-left: 2.75rem;
-  }
-
-  .koiner-topbar {
-    left: 65px;
-  }
-
-  .q-page {
-    padding: 36px 36px;
-    margin-top: -18px;
-    margin-left: -18px;
-    > * {
-      margin-top: 18px;
-      margin-left: 18px;
-    }
-  }
-
-  .koiner-topbar-page {
-    padding-top: 6.25rem !important;
-  }
-
-  .table-card {
-    .q-card__section--vert {
-      padding: 16px;
-    }
-  }
-}
-
-@media screen and (min-width: 1440px) {
-  .koiner-topbar-page {
-    padding-top: 7.5rem !important;
-  }
-
-  .search-card-large,
-  .tabs-card {
-    max-width: calc(66.66% - 18px);
-  }
-
-  .search-card {
-    max-width: calc(33.33% - 18px);
-  }
-}
-
-@media screen and (min-width: 1440px) and (max-width: 1919.99px) {
-}
-
-@media screen and (min-width: 1920px) {
 }
 
 .q-card {

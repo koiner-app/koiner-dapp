@@ -3,4 +3,100 @@
 
   @import 'includes/stats-card';
   @import 'search/table';
+
+  .koiner-logo {
+    position: absolute;
+    left: 0.75rem;
+    top: 0;
+  }
+  .beta-chip {
+    margin-left: 2.75rem;
+    font-size: 0.5rem;
+    height: 0.8rem;
+    margin-bottom: 10px;
+    padding: 0 0.4rem;
+  }
+
+  .koiner-topbar {
+    left: 65px;
+  }
+
+  .q-page {
+    padding: 36px 36px;
+    margin-top: -18px;
+    margin-left: -18px;
+    > * {
+      margin-top: 18px;
+      margin-left: 18px;
+    }
+  }
+
+  .koiner-topbar-page {
+    padding-top: 6.25rem !important;
+  }
+
+  .table-card {
+    .q-card__section--vert {
+      padding: 16px;
+    }
+  }
+
+  @media screen and (min-width: 1440px) {
+    .koiner-topbar-page {
+      padding-top: 7.5rem !important;
+    }
+
+    .search-card-large,
+    .tabs-card {
+      max-width: calc(66.66% - 18px);
+    }
+
+    .search-card {
+      max-width: calc(33.33% - 18px);
+    }
+  }
+
+  @media screen and (min-width: 1440px) and (max-width: 1919.99px) {
+  }
+
+  @media screen and (min-width: 1920px) {
+  }
+
+  .q-card {
+    font-family: 'Roboto Mono', serif !important;
+
+    .text-overline {
+      font-size: 0.875rem;
+      font-weight: 400;
+    }
+  }
+
+  .search-card-large,
+  .tabs-card {
+    > .q-card__section:first-child {
+      padding-top: 4px;
+    }
+    .q-tab-panel {
+      padding: 1rem 0.5rem 0;
+      overflow: hidden;
+    }
+  }
+  .search-card-large,
+  .search-card {
+    > .q-card__section:first-child {
+      padding-top: 8px;
+    }
+
+    .search-card-content {
+      padding: 1rem 0.5rem 0;
+    }
+
+    .text-overline {
+      font-size: 0.875rem;
+      line-height: 1.715em;
+      font-weight: 500;
+      padding: 0.125rem 1rem 0;
+      margin-bottom: 7px;
+    }
+  }
 }
