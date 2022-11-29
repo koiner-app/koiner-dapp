@@ -11,6 +11,14 @@
       "elements": [
         {
           "type": "Attribute",
+          "label": "#",
+          "scope": "#/properties/id",
+          "options": {
+            "format": "index"
+          }
+        },
+        {
+          "type": "Attribute",
           "label": "Address",
           "scope": "#/properties/addressId",
           "options": {
