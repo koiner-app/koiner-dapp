@@ -119,7 +119,6 @@ export default defineComponent({
         $q.dialog({
           title: 'Work in progress',
           message: 'Mobile version is being developed. Please use a larger screen.',
-          ok: false,
           persistent: true,
         });
       }
