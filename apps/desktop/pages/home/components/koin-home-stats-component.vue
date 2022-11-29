@@ -5,7 +5,11 @@
         class="token-price"
         title="KOIN Price"
         :value="koinosStore.formattedPrice"
-        :unit="`(${koinosStore.formattedPriceChange24hPercentage})`"
+        :unit="
+          koinosStore.formattedPriceChange24hPercentage
+            ? `(${koinosStore.formattedPriceChange24hPercentage})`
+            : ''
+        "
         :unit-class="`text-${
           koinosStore.price.change24hPercentage > 0 ? 'positive' : 'negative'
         }`"
