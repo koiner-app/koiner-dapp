@@ -55,7 +55,7 @@ export const useKoinerStore = defineStore({
         });
       }
 
-      window.location.reload();
+      window.location.replace('/');
     },
   },
 });
