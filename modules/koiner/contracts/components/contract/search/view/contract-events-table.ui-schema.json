@@ -42,7 +42,10 @@
         {
           "type": "Attribute",
           "label": "Data",
-          "scope": "#/properties/decodedData"
+          "scope": "#/properties/decodedData",
+          "options": {
+            "format": "data"
+          }
         }
       ]
     }

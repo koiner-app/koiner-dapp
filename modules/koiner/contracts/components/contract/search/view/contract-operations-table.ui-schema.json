@@ -53,7 +53,10 @@
         {
           "type": "Attribute",
           "label": "Name",
-          "scope": "#/properties/data"
+          "scope": "#/properties/data",
+          "options": {
+            "format": "data"
+          }
         }
       ]
     }
