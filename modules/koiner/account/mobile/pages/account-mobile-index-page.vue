@@ -15,8 +15,14 @@
         <q-tab
           class="text-overline"
           :ripple="false"
-          label="Producers"
-          name="producers"
+          label="Portfolio"
+          name="portfolio"
+        />
+        <q-tab
+          class="text-overline"
+          :ripple="false"
+          label="History"
+          name="history"
         />
         <q-tab
           class="text-overline"
