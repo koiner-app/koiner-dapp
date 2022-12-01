@@ -23,12 +23,6 @@
           <q-tab
             class="text-overline"
             :ripple="false"
-            label="Transfers"
-            name="token-transfers"
-          />
-          <q-tab
-            class="text-overline"
-            :ripple="false"
             label="Tx"
             name="transactions"
           />
@@ -36,7 +30,13 @@
             class="text-overline"
             :ripple="false"
             label="Contract Ops"
-            name="operations"
+            name="contract-operations"
+          />
+          <q-tab
+            class="text-overline"
+            :ripple="false"
+            label="Token Ops"
+            name="token-operations"
           />
           <q-tab
             class="text-overline"
@@ -55,20 +55,16 @@
         <q-separator />
 
         <q-tab-panels v-model="tab" animated>
-          <q-tab-panel name="token-transfers">
-            <tokens-operations-table
-              :burn-filter="false"
-              :mint-filter="false"
-              :heights="[block.header.height]"
-            />
-          </q-tab-panel>
           <q-tab-panel name="transactions">
             <transactions-table :heights="[block.header.height]" />
           </q-tab-panel>
-          <q-tab-panel name="operations">
+          <q-tab-panel name="contract-operations">
             <contract-operations-table
-              :burn-filter="false"
-              :mint-filter="false"
+              :heights="[block.header.height]"
+            />
+          </q-tab-panel>
+          <q-tab-panel name="token-operations">
+            <tokens-operations-table
               :heights="[block.header.height]"
             />
           </q-tab-panel>
@@ -76,17 +72,17 @@
             <tokens-events-table :heights="[block.header.height]" />
           </q-tab-panel>
           <q-tab-panel name="events">
-            <tokens-events-table :heights="[block.header.height]" />
+            <contract-events-table :heights="[block.header.height]" />
           </q-tab-panel>
         </q-tab-panels>
       </q-card-section>
     </q-card>
 
-    <q-card class="token-contracts-card bg-transparent" flat>
-      <q-card-section class="q-pa-none">
+    <q-card class="search-card bg-transparent" flat>
+      <q-card-section class="q-pa-none" style="padding-top: 0 !important;">
         <q-card flat bordered class="q-mb-lg">
           <q-card-section>
-            <q-card-section class="q-pt-xs">
+            <q-card-section class="q-pa-none q-pt-xs">
               <div class="text-overline">Details</div>
 
               <block-details-component :block="block" />
@@ -96,7 +92,7 @@
 
         <q-card flat bordered>
           <q-card-section>
-            <q-card-section class="q-pt-xs">
+            <q-card-section class="q-pa-none q-pt-xs">
               <div class="text-overline">Block Reward</div>
               <block-producer-component :block="block" />
             </q-card-section>
@@ -120,10 +116,12 @@ import TransactionsTable from '@koiner/chain/components/transaction/search/view/
 import { ItemState } from '@appvise/search-manager';
 import { Block, useBlockPageQuery } from '@koiner/sdk';
 import BlockProducerComponent from '@koiner/chain/components/block/block-producer-component.vue';
+import ContractEventsTable from '@koiner/contracts/components/contract/search/view/contracts-events-table.vue';
 
 export default defineComponent({
   name: 'NetworkIndexPage',
   components: {
+    ContractEventsTable,
     BlockProducerComponent,
     TransactionsTable,
     ContractOperationsTable,
@@ -137,7 +135,7 @@ export default defineComponent({
     const statsStore = useStatsStore();
     const route = useRoute();
 
-    const tab: Ref<string> = ref('token-transfers');
+    const tab: Ref<string> = ref('transactions');
 
     const itemState = ItemState.create<Block>();
     const variables: Ref<{ height: string }> = ref({ height: '' });
@@ -187,14 +185,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<style lang="scss" scoped>
-.tabs-card {
-  width: 100%;
-  max-width: calc(68% - 24px);
-}
-.token-contracts-card {
-  width: 100%;
-  max-width: calc(32% - 24px);
-}
-</style>

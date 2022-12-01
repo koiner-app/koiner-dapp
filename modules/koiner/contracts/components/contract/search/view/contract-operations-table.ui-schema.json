@@ -52,7 +52,7 @@
         },
         {
           "type": "Attribute",
-          "label": "Name",
+          "label": "Data",
           "scope": "#/properties/data",
           "options": {
             "format": "data"

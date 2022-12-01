@@ -1,4 +1,10 @@
 <template>
+  <div class="row no-wrap items-center">
+    <div v-if="title" class="text-h6">{{ title }}</div>
+  </div>
+
+  <q-space />
+
   <q-json-search
     :schema="schema"
     :uischema="uiSchema"
@@ -22,6 +28,10 @@ export default defineComponent({
   name: 'TokenBalancesTable',
   components: { QJsonSearch },
   props: {
+    title: {
+      required: false,
+      type: String,
+    },
     contractIds: {
       required: false,
       type: Array as PropType<Array<string>>,

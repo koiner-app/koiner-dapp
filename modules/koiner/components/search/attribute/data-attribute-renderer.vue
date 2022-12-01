@@ -6,7 +6,7 @@
     :applied-options="appliedOptions"
   >
     <span v-for="(item, index) in entries(rawValue(result.node))" :key="index">
-      <span v-if="index < 2">
+      <span v-if="index < 1">
         <q-chip
           @click="showDialog(rawValue(result.node))"
           square
@@ -17,7 +17,7 @@
         /><span>{{ item.value }}</span></span
       >
       <q-btn
-        v-if="index === 2"
+        v-if="index === 1"
         @click="showDialog(rawValue(result.node))"
         flat
         class="q-pa-none q-ml-sm"
@@ -28,7 +28,7 @@
           square
           dense
           size="sm"
-          :label="`+${entries(rawValue(result.node)).length - 2}`"
+          :label="`+${entries(rawValue(result.node)).length - 1}`"
           class="q-ma-none"
         />
       </q-btn>

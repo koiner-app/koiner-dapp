@@ -36,6 +36,10 @@ export default defineComponent({
       required: false,
       type: String,
     },
+    heights: {
+      required: false,
+      type: Array as PropType<Array<number>>,
+    },
     addresses: {
       required: false,
       type: Array as PropType<Array<string>>,
@@ -44,10 +48,15 @@ export default defineComponent({
       required: false,
       type: Array as PropType<Array<string>>,
     },
+    parentId: {
+      required: false,
+      type: String,
+    },
   },
 
   setup(props) {
     const searchStore = useSearchStore();
+    let heightsFilter: any;
     let addressFilter: any;
     let contractsFilter: any;
 
@@ -61,6 +70,14 @@ export default defineComponent({
       }
 
       searchStore.contractEvents.request.filter = { AND: [] };
+
+      if (props.heights && props.heights.length > 0) {
+        heightsFilter = props.heights.map((height) => {
+          return {
+            blockHeight: { equals: height },
+          };
+        });
+      }
 
       if (props.addresses && props.addresses.length > 0) {
         addressFilter = props.addresses.map((address) => {
@@ -78,6 +95,12 @@ export default defineComponent({
         });
       }
 
+      if (heightsFilter) {
+        searchStore.contractEvents.request.filter.AND!.push({
+          OR: heightsFilter,
+        });
+      }
+
       if (addressFilter) {
         searchStore.contractEvents.request.filter.AND!.push({
           OR: addressFilter,
@@ -87,6 +110,14 @@ export default defineComponent({
       if (contractsFilter) {
         searchStore.contractEvents.request.filter.AND!.push({
           OR: contractsFilter,
+        });
+      }
+
+      if (props.parentId) {
+        searchStore.contractEvents.request.filter.AND!.push({
+          parentId: {
+            equals: props.parentId
+          },
         });
       }
     };

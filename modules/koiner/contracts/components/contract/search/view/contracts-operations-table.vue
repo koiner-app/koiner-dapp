@@ -48,6 +48,10 @@ export default defineComponent({
       required: false,
       type: Array as PropType<Array<string>>,
     },
+    transactionId: {
+      required: false,
+      type: String,
+    },
   },
 
   setup(props) {
@@ -106,6 +110,14 @@ export default defineComponent({
       if (contractsFilter) {
         searchStore.contractOperations.request.filter.AND!.push({
           OR: contractsFilter,
+        });
+      }
+
+      if (props.transactionId) {
+        searchStore.contractOperations.request.filter.AND!.push({
+          transactionId: {
+            equals: props.transactionId
+          },
         });
       }
     };

@@ -20,20 +20,20 @@
       </q-card-section>
     </q-card>
 
-    <q-card class="tabs-card" flat bordered>
+    <q-card class="tabs-card" flat bordered style="max-width: 100%;">
       <q-card-section class="q-pt-xs">
         <q-tabs v-model="tab" dense align="left" style="width: 100%">
           <q-tab
             class="text-overline"
             :ripple="false"
-            label="Transfers"
-            name="token-transfers"
+            label="Contract Ops"
+            name="contract-operations"
           />
           <q-tab
             class="text-overline"
             :ripple="false"
-            label="Contract Ops"
-            name="operations"
+            label="Token Ops"
+            name="token-operations"
           />
           <q-tab
             class="text-overline"
@@ -52,19 +52,18 @@
         <q-separator />
 
         <q-tab-panels v-model="tab" animated>
-          <q-tab-panel name="token-transfers">
+          <q-tab-panel name="contract-operations">
+            <contract-operations-table
+              :burn-filter="false"
+              :mint-filter="false"
+              :transaction-id="transaction.id"
+            />
+          </q-tab-panel>
+          <q-tab-panel name="token-operations">
             <tokens-operations-table
               :burn-filter="false"
               :mint-filter="false"
               :transaction-ids="[transaction.id]"
-              parent-type="transaction"
-            />
-          </q-tab-panel>
-          <q-tab-panel name="operations">
-            <contract-operations-table
-              :burn-filter="false"
-              :mint-filter="false"
-              :parent-id="transaction.id"
               parent-type="transaction"
             />
           </q-tab-panel>
@@ -81,90 +80,6 @@
             />
           </q-tab-panel>
         </q-tab-panels>
-      </q-card-section>
-    </q-card>
-
-    <q-card class="search-card" flat>
-      <q-card-section class="q-pa-none">
-        <q-card-section class="q-pt-xs">
-          <div class="text-overline">Details</div>
-
-          <q-list bordered class="rounded-borders">
-            <q-item>
-              <q-item-section class="col-2 gt-sm">
-                <q-item-label>Transaction Hash:</q-item-label>
-              </q-item-section>
-
-              <q-item-section>
-                {{ transaction.id }}
-              </q-item-section>
-            </q-item>
-
-            <q-separator inset="item" />
-
-            <q-item>
-              <q-item-section class="col-2 gt-sm">
-                <q-item-label>Block:</q-item-label>
-              </q-item-section>
-
-              <q-item-section>
-                {{ transaction.blockHeight }}
-              </q-item-section>
-            </q-item>
-
-            <q-separator inset="item" />
-
-            <q-item>
-              <q-item-section class="col-2 gt-sm">
-                <q-item-label>Timestamp</q-item-label>
-              </q-item-section>
-              <q-item-section></q-item-section>
-            </q-item>
-
-            <q-separator inset="item" />
-
-            <q-item>
-              <q-item-section class="col-2 gt-sm">
-                <q-item-label>Operations</q-item-label>
-              </q-item-section>
-              <q-item-section>
-                <div v-if="transaction.operationCount > 0">
-                  <q-btn
-                    :to="{
-                      name: 'transaction.operations',
-                      id: itemState.id,
-                    }"
-                    flat
-                    class="q-pa-none"
-                    style="min-height: auto"
-                  >
-                    <q-badge color="secondary" text-color="black"
-                      >{{ transaction.operationCount }} operation
-                      {{ transaction.operationCount > 1 ? 's' : '' }}</q-badge
-                    >
-                  </q-btn>
-                </div>
-                <div v-else>
-                  <q-badge color="grey" text-color="black"
-                    >No operations</q-badge
-                  >
-                </div>
-              </q-item-section>
-            </q-item>
-
-            <q-separator inset="item" />
-
-            <q-item>
-              <q-item-section class="col-2 gt-sm">
-                <q-item-label>Signature:</q-item-label>
-              </q-item-section>
-
-              <q-item-section>
-                {{ transaction.signature }}
-              </q-item-section>
-            </q-item>
-          </q-list>
-        </q-card-section>
       </q-card-section>
     </q-card>
 
@@ -198,7 +113,7 @@ export default defineComponent({
     const variables: Ref<{ id: string }> = ref({ id: '' });
     const route = useRoute();
 
-    const tab: Ref<string> = ref('token-transfers');
+    const tab: Ref<string> = ref('contract-operations');
 
     const executeQuery = () => {
       const { data, fetching, error, isPaused } = useTransactionPageQuery({
