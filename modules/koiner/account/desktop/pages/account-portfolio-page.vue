@@ -1,7 +1,7 @@
 <template>
   <q-page
     v-if="accountStore.addressesFilter.length > 0"
-    class="row items-baseline"
+    class="row items-start"
   >
     <q-card class="stats-cards" flat bordered>
       <q-card-section horizontal>
@@ -30,24 +30,32 @@
           @calculated="updateTotalVirtualKoin"
         />
         <q-separator vertical />
-        <counter-metric
-          title="Burned"
-          :value="burned"
-          :decimals="2"
-          unit="%"
-        />
+        <counter-metric title="Burned" :value="burned" :decimals="2" unit="%" />
       </q-card-section>
     </q-card>
 
-    <q-card class="search-card-large" flat bordered>
-      <q-card-section>
-        <div class="text-overline">Portfolio</div>
+    <q-card class="tabs-card" flat bordered>
+      <q-card-section class="q-pt-xs">
+        <q-tabs v-model="tab" dense align="left" style="width: 100%">
+          <q-tab
+            class="text-overline"
+            :ripple="false"
+            label="Balances"
+            name="balances"
+          />
+        </q-tabs>
 
-        <token-balances-table
-          v-if="accountStore.addressesFilter.length > 0"
-          :addresses="accountStore.addressesFilter"
-          @change="updateTokenHolders"
-        />
+        <q-separator />
+
+        <q-tab-panels v-model="tab" animated>
+          <q-tab-panel name="balances">
+            <token-balances-table
+              v-if="accountStore.addressesFilter.length > 0"
+              :addresses="accountStore.addressesFilter"
+              @change="updateTokenHolders"
+            />
+          </q-tab-panel>
+        </q-tab-panels>
       </q-card-section>
     </q-card>
 
@@ -88,6 +96,7 @@ export default defineComponent({
     const tokenHolders: Ref<TokenHolder[]> = ref([]);
     const totalVhp: Ref<number | undefined> = ref();
     const totalVirtualKoin: Ref<number | undefined> = ref();
+    const tab: Ref<string> = ref('balances');
 
     const updateTokenHolders = (newConnection: TokenHoldersConnection) => {
       if (newConnection?.edges) {
@@ -96,6 +105,7 @@ export default defineComponent({
     };
 
     return {
+      tab,
       accountStore,
       koinerStore,
       updateTokenHolders,
