@@ -97,6 +97,12 @@ export default defineComponent({
           disabled: false,
         },
         {
+          name: 'Projects',
+          to: '/ecosystem',
+          icon: 'apps',
+          disabled: false,
+        },
+        {
           name: 'Tokens',
           to: '/tokens',
           icon: 'toll',
@@ -119,12 +125,6 @@ export default defineComponent({
           to: '/contracts',
           icon: 'document_scanner',
           disabled: false,
-        },
-        {
-          name: 'Governance',
-          to: '/governance',
-          icon: 'how_to_vote',
-          disabled: true,
         },
       ],
     };

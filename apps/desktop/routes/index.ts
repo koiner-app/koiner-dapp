@@ -5,6 +5,7 @@ import { chainModuleRoutes } from '@koiner/chain/desktop/routes';
 import { contractsModuleDesktopRoutes } from '@koiner/contracts/desktop/routes';
 import { networkModuleDesktopRoutes } from '@koiner/network/desktop/routes';
 import { tokenizeModuleRoutes } from '@koiner/tokenize/desktop/routes';
+import { ecosystemModuleDesktopRoutes } from '@koiner/ecosystem/desktop/routes';
 
 export const desktopRoutes: RouteRecordRaw[] = [
   {
@@ -34,6 +35,7 @@ export const desktopRoutes: RouteRecordRaw[] = [
       ...chainModuleRoutes,
       ...contractsModuleDesktopRoutes,
       ...networkModuleDesktopRoutes,
+      ...ecosystemModuleDesktopRoutes,
       ...tokenizeModuleRoutes,
     ],
   },
