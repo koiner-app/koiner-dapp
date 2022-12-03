@@ -1,4 +1,11 @@
-export const ProjectTypes = ['dApp', 'Tools', 'Code', 'Content'];
+export const ProjectTypes = [
+  'dApp',
+  'Social',
+  'Tools',
+  'Code',
+  'Content',
+  'Marketing',
+];
 
 export const ProjectTags = [
   'Wallet',
@@ -8,4 +15,5 @@ export const ProjectTags = [
   'Dex',
   'YouTube',
   'JavaScript',
+  'Node',
 ];

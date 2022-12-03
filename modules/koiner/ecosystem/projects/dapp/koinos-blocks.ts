@@ -1,7 +1,7 @@
 import { Project } from '@koiner/ecosystem';
 
 export const koinosBlocks: Project = {
-  name: 'Koinosblocks',
+  name: 'Koinos Blocks',
   types: ['dApp'],
   caption: 'Block Explorer',
   image: './projects/dapp/koinosblocks.png',

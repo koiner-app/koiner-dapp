@@ -8,7 +8,7 @@
           selectedTypes.includes('all') ? 'selected' : ''
         }`"
       >
-        <q-chip>All types</q-chip>
+        <q-chip>All projects</q-chip>
       </q-btn>
       <q-btn
         @click="toggleType(type)"
@@ -257,14 +257,35 @@ export default defineComponent({
       font-size: 1.125rem;
     }
   }
+
   .q-avatar {
     border-radius: 0 !important;
   }
-}
 
-.fa-brands {
-  &.fa-youtube {
-    color: #ff0001;
+  .fa-brands {
+    &.fa-youtube {
+      color: #ff0001;
+    }
+
+    &.fa-telegram {
+      color: #2da1d3;
+    }
+
+    &.fa-twitter {
+      color: #1B9BF0;
+    }
+
+    &.fa-apple {
+      color: #666666;
+    }
+
+    &.fa-discord {
+      color: #5662eb;
+    }
+  }
+
+  .fa-solid {
+    color: grey;
   }
 }
 
@@ -273,7 +294,11 @@ export default defineComponent({
   color: grey !important;
 
   .fa-brands {
-    &.fa-youtube {
+    &.fa-youtube,
+    &.fa-telegram,
+    &.fa-twitter,
+    &.fa-apple,
+    &.fa-discord {
       color: grey !important;
     }
   }
