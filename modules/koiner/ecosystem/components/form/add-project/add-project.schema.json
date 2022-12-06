@@ -1,0 +1,31 @@
+{
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "minLength": 2,
+      "maxLength": 100
+    },
+    "description": {
+      "type": "string",
+      "minLength": 2,
+      "maxLength": 140
+    },
+    "links": {
+      "type": "string",
+      "minLength": 2,
+      "maxLength": 2000
+    },
+    "contactName": {
+      "type": "string",
+      "minLength": 2,
+      "maxLength": 100
+    },
+    "contactDiscord": {
+      "type": "string",
+      "minLength": 2,
+      "maxLength": 100
+    }
+  },
+  "required": ["name", "location", "clientId", "status"]
+}

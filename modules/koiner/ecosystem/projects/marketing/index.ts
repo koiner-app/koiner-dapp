@@ -1,4 +1,4 @@
-import { koinosSwapShop } from './koinos-swag-shop';
+import { koinosSwagShop } from './koinos-swag-shop';
 import { planetKoinos } from './planet-koinos';
 
-export const marketingProjects = [koinosSwapShop, planetKoinos];
+export const marketingProjects = [koinosSwagShop, planetKoinos];

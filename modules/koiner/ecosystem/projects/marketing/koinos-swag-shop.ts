@@ -1,7 +1,7 @@
 import { Project } from '@koiner/ecosystem';
 
-export const koinosSwapShop: Project = {
-  name: 'Koinos Swap Shop',
+export const koinosSwagShop: Project = {
+  name: 'Koinos Swag Shop',
   types: ['Marketing'],
   caption: 'Merchandise',
   image: './projects/koinos.svg',

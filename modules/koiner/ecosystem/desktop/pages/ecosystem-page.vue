@@ -1,6 +1,28 @@
 <template>
   <q-page>
-    <h1 class="text-h5">Ecosystem</h1>
+    <div class="row q-px-md full-width">
+      <h1 class="text-h5">Ecosystem</h1>
+
+      <q-space />
+
+      <q-btn
+        class="q-mr-sm"
+        color="primary"
+        unelevated
+        @click="addProject"
+        flat
+        style="
+          height: 1rem;
+          margin-top: 1rem;
+          text-transform: none;
+          padding: 0.25rem;
+        "
+      >
+        <q-icon name="add" class="q-mr-sm" size="xs" />
+        Submit your project
+      </q-btn>
+    </div>
+
     <div class="row q-px-md full-width">
       <q-btn
         @click="selectAllTypes"
@@ -66,20 +88,32 @@
             </q-avatar>
             <div class="project-title">
               {{ project.name }}
-              <div class="text-caption" v-if="project.token">
-                {{ project.token }}
-              </div>
               <div class="text-caption" v-if="project.caption">
                 {{ project.caption }}
               </div>
             </div>
 
-            <!--          <div-->
-            <!--            class="col-auto text-grey text-caption q-pt-md row no-wrap items-center"-->
-            <!--          >-->
-            <!--            <q-icon name="place" />-->
-            <!--            250 ft-->
-            <!--          </div>-->
+            <div
+              v-if="project.token"
+              class="text-grey absolute-right q-mr-lg q-mt-md q-pt-xs"
+            >
+              <span class="text-caption">
+                <router-link
+                  v-if="project.token.contractId"
+                  :to="{
+                    name: 'token',
+                    params: { id: project.token.contractId },
+                  }"
+                >
+                  <q-icon name="toll" />
+                  {{ project.token.name }}
+                </router-link>
+                <span v-else>
+                  <q-icon name="toll" />
+                  {{ project.token.name }}</span
+                >
+              </span>
+            </div>
           </div>
 
           <div class="q-py-sm">
@@ -90,7 +124,6 @@
         </q-card-section>
 
         <q-card-section class="q-pt-none q-pb-xs">
-          <!--        <div class="text-subtitle1">$・Italian, Cafe</div>-->
           <div class="text-caption text-grey project-description">
             {{ project.description }}
           </div>
@@ -108,39 +141,6 @@
             size="sm"
             class="project-link"
           />
-          <!--          -->
-          <!--          <q-btn-->
-          <!--            flat-->
-          <!--            round-->
-          <!--            icon="fa-brands fa-github"-->
-          <!--            color="grey"-->
-          <!--            size="sm"-->
-          <!--            class="padding: 0 !important;"-->
-          <!--          />-->
-          <!--          <q-btn-->
-          <!--            flat-->
-          <!--            round-->
-          <!--            icon="fa-brands fa-twitter"-->
-          <!--            color="grey"-->
-          <!--            size="sm"-->
-          <!--            style="padding: 0 !important"-->
-          <!--          />-->
-          <!--          <q-btn-->
-          <!--            flat-->
-          <!--            round-->
-          <!--            icon="fa-brands fa-medium"-->
-          <!--            color="grey"-->
-          <!--            size="sm"-->
-          <!--            class="padding: 0 !important;"-->
-          <!--          />-->
-          <!--          <q-btn-->
-          <!--            flat-->
-          <!--            round-->
-          <!--            icon="fa-brands fa-medium"-->
-          <!--            color="grey"-->
-          <!--            size="sm"-->
-          <!--            class="padding: 0 !important;"-->
-          <!--          />-->
         </q-card-actions>
       </q-card>
     </div>
@@ -148,15 +148,18 @@
 </template>
 
 <script lang="ts">
+import { useQuasar } from 'quasar';
 import { defineComponent, Ref, ref, watch } from 'vue';
 import { KoinosProjects } from '../../projects';
 import { Project } from '../..';
 import { ProjectTags, ProjectTypes } from '../../projects';
+import AddProjectForm from '@koiner/ecosystem/components/form/add-project/add-project-form.vue';
 
 export default defineComponent({
   name: 'EcosystemPage',
 
   setup() {
+    const $q = useQuasar();
     const selectedTypes: Ref<string[]> = ref(['all']);
     const selectedTags: Ref<string[]> = ref(['all']);
     const selectedProjects: Ref<Project[]> = ref(KoinosProjects);
@@ -183,6 +186,19 @@ export default defineComponent({
     watch(selectedTags, () => {
       updateProjects();
     });
+
+    /**
+     * AddProjects dialog
+     */
+    const addProject = () => {
+      $q.dialog({
+        class: 'k-form-dialog',
+        component: AddProjectForm,
+        persistent: true,
+      }).onOk(() => {
+        alert('Done');
+      });
+    };
 
     return {
       selectedTypes,
@@ -239,6 +255,7 @@ export default defineComponent({
         selectedTags.value =
           selectedTags.value !== ['all'] ? ['all'] : selectedTags.value;
       },
+      addProject,
     };
   },
 });
@@ -272,7 +289,7 @@ export default defineComponent({
     }
 
     &.fa-twitter {
-      color: #1B9BF0;
+      color: #1b9bf0;
     }
 
     &.fa-apple {
@@ -287,19 +304,31 @@ export default defineComponent({
   .fa-solid {
     color: grey;
   }
-}
 
-.project-link {
-  padding: 0 !important;
-  color: grey !important;
+  .project-link {
+    padding: 0 !important;
+    color: grey !important;
 
-  .fa-brands {
-    &.fa-youtube,
-    &.fa-telegram,
-    &.fa-twitter,
-    &.fa-apple,
-    &.fa-discord {
-      color: grey !important;
+    .fa-brands {
+      &.fa-youtube,
+      &.fa-telegram,
+      &.fa-twitter,
+      &.fa-apple,
+      &.fa-discord {
+        color: grey !important;
+      }
+    }
+  }
+
+  .project-description {
+    min-height: 100px;
+
+    @media (min-width: 1200px) {
+      min-height: 80px;
+    }
+
+    @media (min-width: 1440px) {
+      min-height: 60px;
     }
   }
 }
@@ -334,18 +363,6 @@ export default defineComponent({
       box-shadow: 0 1px 5px rgb(0 0 0 / 20%), 0 2px 2px rgb(0 0 0 / 14%),
         0 3px 1px -2px rgb(0 0 0 / 12%);
     }
-  }
-}
-
-.project-description {
-  min-height: 100px;
-
-  @media (min-width: 1200px) {
-    min-height: 80px;
-  }
-
-  @media (min-width: 1440px) {
-    min-height: 60px;
   }
 }
 </style>

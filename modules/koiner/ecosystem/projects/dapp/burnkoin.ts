@@ -5,6 +5,10 @@ export const burnKoin: Project = {
   types: ['dApp', 'token'],
   caption: 'Burnpool',
   image: './projects/dapp/burnkoin.svg',
+  token: {
+    name: 'pVHP',
+    contractId: '1NHReq2apWsQ6UPBjNqcV3ABsj88Ncimiy',
+  },
   description:
     'Burn Koin is the first burn pool developed for Koinos. "Burn pool" is just the name we use for mining pools on Koinos Proof of Burn.',
   links: [

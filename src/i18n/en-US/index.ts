@@ -16,10 +16,52 @@ export default {
         noDataAvailable: 'No data',
       },
     },
+    form: {
+      action: {
+        cancel: { label: 'Cancel' },
+        create: { label: 'Create' },
+        save: { label: 'Save' },
+        add: { label: 'Add' },
+      },
+    },
   },
   koiner: {
     chain: koinerChainEnUs,
     contracts: koinerContractsEnUs,
+    ecosystem: {
+      project: {
+        form: {
+          addProject: {
+            sections: {
+              projectDetails: 'Project details',
+              contactInformation: 'Contact information',
+            },
+            name: {
+              label: 'Project name',
+            },
+            description: {
+              label: 'Project description in 140 chars',
+            },
+            links: {
+              label: 'Links to your project, github & socials',
+            },
+            contactName: {
+              label: 'Your name',
+            },
+            contactDiscord: {
+              label: 'Your Discord handle',
+            },
+            submit: {
+              label: 'Submit project',
+            },
+            messages: {
+              error: 'Project could not be submitted due to an error',
+              success: 'Project submitted',
+            },
+          },
+        },
+      },
+    },
     network: koinerNetworkEnUs,
     tokenize: koinerTokenizeEnUs,
   },

@@ -55,6 +55,7 @@
       <contracts-search :search="trimmedSearch" />
       <blocks-search :search="trimmedSearch" />
       <transactions-search :search="trimmedSearch" />
+      <projects-search :search="trimmedSearch" />
     </q-card>
   </q-dialog>
 </template>
@@ -68,10 +69,12 @@ import BlocksSearch from '@koiner/components/search/searches/blocks-search.vue';
 import TransactionsSearch from '@koiner/components/search/searches/transactions-search.vue';
 import PagesSearch from '@koiner/components/search/searches/pages-search.vue';
 import posthog from 'posthog-js';
+import ProjectsSearch from '@koiner/components/search/searches/projects-search.vue';
 
 export default defineComponent({
   name: 'SearchDialog',
   components: {
+    ProjectsSearch,
     AddressesSearch,
     BlocksSearch,
     ContractsSearch,

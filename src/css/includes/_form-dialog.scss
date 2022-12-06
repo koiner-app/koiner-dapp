@@ -1,0 +1,40 @@
+.k-form-dialog {
+  padding: 0.5rem 1rem;
+
+  @media (min-width: 600px) {
+    min-width: 560px;
+    padding: 1rem 2rem;
+  }
+
+  @media (min-width: 768px) {
+    min-width: 660px;
+  }
+
+  .q-dialog__title {
+    padding-bottom: 2rem;
+  }
+  .q-dialog__message {
+    padding-bottom: 2rem;
+  }
+  .q-card__actions {
+    .q-btn {
+      &:first-of-type {
+        position: absolute;
+        left: 3.5rem;
+      }
+    }
+  }
+  .q-card {
+    box-shadow: none !important;
+    &.actions {
+      .group-item {
+        display: inline-block;
+      }
+      > div:nth-child(2) {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+      }
+    }
+  }
+}

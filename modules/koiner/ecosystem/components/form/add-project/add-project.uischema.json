@@ -1,0 +1,66 @@
+{
+  "type": "VerticalLayout",
+  "options": {
+    "i18n": "koiner.ecosystem.project.form.addProject"
+  },
+  "elements": [
+    {
+      "type": "Group",
+      "label": "sections.projectDetails",
+      "elements": [
+        {
+          "type": "Control",
+          "scope": "#/properties/name"
+        },
+        {
+          "type": "Control",
+          "scope": "#/properties/description",
+          "options": {
+            "type": "textarea"
+          }
+        },
+        {
+          "type": "Control",
+          "scope": "#/properties/links",
+          "options": {
+            "type": "textarea"
+          }
+        }
+      ]
+    },
+    {
+      "type": "Group",
+      "label": "sections.contactInformation",
+      "elements": [
+        {
+          "type": "Control",
+          "scope": "#/properties/contactName"
+        },
+        {
+          "type": "Control",
+          "scope": "#/properties/contactDiscord"
+        }
+      ]
+    },
+    {
+      "type": "Group",
+      "options": {
+        "class": "actions"
+      },
+      "elements": [
+        {
+          "type": "Button",
+          "scope": "#/properties/cancel",
+          "i18n": "appvise.form.action.cancel"
+        },
+        {
+          "type": "Button",
+          "scope": "#/properties/submit",
+          "options": {
+            "type": "submit"
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,6 +1,9 @@
 export interface Project {
   name: string;
-  token?: string;
+  token?: {
+    name: string;
+    contractId?: string;
+  };
   caption?: string;
   description: string;
   image?: string;
