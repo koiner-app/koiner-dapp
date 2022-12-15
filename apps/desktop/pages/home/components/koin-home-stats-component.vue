@@ -4,19 +4,30 @@
       <counter-metric
         class="token-price"
         title="KOIN Price"
-        :value="koinosStore.formattedPrice"
-        :unit="
-          koinosStore.formattedPriceChange24hPercentage
-            ? `(${koinosStore.formattedPriceChange24hPercentage})`
-            : ''
-        "
-        :unit-class="`text-${
-          koinosStore.price.change24hPercentage > 0 ? 'positive' : 'negative'
-        }`"
+        :value="statsStore.formattedKoinPrice"
         :footer="{
           title: 'Marketcap:',
-          value: koinosStore.formattedMarketCap,
+          value: statsStore.formattedMarketCap,
         }"
+        :footer-tooltips="[
+          {
+            title: 'Virtual Marketcap',
+            value: statsStore.formattedVirtualMarketCap,
+            unit: '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;KOIN + VHP',
+          },
+          {
+            title: 'Fully Diluted Valuation',
+            value: statsStore.formattedFDVMarketCap,
+            unit: '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;All tokens claimed',
+          },
+          {
+            title: 'FDV Virtual MC',
+            value: statsStore.formattedVirtualFDVMarketCap,
+            unit: '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;All tokens claimed + VHP',
+          },
+        ]"
+        :tooltip-title-width="125"
+        :tooltip-item-width="250"
       />
 
       <q-separator vertical />

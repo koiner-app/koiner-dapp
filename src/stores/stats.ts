@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 import { watch } from 'vue';
 import { useQuery } from '@urql/vue';
 import { useKoinerStore } from 'stores/koiner';
-import { localizedTokenAmount } from '@koiner/utils';
+import { localizedTokenAmount, tokenAmount } from '@koiner/utils';
 
 export const useStatsStore = defineStore({
   id: 'stats',
@@ -20,6 +20,14 @@ export const useStatsStore = defineStore({
       rewarded: 0 as number,
       burned: 0 as number,
       roi: 0.0 as number,
+    },
+    koinStats: {
+      price: 0 as number,
+      bidPrice: 0 as number,
+      bidQuantity: 0 as number,
+      askPrice: 0 as number,
+      askQuantity: 0 as number,
+      timestamp: 0 as number,
     },
     tokenStats: {
       contractCount: 0 as number,
@@ -64,6 +72,52 @@ export const useStatsStore = defineStore({
           displayedDecimals
         );
     },
+    formattedKoinPrice: (state) =>
+      state.koinStats.price ? `$${state.koinStats.price}` : '?',
+    formattedMarketCap: (state) => {
+      if (state.totalSupply.koinTotalSupply && state.koinStats.price) {
+        const mc =
+          tokenAmount(parseInt(state.totalSupply.koinTotalSupply), 8) *
+          state.koinStats.price;
+
+        return `$${mc.toLocaleString()}`;
+      }
+
+      return '?';
+    },
+    formattedVirtualMarketCap: (state) => {
+      if (state.totalSupply.virtualTotalSupply && state.koinStats.price) {
+        const mc =
+          tokenAmount(parseInt(state.totalSupply.virtualTotalSupply), 8) *
+          state.koinStats.price;
+
+        return `$${mc.toLocaleString()}`;
+      }
+
+      return '?';
+    },
+    formattedFDVMarketCap: (state) => {
+      if (state.koinStats.price) {
+        const mc =
+          tokenAmount(
+            9973874402587864 - parseInt(state.totalSupply.vhpTotalSupply),
+            8
+          ) * state.koinStats.price;
+
+        return `$${mc.toLocaleString()}`;
+      }
+
+      return '?';
+    },
+    formattedVirtualFDVMarketCap: (state) => {
+      if (state.koinStats.price) {
+        const mc = tokenAmount(9973874402587864, 8) * state.koinStats.price;
+
+        return `$${mc.toLocaleString()}`;
+      }
+
+      return '?';
+    },
   },
 
   actions: {
@@ -103,6 +157,15 @@ export const useStatsStore = defineStore({
       rewarded
       burnedTotal
       roi
+    }
+    koinStats {
+      id
+      price
+      bidPrice
+      bidQuantity
+      askPrice
+      askQuantity
+      timestamp
     }
     tokenStats {
       id
@@ -156,6 +219,14 @@ export const useStatsStore = defineStore({
               rewarded: parseInt(chain.blockProductionStats.rewarded),
               burned: parseInt(chain.blockProductionStats.burnedTotal),
               roi: chain.blockProductionStats.roi,
+            },
+            koinStats: {
+              price: chain.koinStats.price,
+              bidPrice: chain.koinStats.bidPrice,
+              bidQuantity: chain.koinStats.bidQuantity,
+              askPrice: chain.koinStats.askPrice,
+              askQuantity: chain.koinStats.askQuantity,
+              timestamp: chain.koinStats.timestamp,
             },
             tokenStats: {
               contractCount: chain.tokenStats.contractCount,

@@ -4,16 +4,27 @@
       <div class="stat-title">{{ title }}</div>
       <div class="stat-content">
         {{ formattedValue }}
-        <span v-if="unit" :class="`stat-unit ${unitClass ?? ''}`">{{ unit }}</span>
+        <span v-if="unit" :class="`stat-unit ${unitClass ?? ''}`">{{
+          unit
+        }}</span>
       </div>
       <div class="stat-footer" v-if="footer">
         {{ footer.title }}
         <span class="stat-footer-stat"
           >{{ footer.value }}
-          <span v-if="footer.unit" :class="`stat-unit ${footer.unitClass ?? ''}`">{{
-            footer.unit
-          }}</span>
+          <span
+            v-if="footer.unit"
+            :class="`stat-unit ${footer.unitClass ?? ''}`"
+            >{{ footer.unit }}</span
+          >
         </span>
+        <q-icon
+          v-if="footerTooltips && footerTooltips.length > 0"
+          name="help"
+          color="grey"
+          style="padding-bottom: 3px;"
+          class="q-ml-xs"
+        />
         <q-tooltip
           v-if="footerTooltips && footerTooltips.length > 0"
           anchor="bottom start"
@@ -29,14 +40,20 @@
               <div class="col" :style="`min-width: ${tooltipTitleWidth}px`">
                 {{ footerTooltip.title }}
               </div>
-              <div class="col">
+              <div
+                class="col"
+                :style="
+                  tooltipItemWidth ? `min-width: ${tooltipItemWidth}px` : ''
+                "
+              >
                 {{ footerTooltip.value }}
                 &nbsp;
                 <span
                   v-if="footerTooltip.unit"
                   :class="`stat-unit ${footerTooltip.unitClass ?? ''}`"
-                  >{{ footerTooltip.unit }}</span
                 >
+                  {{ footerTooltip.unit }}
+                </span>
               </div>
             </div>
           </div>
@@ -97,6 +114,10 @@ export default defineComponent({
       required: false,
       type: Number,
       default: 100,
+    },
+    tooltipItemWidth: {
+      required: false,
+      type: Number,
     },
   },
 
