@@ -1,0 +1,11 @@
+namespace: koiner-dapp
+
+resources:
+  - namespace.yaml
+  - ../../../base/dapp
+
+configMapGenerator:
+  - name: dapp-config
+    behavior: merge
+    envs:
+      - config/dapp.properties
