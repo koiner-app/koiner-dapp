@@ -1,6 +1,13 @@
-import { kondor } from './kondor';
-import { koinosNode } from './koinos-node';
 import { koinosDocumentation } from './koinos-documentation';
+import { kondor } from './kondor';
+import { myKoinosWallet } from './my-koinos-wallet';
 import { koinosCli } from './koinos-cli';
+import { koinosNode } from './koinos-node';
 
-export const tools = [kondor, koinosDocumentation, koinosCli, koinosNode];
+export const tools = [
+  koinosDocumentation,
+  kondor,
+  myKoinosWallet,
+  koinosCli,
+  koinosNode,
+];
