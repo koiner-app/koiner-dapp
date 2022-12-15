@@ -74,18 +74,18 @@ export default defineComponent({
             {
               title: 'KOIN',
               tooltip: 'Koin price',
-              value: koinosStore.formattedPrice,
-              progress: koinosStore.formattedPriceChange24hPercentage,
-              progressClass:
-                koinosStore.price.change24hPercentage &&
-                koinosStore.price.change24hPercentage > 0
-                  ? 'green--text'
-                  : 'red--text',
+              value: statsStore.formattedKoinPrice,
+              // progress: koinosStore.formattedPriceChange24hPercentage,
+              // progressClass:
+              //   koinosStore.price.change24hPercentage &&
+              //   koinosStore.price.change24hPercentage > 0
+              //     ? 'green--text'
+              //     : 'red--text',
             },
             {
               title: 'MC',
               tooltip: 'Market Cap',
-              value: koinosStore.formattedMarketCap,
+              value: statsStore.formattedMarketCap,
             },
             {
               title: 'Txs',
