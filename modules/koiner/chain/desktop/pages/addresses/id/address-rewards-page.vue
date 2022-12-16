@@ -17,12 +17,7 @@
           :contract="koinerStore.vhpContract"
         />
         <q-separator vertical />
-        <counter-metric
-          title="ROI"
-          :value="totalRoi"
-          :decimals="2"
-          unit="%"
-        />
+        <counter-metric title="ROI" :value="apy" :decimals="2" unit="%" />
         <q-separator vertical />
         <counter-metric
           v-if="blockProducersSearch.connection.value"
@@ -40,10 +35,7 @@
     </q-card>
   </q-page>
 
-  <q-page
-    class="row items-start"
-    v-else
-  >
+  <q-page class="row items-start" v-else>
     <q-card flat bordered style="width: 100%">
       <q-card-section class="q-pt-xs">
         <div class="text-overline">Not a producer</div>
@@ -61,6 +53,7 @@ import TokenHolderBalancesMetric from '@koiner/tokenize/components/holder/metric
 import { SearchRequestType, useSearchManager } from '@appvise/search-manager';
 import { TokenHolder } from '@koiner/sdk';
 import { useKoinerStore } from 'stores/koiner';
+import { useStatsStore } from 'stores/stats';
 
 export default defineComponent({
   name: 'AddressRewardsPage',
@@ -72,6 +65,7 @@ export default defineComponent({
 
   setup() {
     const koinerStore = useKoinerStore();
+    const statsStore = useStatsStore();
     let id: Ref<string | undefined> = ref();
     const route = useRoute();
     const blockProducersSearch = useSearchManager('blockProducers');
@@ -154,17 +148,8 @@ export default defineComponent({
 
         return burnedTotal;
       }),
-      totalRoi: computed(() => {
-        let profits = 0;
-        let burnedTotal = 0;
-
-        blockProducersSearch.connection.value?.edges?.forEach((edge) => {
-          profits +=
-            parseInt(edge.node.mintedTotal) - parseInt(edge.node.burnedTotal);
-          burnedTotal += parseInt(edge.node.burnedTotal);
-        });
-
-        return (profits / burnedTotal) * 100;
+      apy: computed(() => {
+        return statsStore.blockProductionApy;
       }),
     };
   },

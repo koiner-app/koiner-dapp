@@ -24,7 +24,7 @@
 
         <counter-metric
           title="ROI"
-          :value="statsStore.blockProduction.roi"
+          :value="statsStore.blockProductionApy"
           unit="%"
           :decimals="2"
         />

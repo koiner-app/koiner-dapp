@@ -21,7 +21,7 @@
         <counter-metric
           v-if="tokenHolders && tokenHolders.length > 0"
           title="ROI"
-          :value="totalRoi"
+          :value="apy"
           :decimals="2"
           unit="%"
         />
@@ -67,6 +67,7 @@ import TokenHolderBalancesMetric from '@koiner/tokenize/components/holder/metric
 import CounterMetric from '@koiner/components/metrics/counter-metric.vue';
 import { useAccountStore } from 'stores/account';
 import { useKoinerStore } from 'stores/koiner';
+import {useStatsStore} from 'stores/stats';
 
 export default defineComponent({
   name: 'AccountRewardsPage',
@@ -80,6 +81,7 @@ export default defineComponent({
   setup() {
     const accountStore = useAccountStore();
     const koinerStore = useKoinerStore();
+    const statsStore = useStatsStore();
     const blockProducersSearch = useSearchManager('blockProducers');
 
     const loadBlockProducers = async () => {
@@ -166,17 +168,8 @@ export default defineComponent({
 
         return burnedTotal;
       }),
-      totalRoi: computed(() => {
-        let profits = 0;
-        let burnedTotal = 0;
-
-        blockProducersSearch.connection.value?.edges?.forEach((edge) => {
-          profits +=
-            parseInt(edge.node.mintedTotal) - parseInt(edge.node.burnedTotal);
-          burnedTotal += parseInt(edge.node.burnedTotal);
-        });
-
-        return (profits / burnedTotal) * 100;
+      apy: computed(() => {
+        return statsStore.blockProductionApy
       }),
     };
   },

@@ -118,6 +118,16 @@ export const useStatsStore = defineStore({
 
       return '?';
     },
+    blockProductionApy: (state) => {
+      const virtualSupply = parseInt(state.totalSupply.virtualTotalSupply);
+      const yearlyInflationAmount =
+        virtualSupply * Math.pow(Math.E, 0.019802) - virtualSupply;
+
+      return (
+        (100 * yearlyInflationAmount) /
+        (parseInt(state.totalSupply.vhpTotalSupply) || 1)
+      );
+    },
   },
 
   actions: {
