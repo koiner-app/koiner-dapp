@@ -80,7 +80,9 @@ export const useStatsStore = defineStore({
           tokenAmount(parseInt(state.totalSupply.koinTotalSupply), 8) *
           state.koinStats.price;
 
-        return `$${mc.toLocaleString()}`;
+        return `$${mc.toLocaleString(undefined, {
+          maximumFractionDigits: 0,
+        })}`;
       }
 
       return '?';
@@ -91,7 +93,9 @@ export const useStatsStore = defineStore({
           tokenAmount(parseInt(state.totalSupply.virtualTotalSupply), 8) *
           state.koinStats.price;
 
-        return `$${mc.toLocaleString()}`;
+        return `$${mc.toLocaleString(undefined, {
+          maximumFractionDigits: 0,
+        })}`;
       }
 
       return '?';
@@ -104,7 +108,9 @@ export const useStatsStore = defineStore({
             8
           ) * state.koinStats.price;
 
-        return `$${mc.toLocaleString()}`;
+        return `$${mc.toLocaleString(undefined, {
+          maximumFractionDigits: 0,
+        })}`;
       }
 
       return '?';
@@ -113,7 +119,9 @@ export const useStatsStore = defineStore({
       if (state.koinStats.price) {
         const mc = tokenAmount(9973874402587864, 8) * state.koinStats.price;
 
-        return `$${mc.toLocaleString()}`;
+        return `$${mc.toLocaleString(undefined, {
+          maximumFractionDigits: 0,
+        })}`;
       }
 
       return '?';
