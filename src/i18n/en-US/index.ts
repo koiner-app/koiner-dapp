@@ -2,10 +2,12 @@ import { koinerChainEnUs } from '@koiner/chain/i18n/en-us';
 import { koinerContractsEnUs } from '@koiner/contracts/i18n/en-us';
 import { koinerNetworkEnUs } from '@koiner/network/i18n/en-us';
 import { koinerTokenizeEnUs } from '@koiner/tokenize/i18n/en-us';
+import { errorEnUs } from 'src/i18n/en-US/error';
 
 export default {
   failed: 'Action failed',
   success: 'Action was successful',
+  error: errorEnUs,
   appvise: {
     board: {
       itemCountOf: 'of',

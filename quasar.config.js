@@ -111,11 +111,17 @@ module.exports = configure(function (/* ctx */) {
           },
         },
         '/jsonrpc': {
-          // target: 'http://api.koinos.io:8080',
           target: 'https://jsonrpc.dev.koiner.app',
           changeOrigin: true,
           pathRewrite: {
             '^/jsonrpc': '',
+          },
+        },
+        '/mailtrap': {
+          target: 'https://send.api.mailtrap.io',
+          changeOrigin: true,
+          pathRewrite: {
+            '^/mailtrap': '/',
           },
         },
       },

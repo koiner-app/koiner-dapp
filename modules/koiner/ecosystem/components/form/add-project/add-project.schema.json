@@ -27,5 +27,5 @@
       "maxLength": 100
     }
   },
-  "required": ["name", "location", "clientId", "status"]
+  "required": ["name", "description", "links", "contactName", "contactDiscord"]
 }

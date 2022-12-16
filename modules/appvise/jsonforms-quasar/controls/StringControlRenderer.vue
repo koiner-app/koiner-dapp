@@ -22,12 +22,14 @@
       :persistent-hint="persistentHint()"
       :error="control.errors.length > 0"
       :error-message="control.errors"
+      :rows="appliedOptions.rows ?? 4"
       :maxlength="
         appliedOptions.restrict ? control.schema.maxLength : undefined
       "
       :type="appliedOptions.type ?? undefined"
       :autogrow="appliedOptions.autogrow ?? undefined"
       :counter="
+        appliedOptions.counter !== false &&
         control.schema.maxLength !== undefined
           ? true
           : undefined

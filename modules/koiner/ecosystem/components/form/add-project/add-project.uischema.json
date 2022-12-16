@@ -10,20 +10,25 @@
       "elements": [
         {
           "type": "Control",
-          "scope": "#/properties/name"
+          "scope": "#/properties/name",
+          "counter": false
         },
         {
           "type": "Control",
           "scope": "#/properties/description",
           "options": {
-            "type": "textarea"
+            "type": "textarea",
+            "rows": 3,
+            "counter": false
           }
         },
         {
           "type": "Control",
           "scope": "#/properties/links",
           "options": {
-            "type": "textarea"
+            "type": "textarea",
+            "rows": 3,
+            "counter": false
           }
         }
       ]
@@ -34,11 +39,17 @@
       "elements": [
         {
           "type": "Control",
-          "scope": "#/properties/contactName"
+          "scope": "#/properties/contactName",
+          "options": {
+            "counter": false
+          }
         },
         {
           "type": "Control",
-          "scope": "#/properties/contactDiscord"
+          "scope": "#/properties/contactDiscord",
+          "options": {
+            "counter": false
+          }
         }
       ]
     },
@@ -51,13 +62,17 @@
         {
           "type": "Button",
           "scope": "#/properties/cancel",
-          "i18n": "appvise.form.action.cancel"
+          "i18n": "appvise.form.action.cancel",
+          "options": {
+            "flat": true
+          }
         },
         {
           "type": "Button",
           "scope": "#/properties/submit",
           "options": {
-            "type": "submit"
+            "type": "submit",
+            "color": "primary"
           }
         }
       ]

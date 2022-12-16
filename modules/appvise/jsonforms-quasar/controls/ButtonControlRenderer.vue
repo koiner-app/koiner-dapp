@@ -11,6 +11,7 @@
       :label="computedLabel"
       :unelevated="appliedOptions.unelevated"
       :color="appliedOptions.color"
+      :flat="appliedOptions.flat"
       @click="onButtonClick"
     />
   </control-wrapper>
