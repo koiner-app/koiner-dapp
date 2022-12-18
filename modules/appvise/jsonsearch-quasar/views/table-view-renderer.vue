@@ -62,7 +62,7 @@ import {
   SearchOptionsDefaults,
   UISchemaSearchOptions,
 } from '@appvise/jsonforms-search-manager';
-import { useWindowSize } from '@vueuse/core';
+import { useWindowScroll, useWindowSize } from '@vueuse/core';
 
 export default defineComponent({
   name: 'TableViewRenderer',
@@ -97,6 +97,9 @@ export default defineComponent({
         screenSize: childElement.options?.screenSize,
       };
     });
+
+    const { width } = useWindowSize();
+    const { y } = useWindowScroll();
 
     const uischema = unref(quasarSearchView.searchView).uischema;
 
@@ -136,14 +139,31 @@ export default defineComponent({
           ? searchManager.connection.value.edges.length - 1
           : -1;
 
+      // Load more for fixed tables with virtual scroll
       if (
         searchManager.connection.value &&
         searchManager.connection.value.pageInfo.hasNextPage &&
-        scroll.to > lastIndex - searchOptions.loadMoreThreshold
+        scroll.to > lastIndex - searchOptions.loadMoreThreshold &&
+        width.value >= 1024
       ) {
         searchManager.loadMore();
       }
     };
+
+    watch(y, () => {
+      // Load more when using unlimited height tables + window scroll
+      if (
+        searchManager.connection.value &&
+        searchManager.connection.value.pageInfo.hasNextPage &&
+        width.value < 1024 &&
+        y.value >
+          window.document.body.clientHeight -
+            searchOptions.loadMoreThreshold * 50 -
+            window.innerHeight
+      ) {
+        searchManager.loadMore();
+      }
+    });
 
     onMounted(() => {
       // Get 1st page from server ()
@@ -171,8 +191,6 @@ export default defineComponent({
           offset(newValue.$el).top + fullHeightMargin.value;
       }
     });
-
-    const { width } = useWindowSize();
 
     watch(width, () => {
       tableOffsetTop.value =
@@ -221,16 +239,11 @@ export default defineComponent({
           return (
             (column.visible &&
               (!column.screenSize ||
-                (column.screenSize === 'lt-smd' &&
-                  width.value < 600) ||
-                (column.screenSize === 'gt-sm' &&
-                  width.value >= 1024) ||
-                (column.screenSize === 'lt-md' &&
-                  width.value < 1024) ||
-                (column.screenSize === 'gt-md' &&
-                  width.value >= 1440) ||
-                (column.screenSize === 'lt-lg' &&
-                  width.value < 1440))) ||
+                (column.screenSize === 'lt-smd' && width.value < 600) ||
+                (column.screenSize === 'gt-sm' && width.value >= 1024) ||
+                (column.screenSize === 'lt-md' && width.value < 1024) ||
+                (column.screenSize === 'gt-md' && width.value >= 1440) ||
+                (column.screenSize === 'lt-lg' && width.value < 1440))) ||
             (column.screenSize === 'gt-lg' && width.value >= 1920)
           );
         });
