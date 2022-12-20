@@ -1,7 +1,13 @@
 .layout--mobile {
+  @import 'includes/large-stats-card';
   @import 'includes/stats-card';
   @import 'includes/stats-carousel';
+  @import 'pages';
   @import 'search/table';
+
+  .search-filters {
+    display: none !important;
+  }
 
   .koiner-logo {
     position: absolute;
