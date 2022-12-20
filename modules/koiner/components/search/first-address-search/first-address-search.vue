@@ -36,7 +36,7 @@ import { computed, defineComponent, ref } from 'vue';
 import FirstAddressesSearchResults from './first-addresses-search-results.vue';
 
 export default defineComponent({
-  name: 'FirstAddressesSearch',
+  name: 'FirstAddressSearch',
   components: {
     FirstAddressesSearchResults,
   },

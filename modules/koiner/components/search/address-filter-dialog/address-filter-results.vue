@@ -10,23 +10,19 @@
         v-ripple
         v-for="edge in addressesSearch.connection.value.edges"
         :key="edge.cursor"
-        @click.prevent="
-          router.push({ name: 'address', params: { id: edge.node.id } })
-        "
+        @click="addAddress(edge.node.id)"
       >
         <q-item-section>
           <q-item-label :class="dark ? 'text-white' : ''">
             {{ edge.node.id }}
           </q-item-label>
         </q-item-section>
-        <q-item-section side>
-          <q-item-label caption>
-            <bookmark-component
-              :item="{ id: edge.node.id, type: 'address' }"
-              list-id="addresses"
-              item-translation="koiner.chain.item.address"
-            />
-          </q-item-label>
+        <q-item-section side class="help-text">
+          <span
+            :class="`text-caption ${dark ? 'text-white' : ''}`"
+            style="display: none"
+            >Add to portfolio</span
+          >
         </q-item-section>
       </q-item>
     </q-list>
@@ -36,12 +32,12 @@
 <script lang="ts">
 import { defineComponent, watch } from 'vue';
 import { SearchRequestType, useSearchManager } from '@appvise/search-manager';
-import BookmarkComponent from '@koiner/bookmarks/components/bookmark-component.vue';
-import { useRouter } from 'vue-router';
+import { useAccountStore } from 'stores/account';
+import { useBookmarkStore } from '@koiner/bookmarks';
+import posthog from 'posthog-js';
 
 export default defineComponent({
-  name: 'AddressesSearch',
-  components: { BookmarkComponent },
+  name: 'AddressFilterResults',
   props: {
     search: {
       required: true,
@@ -53,10 +49,12 @@ export default defineComponent({
       default: true,
     },
   },
+  emits: ['selected'],
 
-  setup(props) {
+  setup(props, { emit }) {
     const addressesSearch = useSearchManager('addresses');
-    const router = useRouter();
+    const accountStore = useAccountStore();
+    const bookmarkStore = useBookmarkStore();
 
     watch(
       props,
@@ -81,8 +79,27 @@ export default defineComponent({
 
     return {
       addressesSearch,
-      router,
+      addAddress: (addressId: string) => {
+        posthog.capture('addAddress', { property: addressId });
+
+        bookmarkStore.addBookmark(
+          { id: addressId, type: 'address' },
+          'addresses'
+        );
+
+        accountStore.toggleAddressFilter(addressId);
+
+        emit('selected', addressId);
+      },
     };
   },
 });
 </script>
+
+<style lang="scss">
+.q-item:hover {
+  .help-text > span {
+    display: inline-block !important;
+  }
+}
+</style>

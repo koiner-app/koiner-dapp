@@ -1,6 +1,6 @@
 <template>
   <q-option-group
-    v-model="accountStore[accountStore.environment].addressesFilter"
+    v-model="filter"
     type="checkbox"
     :options="addressesOpts"
     class="delete-on-hover"
@@ -19,7 +19,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, Ref } from 'vue';
+import { computed, defineComponent, ref, Ref, watch } from 'vue';
 import BookmarkComponent from '@koiner/bookmarks/components/bookmark-component.vue';
 import { useBookmarkStore } from '@koiner/bookmarks';
 import { useAccountStore } from 'stores/account';
@@ -37,9 +37,26 @@ export default defineComponent({
       bookmarkStore.bookmarkKeys('addresses')
     );
 
+    const filter: Ref<string[]> = ref(
+      accountStore[accountStore.environment].addressesFilter
+    );
+
+    watch(filter, () => {
+      accountStore.syncAddressFilterSelection(filter.value);
+    });
+
+    watch(
+      accountStore,
+      () => {
+        filter.value = accountStore[accountStore.environment].addressesFilter;
+      },
+      { deep: true }
+    );
+
     return {
       accountStore,
       bookmarkStore,
+      filter,
       addresses,
       addressesOpts: computed(() => {
         return bookmarkStore.bookmarkKeys('addresses').map((address) => {
