@@ -40,11 +40,11 @@
       </q-scroll-area>
     </q-drawer>
 
-    <q-page-container>
+    <q-page-container :class="`page--${route.name.replace('.', '-')}`">
       <router-view />
     </q-page-container>
 
-    <q-footer reveal elevated>
+    <q-footer elevated>
       <mobile-main-navigation />
     </q-footer>
   </q-layout>
@@ -63,8 +63,7 @@ import ApiSwitcher from '@koiner/components/api-switcher.vue';
 import MobileMainNavigation from '../components/mobile-main-navigation.vue';
 import MobileDrawerNavigation from '../components/mobile-drawer-navigation.vue';
 import { useWindowSize } from '@vueuse/core';
-import { useRouter } from 'vue-router';
-import { useQuasar } from 'quasar';
+import { useRoute, useRouter } from 'vue-router';
 
 export default defineComponent({
   name: 'MainLayout',
@@ -83,14 +82,26 @@ export default defineComponent({
     const bookmarkStore = useBookmarkStore();
     const { width } = useWindowSize();
     const router = useRouter();
+    const route = useRoute();
 
     koinosStore.load();
     statsStore.load();
     accountStore.load(koinerStore.environment);
     bookmarkStore.load(koinerStore.environment);
 
-    const $q = useQuasar();
+    const redirect = () => {
+      const desktopRedirects: { [key: string]: string } = {
+        'mobile.ecosystem': 'ecosystem',
+        'mobile.account': 'account.portfolio',
+        'mobile.network': 'network',
+      };
 
+      if (route.name && desktopRedirects[route.name.toString()]) {
+        router.push({ name: desktopRedirects[route.name.toString()] });
+      } else {
+        router.push({ name: 'home' });
+      }
+    };
 
     watch(
       bookmarkStore,
@@ -104,7 +115,7 @@ export default defineComponent({
       width,
       () => {
         if (width.value >= 1024) {
-          router.push({ name: 'home' });
+          redirect();
         }
       },
       { deep: true }
@@ -112,20 +123,13 @@ export default defineComponent({
 
     onMounted(() => {
       if (width.value >= 1024) {
-        router.push({ name: 'home' });
-      }
-
-      if (window.location.host === 'koiner.app') {
-        $q.dialog({
-          title: 'Work in progress',
-          message: 'Mobile version is being developed. Please use a larger screen.',
-          persistent: true,
-        });
+        redirect();
       }
     });
 
     return {
       drawer: ref(false),
+      route,
     };
   },
 });

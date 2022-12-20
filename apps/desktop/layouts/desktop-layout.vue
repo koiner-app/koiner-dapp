@@ -90,11 +90,25 @@ export default defineComponent({
       { deep: true }
     );
 
+    const redirect = () => {
+      const mobileRedirects: { [key: string]: string } = {
+        ecosystem: 'mobile.ecosystem',
+        'account.portfolio': 'mobile.account',
+        'network': 'mobile.network',
+      };
+
+      if (route.name && mobileRedirects[route.name.toString()]) {
+        router.push({ name: mobileRedirects[route.name.toString()] });
+      } else {
+        router.push({ name: 'mobile.home' });
+      }
+    };
+
     watch(
       width,
       () => {
         if (width.value < 1024) {
-          router.push({ name: 'mobile.home' });
+          redirect();
         }
       },
       { deep: true }
@@ -102,13 +116,14 @@ export default defineComponent({
 
     onMounted(() => {
       if (width.value < 1024) {
-        router.push({ name: 'mobile.home' });
+        redirect();
       }
     });
 
     return {
       drawer: ref(false),
       route,
+      accountStore,
     };
   },
 });
