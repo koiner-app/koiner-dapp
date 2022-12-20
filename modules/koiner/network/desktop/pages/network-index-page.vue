@@ -23,7 +23,7 @@
         <q-separator vertical />
 
         <counter-metric
-          title="ROI"
+          title="APY"
           :value="statsStore.blockProductionApy"
           unit="%"
           :decimals="2"
