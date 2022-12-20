@@ -69,7 +69,7 @@
       </q-btn>
     </div>
 
-    <div class="row items-start">
+    <div class="row items-start project-cards">
       <q-card
         v-for="(project, projectIndex) in selectedProjects"
         :key="`project-${projectIndex}`"
@@ -264,10 +264,19 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-.layout--desktop {
+.layout--mobile {
+  .project-cards {
+    padding: 0.5rem;
+  }
+
   .project-card {
-    min-width: calc(33.33% - 18px);
-    max-width: calc(33.33% - 18px);
+    width: 100%;
+    margin: 0.5rem;
+
+    @media (min-width: 768px) {
+      min-width: calc(50% - 1rem);
+      max-width: calc(50% - 1rem);
+    }
 
     .project-title {
       font-size: 1rem;
@@ -278,16 +287,16 @@ export default defineComponent({
     }
 
     .project-description {
-      min-height: 100px;
+      min-height: 60px;
 
-      @media (min-width: 1200px) {
+      @media (min-width: 768px) {
         min-height: 80px;
       }
-
-      @media (min-width: 1440px) {
-        min-height: 60px;
-      }
     }
+  }
+
+  .project-tag-button {
+    margin-bottom: 0.5rem;
   }
 }
 </style>

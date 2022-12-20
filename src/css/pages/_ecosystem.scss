@@ -1,0 +1,83 @@
+.project-card {
+  .project-title {
+    font-weight: bold;
+  }
+
+  .q-avatar {
+    border-radius: 0 !important;
+  }
+
+  .fa-brands {
+    &.fa-youtube {
+      color: #ff0001;
+    }
+
+    &.fa-telegram {
+      color: #2da1d3;
+    }
+
+    &.fa-twitter {
+      color: #1b9bf0;
+    }
+
+    &.fa-apple {
+      color: #666666;
+    }
+
+    &.fa-discord {
+      color: #5662eb;
+    }
+  }
+
+  .fa-solid {
+    color: grey;
+  }
+
+  .project-link {
+    padding: 0 !important;
+    color: grey !important;
+
+    .fa-brands {
+      &.fa-youtube,
+      &.fa-telegram,
+      &.fa-twitter,
+      &.fa-apple,
+      &.fa-discord {
+        color: grey !important;
+      }
+    }
+  }
+}
+
+.project-tag-button {
+  border-radius: 16px;
+  height: 28px;
+  margin: 4px;
+  padding: 0;
+  min-height: 28px;
+
+  &:before {
+    box-shadow: 0 3px 2px -1px rgb(0 0 0 / 2%), 0 5px 2px rgb(0 0 0 / 3%),
+    0 1px 6px rgb(0 0 0 / 2%);
+  }
+
+  .q-chip {
+    margin: 0 !important;
+    text-transform: none;
+    background-color: #eeeeee;
+    color: #333;
+    opacity: 0.8;
+  }
+
+  &.selected {
+    .q-chip {
+      background-color: $primary;
+      color: white;
+    }
+
+    &:before {
+      box-shadow: 0 1px 5px rgb(0 0 0 / 20%), 0 2px 2px rgb(0 0 0 / 14%),
+      0 3px 1px -2px rgb(0 0 0 / 12%);
+    }
+  }
+}
