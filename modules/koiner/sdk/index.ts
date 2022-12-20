@@ -2052,6 +2052,46 @@ export type TokenDesktopLayoutQuery = {
   };
 };
 
+export type AccountTokenBalancesQueryVariables = Exact<{
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  filter?: InputMaybe<TokenHoldersFilter>;
+  sort?: InputMaybe<Array<TokenHoldersSortInput> | TokenHoldersSortInput>;
+}>;
+
+export type AccountTokenBalancesQuery = {
+  __typename?: 'Query';
+  tokenHolders: {
+    __typename?: 'TokenHoldersConnection';
+    edges: Array<{
+      __typename: 'TokenHolderEdge';
+      cursor: string;
+      node: {
+        __typename?: 'TokenHolder';
+        id: string;
+        addressId: string;
+        contractId: string;
+        balance: string;
+        contract: {
+          __typename?: 'TokenContract';
+          id: string;
+          name: string;
+          decimals: number;
+          symbol: string;
+        };
+      };
+    }>;
+    pageInfo: {
+      __typename?: 'PageInfo';
+      hasNextPage: boolean;
+      hasPreviousPage: boolean;
+      startCursor?: string | null;
+      endCursor?: string | null;
+    };
+  };
+};
+
 export const AddressesSearchDocument = gql`
   query AddressesSearch(
     $after: String
@@ -3006,6 +3046,58 @@ export function useTokenDesktopLayoutQuery(
 ) {
   return Urql.useQuery<TokenDesktopLayoutQuery>({
     query: TokenDesktopLayoutDocument,
+    ...options,
+  });
+}
+export const AccountTokenBalancesDocument = gql`
+  query AccountTokenBalances(
+    $after: String
+    $before: String
+    $first: Int
+    $filter: TokenHoldersFilter
+    $sort: [TokenHoldersSortInput!]
+  ) {
+    tokenHolders(
+      after: $after
+      before: $before
+      first: $first
+      filter: $filter
+      sort: $sort
+    ) {
+      edges {
+        cursor
+        node {
+          id
+          addressId
+          contractId
+          balance
+          contract {
+            id
+            name
+            decimals
+            symbol
+          }
+        }
+        __typename
+      }
+      pageInfo {
+        hasNextPage
+        hasPreviousPage
+        startCursor
+        endCursor
+      }
+    }
+  }
+`;
+
+export function useAccountTokenBalancesQuery(
+  options: Omit<
+    Urql.UseQueryArgs<never, AccountTokenBalancesQueryVariables>,
+    'query'
+  > = {}
+) {
+  return Urql.useQuery<AccountTokenBalancesQuery>({
+    query: AccountTokenBalancesDocument,
     ...options,
   });
 }
