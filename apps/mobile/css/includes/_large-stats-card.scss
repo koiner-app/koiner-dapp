@@ -8,6 +8,11 @@
     width: calc(50% - 1rem);
     float: left;
     margin: 0.5rem;
+    min-height: 180px;
+
+    @media (min-width: 680px) {
+      min-height: auto;
+    }
 
     .stat-title {
       font-size: 0.75rem;
