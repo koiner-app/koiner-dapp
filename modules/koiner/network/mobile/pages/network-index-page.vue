@@ -9,7 +9,7 @@
             <block-producers-component :mobile="true" />
           </q-tab-panel>
           <q-tab-panel name="rewards">
-            <block-rewards-component />
+            <block-rewards-component :mobile="true" />
           </q-tab-panel>
         </q-tab-panels>
       </q-card-section>

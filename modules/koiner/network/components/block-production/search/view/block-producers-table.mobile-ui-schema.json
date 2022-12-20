@@ -21,6 +21,9 @@
           "type": "AttributeGroup",
           "label": "Producer",
           "scope": "#/properties/rewardsGroup",
+          "options": {
+            "class": "attribute-wrapper--rewards-group"
+          },
           "elements": [
             {
               "type": "Attribute",

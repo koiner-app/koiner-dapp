@@ -1,50 +1,40 @@
 <template>
-  <q-carousel
-    v-model="statsSlide"
-    transition-prev="slide-right"
-    transition-next="slide-left"
-    swipeable
-    control-color="primary"
-    animated
-    class="stats-carousel"
-  >
-    <q-carousel-slide :name="1" class="column no-wrap">
-      <div class="row">
-        <counter-metric
-          class="col"
-          title="Total Rewarded"
-          :value="statsStore.blockProduction.rewarded"
-          :unit="koinerStore.koinContract.symbol"
-          :token-decimals="koinerStore.koinContract.decimals"
-        />
+  <div class="column no-wrap">
+    <div class="row">
+      <counter-metric
+        class="col"
+        title="Total Rewarded"
+        :value="statsStore.blockProduction.rewarded"
+        :unit="koinerStore.koinContract.symbol"
+        :token-decimals="koinerStore.koinContract.decimals"
+        :decimals="0"
+      />
 
-        <counter-metric
-          class="col"
-          title="VHP Burned"
-          :value="statsStore.blockProduction.burned"
-          :unit="koinerStore.vhpContract.symbol"
-          :token-decimals="koinerStore.vhpContract.decimals"
-        />
-      </div>
-    </q-carousel-slide>
-    <q-carousel-slide :name="2" class="column no-wrap">
-      <div class="row">
-        <counter-metric
-          class="col"
-          title="ROI"
-          :value="statsStore.blockProduction.roi"
-          unit="%"
-          :decimals="2"
-        />
+      <counter-metric
+        class="col"
+        title="VHP Burned"
+        :value="statsStore.blockProduction.burned"
+        :unit="koinerStore.vhpContract.symbol"
+        :token-decimals="koinerStore.vhpContract.decimals"
+        :decimals="0"
+      />
+    </div>
+    <div class="row">
+      <counter-metric
+        class="col"
+        title="APY"
+        :value="statsStore.blockProductionApy"
+        unit="%"
+        :decimals="2"
+      />
 
-        <counter-metric
-          class="col"
-          title="Block Producers"
-          :value="statsStore.blockProduction.blockProducerCount"
-        />
-      </div>
-    </q-carousel-slide>
-  </q-carousel>
+      <counter-metric
+        class="col"
+        title="Block Producers"
+        :value="statsStore.blockProduction.blockProducerCount"
+      />
+    </div>
+  </div>
 </template>
 
 <script lang="ts">

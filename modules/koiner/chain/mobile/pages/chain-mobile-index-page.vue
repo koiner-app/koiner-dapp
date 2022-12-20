@@ -4,10 +4,10 @@
       <q-card-section class="q-pt-xs">
         <q-tab-panels v-model="tab" animated>
           <q-tab-panel name="blocks">
-            <blocks-table />
+            <blocks-table :mobile="true" />
           </q-tab-panel>
           <q-tab-panel name="transactions">
-            <transactions-table />
+            <transactions-table :mobile="true" />
           </q-tab-panel>
           <q-tab-panel name="operations">
             <operations-table />

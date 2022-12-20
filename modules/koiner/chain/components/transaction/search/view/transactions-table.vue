@@ -28,7 +28,8 @@ import { KoinerRenderers } from '@koiner/renderers';
 import SearchFilters from '@appvise/search-manager/search-filters.vue';
 import QJsonSearch from '@appvise/q-json-forms/QJsonSearch.vue';
 import transactionsSearchSchema from '@koiner/chain/components/transaction/search/transactions-search.schema.json';
-import transactionsSearchUiSchema from '@koiner/chain/components/transaction/search/view/transactions-table.ui-schema.json';
+import mobileUiSchema from './transactions-table.mobile-ui-schema.json';
+import desktopUiSchema from './transactions-table.ui-schema.json';
 
 export default defineComponent({
   name: 'TransactionsTable',
@@ -45,6 +46,11 @@ export default defineComponent({
     addresses: {
       required: false,
       type: Array as PropType<Array<string>>,
+    },
+    mobile: {
+      required: false,
+      type: Boolean,
+      default: false,
     },
   },
 
@@ -109,7 +115,7 @@ export default defineComponent({
     return {
       onScroll,
       schema: transactionsSearchSchema,
-      uiSchema: transactionsSearchUiSchema,
+      uiSchema: props.mobile ? mobileUiSchema : desktopUiSchema,
       request: searchStore.transactions.request,
       position: searchStore.transactions.position,
       renderers: KoinerRenderers,

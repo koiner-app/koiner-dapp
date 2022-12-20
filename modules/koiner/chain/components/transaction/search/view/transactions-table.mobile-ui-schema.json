@@ -1,0 +1,80 @@
+{
+  "type": "object",
+  "elements": [
+    {
+      "type": "TableView",
+      "options": {
+        "search": {
+          "provider": "transactions"
+        }
+      },
+      "elements": [
+        {
+          "type": "Attribute",
+          "label": "Age",
+          "scope": "#/properties/timestamp",
+          "options": {
+            "format": "age",
+            "mapping": "timestamp",
+            "class": "attribute-wrapper--age"
+          }
+        },
+        {
+          "type": "Attribute",
+          "label": "ID",
+          "scope": "#/properties/id",
+          "options": {
+            "format": "transaction",
+            "class": "attribute-wrapper--transaction"
+          }
+        },
+        {
+          "type": "Attribute",
+          "label": "Block",
+          "scope": "#/properties/blockHeight",
+          "options": {
+            "route": "block",
+            "format": "link",
+            "linkParams": ["height"],
+            "mappings": {
+              "height": "blockHeight"
+            }
+          }
+        },
+        {
+          "type": "Attribute",
+          "label": "Ops",
+          "scope": "#/properties/operationCount"
+        },
+        {
+          "type": "Attribute",
+          "label": "Ex",
+          "scope": "#/properties/receipt/properties/eventCount",
+          "options": {
+            "mapping": "receipt.eventCount"
+          }
+        },
+        {
+          "type": "AttributeGroup",
+          "label": "Details",
+          "scope": "#/properties/detailsGroup",
+          "options": {
+            "class": "attribute-wrapper--details-group"
+          },
+          "elements": [
+            {
+              "type": "Attribute",
+              "label": "Mana used",
+              "scope": "#/properties/receipt/properties/rcUsed",
+              "options": {
+                "format": "manaTokenAmount",
+                "mapping": "receipt.rcUsed",
+                "decimals": 2
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

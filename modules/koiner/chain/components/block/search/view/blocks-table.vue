@@ -28,7 +28,8 @@ import { KoinerRenderers } from '@koiner/renderers';
 import SearchFilters from '@appvise/search-manager/search-filters.vue';
 import QJsonSearch from '@appvise/q-json-forms/QJsonSearch.vue';
 import blocksSearchSchema from '../blocks-search.schema.json';
-import blocksSearchUiSchema from './blocks-table.ui-schema.json';
+import mobileUiSchema from './blocks-table.mobile-ui-schema.json';
+import desktopUiSchema from './blocks-table.ui-schema.json';
 
 export default defineComponent({
   name: 'BlocksTable',
@@ -38,9 +39,14 @@ export default defineComponent({
       required: false,
       type: String,
     },
+    mobile: {
+      required: false,
+      type: Boolean,
+      default: false,
+    },
   },
 
-  setup() {
+  setup(props) {
     const searchStore = useSearchStore();
 
     const onScroll = (newScrollPosition: number) => {
@@ -50,7 +56,7 @@ export default defineComponent({
     return {
       onScroll,
       schema: blocksSearchSchema,
-      uiSchema: blocksSearchUiSchema,
+      uiSchema: props.mobile ? mobileUiSchema : desktopUiSchema,
       request: searchStore.blocks.request,
       position: searchStore.blocks.position,
       renderers: KoinerRenderers,
