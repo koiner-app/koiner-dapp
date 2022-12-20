@@ -1,14 +1,12 @@
 <template>
-  <q-card-section v-if="addressesSearch.connection.value?.edges?.length > 0">
-    <span class="text-caption">
-      Addresses [{{ addressesSearch.connection.value?.edges?.length }}]
-    </span>
+  <q-card-section v-if="results?.length > 0">
+    <span class="text-caption"> Addresses [{{ results.length }}] </span>
 
     <q-list>
       <q-item
         clickable
         v-ripple
-        v-for="edge in addressesSearch.connection.value.edges"
+        v-for="edge in results"
         :key="edge.cursor"
         @click="addAddress(edge.node.id)"
       >
@@ -30,7 +28,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, watch } from 'vue';
+import { computed, defineComponent, watch } from 'vue';
 import { SearchRequestType, useSearchManager } from '@appvise/search-manager';
 import { useAccountStore } from 'stores/account';
 import { useBookmarkStore } from '@koiner/bookmarks';
@@ -91,6 +89,11 @@ export default defineComponent({
 
         emit('selected', addressId);
       },
+      results: computed(() => {
+        return addressesSearch.connection.value?.edges?.filter(
+          (edge) => !accountStore.addressesFilter.includes(edge.node.id)
+        );
+      }),
     };
   },
 });
