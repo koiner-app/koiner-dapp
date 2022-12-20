@@ -82,27 +82,9 @@ export default defineComponent({
           disabled: false,
         },
         {
-          name: 'Dashboard',
-          to: '/account',
-          icon: 'dashboard',
-          disabled: false,
-        },
-        {
           name: 'Chain',
           to: '/blocks',
           icon: 'token',
-          disabled: false,
-        },
-        {
-          name: 'Tokenize',
-          to: '/tokenize',
-          icon: 'toll',
-          disabled: false,
-        },
-        {
-          name: 'Contracts',
-          to: '/contracts/overview',
-          icon: 'document_scanner',
           disabled: false,
         },
         {
@@ -110,12 +92,6 @@ export default defineComponent({
           to: '/network',
           icon: 'hub',
           disabled: false,
-        },
-        {
-          name: 'Governance',
-          to: '/governance',
-          icon: 'how_to_vote',
-          disabled: true,
         },
       ],
     };

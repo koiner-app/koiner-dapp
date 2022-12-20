@@ -26,11 +26,11 @@ export default defineComponent({
     const link = ref('/');
     const isActive = (to: string) => {
       // Home
-      if (to === '/') {
+      if (to === '/mobile') {
         return to === link.value;
       }
 
-      if (link.value !== '/' && link.value.includes(to)) {
+      if (link.value !== '/mobile' && link.value.includes(to)) {
         return true;
       }
 
@@ -63,40 +63,46 @@ export default defineComponent({
       }
     );
 
+    const menuItems = [
+      {
+        name: 'Home',
+        to: '/mobile',
+        icon: 'token',
+        disabled: false,
+      },
+      {
+        name: 'Projects',
+        to: '/mobile/ecosystem',
+        icon: 'apps',
+        disabled: false,
+      },
+      {
+        name: 'Portfolio',
+        to: '/mobile/account',
+        icon: 'dashboard',
+        disabled: false,
+        hosts: ['dapp.local', 'test.koiner.app'],
+      },
+      {
+        name: 'Chain',
+        to: '/mobile/chain',
+        icon: 'token',
+        disabled: false,
+      },
+      {
+        name: 'Network',
+        to: '/mobile/network',
+        icon: 'hub',
+        disabled: false,
+      },
+    ];
+
     return {
       isActive,
-      menuItems: [
-        {
-          name: 'Chain',
-          to: '/mobile/chain',
-          icon: 'token',
-          disabled: false,
-        },
-        {
-          name: 'Tokenize',
-          to: '/mobile/tokenize',
-          icon: 'toll',
-          disabled: false,
-        },
-        {
-          name: 'Portfolio',
-          to: '/mobile/account',
-          icon: 'dashboard',
-          disabled: false,
-        },
-        {
-          name: 'Contracts',
-          to: '/mobile/contracts',
-          icon: 'document_scanner',
-          disabled: false,
-        },
-        {
-          name: 'Network',
-          to: '/mobile/network',
-          icon: 'hub',
-          disabled: false,
-        },
-      ],
+      menuItems: menuItems.filter(
+        (menuItem) =>
+          !menuItem.hosts || menuItem.hosts?.includes(window.location.hostname)
+      ),
     };
   },
 });
