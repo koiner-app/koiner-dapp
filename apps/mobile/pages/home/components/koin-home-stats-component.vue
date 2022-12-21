@@ -72,6 +72,25 @@
         value: statsStore.chainStats.addressCount,
       }"
     />
+
+    <q-card class="stats-card" flat>
+      <q-card-section>
+        <div class="stat-title">Buy KOIN on</div>
+        <div class="stat-footer">
+          <span class="stat-footer-stat"
+            ><q-btn
+              href="https://www.mexc.com/en-US/register?inviteCode=mexc-1XbK7"
+              target="_blank"
+              solid
+              color="primary"
+              size="md"
+              class="q-mb-md"
+              >MEXC Global</q-btn
+            ></span
+          >
+        </div>
+      </q-card-section>
+    </q-card>
   </div>
 </template>
 
