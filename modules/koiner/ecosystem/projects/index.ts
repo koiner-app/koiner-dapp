@@ -1,5 +1,6 @@
 import { codeProjects } from '@koiner/ecosystem/projects/code';
 import { contentProjects } from './content';
+import { nftProjects } from './nft';
 import { dappProjects } from './dapp';
 import { koinosOfficial } from './koinos-official';
 import { marketingProjects } from '@koiner/ecosystem/projects/marketing';
@@ -11,6 +12,7 @@ export * from './tags';
 
 export const KoinosProjects = [
   koinosOfficial,
+  ...nftProjects,
   ...dappProjects,
   ...socialProjects,
   ...tools,
