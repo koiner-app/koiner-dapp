@@ -22,7 +22,7 @@ const hasOneOfItems = (schema: JsonSchema): boolean =>
 const hasEnumItems = (schema: JsonSchema): boolean =>
   schema.type === 'string' && schema.enum !== undefined;
 
-export const enumArrayRendererEntry: JsonFormsRendererRegistryEntry = {
+const enumArrayRendererEntry: JsonFormsRendererRegistryEntry = {
   renderer: EnumArrayRenderer,
   tester: rankWith(
     5,
@@ -43,4 +43,8 @@ export const enumArrayRendererEntry: JsonFormsRendererRegistryEntry = {
   ),
 };
 
-export const complexRenderers = [enumArrayRendererEntry];
+export { EnumArrayRenderer };
+
+export const complexRenderers: JsonFormsRendererRegistryEntry[] = [
+  enumArrayRendererEntry,
+];

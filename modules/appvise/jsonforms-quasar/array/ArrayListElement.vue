@@ -8,23 +8,31 @@
   <q-item-section side top>
     <div @click="expandClicked" :class="toolbarClasses">
       <div :class="styles.arrayList.itemLabel">{{ label }}</div>
-
-      <q-icon
-        name="rapp:arrow-up"
+      <q-btn
+        flat
+        v-if="showSortButtons"
         @click="moveUpClicked"
         :disabled="!moveUpEnabled"
+        :icon="matArrowUpward"
         :class="styles.arrayList.itemMoveUp"
+        :ripple="false"
       />
-      <q-icon
-        name="rapp:arrow-down"
+      <q-btn
+        v-if="showSortButtons"
+        flat
+        :icon="matArrowDownward"
         @click="moveDownClicked"
         :disabled="!moveDownEnabled"
         :class="styles.arrayList.itemMoveDown"
+        :ripple="false"
       />
-      <q-icon
-        name="rapp:trash"
+      <q-btn
+        flat
+        :icon="matRemove"
         @click="deleteClicked"
+        :disabled="!deleteEnabled"
         :class="styles.arrayList.itemDelete"
+        :ripple="false"
       />
     </div>
   </q-item-section>
@@ -33,8 +41,13 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
 import { classes, Styles } from '../styles';
+import {
+  matArrowDownward,
+  matArrowUpward,
+  matRemove,
+} from '@quasar/extras/material-icons';
 
-const listItem = defineComponent({
+export default defineComponent({
   name: 'array-list-element',
   props: {
     initiallyExpanded: {
@@ -46,6 +59,11 @@ const listItem = defineComponent({
       required: false,
       type: String,
       default: '',
+    },
+    showSortButtons: {
+      required: false,
+      type: Boolean,
+      default: false,
     },
     moveUpEnabled: {
       required: false,
@@ -72,6 +90,11 @@ const listItem = defineComponent({
       type: Function,
       default: undefined,
     },
+    deleteEnabled: {
+      required: false,
+      type: Boolean,
+      default: true,
+    },
     styles: {
       required: true,
       type: Object as PropType<Styles>,
@@ -80,6 +103,9 @@ const listItem = defineComponent({
   data() {
     return {
       expanded: this.initiallyExpanded,
+      matArrowDownward,
+      matArrowUpward,
+      matRemove,
     };
   },
   computed: {
@@ -112,6 +138,4 @@ const listItem = defineComponent({
     },
   },
 });
-
-export default listItem;
 </script>

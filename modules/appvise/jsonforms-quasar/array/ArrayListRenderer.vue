@@ -1,91 +1,51 @@
 <template>
   <div v-if="control.visible" :class="styles.arrayList.root">
-    <legend :class="styles.arrayList.legend">
-      <button
+    <div :class="styles.arrayList.legend">
+      <label :class="styles.arrayList.label">
+        {{ computedLabel }}
+      </label>
+      <q-btn
         :class="styles.arrayList.addButton"
         @click="addButtonClick"
-        type="button"
+        flat
+        :icon="matAdd"
       >
-        +
-      </button>
-      <label :class="styles.arrayList.label">
-        {{ control.label }}
-      </label>
-    </legend>
+        {{ addButtonTranslation }}
+      </q-btn>
+    </div>
 
-    <q-list bordered>
+    <q-list>
       <q-item
         v-for="(element, index) in control.data"
         :key="`${control.path}-${index}`"
         :class="styles.arrayList.itemWrapper"
       >
-        <!--        <q-item-section>-->
         <array-list-element
-          :moveUp="moveUp(control.path, index)"
-          :moveUpEnabled="index > 0"
-          :moveDown="moveDown(control.path, index)"
-          :moveDownEnabled="index < control.data.length - 1"
+          :show-sort-buttons="appliedOptions.showSortButtons ?? undefined"
+          :move-up="moveUp(control.path, index)"
+          :move-up-enabled="index > 0"
+          :move-down="moveDown(control.path, index)"
+          :move-down-enabled="index < control.data.length - 1"
           :delete="removeItems(control.path, [index])"
+          :delete-enabled="minItems ? control.data.length > minItems : true"
           :label="childLabelForIndex(index)"
           :styles="styles"
         >
           <dispatch-renderer
             :schema="control.schema"
-            :uischema="childUiSchema"
+            :uischema="control.uischema"
             :path="composePaths(control.path, `${index}`)"
             :enabled="control.enabled"
             :renderers="control.renderers"
             :cells="control.cells"
           />
         </array-list-element>
-        <!--        </q-item-section>-->
-
-        <!--        <q-item-section side>-->
-        <!--          <q-icon name="chat_bubble" color="green" />-->
-        <!--        </q-item-section>-->
       </q-item>
     </q-list>
-    <!--    <fieldset v-if="control.visible" :class="styles.arrayList.root">-->
-    <!--      <legend :class="styles.arrayList.legend">-->
-    <!--        <button-->
-    <!--          :class="styles.arrayList.addButton"-->
-    <!--          @click="addButtonClick"-->
-    <!--          type="button"-->
-    <!--        >-->
-    <!--          +-->
-    <!--        </button>-->
-    <!--        <label :class="styles.arrayList.label">-->
-    <!--          {{ control.label }}-->
-    <!--        </label>-->
-    <!--      </legend>-->
-    <!--      <div-->
-    <!--        v-for="(element, index) in control.data"-->
-    <!--        :key="`${control.path}-${index}`"-->
-    <!--        :class="styles.arrayList.itemWrapper"-->
-    <!--      >-->
-    <!--        <array-list-element-->
-    <!--          :moveUp="moveUp(control.path, index)"-->
-    <!--          :moveUpEnabled="index > 0"-->
-    <!--          :moveDown="moveDown(control.path, index)"-->
-    <!--          :moveDownEnabled="index < control.data.length - 1"-->
-    <!--          :delete="removeItems(control.path, [index])"-->
-    <!--          :label="childLabelForIndex(index)"-->
-    <!--          :styles="styles"-->
-    <!--        >-->
-    <!--          <dispatch-renderer-->
-    <!--            :schema="control.schema"-->
-    <!--            :uischema="childUiSchema"-->
-    <!--            :path="composePaths(control.path, `${index}`)"-->
-    <!--            :enabled="control.enabled"-->
-    <!--            :renderers="control.renderers"-->
-    <!--            :cells="control.cells"-->
-    <!--          />-->
-    <!--        </array-list-element>-->
-    <!--      </div>-->
-    <!--      <div v-if="noData" :class="styles.arrayList.noData">No data</div>-->
-    <!--    </fieldset>-->
 
-    <div v-if="noData" :class="styles.arrayList.noData">No data</div>
+    <div v-if="noData" :class="styles.arrayList.noData">
+      {{ noDataTranslation }}
+    </div>
   </div>
 </template>
 
@@ -97,6 +57,8 @@ import {
   rankWith,
   ControlElement,
   schemaTypeIs,
+  and,
+  uiTypeIs,
 } from '@jsonforms/core';
 import { defineComponent } from 'vue';
 import {
@@ -105,10 +67,15 @@ import {
   useJsonFormsArrayControl,
   RendererProps,
 } from '@jsonforms/vue';
-import { useQuasarArrayControl } from '../util';
+import {
+  getI18nKeyPrefix2,
+  useQuasarArrayControl,
+  useTranslator,
+} from '../util';
 import ArrayListElement from './ArrayListElement.vue';
+import { matAdd } from '@quasar/extras/material-icons';
 
-const controlRenderer = defineComponent({
+export default defineComponent({
   name: 'array-list-renderer',
   components: {
     ArrayListElement,
@@ -118,11 +85,30 @@ const controlRenderer = defineComponent({
     ...rendererProps<ControlElement>(),
   },
   setup(props: RendererProps<ControlElement>) {
-    return useQuasarArrayControl(useJsonFormsArrayControl(props));
+    const t = useTranslator();
+    const input = useQuasarArrayControl(useJsonFormsArrayControl(props));
+    const i18nPrefix = getI18nKeyPrefix2(input);
+    const noDataTranslation = t(`${i18nPrefix}.noDataLabel`, '');
+    const addButtonTranslation = t(`${i18nPrefix}.addButton`, '');
+
+    return {
+      t,
+      ...input,
+      noDataTranslation: !noDataTranslation.includes(i18nPrefix)
+        ? noDataTranslation
+        : 'No data',
+      addButtonTranslation: !addButtonTranslation.includes(i18nPrefix)
+        ? addButtonTranslation
+        : '',
+      matAdd,
+    };
   },
   computed: {
     noData(): boolean {
       return !this.control.data || this.control.data.length === 0;
+    },
+    minItems(): number {
+      return this.appliedOptions.minItems ?? 0;
     },
   },
   methods: {
@@ -136,11 +122,4 @@ const controlRenderer = defineComponent({
     },
   },
 });
-
-export default controlRenderer;
-
-export const entry: JsonFormsRendererRegistryEntry = {
-  renderer: controlRenderer,
-  tester: rankWith(2, schemaTypeIs('array')),
-};
 </script>

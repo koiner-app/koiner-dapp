@@ -1,10 +1,4 @@
-import {
-  Connection,
-  Edge,
-  Node,
-  SearchRequestType,
-  SearchState,
-} from './index';
+import { Connection, Edge, Node, SearchRequestType, SearchState } from '.';
 import { Observable } from 'rxjs';
 
 export interface SearchProvider<

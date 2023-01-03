@@ -1,11 +1,11 @@
 <template>
-  <q-form>
+  <q-form :class="formClass">
     <json-forms
       :renderers="renderers"
       :validation-mode="internalValidationMode"
       :data="data"
       :schema="schema"
-      :uischema="uischema"
+      :uischema="computedUiSchema"
       :cells="cells"
       :config="config"
       :readonly="readonly"
@@ -52,6 +52,10 @@ export default defineComponent({
     JsonForms,
   },
   props: {
+    formClass: {
+      required: false,
+      type: String,
+    },
     // Adapted props
     renderers: {
       required: false,
@@ -119,6 +123,7 @@ export default defineComponent({
   ) {
     const validationMode: Ref<'ValidateAndHide' | 'ValidateAndShow'> =
       ref('ValidateAndHide');
+    const submitting = ref(false);
 
     // Allowed button events. Other button events will be triggered with the 'custom' event
     const allowedButtonEvents = ['submit', 'cancel'];
@@ -228,6 +233,11 @@ export default defineComponent({
               // Only trigger submit if validation succeeded
               if (valid.value) {
                 emit(fieldName);
+
+                submitting.value = true;
+              } else {
+                // Reset value for field to enable another click
+                delete props.data[fieldName];
               }
             } else {
               emit(fieldName);
@@ -262,6 +272,15 @@ export default defineComponent({
       internalValidationMode: validationMode,
       emitButtons,
       onChange,
+      computedUiSchema: computed(() => {
+        const uischema = props.uischema;
+
+        // Can be used to check state of form
+        // Used by ButtonControlRenderer with type=submit
+        uischema.options.submitting = submitting.value;
+
+        return uischema;
+      }),
     };
   },
 });

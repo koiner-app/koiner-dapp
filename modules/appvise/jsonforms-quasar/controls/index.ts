@@ -12,6 +12,7 @@ import {
   rankWith,
   uiTypeIs,
 } from '@jsonforms/core';
+import { formatIsForAnyType } from '@appvise/jsonforms-quasar';
 
 import ControlWrapper from './ControlWrapper.vue';
 import BooleanToggleControlRenderer from './BooleanToggleControlRenderer.vue';
@@ -24,7 +25,8 @@ import OneOfEnumControlRenderer from './OneOfEnumControlRenderer.vue';
 import BooleanControlRenderer from './BooleanControlRenderer.vue';
 import NumberControlRenderer from './NumberControlRenderer.vue';
 import PasswordControlRenderer from './PasswordControlRenderer.vue';
-import { formatIsForAnyType } from '@appvise/jsonforms-quasar';
+import AnyOfStringOrEnumControlRenderer from '@appvise/jsonforms-quasar/controls/AnyOfStringOrEnumControlRenderer.vue';
+import { isAnyOfControl } from '@jsonforms/core/src/testers/testers';
 
 const stringControlRendererEntry: JsonFormsRendererRegistryEntry = {
   renderer: StringControlRenderer,
@@ -44,6 +46,11 @@ const buttonControlRendererEntry: JsonFormsRendererRegistryEntry = {
 const enumControlRendererEntry: JsonFormsRendererRegistryEntry = {
   renderer: EnumControlRenderer,
   tester: rankWith(2, isEnumControl),
+};
+
+const anyOfStringOrEnumControlRendererEntry: JsonFormsRendererRegistryEntry = {
+  renderer: AnyOfStringOrEnumControlRenderer,
+  tester: rankWith(5, isAnyOfControl),
 };
 
 const oneOfEnumControlRendererEntry: JsonFormsRendererRegistryEntry = {
@@ -94,6 +101,7 @@ export {
   BooleanToggleControlRenderer,
   ButtonControlRenderer,
   EnumControlRenderer,
+  AnyOfStringOrEnumControlRenderer,
   OneOfEnumControlRenderer,
   BooleanControlRenderer,
   NumberControlRenderer,
@@ -102,12 +110,13 @@ export {
   PasswordControlRenderer,
 };
 
-export const controlRenderers = [
+export const controlRenderers: JsonFormsRendererRegistryEntry[] = [
   stringControlRendererEntry,
   buttonControlRendererEntry,
   booleanControlRendererEntry,
   numberControlRendererEntry,
   enumControlRendererEntry,
+  anyOfStringOrEnumControlRendererEntry,
   oneOfEnumControlRendererEntry,
   booleanToggleControlRendererEntry,
   colorControlRendererEntry,

@@ -5,25 +5,28 @@
     :applied-options="appliedOptions"
   >
     <q-btn
+      :type="appliedOptions.type"
       :id="control.id + '-input'"
       :class="styles.control.button"
       :disabled="isDisabled"
       :label="computedLabel"
+      :icon="appliedOptions.icon"
       :unelevated="appliedOptions.unelevated"
       :color="appliedOptions.color"
-      :flat="appliedOptions.flat"
       @click="onButtonClick"
-    />
+      :loading="
+        appliedOptions.type === 'submit' && rootUiSchema?.options.submitting
+      "
+    >
+      <template v-slot:loading>
+        <q-spinner-facebook />
+      </template>
+    </q-btn>
   </control-wrapper>
 </template>
 
 <script lang="ts">
-import {
-  ControlElement,
-  JsonFormsRendererRegistryEntry,
-  rankWith,
-  uiTypeIs,
-} from '@jsonforms/core';
+import { ControlElement } from '@jsonforms/core';
 import { defineComponent } from 'vue';
 import {
   rendererProps,
@@ -42,9 +45,7 @@ export default defineComponent({
     ...rendererProps<ControlElement>(),
   },
   setup(props: RendererProps<ControlElement>) {
-    return useQuasarControl(
-      useJsonFormsControl(props)
-    )
+    return useQuasarControl(useJsonFormsControl(props));
   },
 });
 </script>

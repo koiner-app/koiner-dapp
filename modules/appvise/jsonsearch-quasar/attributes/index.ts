@@ -18,12 +18,12 @@ import AgeAttributeRenderer from './age-attribute-renderer.vue';
 import AttributeWrapper from './attribute-wrapper.vue';
 import AttributeGroupRenderer from './attribute-group-renderer.vue';
 import ButtonAttributeRenderer from './button-attribute-renderer.vue';
+import DateAttributeRenderer from './date-attribute-renderer.vue';
 import IconTagAttributeRenderer from './icon-tag-attribute-renderer.vue';
 import LinkAttributeRenderer from './link-attribute-renderer.vue';
 import NumericAttributeRenderer from './numeric-attribute-renderer.vue';
 import TextAttributeRenderer from './text-attribute-renderer.vue';
 import ProgressAttributeRenderer from './progress-attribute-renderer.vue';
-import IndexAttributeRenderer from '@appvise/jsonsearch-quasar/attributes/index-attribute-renderer.vue';
 
 const attributeGroupRendererEntry: JsonFormsRendererRegistryEntry = {
   renderer: AttributeGroupRenderer,
@@ -53,6 +53,14 @@ const ageAttributeRendererEntry: JsonFormsRendererRegistryEntry = {
   tester: rankWith(
     2,
     and(isNumericAttributeControl, optionIs('format', 'age'))
+  ),
+};
+
+const dateAttributeRendererEntry: JsonFormsRendererRegistryEntry = {
+  renderer: DateAttributeRenderer,
+  tester: rankWith(
+    2,
+    and(isStringAttributeControl, optionIs('format', 'date'))
   ),
 };
 
@@ -94,19 +102,14 @@ const iconTagAttributeRendererEntry: JsonFormsRendererRegistryEntry = {
   ),
 };
 
-const indexAttributeRendererEntry: JsonFormsRendererRegistryEntry = {
-  renderer: IndexAttributeRenderer,
-  tester: rankWith(2, optionIs('format', 'index')),
-};
-
 export {
   ActiveStatusAttributeRenderer,
   AgeAttributeRenderer,
   AttributeGroupRenderer,
   AttributeWrapper,
   ButtonAttributeRenderer,
+  DateAttributeRenderer,
   IconTagAttributeRenderer,
-  IndexAttributeRenderer,
   LinkAttributeRenderer,
   NumericAttributeRenderer,
   TextAttributeRenderer,
@@ -118,8 +121,8 @@ export const attributeRenderers = [
   activeStatusAttributeRendererEntry,
   ageAttributeRendererEntry,
   buttonAttributeRendererEntry,
+  dateAttributeRendererEntry,
   iconTagAttributeRendererEntry,
-  indexAttributeRendererEntry,
   linkAttributeRendererEntry,
   numericAttributeRendererEntry,
   textAttributeRendererEntry,

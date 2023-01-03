@@ -8,7 +8,7 @@ import {
   SearchProvider,
   SearchRequestType,
   SearchState,
-} from './index';
+} from '.';
 
 export class SearchManager<
   TRequest extends SearchRequestType,

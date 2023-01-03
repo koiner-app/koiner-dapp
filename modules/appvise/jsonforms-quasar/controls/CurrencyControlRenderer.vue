@@ -36,7 +36,7 @@
         <money3-component
           :id="id"
           class="q-field__input"
-          :model-value="control.data ?? 0.00"
+          :model-value="control.data ?? 0.0"
           @update:model-value="emitValue"
           v-bind="moneyFormatForComponent"
           v-show="floatingLabel"
@@ -68,8 +68,9 @@ export default defineComponent({
     ...rendererProps<ControlElement>(),
   },
   setup(props: RendererProps<ControlElement>) {
-    const control = useQuasarControl(useJsonFormsControl(props), (value) =>
-      parseFloat(value) || undefined
+    const control = useQuasarControl(
+      useJsonFormsControl(props),
+      (value) => parseFloat(value) || undefined
     );
 
     const emitChange = (value: any) => {

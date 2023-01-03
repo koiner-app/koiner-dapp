@@ -7,7 +7,7 @@ import {
   SearchClientOptions,
   SearchManager,
   SearchRequestType,
-} from './index';
+} from '.';
 
 export function provideSearchClient(
   opts: SearchClientOptions | SearchClient | Ref<SearchClient>

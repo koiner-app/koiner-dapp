@@ -1,7 +1,20 @@
-export { default as ArrayListRenderer } from './ArrayListRenderer.vue';
+import {
+  and,
+  JsonFormsRendererRegistryEntry,
+  rankWith,
+  schemaTypeIs,
+  uiTypeIs,
+} from '@jsonforms/core';
 
-import { entry as arrayListRendererEntry } from './ArrayListRenderer.vue';
+import ArrayListRenderer from './ArrayListRenderer.vue';
 
-export const arrayRenderers = [
-  arrayListRendererEntry
-]
+export const arrayListRendererEntry: JsonFormsRendererRegistryEntry = {
+  renderer: ArrayListRenderer,
+  tester: rankWith(2, and(uiTypeIs('Control'), schemaTypeIs('array'))),
+};
+
+export { ArrayListRenderer };
+
+export const arrayRenderers: JsonFormsRendererRegistryEntry[] = [
+  arrayListRendererEntry,
+];

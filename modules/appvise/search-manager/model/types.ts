@@ -1,5 +1,3 @@
-import { Direction, StringFilter } from '@rapp/sdk';
-
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = {
@@ -21,6 +19,18 @@ export type Scalars = {
   Float: number;
   DateTime: any;
   Upload: any;
+};
+
+export enum Direction {
+  Asc = 'asc',
+  Desc = 'desc',
+}
+
+export type StringFilter = {
+  contains?: InputMaybe<Scalars['String']>;
+  equals?: InputMaybe<Scalars['String']>;
+  excludes?: InputMaybe<Scalars['String']>;
+  iContains?: InputMaybe<Scalars['String']>;
 };
 
 export type SortInput = {

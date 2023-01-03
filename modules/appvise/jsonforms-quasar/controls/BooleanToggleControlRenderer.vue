@@ -19,7 +19,7 @@
       :persistent-hint="persistentHint()"
       :required="control.required"
       :error-messages="control.errors"
-      @change="onChange"
+      @click="onChange(control.data)"
       @focus="isFocused = true"
       @blur="isFocused = false"
     />
@@ -46,7 +46,9 @@ export default defineComponent({
     ...rendererProps<ControlElement>(),
   },
   setup(props: RendererProps<ControlElement>) {
-    return useQuasarControl(useJsonFormsControl(props));
+    return useQuasarControl(
+      useJsonFormsControl(props),
+    );
   },
 });
 </script>
