@@ -13,7 +13,7 @@
       :icon="appliedOptions.icon"
       :unelevated="appliedOptions.unelevated"
       :color="appliedOptions.color"
-      @click="onButtonClick"
+      @click.prevent="onButtonClick"
       :loading="
         appliedOptions.type === 'submit' && rootUiSchema?.options.submitting
       "
