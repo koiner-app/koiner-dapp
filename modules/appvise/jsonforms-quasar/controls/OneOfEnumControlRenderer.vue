@@ -46,6 +46,9 @@
           {{ selectedLabel }}
         </span>
       </template>
+      <template #error>
+        {{ control.errors }}
+      </template>
     </q-select>
   </control-wrapper>
 </template>
