@@ -28,7 +28,15 @@ module.exports = configure(function (/* ctx */) {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     // https://v2.quasar.dev/quasar-cli-vite/boot-files
-    boot: ['urql', 'i18n', 'search-client', 'kondor', 'axios', 'posthog'],
+    boot: [
+      'hash-redirect',
+      'urql',
+      'i18n',
+      'search-client',
+      'kondor',
+      'axios',
+      'posthog',
+    ],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#css
     css: ['app.scss'],
@@ -53,7 +61,7 @@ module.exports = configure(function (/* ctx */) {
         node: 'node16',
       },
 
-      vueRouterMode: 'hash', // available values: 'hash', 'history'
+      vueRouterMode: 'history',
       // vueRouterBase,
       // vueDevtools,
       // vueOptionsAPI: false,
