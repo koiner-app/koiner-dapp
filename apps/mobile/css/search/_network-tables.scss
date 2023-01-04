@@ -1,4 +1,28 @@
-.page--mobile-network {
+.tab--mobile-network {
+  .no-pt {
+    .stats-card {
+      padding-top: 0;
+    }
+  }
+
+  .stats-card {
+    .stat-content {
+      font-size: 1.5rem;
+
+      .stat-unit {
+        font-size: 1.25rem;
+      }
+    }
+
+    .stat-footer {
+      padding-top: 0.5rem;
+
+      .stat-unit {
+        font-size: 0.875rem;
+      }
+    }
+  }
+
   .search-view-table {
     .q-table {
       thead tr,
@@ -9,12 +33,28 @@
 
     .attribute-wrapper--address {
       span {
-        inline-size: 125px;
+        inline-size: 160px;
         overflow: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
         display: inline-block;
         padding-top: 0.35rem;
+      }
+    }
+
+    @media screen and (min-width: 400px) {
+      .attribute-wrapper--address {
+        span {
+          inline-size: 220px;
+        }
+      }
+    }
+
+    @media screen and (min-width: 440px) {
+      .attribute-wrapper--address {
+        span {
+          inline-size: 240px;
+        }
       }
     }
 
@@ -51,6 +91,10 @@
     }
     .attribute--blocks-produced {
       color: grey;
+    }
+
+    .attribute-wrapper--age {
+      margin-left: 1rem;
     }
 
     //  Block rewards

@@ -4,7 +4,7 @@
     size="sm"
     icon="fa-solid fa-filter"
     @click="dialog = true"
-    class="btn-search-dialog q-px-sm q-mx-sm absolute-top-right q-mt-md"
+    class="btn-search-dialog q-px-sm q-mx-lg absolute-top-right q-mt-md"
   />
 
   <q-dialog

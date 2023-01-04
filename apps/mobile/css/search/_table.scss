@@ -5,6 +5,16 @@
     display: none;
   }
 
+  td {
+    &:last-of-type {
+      padding-right: 1rem !important;
+    }
+
+    &:first-of-type {
+      padding-left: 1rem !important;
+    }
+  }
+
   @media screen and (min-width: 1440px) {
     .ago {
       display: inline-block;

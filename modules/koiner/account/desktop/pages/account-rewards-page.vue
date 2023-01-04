@@ -38,7 +38,7 @@
       <q-card-section>
         <div class="text-overline">Blocks Produced</div>
 
-        <block-rewards-component
+        <block-rewards-table
           v-if="accountStore.addressesFilter.length > 0"
           :producer-ids="accountStore.addressesFilter"
         />
@@ -59,7 +59,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, onMounted, watch } from 'vue';
-import BlockRewardsComponent from '@koiner/network/components/block-production/search/view/block-rewards-table.vue';
+import BlockRewardsTable from '@koiner/network/components/block-production/search/view/block-rewards-table.vue';
 import AccountAddressesFilter from '@koiner/chain/components/address/account-addresses-filter.vue';
 import { SearchRequestType, useSearchManager } from '@appvise/search-manager';
 import { TokenHolder } from '@koiner/sdk';
@@ -67,13 +67,13 @@ import TokenHolderBalancesMetric from '@koiner/tokenize/components/holder/metric
 import CounterMetric from '@koiner/components/metrics/counter-metric.vue';
 import { useAccountStore } from 'stores/account';
 import { useKoinerStore } from 'stores/koiner';
-import {useStatsStore} from 'stores/stats';
+import { useStatsStore } from 'stores/stats';
 
 export default defineComponent({
   name: 'AccountRewardsPage',
   components: {
     AccountAddressesFilter,
-    BlockRewardsComponent,
+    BlockRewardsTable,
     CounterMetric,
     TokenHolderBalancesMetric,
   },
@@ -169,7 +169,7 @@ export default defineComponent({
         return burnedTotal;
       }),
       apy: computed(() => {
-        return statsStore.blockProductionApy
+        return statsStore.blockProductionApy;
       }),
     };
   },

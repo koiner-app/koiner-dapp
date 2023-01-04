@@ -3,7 +3,10 @@
     <q-card class="tabs-card" flat bordered>
       <q-card-section class="q-pt-xs q-px-none">
         <q-tab-panels v-model="tab" animated>
-          <q-tab-panel name="portfolio" style="padding: 0 !important; min-height: 100vh">
+          <q-tab-panel
+            name="portfolio"
+            style="padding: 0 !important; min-height: 100vh"
+          >
             <q-card
               class="stats-card"
               flat
@@ -33,6 +36,31 @@
               :token-balances="accountStore.tokenBalances"
             />
           </q-tab-panel>
+
+          <q-tab-panel
+            name="rewards"
+            class="tab--mobile-network"
+            style="padding: 0 !important; min-height: 100vh"
+          >
+            <token-holder-balances-metric
+              v-if="
+                accountStore.addressesFilter.length > 0 &&
+                tokenHolders &&
+                tokenHolders.length > 0
+              "
+              title="Total Rewards"
+              :token-holders="tokenHolders"
+              :tooltip-hide-delay="3000"
+            />
+
+            <address-filter-dialog :open-dialog="openDialog" />
+
+            <block-rewards-table
+              v-if="accountStore.addressesFilter.length > 0"
+              :producer-ids="accountStore.addressesFilter"
+              :mobile="true"
+            />
+          </q-tab-panel>
         </q-tab-panels>
       </q-card-section>
     </q-card>
@@ -45,22 +73,34 @@
           label="Portfolio"
           name="portfolio"
         />
+        <q-tab
+          class="text-overline"
+          :ripple="false"
+          label="Rewards"
+          name="rewards"
+        />
       </q-tabs>
     </q-page-sticky>
   </q-page>
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref, Ref } from 'vue';
+import { computed, defineComponent, onMounted, ref, Ref, watch } from 'vue';
 import { useKoinerStore } from 'stores/koiner';
 import { useStatsStore } from 'stores/stats';
 import { useAccountStore } from 'stores/account';
 import AddressFilterDialog from '@koiner/components/search/address-filter-dialog/address-filter-dialog.vue';
 import TokenBalancesComponent from '@koiner/account/mobile/components/token-balances-component.vue';
+import BlockRewardsTable from '@koiner/network/components/block-production/search/view/block-rewards-table.vue';
+import TokenHolderBalancesMetric from '@koiner/tokenize/components/holder/metric/token-holder-balances-metric.vue';
+import { TokenHolder } from '@koiner/sdk';
+import { SearchRequestType, useSearchManager } from '@appvise/search-manager';
 
 export default defineComponent({
   name: 'AccountMobileIndexPage',
   components: {
+    TokenHolderBalancesMetric,
+    BlockRewardsTable,
     TokenBalancesComponent,
     AddressFilterDialog,
   },
@@ -73,9 +113,46 @@ export default defineComponent({
     const tab: Ref<string> = ref('portfolio');
     const openDialog = ref(false);
 
-    onMounted(() => {
+    const blockProducersSearch = useSearchManager('blockProducers');
+
+    const loadBlockProducers = async () => {
+      if (accountStore.addressesFilter.length > 0) {
+        const request: SearchRequestType = {
+          first: 100,
+          filter: {
+            AND: [
+              {
+                OR: accountStore.addressesFilter.map((address) => {
+                  return {
+                    addressId: {
+                      equals: address,
+                    },
+                  };
+                }),
+              },
+            ],
+          },
+        };
+
+        await blockProducersSearch.search(request);
+      } else {
+        blockProducersSearch.reset();
+      }
+    };
+
+    onMounted(async () => {
       openDialog.value = accountStore.addressesFilter.length === 0;
+
+      await loadBlockProducers();
     });
+
+    watch(
+      accountStore,
+      async () => {
+        await loadBlockProducers();
+      },
+      { deep: true }
+    );
 
     return {
       koinerStore,
@@ -83,6 +160,20 @@ export default defineComponent({
       accountStore,
       tab,
       openDialog,
+
+      blockProducersSearch,
+
+      tokenHolders: computed(() => {
+        // Transform BlockProducer profits to TokenHolder for input of component
+        return blockProducersSearch.connection.value?.edges?.map((edge) => {
+          return {
+            addressId: edge.node.addressId,
+            balance: edge.node.balance,
+            contract: koinerStore.koinContract,
+            contractId: koinerStore.koinContract.id,
+          } as TokenHolder;
+        });
+      }),
     };
   },
 });

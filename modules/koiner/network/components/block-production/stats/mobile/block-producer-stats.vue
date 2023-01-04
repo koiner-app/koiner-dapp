@@ -19,7 +19,7 @@
         :decimals="0"
       />
     </div>
-    <div class="row">
+    <div class="row no-pt">
       <counter-metric
         class="col"
         title="APY"

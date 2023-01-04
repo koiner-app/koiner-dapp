@@ -1,14 +1,22 @@
 <template>
   <q-page class="row items-start mobile-tab-page">
     <q-card class="tabs-card" flat bordered>
-      <q-card-section class="q-pt-xs">
+      <q-card-section class="q-pt-xs q-px-none">
         <q-tab-panels v-model="tab" animated>
-          <q-tab-panel name="producers">
+          <q-tab-panel
+            name="producers"
+            class="tab--mobile-network"
+            style="padding: 0 !important; min-height: 100vh"
+          >
             <block-producer-stats />
 
             <block-producers-component :mobile="true" />
           </q-tab-panel>
-          <q-tab-panel name="rewards">
+          <q-tab-panel
+            name="rewards"
+            class="tab--mobile-network"
+            style="padding: 0 !important; min-height: 100vh"
+          >
             <block-rewards-component :mobile="true" />
           </q-tab-panel>
         </q-tab-panels>

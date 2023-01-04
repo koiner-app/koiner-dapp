@@ -1,9 +1,7 @@
 .layout--mobile {
-  @import 'includes/large-stats-card';
-  @import 'includes/stats-card';
-  @import 'includes/stats-carousel';
+  @import 'includes';
   @import 'pages';
-  @import 'search/table';
+  @import 'search';
 
   .search-filters {
     display: none !important;
