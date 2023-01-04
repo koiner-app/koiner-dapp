@@ -4,7 +4,7 @@ export const burnKoin: Project = {
   name: 'Burn KOIN',
   types: ['dApp', 'token'],
   caption: 'Burnpool',
-  image: './projects/dapp/burnkoin.svg',
+  image: '/projects/dapp/burnkoin.svg',
   token: {
     name: 'pVHP',
     contractId: '1NHReq2apWsQ6UPBjNqcV3ABsj88Ncimiy',

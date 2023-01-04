@@ -4,7 +4,7 @@ export const koinosOfficial: Project = {
   name: 'Koinos',
   types: ['Social'],
   caption: 'Official Koinos links',
-  image: './projects/koinos.svg',
+  image: '/projects/koinos.svg',
   description: 'Links and official social media accounts of Koinos.',
   links: [
     {

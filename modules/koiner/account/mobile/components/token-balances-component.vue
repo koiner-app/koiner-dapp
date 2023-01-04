@@ -26,7 +26,7 @@
         <q-item-section top avatar class="q-pt-xs">
           <q-avatar v-if="tokenBalance.contract.symbol === 'KOIN'" size="md">
             <img
-              src="projects/koinos.svg"
+              src="/projects/koinos.svg"
               :alt="tokenBalance.contract.symbol"
             />
           </q-avatar>

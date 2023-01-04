@@ -4,7 +4,7 @@ export const koinosBlocks: Project = {
   name: 'Koinos Blocks',
   types: ['dApp'],
   caption: 'Block Explorer',
-  image: './projects/dapp/koinosblocks.png',
+  image: '/projects/dapp/koinosblocks.png',
   description: 'Koinos blockchain explorer',
   links: [
     { url: 'https://koinosblocks.com', icon: 'fa-solid fa-globe' },

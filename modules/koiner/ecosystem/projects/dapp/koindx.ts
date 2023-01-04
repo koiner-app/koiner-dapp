@@ -7,7 +7,7 @@ export const koinDx: Project = {
   token: {
     name: 'KNDX',
   },
-  image: './projects/dapp/koindx.svg',
+  image: '/projects/dapp/koindx.svg',
   description:
     'KoinDX is a next generation decentralized exchange that leverages the feeless systems of the koinos blockchain.',
   links: [

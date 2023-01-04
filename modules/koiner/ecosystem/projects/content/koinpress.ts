@@ -4,7 +4,7 @@ export const koinPress: Project = {
   name: 'The Koin Press',
   types: ['Content'],
   caption: 'Podcast',
-  image: './projects/content/koinpress.webp',
+  image: '/projects/content/koinpress.webp',
   description:
     'Helping game studios adopt blockchain without alienating players.',
   links: [

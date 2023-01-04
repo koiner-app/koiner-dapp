@@ -6,7 +6,7 @@ export const koinosForum: Project = {
   name: 'Koinos Forum',
   types: ['Social'],
   caption: 'Forum',
-  image: './projects/social/koinos-forum.jpg',
+  image: '/projects/social/koinos-forum.jpg',
   description: 'Discuss topics about Koinos and dApps on the Koinos forum.',
   links: [
     {

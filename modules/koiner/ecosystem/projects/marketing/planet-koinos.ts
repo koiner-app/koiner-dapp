@@ -4,7 +4,7 @@ export const planetKoinos: Project = {
   name: 'Planet Koinos',
   types: ['Marketing'],
   caption: 'Merchandise',
-  image: './projects/marketing/planet-koinos.png',
+  image: '/projects/marketing/planet-koinos.png',
   description: 'Community merchandise store.',
   links: [
     {

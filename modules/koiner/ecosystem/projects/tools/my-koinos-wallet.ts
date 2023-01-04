@@ -4,7 +4,7 @@ export const myKoinosWallet: Project = {
   name: 'My Koinos Wallet',
   types: ['Tools'],
   caption: 'In development',
-  image: './projects/tools/my-koinos-wallet.png',
+  image: '/projects/tools/my-koinos-wallet.png',
   icon: 'fa-solid fa-wallet',
   description:
     'In development - My Koinos Wallet is a web-based wallet for Koinos Blockchain.',

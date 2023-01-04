@@ -4,7 +4,7 @@ export const koinosSwagShop: Project = {
   name: 'Koinos Swag Shop',
   types: ['Marketing'],
   caption: 'Merchandise',
-  image: './projects/koinos.svg',
+  image: '/projects/koinos.svg',
   description: 'Official merchandise store of Koinos.',
   links: [
     {

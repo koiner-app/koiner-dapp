@@ -4,7 +4,7 @@ export const kondor: Project = {
   name: 'Kondor Wallet',
   types: ['Tools'],
   caption: 'Wallet',
-  image: './projects/tools/kondor.jpg',
+  image: '/projects/tools/kondor.jpg',
   description:
     'Kondor is a browser extension to manage a wallet for Koinos Blockchain.',
   links: [
