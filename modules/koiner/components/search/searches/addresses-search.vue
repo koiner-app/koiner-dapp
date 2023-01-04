@@ -11,7 +11,10 @@
         v-for="edge in addressesSearch.connection.value.edges"
         :key="edge.cursor"
         @click.prevent="
-          router.push({ name: 'address', params: { id: edge.node.id } })
+          router.push({
+            name: `${mobile ? 'mobile.' : ''}address`,
+            params: { id: edge.node.id },
+          })
         "
       >
         <q-item-section>
@@ -51,6 +54,10 @@ export default defineComponent({
       required: false,
       type: Boolean,
       default: true,
+    },
+    mobile: {
+      required: false,
+      type: Boolean,
     },
   },
 

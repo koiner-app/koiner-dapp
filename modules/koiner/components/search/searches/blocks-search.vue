@@ -54,6 +54,10 @@ export default defineComponent({
       required: true,
       type: String,
     },
+    mobile: {
+      required: false,
+      type: Boolean,
+    }
   },
 
   setup(props) {

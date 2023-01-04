@@ -19,7 +19,7 @@
         </q-toolbar-title>
 
         <api-switcher />
-        <search-dialog />
+        <search-dialog :mobile="true" />
 
         <q-btn
           class="show-love-button"
