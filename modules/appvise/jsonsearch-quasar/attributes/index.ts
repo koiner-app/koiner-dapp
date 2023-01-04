@@ -24,6 +24,7 @@ import LinkAttributeRenderer from './link-attribute-renderer.vue';
 import NumericAttributeRenderer from './numeric-attribute-renderer.vue';
 import TextAttributeRenderer from './text-attribute-renderer.vue';
 import ProgressAttributeRenderer from './progress-attribute-renderer.vue';
+import IndexAttributeRenderer from './index-attribute-renderer.vue';
 
 const attributeGroupRendererEntry: JsonFormsRendererRegistryEntry = {
   renderer: AttributeGroupRenderer,
@@ -102,6 +103,11 @@ const iconTagAttributeRendererEntry: JsonFormsRendererRegistryEntry = {
   ),
 };
 
+const indexAttributeRendererEntry: JsonFormsRendererRegistryEntry = {
+  renderer: IndexAttributeRenderer,
+  tester: rankWith(2, optionIs('format', 'index')),
+};
+
 export {
   ActiveStatusAttributeRenderer,
   AgeAttributeRenderer,
@@ -110,6 +116,7 @@ export {
   ButtonAttributeRenderer,
   DateAttributeRenderer,
   IconTagAttributeRenderer,
+  IndexAttributeRenderer,
   LinkAttributeRenderer,
   NumericAttributeRenderer,
   TextAttributeRenderer,
@@ -123,6 +130,7 @@ export const attributeRenderers = [
   buttonAttributeRendererEntry,
   dateAttributeRendererEntry,
   iconTagAttributeRendererEntry,
+  indexAttributeRendererEntry,
   linkAttributeRendererEntry,
   numericAttributeRendererEntry,
   textAttributeRendererEntry,
