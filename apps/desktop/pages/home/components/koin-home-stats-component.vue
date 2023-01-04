@@ -7,9 +7,14 @@
         :value="statsStore.formattedKoinPrice"
         :footer="{
           title: 'Marketcap:',
-          value: statsStore.formattedMarketCap,
+          value: statsStore.formattedVirtualFDVMarketCap,
         }"
         :footer-tooltips="[
+          {
+            title: 'Circulating Marketcap:',
+            value: statsStore.formattedMarketCap,
+            unit: '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Claimed KOIN (that\'s not burned)',
+          },
           {
             title: 'Virtual Marketcap',
             value: statsStore.formattedVirtualMarketCap,
@@ -18,12 +23,12 @@
           {
             title: 'Fully Diluted Valuation',
             value: statsStore.formattedFDVMarketCap,
-            unit: '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;All tokens claimed',
+            unit: '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;All tokens claimed - VHP',
           },
           {
             title: 'FDV Virtual MC',
             value: statsStore.formattedVirtualFDVMarketCap,
-            unit: '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;All tokens claimed + VHP',
+            unit: '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;All tokens claimed including VHP',
           },
         ]"
         :tooltip-title-width="125"

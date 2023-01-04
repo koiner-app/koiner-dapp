@@ -22,7 +22,7 @@
           v-if="footerTooltips && footerTooltips.length > 0"
           name="help"
           color="grey"
-          style="padding-bottom: 3px;"
+          style="padding-bottom: 3px"
           class="q-ml-xs"
         />
         <q-tooltip
@@ -30,6 +30,7 @@
           anchor="bottom start"
           self="top left"
           class="bg-primary text-white shadow-4"
+          :hide-delay="footerTooltipHideDelay"
         >
           <div class="q-pa-sm q-gutter-xs">
             <div
@@ -109,6 +110,10 @@ export default defineComponent({
       required: false,
       type: Array as PropType<Array<StatItem>>,
       default: () => [],
+    },
+    footerTooltipHideDelay: {
+      required: false,
+      type: Number,
     },
     tooltipTitleWidth: {
       required: false,

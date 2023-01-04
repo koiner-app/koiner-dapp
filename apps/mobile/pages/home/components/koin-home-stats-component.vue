@@ -6,9 +6,14 @@
       :value="statsStore.formattedKoinPrice"
       :footer="{
         title: 'Marketcap:',
-        value: statsStore.formattedMarketCap,
+        value: statsStore.formattedVirtualFDVMarketCap,
       }"
       :footer-tooltips="[
+        {
+          title: 'Circulating Marketcap:',
+          value: statsStore.formattedMarketCap,
+          unit: '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Claimed KOIN (that\'s not burned)',
+        },
         {
           title: 'Virtual Marketcap',
           value: statsStore.formattedVirtualMarketCap,
@@ -25,6 +30,7 @@
           unit: '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;All tokens claimed + VHP',
         },
       ]"
+      :footer-tooltip-hide-delay="3000"
       :tooltip-title-width="125"
       :tooltip-item-width="250"
     />
@@ -51,6 +57,7 @@
           unit: koinerStore.vhpContract.symbol,
         },
       ]"
+      :footer-tooltip-hide-delay="3000"
     />
 
     <counter-metric
