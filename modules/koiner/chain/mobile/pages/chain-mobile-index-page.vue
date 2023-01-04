@@ -1,7 +1,7 @@
 <template>
   <q-page class="row items-start mobile-tab-page">
     <q-card class="tabs-card" flat bordered>
-      <q-card-section class="q-pt-xs">
+      <q-card-section class="q-pt-xs q-px-none">
         <q-tab-panels v-model="tab" animated>
           <q-tab-panel name="blocks">
             <blocks-table :mobile="true" />
@@ -16,7 +16,7 @@
             <events-table />
           </q-tab-panel>
           <q-tab-panel name="addresses">
-            <addresses-table />
+            <addresses-table :mobile="true" />
           </q-tab-panel>
         </q-tab-panels>
       </q-card-section>

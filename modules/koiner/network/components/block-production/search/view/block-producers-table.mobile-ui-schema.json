@@ -31,7 +31,7 @@
               "scope": "#/properties/addressId",
               "options": {
                 "format": "address",
-                "route": "address.rewards",
+                "route": "mobile.address",
                 "mapping": "addressId",
                 "class": "attribute-wrapper--address"
               }

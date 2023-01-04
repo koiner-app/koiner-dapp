@@ -128,7 +128,6 @@ export default defineComponent({
         const balances = contractTokenHolders.value.map(
           (tokenHolder) => tokenHolder.balance
         );
-        // const burnedTotals =
 
         let totalBalance = 0;
         balances.forEach((balance) => {

@@ -68,7 +68,7 @@ export default defineComponent({
   setup() {
     const koinerStore = useKoinerStore();
 
-    let id: Ref<string | undefined> = ref();
+    const id: Ref<string | undefined> = ref();
     const route = useRoute();
     const totalVhp: Ref<number | undefined> = ref();
     const totalVirtualKoin: Ref<number | undefined> = ref();

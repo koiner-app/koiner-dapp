@@ -6,6 +6,7 @@
       <q-space />
 
       <q-toggle
+        v-if="showGroupBalances"
         v-model="accountStore[accountStore.environment].groupBalances"
         size="xs"
         checked-icon="check"
@@ -113,6 +114,11 @@ export default defineComponent({
       required: true,
       type: Array as PropType<Array<TokenHolder>>,
     },
+    showGroupBalances: {
+      required: false,
+      type: Boolean,
+      default: true,
+    }
   },
 
   setup(props) {

@@ -27,7 +27,8 @@ import { KoinerRenderers } from '@koiner/renderers';
 import SearchFilters from '@appvise/search-manager/search-filters.vue';
 import QJsonSearch from '@appvise/q-json-forms/QJsonSearch.vue';
 import addressesSearchSchema from '@koiner/chain/components/address/search/addresses-search.schema.json';
-import addressesSearchUiSchema from '@koiner/chain/components/address/search/view/addresses-table.ui-schema.json';
+import mobileUiSchema from './addresses-table.mobile-ui-schema.json';
+import desktopUiSchema from './addresses-table.ui-schema.json';
 
 export default defineComponent({
   name: 'AddressesTable',
@@ -45,6 +46,11 @@ export default defineComponent({
     search: {
       required: false,
       type: String,
+    },
+    mobile: {
+      required: false,
+      type: Boolean,
+      default: false,
     },
   },
 
@@ -78,7 +84,7 @@ export default defineComponent({
     return {
       onScroll,
       schema: addressesSearchSchema,
-      uiSchema: addressesSearchUiSchema,
+      uiSchema: props.mobile ? mobileUiSchema : desktopUiSchema,
       request: searchStore.addresses.request,
       position: searchStore.addresses.position,
       renderers: KoinerRenderers,
