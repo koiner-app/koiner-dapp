@@ -10,7 +10,7 @@
               v-if="accountStore.addressesFilter.length > 0"
             >
               <q-card-section>
-                <div class="stat-title">Balance</div>
+                <div class="stat-title">Virtual Koin Balance</div>
                 <div class="stat-content" style="font-size: 1.5rem">
                   ${{ accountStore.formattedVirtualKoinValue(2) }} <br /><span
                     :class="`stat-unit`"

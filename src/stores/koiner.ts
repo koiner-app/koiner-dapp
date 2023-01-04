@@ -33,6 +33,11 @@ export const useKoinerStore = defineStore({
     ): { id: string; name: string; symbol: string; decimals: number } => {
       return koinerConfig[state.environment].contracts.vhp;
     },
+    pVhpContract: (
+      state
+    ): { id: string; name: string; symbol: string; decimals: number } => {
+      return koinerConfig[state.environment].contracts.pVhp;
+    },
     pobContract: (state): { id: string; name: string } => {
       return koinerConfig[state.environment].contracts.pob;
     },

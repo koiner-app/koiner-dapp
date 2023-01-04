@@ -49,16 +49,38 @@
 
         <q-item-section side top>
           <q-item-label
-            >${{
-              (
-                tokenAmount(
-                  parseInt(tokenBalance.balance),
-                  tokenBalance.contract.decimals
-                ) * statsStore.koinStats.price
-              ).toLocaleString(undefined, {
-                maximumFractionDigits: 2,
-              })
-            }}</q-item-label
+            ><span v-if="showPrice(tokenBalance.contract.id)"
+              >${{
+                (
+                  tokenAmount(
+                    parseInt(tokenBalance.balance),
+                    tokenBalance.contract.decimals
+                  ) * statsStore.koinStats.price
+                ).toLocaleString(undefined, {
+                  maximumFractionDigits: 2,
+                })
+              }}
+              <span
+                v-if="tokenBalance.contract.id !== koinerStore.koinContract.id"
+              >
+                <q-icon
+                  name="warning"
+                  color="accent"
+                  style="padding-bottom: 3px"
+                  class="q-ml-xs"
+                />
+                <q-tooltip
+                  anchor="bottom start"
+                  self="top left"
+                  class="bg-primary text-white shadow-4"
+                  :hide-delay="3000"
+                >
+                  <div class="q-pa-sm q-gutter-xs">
+                    Estimated value based on price of KOIN
+                  </div>
+                </q-tooltip>
+              </span> </span
+            ><span v-else>??</span></q-item-label
           >
           <q-item-label caption
             >{{
@@ -82,6 +104,7 @@ import { useAccountStore } from 'stores/account';
 import { localizedTokenAmount, tokenAmount } from '@koiner/utils';
 import { TokenHolder } from '@koiner/sdk';
 import { useStatsStore } from 'stores/stats';
+import { useKoinerStore } from 'stores/koiner';
 
 export default defineComponent({
   name: 'TokenBalancesComponent',
@@ -94,14 +117,23 @@ export default defineComponent({
 
   setup(props) {
     const accountStore = useAccountStore();
+    const koinerStore = useKoinerStore();
     const statsStore = useStatsStore();
 
     return {
       accountStore,
+      koinerStore,
       statsStore,
       localizedTokenAmount,
       tokenAmount,
 
+      showPrice: (contractId: string): boolean => {
+        return [
+          koinerStore.koinContract.id,
+          koinerStore.vhpContract.id,
+          koinerStore.pVhpContract.id,
+        ].includes(contractId);
+      },
       computedTokenBalances: computed(() => {
         const tokenBalancesMap = new Map<string, TokenHolder>([]);
 

@@ -16,6 +16,12 @@ export const koinerConfig = {
         symbol: 'VHP',
         decimals: 8,
       },
+      pVhp: {
+        id: '1NHReq2apWsQ6UPBjNqcV3ABsj88Ncimiy',
+        name: 'Pooled VHP',
+        symbol: 'pVHP',
+        decimals: 8,
+      },
       pob: {
         id: '159myq5YUhhoVWu3wsHKHiJYKPKGUrGiyv',
         name: 'Proof of Burn',
@@ -39,6 +45,12 @@ export const koinerConfig = {
         symbol: 'VHP',
         decimals: 8,
       },
+      pVhp: {
+        id: '13n14L2JhnWTjt6eX3DVkz1mtCFwwCfJZX',
+        name: 'Pooled VHP',
+        symbol: 'pVHP',
+        decimals: 8,
+      },
       pob: {
         id: '198RuEouhgiiaQm7uGfaXS6jqZr6g6nyoR',
         name: 'Proof of Burn',
@@ -60,6 +72,12 @@ export const koinerConfig = {
         id: '1AdzuXSpC6K9qtXdCBgD5NUpDNwHjMgrc9',
         name: 'Virtual Hashpower',
         symbol: 'VHP',
+        decimals: 8,
+      },
+      pVhp: {
+        id: '1NHReq2apWsQ6UPBjNqcV3ABsj88Ncimiy',
+        name: 'Pooled VHP',
+        symbol: 'pVHP',
         decimals: 8,
       },
       pob: {
