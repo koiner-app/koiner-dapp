@@ -28,12 +28,12 @@
   .q-header,
   .q-footer {
     .q-toolbar {
-      background: darken(#28283f, 10%) !important;
+      background: $dark-page-2;
     }
   }
 
   .q-page-container {
-    background: $dark-page-2;
+    background: $dark;
   }
 
   .btn--active {
@@ -75,7 +75,7 @@
     }
 
     .q-drawer__content {
-      background-color: darken(#28283f, 10%);
+      background: $dark-page-2;
 
       a {
         color: #848e9c;
@@ -197,11 +197,16 @@
   }
 }
 
-//.q-card--dark {
-//  border-color: $dark-border-2 !important;
-//  border-width: 1px;
-//  border-style: solid;
-//}
+.q-card--dark {
+  background: $dark-page-2;
+  border-color: $dark-border !important;
+  //border-width: 1px;
+  //border-style: solid;
+}
+
+.q-separator--dark {
+  background: lighten($dark-page-2, 5%);
+}
 
 //
 // Mobile
@@ -209,7 +214,7 @@
 .body--dark {
   .layout--mobile {
     .mobile-navigation {
-      background: darken(#28283f, 10%) !important;
+      background: $dark !important;
 
       a {
         color: rgba(255, 255, 255, 0.7);

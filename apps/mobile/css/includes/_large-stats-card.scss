@@ -1,14 +1,13 @@
 .large-stats-cards {
   width: 100% !important;
-  padding: 0.5rem;
+  padding: 0.25rem;
 
   .stats-card {
-    padding-top: 1rem;
-    padding-left: 1rem;
-    width: calc(50% - 1rem);
+    padding: 0;
+    width: calc(50% - 0.5rem);
     float: left;
-    margin: 0.5rem;
-    min-height: 180px;
+    margin: 0.25rem;
+    min-height: 148px;
 
     @media (min-width: 680px) {
       min-height: auto;
@@ -17,7 +16,8 @@
     .stat-title {
       font-size: 0.75rem;
       font-weight: 500;
-      line-height: 2rem;
+      line-height: 1.5rem;
+      padding-bottom: 0.5rem;
       letter-spacing: 0.16667em;
 
       span {
@@ -26,10 +26,14 @@
     }
 
     .stat-content {
-      font-size: 1.5rem;
+      font-size: 1.9375rem;
       font-weight: 400;
       line-height: 2.5rem;
       letter-spacing: 0.00735em;
+    }
+
+    .stat-footer {
+      padding-top: 0.25rem
     }
 
     @media screen and (min-width: 1440px) {

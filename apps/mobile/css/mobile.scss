@@ -16,9 +16,11 @@
   .beta-chip {
     font-size: 0.5rem;
     height: 0.8rem;
-    left: 3.25rem;
     margin-bottom: 10px;
     padding: 0 0.4rem;
+    left: 8rem;
+    position: absolute;
+    top: 8px;
   }
 
   .q-tab-panel {
@@ -38,6 +40,20 @@
     .q-tab {
       text-transform: none;
     }
+  }
+
+  .project-tag-button {
+    height: 22px;
+    min-height: 22px;
+
+    .q-chip {
+      font-size: 0.675rem !important;
+    }
+  }
+
+  .q-list--bordered {
+    border-right: 0;
+    border-left: 0;
   }
 }
 

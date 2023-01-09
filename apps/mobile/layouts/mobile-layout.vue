@@ -20,17 +20,6 @@
 
         <api-switcher />
         <search-dialog :mobile="true" />
-
-        <q-btn
-          class="show-love-button"
-          target="_blank"
-          flat
-          dense
-          size="md"
-          color="accent"
-          href="https://twitter.com/intent/tweet?url=https://koiner.app&text=Checkout%20the%20koiner%20dashboard%20making%20the%20koinos%20blockchain%20data%20more%20accessible%20%F0%9F%94%AE"
-          ><q-icon name="favorite_border"
-        /></q-btn>
       </q-toolbar>
     </q-header>
 

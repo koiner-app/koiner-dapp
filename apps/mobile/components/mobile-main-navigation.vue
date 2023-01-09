@@ -68,32 +68,26 @@ export default defineComponent({
         name: 'Home',
         to: '/mobile',
         icon: 'token',
-        disabled: false,
       },
       {
         name: 'Projects',
         to: '/mobile/ecosystem',
         icon: 'apps',
-        disabled: false,
       },
       {
         name: 'Portfolio',
         to: '/mobile/account',
         icon: 'dashboard',
-        disabled: false,
-        hosts: ['dapp.local', 'test.koiner.app'],
       },
       {
         name: 'Chain',
         to: '/mobile/chain',
         icon: 'token',
-        disabled: false,
       },
       {
         name: 'Network',
         to: '/mobile/network',
         icon: 'hub',
-        disabled: false,
       },
     ];
 

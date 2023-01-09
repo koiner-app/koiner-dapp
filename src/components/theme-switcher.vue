@@ -1,6 +1,12 @@
 <template>
   <div class="q-py-lg q-px-sm">
-    <q-select label="Theme" v-model="currentTheme" :options="themes" style="max-width: 250px;" />
+    <q-toggle label="Dark mode" v-model="darkMode" />
+    <!--    <q-select-->
+    <!--      label="Theme"-->
+    <!--      v-model="currentTheme"-->
+    <!--      :options="themes"-->
+    <!--      style="max-width: 250px"-->
+    <!--    />-->
   </div>
 </template>
 
@@ -16,6 +22,12 @@ export default defineComponent({
     const $q = useQuasar();
     const accountStore = useAccountStore();
     const currentTheme = ref(accountStore.theme);
+    const darkMode = ref(accountStore.theme === 'dark');
+
+    watch(darkMode, () => {
+      accountStore.theme = darkMode.value ? 'dark' : 'hybrid';
+      $q.dark.set(darkMode.value);
+    });
 
     watch(currentTheme, () => {
       accountStore.theme = currentTheme.value;
@@ -29,6 +41,7 @@ export default defineComponent({
     return {
       themes: KoinerThemes,
       currentTheme,
+      darkMode,
     };
   },
 });

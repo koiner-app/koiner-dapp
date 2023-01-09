@@ -12,7 +12,7 @@
         {
           title: 'Circulating Marketcap:',
           value: statsStore.formattedMarketCap,
-          unit: '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Claimed KOIN (that\'s not burned)',
+          unit: '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Claimed KOIN (not burned)',
         },
         {
           title: 'Virtual Marketcap',
@@ -31,8 +31,8 @@
         },
       ]"
       :footer-tooltip-hide-delay="3000"
-      :tooltip-title-width="125"
-      :tooltip-item-width="250"
+      :tooltip-title-width="110"
+      :tooltip-item-width="200"
     />
 
     <counter-metric
@@ -58,6 +58,8 @@
         },
       ]"
       :footer-tooltip-hide-delay="3000"
+      :tooltip-title-width="110"
+      :tooltip-item-width="100"
     />
 
     <counter-metric
@@ -82,7 +84,7 @@
 
     <q-card class="stats-card" flat>
       <q-card-section>
-        <div class="stat-title">Buy KOIN on</div>
+        <div class="stat-title">Exchanges</div>
         <div class="stat-footer">
           <span class="stat-footer-stat"
             ><q-btn
@@ -90,7 +92,7 @@
               target="_blank"
               solid
               color="primary"
-              size="md"
+              size="sm"
               class="q-mb-md"
               >MEXC Global</q-btn
             ></span
