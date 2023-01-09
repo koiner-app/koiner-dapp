@@ -1,0 +1,267 @@
+.body--dark {
+  /* Handle */
+  .q-scrollarea__thumb--v,
+  ::-webkit-scrollbar-thumb {
+    background: darken($primary, 5%);
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: lighten($primary, 5%);
+  }
+
+  a {
+    text-decoration: none;
+    color: lighten($primary, 20);
+  }
+
+  .red--text {
+    color: #f44336 !important;
+    caret-color: #f44336 !important;
+  }
+
+  .green--text {
+    color: #4caf50 !important;
+    caret-color: #4caf50 !important;
+  }
+
+  .q-header,
+  .q-footer {
+    .q-toolbar {
+      background: darken(#28283f, 10%) !important;
+    }
+  }
+
+  .q-page-container {
+    background: $dark-page-2;
+  }
+
+  .btn--active {
+    color: lighten($primary, 30%);
+  }
+
+  .q-header,
+  .q-footer,
+  .q-drawer {
+    border-color: $dark-border !important;
+  }
+
+  .q-footer {
+    .q-toolbar {
+      background: darken(#28283f, 10%) !important;
+      color: rgba(255, 255, 255, 0.7);
+    }
+  }
+
+  //
+  // drawer.scss
+  //
+  .q-drawer {
+    .q-item.q-router-link--active,
+    .q-item--active {
+      color: lighten($primary, 30%);
+
+      .q-item__label {
+        color: lighten($primary, 30%) !important;
+      }
+    }
+
+    .q-item:hover {
+      color: lighten($primary, 30%);
+
+      .q-item__label {
+        color: lighten($primary, 30%) !important;
+      }
+    }
+
+    .q-drawer__content {
+      background-color: darken(#28283f, 10%);
+
+      a {
+        color: #848e9c;
+      }
+
+      &:hover {
+        color: #bc4e74;
+      }
+    }
+
+    &.q-drawer--mini {
+      .q-item__label {
+        color: #848e9c !important;
+      }
+    }
+  }
+
+  //
+  // topbar.scss
+  //
+  .koiner-topbar {
+    background: $dark-page-2;
+    border-bottom-color: $dark-border;
+
+    .q-tab {
+      .q-tab__label {
+        color: #555555;
+      }
+
+      .q-tab__indicator {
+        //background: $primary;
+      }
+    }
+
+    .topbar-icon {
+      color: lighten($primary, 35%);
+    }
+
+    .q-tab--active {
+      .q-tab__label {
+        //color: $primary;
+      }
+    }
+
+    .favorite-icon {
+      color: #ffcf21;
+    }
+  }
+
+  //
+  // table.scss
+  //
+  .search-view-table {
+    .q-table__top,
+    .q-table__bottom,
+    thead tr:first-child th /* bg color is important for th; just specify one */ {
+      background-color: $dark-page-2;
+    }
+
+    tbody.q-virtual-scroll__content {
+      td {
+        border-top-color: $dark-border-2;
+        border-bottom-color: $dark-border;
+      }
+    }
+  }
+
+  .data-attribute-field {
+    &.producer,
+    &.burn_address,
+    &.koin_address,
+    &.account {
+      background: #d0aaff7a;
+    }
+
+    &.value,
+    &.token_amount {
+      background: #9c269124;
+    }
+  }
+
+  .search-filters {
+    .q-btn {
+      color: #6d6e6f !important;
+    }
+  }
+
+  .table-card {
+    box-shadow: 0 0 20px rgb(0 0 0 / 2%);
+
+    tbody.q-virtual-scroll__content td {
+      border-bottom-color: #eaeaea;
+    }
+  }
+
+  .q-card.search-table-card {
+    .card-header {
+      border-bottom-color: rgb(221, 221, 221);
+    }
+
+    .search-filters {
+      border-bottom-color: rgb(221, 221, 221);
+    }
+  }
+
+  //
+  // stats-card.scss
+  //
+  .stats-cards {
+    .q-separator--vertical {
+      background: lighten($dark-border, 10%);
+    }
+
+    .stats-card {
+      .stat-content {
+        color: $dark-text;
+      }
+    }
+  }
+}
+
+//.q-card--dark {
+//  border-color: $dark-border-2 !important;
+//  border-width: 1px;
+//  border-style: solid;
+//}
+
+//
+// Mobile
+//
+.body--dark {
+  .layout--mobile {
+    .mobile-navigation {
+      background: darken(#28283f, 10%) !important;
+
+      a {
+        color: rgba(255, 255, 255, 0.7);
+
+        &:hover,
+        &.btn--active {
+          color: lighten($primary, 30%);
+        }
+      }
+    }
+
+    .mobile-tab-page {
+      .q-page-sticky {
+        background: $dark-page;
+        border-bottom-color: $dark-border;
+      }
+
+      .q-tab__indicator {
+        background: $primary;
+      }
+    }
+  }
+
+  .mobile-addresses-filter {
+    .q-slide-item {
+      background: lighten($dark-page-2, 5%);
+
+      .q-item--dark {
+        color: darken($dark-text, 20%);
+      }
+
+      &.address-filter-active {
+        background: $dark-page;
+
+        .q-item--dark {
+          color: $dark-text;
+        }
+      }
+    }
+  }
+
+  &.mobile {
+    .q-dialog {
+      .q-btn {
+        &.q-btn--flat {
+          color: darken($dark-text, 10%) !important;
+        }
+
+        &.text-primary {
+          color: lighten($primary, 30%) !important;
+        }
+      }
+    }
+  }
+}

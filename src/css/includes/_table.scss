@@ -1,6 +1,4 @@
 .table-card {
-  box-shadow: 0 0 20px rgb(0 0 0 / 2%);
-
   .text-h6 {
     font-size: 0.9375rem;
   }
@@ -12,32 +10,17 @@
 
   tbody.q-virtual-scroll__content td {
     border-top: 0 !important;
-    border-bottom: 1px solid #eaeaea;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
   }
 }
 
-.data-attribute-field {
-  &.producer,
-  &.burn_address,
-  &.koin_address,
-  &.account {
-    background: #d0aaff7a;
-  }
-
-  &.value,
-  &.token_amount {
-    background: #9c269124;
-  }
-}
-
-//.q-card.search-table-card {
 .search-filters {
   .q-btn {
     font-size: 0.75rem;
     text-transform: none;
     padding: 0 0.5rem;
     margin: 0 0.5rem;
-    color: #6d6e6f !important;
 
     .q-icon {
       font-size: 1.125em;
@@ -55,12 +38,14 @@
 
   .card-header {
     padding: 1.5rem;
-    border-bottom: 1px solid rgb(221, 221, 221);
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
   }
 
   .search-filters {
     padding: 1.5rem;
-    border-bottom: 1px solid rgb(221, 221, 221);
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
     margin-bottom: 0;
 
     .q-field .q-field__control {
@@ -140,12 +125,6 @@
     padding: 0;
   }
 
-  .q-table__top,
-  .q-table__bottom,
-  thead tr:first-child th /* bg color is important for th; just specify one */ {
-    background-color: #fff;
-  }
-
   .q-table__top {
     position: relative;
   }
@@ -188,8 +167,10 @@
 
   tbody.q-virtual-scroll__content {
     td {
-      border-top: 1px solid #eaeaea;
-      border-bottom: 1px solid #eaeaea;
+      border-top-width: 1px;
+      border-top-style: solid;
+      border-bottom-width: 1px;
+      border-bottom-style: solid;
     }
 
     td:first-child {

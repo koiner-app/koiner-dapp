@@ -1,0 +1,24 @@
+.tickers {
+  position: relative;
+
+  > .v-icon {
+    font-size: 0.75rem !important;
+    position: absolute !important;
+    left: 8px;
+    margin-top: 2px;
+  }
+  > div {
+    margin-left: 24px;
+  }
+}
+
+.ticker {
+  font-size: 0.75rem;
+  cursor: default;
+
+  .ticker-item {
+    span {
+      margin: 0 3px;
+    }
+  }
+}

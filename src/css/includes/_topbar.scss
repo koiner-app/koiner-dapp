@@ -1,7 +1,7 @@
 .koiner-topbar {
   z-index: 999;
-  background: #ffffff;
-  border-bottom: 1px solid #edeae9;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
 
   .q-tab {
     text-transform: none;
@@ -20,11 +20,6 @@
 
     .q-tab__label {
       font-size: 0.875rem;
-      color: #555555;
-    }
-
-    .q-tab__indicator {
-      //background: $primary;
     }
   }
 
@@ -33,7 +28,6 @@
     position: absolute;
     left: 1rem;
     top: 10px;
-    color: lighten($primary, 35%);
   }
 
   .topbar-header {
@@ -59,19 +53,12 @@
     }
   }
 
-  .q-tab--active {
-    .q-tab__label {
-      //color: $primary;
-    }
-  }
-
   .action-menu,
   .favorite-icon {
     transform: translateY(-2px);
   }
 
   .favorite-icon {
-    color: #ffcf21;
     margin-left: 0.5rem;
   }
 

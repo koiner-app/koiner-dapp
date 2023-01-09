@@ -1,7 +1,5 @@
 .mobile-navigation {
   padding: 0.25rem 0;
-  background: darken(#28283f, 10%) !important;
-  color: rgba(255, 255, 255, 0.7);
 
   .q-btn {
     text-transform: none;
@@ -25,5 +23,17 @@
 
   @media screen and (min-width: 1024px) {
     display: none;
+  }
+}
+
+.mobile-tab-page {
+  .q-page-sticky {
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+  }
+
+  .q-tab__indicator {
+    width: 20%;
+    margin: 0 auto;
   }
 }

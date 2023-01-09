@@ -1,0 +1,29 @@
+.q-drawer {
+  .mini-icon {
+    //font-size: 2rem;
+  }
+
+  &.q-drawer--mini {
+    width: 65px !important;
+
+    .q-list {
+      margin-top: 1rem;
+    }
+
+    .q-item {
+      margin-bottom: 1rem;
+    }
+
+    .q-item__label {
+      display: block !important;
+      padding: 0 4px;
+      font-size: 0.65rem;
+      text-align: center;
+      text-overflow: unset;
+      white-space: break-spaces;
+    }
+    .q-icon {
+      margin: 0 auto;
+    }
+  }
+}

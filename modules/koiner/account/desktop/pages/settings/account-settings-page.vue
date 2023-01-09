@@ -11,6 +11,8 @@
               unchecked-icon="clear"
               label="Realtime updates (stats)"
             />
+
+            <theme-switcher />
           </div>
         </div>
       </q-card-section>
@@ -21,9 +23,11 @@
 <script lang="ts">
 import { defineComponent, ref, watch } from 'vue';
 import { useStatsStore } from 'stores/stats';
+import ThemeSwitcher from 'components/theme-switcher.vue';
 
 export default defineComponent({
   name: 'AccountBookmarksPage',
+  components: { ThemeSwitcher },
 
   setup() {
     const statsStore = useStatsStore();

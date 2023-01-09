@@ -1,14 +1,12 @@
 <template>
-  <q-list separator>
+  <q-list separator class="mobile-addresses-filter">
     <q-slide-item
       v-for="address in addressesOpts"
       :key="address"
       @right="(opt) => onRight(opt, address)"
       right-color="red"
       @click="toggleAddress(address)"
-      :style="`background: ${
-        isSelected(address) ? '#ffffff' : '#f4f4f4'
-      }; color: ${isSelected(address) ? '#000000' : '#777777'}`"
+      :class="isSelected(address) ? 'address-filter-active' : ''"
     >
       <template v-slot:right>
         <q-icon name="fa-solid fa-trash" />

@@ -15,6 +15,9 @@ import { SearchState } from '@appvise/search-manager';
 import { tokenAmount } from '@koiner/utils';
 import { koinerConfig } from 'app/koiner.config';
 
+export type KoinerThemeType = 'hybrid' | 'dark' | 'light';
+export const KoinerThemes: KoinerThemeType[] = ['hybrid', 'dark'];
+
 export const useAccountStore = defineStore({
   id: 'account',
   persist: true,
@@ -22,6 +25,7 @@ export const useAccountStore = defineStore({
     dismissedMobileBanner: false as boolean,
     environment: 'production' as 'production' | 'test' | 'local',
     anonymousId: uuidv4().toString() as string,
+    theme: 'hybrid' as KoinerThemeType,
     production: {
       name: 'Mystery Koiner',
       addresses: [] as string[],
