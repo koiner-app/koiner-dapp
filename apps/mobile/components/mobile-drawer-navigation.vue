@@ -17,6 +17,9 @@
         {{ menuItem.name }}
       </q-item-section>
     </q-item>
+  </q-list>
+
+  <q-list padding class="absolute-bottom">
     <q-item>
       <q-item-section>
         <theme-switcher :dark="true" />
@@ -35,34 +38,14 @@ export default defineComponent({
 
   setup() {
     const route = useRoute();
-    const link = ref('/');
+    const link = ref('/mobile');
     const isActive = (to: string) => {
       // Home
-      if (to === '/') {
+      if (to === '/mobile') {
         return to === link.value;
       }
 
-      if (
-        link.value !== '/' &&
-        link.value.includes(to.replace('/overview', ''))
-      ) {
-        return true;
-      }
-
-      if (
-        to === '/blocks' &&
-        [
-          '/transactions',
-          '/events',
-          '/operations',
-          '/addresses',
-          '/claims',
-        ].includes(link.value)
-      ) {
-        return true;
-      }
-
-      if (to === '/tokenize' && link.value.includes('/tokens')) {
+      if (link.value !== '/mobile' && link.value.includes(to)) {
         return true;
       }
     };
@@ -83,20 +66,14 @@ export default defineComponent({
       menuItems: [
         {
           name: 'Home',
-          to: '/',
+          to: '/mobile',
           icon: 'token',
           disabled: false,
         },
         {
           name: 'Chain',
-          to: '/blocks',
+          to: '/mobile/chain',
           icon: 'token',
-          disabled: false,
-        },
-        {
-          name: 'Network',
-          to: '/network',
-          icon: 'hub',
           disabled: false,
         },
       ],
