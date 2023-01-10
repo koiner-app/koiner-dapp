@@ -195,6 +195,20 @@
       }
     }
   }
+
+  .stats-card {
+    &.q-card--dark {
+      background: $dark;
+    }
+  }
+
+  .large-stats-cards {
+    .stats-card {
+      &.q-card--dark {
+        background: $dark-page;
+      }
+    }
+  }
 }
 
 .q-card--dark {
@@ -205,7 +219,7 @@
 }
 
 .q-separator--dark {
-  background: lighten($dark-page-2, 5%);
+  background: $dark-page;
 }
 
 //
@@ -236,6 +250,11 @@
         background: $primary;
       }
     }
+  }
+
+  .btn-address-filter {
+    background: $dark-page-2 !important;
+    color: #ffffff;
   }
 
   .mobile-addresses-filter {

@@ -1,10 +1,9 @@
 <template>
   <q-btn
-    color="blue-grey-4"
     size="sm"
     icon="fa-solid fa-filter"
     @click="dialog = true"
-    class="btn-search-dialog q-px-sm q-mx-lg absolute-top-right q-mt-md"
+    class="btn-search-dialog btn-address-filter q-px-sm q-mx-lg absolute-top-right q-mt-md"
   />
 
   <q-dialog
@@ -65,7 +64,10 @@
       <address-filter-results
         :search="trimmedSearch"
         :dark="false"
-        @selected="search = ''; $refs.searchInput.$el.focus();"
+        @selected="
+          search = '';
+          $refs.searchInput.$el.focus();
+        "
       />
 
       <q-card-actions class="absolute-bottom q-pb-md q-px-md">
