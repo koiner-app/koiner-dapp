@@ -1,6 +1,12 @@
 <template>
-  <div class="q-py-lg q-px-sm">
-    <q-toggle label="Dark mode" v-model="darkMode" />
+  <div class="q-py-md">
+    <q-toggle
+      v-model="darkMode"
+      checked-icon="check"
+      color="primary"
+      unchecked-icon="clear"
+      label="Dark mode (WIP)"
+    />
     <!--    <q-select-->
     <!--      label="Theme"-->
     <!--      v-model="currentTheme"-->
@@ -14,6 +20,7 @@
 import { defineComponent, onMounted, ref, watch } from 'vue';
 import { KoinerThemes, useAccountStore } from 'stores/account';
 import { useQuasar } from 'quasar';
+import posthog from 'posthog-js';
 
 export default defineComponent({
   name: 'ThemeSwitcher',
@@ -27,6 +34,10 @@ export default defineComponent({
     watch(darkMode, () => {
       accountStore.theme = darkMode.value ? 'dark' : 'hybrid';
       $q.dark.set(darkMode.value);
+
+      posthog.capture('switchThemes', {
+        theme: accountStore.theme,
+      });
     });
 
     watch(currentTheme, () => {

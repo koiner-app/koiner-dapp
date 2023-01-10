@@ -19,10 +19,10 @@
     </q-item>
   </q-list>
 
-  <q-list padding class="absolute-bottom">
+  <q-list padding class="absolute-bottom" dark>
     <q-item>
       <q-item-section>
-        <theme-switcher :dark="true" />
+        <theme-switcher />
       </q-item-section>
     </q-item>
   </q-list>
