@@ -1,24 +1,25 @@
 .page--network {
   @media screen and (min-width: 1440px) {
     .tabs-card {
-      max-width: calc(60% - 24px);
+      max-width: calc(55% - 24px) !important;
     }
 
     .search-card {
-      max-width: calc(40% - 24px);
-
-      .search-view-table {
-
-        .attribute-wrapper--address {
-          span {
-            inline-size: calc(190px) !important;
-          }
-        }
-      }
+      max-width: calc(45% - 24px) !important;
     }
   }
 
   .attribute--blocks-produced {
     color: grey;
+  }
+
+  @media screen and (min-width: 1560px) {
+    .tabs-card {
+      max-width: calc(60% - 24px) !important;
+    }
+
+    .search-card {
+      max-width: calc(40% - 24px) !important;
+    }
   }
 }
