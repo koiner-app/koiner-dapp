@@ -28,12 +28,12 @@
   .q-header,
   .q-footer {
     .q-toolbar {
-      background: $dark-page-2;
+      background: $dark;
     }
   }
 
   .q-page-container {
-    background: $dark;
+    background: $dark-page;
   }
 
   .btn--active {
@@ -97,7 +97,7 @@
   // topbar.scss
   //
   .koiner-topbar {
-    background: $dark-page-2;
+    background: $dark-page;
     border-bottom-color: $dark-border;
 
     .q-tab {
@@ -132,7 +132,7 @@
     .q-table__top,
     .q-table__bottom,
     thead tr:first-child th /* bg color is important for th; just specify one */ {
-      background-color: $dark-page-2;
+      background-color: $dark-page;
     }
 
     tbody.q-virtual-scroll__content {
@@ -205,7 +205,7 @@
   .large-stats-cards {
     .stats-card {
       &.q-card--dark {
-        background: $dark-page;
+        background: $dark;
       }
     }
   }
