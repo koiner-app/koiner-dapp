@@ -14,9 +14,21 @@ import { useStatsStore } from 'stores/stats';
 import { SearchState } from '@appvise/search-manager';
 import { tokenAmount } from '@koiner/utils';
 import { koinerConfig } from 'app/koiner.config';
+import { Provider } from 'koilib';
+import axios from 'axios';
 
 export type KoinerThemeType = 'hybrid' | 'dark' | 'light';
 export const KoinerThemes: KoinerThemeType[] = ['hybrid', 'dark'];
+
+export interface OnChainBalance {
+  addressId: string;
+  balance: number;
+  mana: number;
+  charged: number;
+  manaRechargeTime: number;
+  manaRechargeFormatted: string;
+  lastUpdated: number;
+}
 
 export const useAccountStore = defineStore({
   id: 'account',
@@ -33,6 +45,8 @@ export const useAccountStore = defineStore({
       addressesFilterQuery: [] as any[],
       connected: false,
       tokenBalances: [] as TokenHolder[],
+      onChainBalances: [] as OnChainBalance[],
+      manaChargedPercentage: 0 as number,
       groupBalances: true as boolean,
       totalKoin: 0 as number,
       totalVhp: 0 as number,
@@ -46,6 +60,8 @@ export const useAccountStore = defineStore({
       addressesFilterQuery: [] as any[],
       connected: false,
       tokenBalances: [] as TokenHolder[],
+      onChainBalances: [] as OnChainBalance[],
+      manaChargedPercentage: 0 as number,
       groupBalances: true as boolean,
       totalKoin: 0 as number,
       totalVhp: 0 as number,
@@ -59,6 +75,8 @@ export const useAccountStore = defineStore({
       addressesFilterQuery: [] as any[],
       connected: false,
       tokenBalances: [] as TokenHolder[],
+      onChainBalances: [] as OnChainBalance[],
+      manaChargedPercentage: 0 as number,
       groupBalances: true as boolean,
       totalKoin: 0 as number,
       totalVhp: 0 as number,
@@ -105,6 +123,12 @@ export const useAccountStore = defineStore({
           tokenBalance.contractId ===
           koinerConfig[state.environment].contracts.vhp.id
       );
+    },
+    onChainBalances: (state): OnChainBalance[] => {
+      return state[state.environment].onChainBalances;
+    },
+    manaChargedPercentage: (state): number => {
+      return state[state.environment].manaChargedPercentage;
     },
     totalKoin(): number {
       const decimals = 8;
@@ -276,6 +300,101 @@ export const useAccountStore = defineStore({
       });
     },
 
+    async loadOnChainBalances() {
+      /**
+       * Load OnChain balance with Mana balances
+       */
+      const FIVE_DAYS = 432e6; // 5 * 24 * 60 * 60 * 1000
+
+      function deltaTimeToString(milliseconds: number) {
+        const seconds = Math.floor(milliseconds / 1000);
+        let interval = seconds / 86400;
+        if (interval > 2) return Math.floor(interval) + ' days';
+        interval = seconds / 3600;
+        if (interval > 2) return Math.floor(interval) + ' hours';
+        interval = seconds / 60;
+        if (interval > 2) return Math.floor(interval) + ' minutes';
+        return Math.floor(seconds) + ' seconds';
+      }
+
+      try {
+        const onChainBalances: OnChainBalance[] = [];
+
+        for (const address of this[this.environment].addressesFilter) {
+          const checkerApi = axios.create({
+            baseURL: 'https://checker.koiner.app',
+          });
+
+          let manaBalance: number;
+          let koinBalance: number;
+
+          const response = await checkerApi.get(`koin/balance/${address}`);
+
+          if (response.data) {
+            koinBalance = Number(response.data);
+
+            // Fetch mana balance when we retrieved koin balance
+            const responseMana = await checkerApi.get(
+              `mana/balance/${address}`
+            );
+            if (responseMana.data) {
+              manaBalance = Number(responseMana.data);
+
+              const timeRechargeMana =
+                ((koinBalance - manaBalance) * FIVE_DAYS) / koinBalance;
+
+              onChainBalances.push({
+                addressId: address,
+                balance: koinBalance,
+                mana: manaBalance,
+                charged: (manaBalance / koinBalance) * 100,
+                manaRechargeTime: timeRechargeMana,
+                manaRechargeFormatted: deltaTimeToString(timeRechargeMana),
+                lastUpdated: Date.now(),
+              });
+            }
+          }
+
+          this.$patch({
+            [this.environment]: {
+              onChainBalances: onChainBalances,
+            },
+          });
+
+          this.updateManaChargedPercentage();
+        }
+      } catch (error) {
+        throw error;
+      }
+    },
+
+    updateManaChargedPercentage() {
+      const koinBalances = this.onChainBalances.map(
+        (tokenHolder) => tokenHolder.balance
+      );
+      const manaBalances = this.onChainBalances.map(
+        (tokenHolder) => tokenHolder.mana
+      );
+
+      let totalKoinBalance = 0;
+      koinBalances.forEach((balance) => {
+        totalKoinBalance += balance;
+      });
+
+      let totalManaBalance = 0;
+      manaBalances.forEach((balance) => {
+        totalManaBalance += balance;
+      });
+
+      this.$patch({
+        [this.environment]: {
+          manaChargedPercentage: Math.floor(
+            (totalManaBalance / totalKoinBalance) * 100
+          ),
+        },
+      });
+    },
+
     /**
      * Attempt to login user using Kondor wallet
      */
@@ -287,7 +406,7 @@ export const useAccountStore = defineStore({
       }
     },
 
-    load(environment: 'production' | 'test' | 'local') {
+    async load(environment: 'production' | 'test' | 'local') {
       this.$patch({
         environment: environment,
       });
@@ -328,6 +447,8 @@ export const useAccountStore = defineStore({
             ),
           },
         });
+
+        this.loadOnChainBalances();
       });
 
       queryState.error = error;

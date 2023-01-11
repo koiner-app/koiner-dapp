@@ -32,7 +32,7 @@
     "graphql": "^15.8.0",
     "graphql-tag": "^2.12.6",
     "graphql-ws": "^5.10.1",
-    "koilib": "^5.0.0",
+    "koilib": "^5.2.2",
     "lodash.round": "^4.0.4",
     "pinia": "^2.0.21",
     "pinia-plugin-persistedstate": "^2.1.1",
