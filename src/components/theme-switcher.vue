@@ -45,10 +45,6 @@ export default defineComponent({
       $q.dark.set(currentTheme.value === 'dark');
     });
 
-    onMounted(() => {
-      $q.dark.set(currentTheme.value === 'dark');
-    });
-
     return {
       themes: KoinerThemes,
       currentTheme,
