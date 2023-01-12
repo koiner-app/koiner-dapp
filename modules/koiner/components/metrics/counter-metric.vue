@@ -66,7 +66,7 @@
 <script lang="ts">
 import { computed, defineComponent, PropType } from 'vue';
 import { round } from 'lodash';
-import { formattedTokenAmount } from '@koiner/utils';
+import { localizedTokenAmount } from '@koiner/utils';
 
 interface StatItem {
   title: string;
@@ -137,7 +137,7 @@ export default defineComponent({
         }
 
         if (props.tokenDecimals) {
-          output = formattedTokenAmount(
+          output = localizedTokenAmount(
             props.value,
             props.tokenDecimals,
             props.decimals
