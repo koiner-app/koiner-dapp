@@ -23,6 +23,9 @@ export const useKoinerStore = defineStore({
     isProd: (state): boolean => {
       return state.environment === 'production';
     },
+    koinerAddress: (state): string => {
+      return koinerConfig[state.environment].koinerAddress;
+    },
     koinContract: (
       state
     ): { id: string; name: string; symbol: string; decimals: number } => {
