@@ -22,6 +22,7 @@
   <q-list padding class="absolute-bottom" dark>
     <q-item>
       <q-item-section>
+        <api-switcher />
         <theme-switcher />
       </q-item-section>
     </q-item>
@@ -32,9 +33,10 @@
 import { defineComponent, onMounted, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import ThemeSwitcher from 'components/theme-switcher.vue';
+import ApiSwitcher from '@koiner/components/api-switcher.vue';
 
 export default defineComponent({
-  components: { ThemeSwitcher },
+  components: { ApiSwitcher, ThemeSwitcher },
 
   setup() {
     const route = useRoute();
