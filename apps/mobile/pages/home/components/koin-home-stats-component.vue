@@ -35,6 +35,32 @@
       :tooltip-item-width="200"
     />
 
+    <q-card
+      class="stats-card"
+      flat
+      v-if="accountStore.addressesFilter.length > 0"
+    >
+      <q-card-section>
+        <div class="stat-title">
+          Mana
+          <q-icon
+            @click="accountStore.loadOnChainBalances"
+            flat
+            class="absolute-top-right"
+            name="sync"
+            style="
+              opacity: 0.5;
+              font-size: 0.875rem;
+              margin: 1.375rem 1.375rem 0 0;
+            "
+          ></q-icon>
+        </div>
+        <div class="text-center" style="padding-top: 1.75rem;">
+          <mana-bar />
+        </div>
+      </q-card-section>
+    </q-card>
+
     <counter-metric
       title="Burned Koin"
       :value="statsStore.totalSupply.burned"
@@ -85,17 +111,17 @@
     <q-card class="stats-card" flat>
       <q-card-section>
         <div class="stat-title">Exchanges</div>
-        <div class="stat-footer">
-          <span class="stat-footer-stat"
-            ><q-btn
-              href="https://www.mexc.com/en-US/register?inviteCode=mexc-1XbK7"
-              target="_blank"
-              solid
-              color="primary"
-              size="sm"
-              class="q-mb-md"
-              >MEXC Global</q-btn
-            ></span
+
+        <div class="text-center q-pt-lg">
+          <q-btn
+            href="https://www.mexc.com/en-US/register?inviteCode=mexc-1XbK7"
+            target="_blank"
+            solid
+            color="primary"
+            size="sm"
+            class="q-mb-md"
+            style="border-radius: 8px"
+            >MEXC Global</q-btn
           >
         </div>
       </q-card-section>
@@ -104,16 +130,17 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
 import { useKoinosStore } from 'stores/koinos';
 import { useKoinerStore } from 'stores/koiner';
 import { useStatsStore } from 'stores/stats';
 import CounterMetric from '@koiner/components/metrics/counter-metric.vue';
 import { useAccountStore } from 'stores/account';
+import ManaBar from '@koiner/components/mana-bar.vue';
 
 export default defineComponent({
   name: 'KoinosHomeStatsComponent',
-  components: { CounterMetric },
+  components: { ManaBar, CounterMetric },
   setup() {
     const koinosStore = useKoinosStore();
     const koinerStore = useKoinerStore();
@@ -125,6 +152,7 @@ export default defineComponent({
       koinerStore,
       statsStore,
       accountStore,
+      manaCharged: ref(0),
     };
   },
 });
