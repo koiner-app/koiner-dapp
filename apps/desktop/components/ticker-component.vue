@@ -197,7 +197,7 @@ export default defineComponent({
       ];
     };
 
-    let intervalId = setInterval(scrollTicker, 5000);
+    let intervalId = setInterval(scrollTicker, 8000);
     const tickerRow = ref(0);
 
     function scrollTicker() {
