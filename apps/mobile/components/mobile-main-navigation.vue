@@ -65,24 +65,19 @@ export default defineComponent({
 
     const menuItems = [
       {
-        name: 'Home',
+        name: 'Dashboard',
         to: '/mobile',
-        icon: 'token',
+        icon: 'dashboard',
+      },
+      {
+        name: 'Portfolio',
+        to: '/mobile/account',
+        icon: 'fa-solid fa-chart-pie',
       },
       {
         name: 'Projects',
         to: '/mobile/ecosystem',
         icon: 'apps',
-      },
-      {
-        name: 'Portfolio',
-        to: '/mobile/account',
-        icon: 'dashboard',
-      },
-      {
-        name: 'Chain',
-        to: '/mobile/chain',
-        icon: 'token',
       },
       {
         name: 'Network',
