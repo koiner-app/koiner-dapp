@@ -56,9 +56,10 @@ export default defineComponent({
   },
   setup(props: RendererProps<AttributeElement>) {
     const attributeControl = useQuasarAttribute(useJsonAttribute(props));
-    const displayedDecimals = attributeControl.appliedOptions.value['decimals']
-      ? parseInt(attributeControl.appliedOptions.value['decimals'])
-      : undefined;
+    const displayedDecimals =
+      attributeControl.appliedOptions.value['decimals'] != null
+        ? parseInt(attributeControl.appliedOptions.value['decimals'])
+        : undefined;
 
     const to = (data: Record<string, unknown>) => {
       // Use route with params
