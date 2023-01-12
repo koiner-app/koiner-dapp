@@ -30,7 +30,7 @@
           unit: '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;All tokens claimed + VHP',
         },
       ]"
-      :footer-tooltip-hide-delay="3000"
+      :footer-tooltip-hide-delay="4000"
       :tooltip-title-width="110"
       :tooltip-item-width="200"
     />
@@ -83,7 +83,7 @@
           unit: koinerStore.vhpContract.symbol,
         },
       ]"
-      :footer-tooltip-hide-delay="3000"
+      :footer-tooltip-hide-delay="4000"
       :tooltip-title-width="110"
       :tooltip-item-width="100"
     />

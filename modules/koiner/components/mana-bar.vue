@@ -14,7 +14,7 @@
       <q-tooltip
         class="bg-accent text-white shadow-4"
         :offset="[0, 30]"
-        :hide-delay="3000"
+        :hide-delay="4000"
       >
         <div
           class="q-pa-sm q-gutter-xs"
