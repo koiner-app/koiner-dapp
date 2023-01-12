@@ -14,11 +14,10 @@ import { useStatsStore } from 'stores/stats';
 import { SearchState } from '@appvise/search-manager';
 import { tokenAmount } from '@koiner/utils';
 import { koinerConfig } from 'app/koiner.config';
-import { Provider } from 'koilib';
 import axios from 'axios';
 
-export type KoinerThemeType = 'hybrid' | 'dark' | 'light';
-export const KoinerThemes: KoinerThemeType[] = ['hybrid', 'dark'];
+export type KoinerThemeType = 'auto' | 'hybrid' | 'dark' | 'light';
+export const KoinerThemes: KoinerThemeType[] = ['auto', 'hybrid', 'dark'];
 
 export interface OnChainBalance {
   addressId: string;
@@ -37,7 +36,7 @@ export const useAccountStore = defineStore({
     dismissedMobileBanner: false as boolean,
     environment: 'production' as 'production' | 'test' | 'local',
     anonymousId: uuidv4().toString() as string,
-    theme: 'hybrid' as KoinerThemeType,
+    theme: 'auto' as KoinerThemeType,
     production: {
       name: 'Mystery Koiner',
       addresses: [] as string[],

@@ -26,7 +26,11 @@ export default defineComponent({
     });
 
     onMounted(() => {
-      $q.dark.set(accountStore.theme === 'dark');
+      if (accountStore.theme === 'auto') {
+        $q.dark.set('auto');
+      } else {
+        $q.dark.set(accountStore.theme === 'dark');
+      }
     });
   },
 });
