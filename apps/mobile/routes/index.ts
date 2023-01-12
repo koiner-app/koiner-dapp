@@ -10,29 +10,33 @@ import { tokenizeModuleMobileRoutes } from '@koiner/tokenize/mobile/routes';
 export const mobileRoutes: RouteRecordRaw[] = [
   {
     path: '/mobile',
-    component: () => import('../layouts/mobile-layout.vue'),
+    component: () => import('../layouts/mobile-base-layout.vue'),
     children: [
-      // Root pages
       {
-        name: 'mobile.home',
-        path: '',
-        component: () => import('../pages/home/index-page.vue'),
+        path: '/mobile',
+        component: () => import('../layouts/mobile-home-layout.vue'),
+        children: [
+          // Root pages
+          {
+            name: 'mobile.home',
+            path: '',
+            component: () => import('../pages/home/index-page.vue'),
+          },
+
+          // Koiner Modules
+          ...chainModuleMobileRoutes,
+          ...networkModuleMobileRoutes,
+          ...ecosystemModuleMobileRoutes,
+          ...contractsModuleMobileRoutes,
+          ...tokenizeModuleMobileRoutes,
+        ],
       },
-      // {
-      //   name: 'transfer',
-      //   path: '/transfer',
-      //   component: () => import('pages/transfer-page.vue'),
-      // },
 
-      // Account
-      ...accountModuleMobileRoutes,
-
-      // Koiner Modules
-      ...chainModuleMobileRoutes,
-      ...contractsModuleMobileRoutes,
-      ...ecosystemModuleMobileRoutes,
-      ...networkModuleMobileRoutes,
-      ...tokenizeModuleMobileRoutes,
+      {
+        path: '/mobile/account',
+        component: () => import('../layouts/mobile-clean-layout.vue'),
+        children: [...accountModuleMobileRoutes],
+      },
     ],
   },
 
