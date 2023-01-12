@@ -23,7 +23,7 @@
     <q-item>
       <q-item-section>
         <api-switcher />
-        <theme-switcher />
+        <theme-switcher :dark="true" />
       </q-item-section>
     </q-item>
   </q-list>
