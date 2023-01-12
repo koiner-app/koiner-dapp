@@ -290,8 +290,12 @@ export default defineComponent({
       min-height: 60px;
 
       @media (min-width: 768px) {
-        min-height: 80px;
+        min-height: 100px;
       }
+    }
+
+    .q-avatar__content {
+      border-radius: 50%;
     }
   }
 

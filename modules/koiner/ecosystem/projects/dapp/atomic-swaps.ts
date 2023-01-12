@@ -6,7 +6,7 @@ export const atomicSwaps: Project = {
   caption: 'In development',
   icon: 'code',
   description:
-    'In development - An atomic swap is a trustless exchange of cryptocurrencies from separate blockchains.',
+    'An atomic swap is a trustless exchange of cryptocurrencies from separate blockchains.',
   links: [
     {
       url: 'https://swap.fbslo.net',
@@ -22,5 +22,5 @@ export const atomicSwaps: Project = {
     },
   ],
   maintainers: [],
-  tags: ['dApp'],
+  tags: ['dApp', 'In development'],
 };

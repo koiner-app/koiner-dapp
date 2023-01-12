@@ -278,15 +278,19 @@ export default defineComponent({
     }
 
     .project-description {
-      min-height: 100px;
+      min-height: 140px;
 
       @media (min-width: 1200px) {
-        min-height: 80px;
+        min-height: 120px;
       }
 
       @media (min-width: 1440px) {
-        min-height: 60px;
+        min-height: 80px;
       }
+    }
+
+    .q-avatar__content {
+      border-radius: 50%;
     }
   }
 }

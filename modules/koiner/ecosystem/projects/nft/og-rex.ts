@@ -1,7 +1,7 @@
 import { Project } from '@koiner/ecosystem';
 
 export const ogRex: Project = {
-  name: 'OG-Rex NFT Collection',
+  name: 'OG-Rex Collectables',
   types: ['NFT'],
   caption: 'NFT Collection',
   image: '/projects/nft/og-rex.webp',

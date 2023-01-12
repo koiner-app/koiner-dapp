@@ -7,8 +7,12 @@ import { koinosBlocks } from './koinos-blocks';
 import { koinosExplorer } from './koinos-explorer';
 import { koinBridge } from './koinos-bridge';
 import { atomicSwaps } from './atomic-swaps';
+import { kap } from './kap';
+import { kollection } from './kollection';
 
 export const dappProjects = [
+  kap,
+  kollection,
   koinClaimApp,
   fogataMiningPool,
   burnKoin,

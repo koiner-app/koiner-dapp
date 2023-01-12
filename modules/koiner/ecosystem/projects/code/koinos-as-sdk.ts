@@ -14,5 +14,5 @@ export const koinosAssemblyScriptSdk: Project = {
     },
   ],
   maintainers: [],
-  tags: ['Library', 'AssemblyScript', 'TypeScript'],
+  tags: ['Library', 'TypeScript'],
 };

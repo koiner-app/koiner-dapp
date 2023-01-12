@@ -5,7 +5,7 @@ export const koinBridge: Project = {
   types: ['dApp'],
   caption: 'In development',
   icon: 'code',
-  description: 'In development - Koinos Ethereum bridge.',
+  description: 'IKoinos Ethereum bridge.',
   links: [
     {
       url: 'https://koinos-bridge.vercel.app',
@@ -17,5 +17,5 @@ export const koinBridge: Project = {
     },
   ],
   maintainers: [],
-  tags: ['dApp', 'Bridge'],
+  tags: ['dApp', 'Bridge', 'In development'],
 };

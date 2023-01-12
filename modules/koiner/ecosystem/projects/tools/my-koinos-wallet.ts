@@ -6,8 +6,7 @@ export const myKoinosWallet: Project = {
   caption: 'In development',
   image: '/projects/tools/my-koinos-wallet.png',
   icon: 'fa-solid fa-wallet',
-  description:
-    'In development - My Koinos Wallet is a web-based wallet for Koinos Blockchain.',
+  description: 'My Koinos Wallet is a web-based wallet for Koinos Blockchain.',
   links: [
     {
       url: 'https://my-koinos-wallet.vercel.app/',
@@ -19,5 +18,5 @@ export const myKoinosWallet: Project = {
     },
   ],
   maintainers: [],
-  tags: ['Wallet'],
+  tags: ['Wallet', 'In development'],
 };

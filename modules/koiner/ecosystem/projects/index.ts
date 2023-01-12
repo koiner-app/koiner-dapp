@@ -12,8 +12,8 @@ export * from './tags';
 
 export const KoinosProjects = [
   koinosOfficial,
-  ...nftProjects,
   ...dappProjects,
+  ...nftProjects,
   ...socialProjects,
   ...tools,
   ...codeProjects,

@@ -16,10 +16,6 @@ export const koinosOfficial: Project = {
       icon: 'fa-solid fa-book',
     },
     {
-      url: 'https://github.com/koinos/koinos-cli',
-      icon: 'fa-solid fa-terminal',
-    },
-    {
       url: 'https://github.com/koinos',
       icon: 'fa-brands fa-github',
     },

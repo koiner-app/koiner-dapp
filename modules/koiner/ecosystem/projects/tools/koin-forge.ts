@@ -5,8 +5,7 @@ export const koinForge: Project = {
   types: ['Tools'],
   caption: 'In development',
   icon: 'token',
-  description:
-    'In development - KoinForge is the simplest way to run a Koinos node.',
+  description: 'KoinForge is the simplest way to run a Koinos node.',
   links: [
     {
       url: 'https://koinforge.io',
@@ -18,5 +17,5 @@ export const koinForge: Project = {
     },
   ],
   maintainers: [],
-  tags: ['Node'],
+  tags: ['Node', 'In development'],
 };

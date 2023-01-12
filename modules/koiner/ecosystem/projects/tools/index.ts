@@ -4,6 +4,7 @@ import { myKoinosWallet } from './my-koinos-wallet';
 import { koinosCli } from './koinos-cli';
 import { koinForge } from './koin-forge';
 import { koinosNode } from './koinos-node';
+import { koinosGuide } from './koinos-guide';
 
 export const tools = [
   koinosDocumentation,
@@ -12,4 +13,5 @@ export const tools = [
   koinosCli,
   koinForge,
   koinosNode,
+  koinosGuide,
 ];

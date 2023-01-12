@@ -29,5 +29,5 @@ export const koinDx: Project = {
     },
   ],
   maintainers: [],
-  tags: ['Dex', 'dApp'],
+  tags: ['Dex', 'dApp', 'In development'],
 };
