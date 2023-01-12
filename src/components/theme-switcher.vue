@@ -5,13 +5,13 @@
       v-model="currentTheme"
       :options="themes"
       style="max-width: 250px"
-      :dark="dark"
+      :dark="inDarkMode"
     />
   </div>
 </template>
 
-<script>
-import { defineComponent, ref, watch } from 'vue';
+<script lang="ts">
+import { computed, defineComponent, ref, watch } from 'vue';
 import { KoinerThemes, useAccountStore } from 'stores/account';
 import { useQuasar } from 'quasar';
 import posthog from 'posthog-js';
@@ -22,10 +22,10 @@ export default defineComponent({
     dark: {
       type: Boolean,
       required: false,
-    }
+    },
   },
 
-  setup() {
+  setup(props) {
     const $q = useQuasar();
     const accountStore = useAccountStore();
     const currentTheme = ref(accountStore.theme);
@@ -42,13 +42,21 @@ export default defineComponent({
 
     watch(currentTheme, () => {
       accountStore.theme = currentTheme.value;
-      $q.dark.set(currentTheme.value === 'dark');
+
+      if (accountStore.theme === 'auto') {
+        $q.dark.set('auto');
+      } else {
+        $q.dark.set(accountStore.theme === 'dark');
+      }
     });
 
     return {
       themes: KoinerThemes,
       currentTheme,
       darkMode,
+      inDarkMode: computed(() => {
+        return props.dark || $q.dark.isActive;
+      }),
     };
   },
 });
