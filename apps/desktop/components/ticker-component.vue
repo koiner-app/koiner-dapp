@@ -45,7 +45,7 @@ import { defineComponent, ref, Ref, watch } from 'vue';
 import { useKoinosStore } from 'stores/koinos';
 import { useKoinerStore } from 'stores/koiner';
 import { useStatsStore } from 'stores/stats';
-import { formattedTokenAmount } from '@koiner/utils';
+import { formattedTokenAmount, localizedTokenAmount } from '@koiner/utils';
 
 export default defineComponent({
   components: {},
@@ -90,37 +90,78 @@ export default defineComponent({
             {
               title: 'Txs',
               tooltip: 'Transactions',
-              value: statsStore.chainStats.transactionCount.toString(),
+              value: statsStore.chainStats.transactionCount.toLocaleString(
+                undefined,
+                { maximumFractionDigits: 2 }
+              ),
             },
             {
               title: 'Users',
               tooltip: 'Amount of addresses registered on-chain',
-              value: statsStore.chainStats.addressCount.toString(),
+              value: statsStore.chainStats.addressCount.toLocaleString(
+                undefined,
+                { maximumFractionDigits: 2 }
+              ),
             },
           ],
         },
         {
           items: [
             {
+              title: 'Burned',
+              tooltip:
+                '% of KOIN supply burned for block production',
+              value: `${statsStore.totalSupply.burned.toLocaleString(
+                undefined,
+                {
+                  maximumFractionDigits: 2,
+                }
+              )}%`,
+            },
+            {
+              title: 'KOIN Sup',
+              tooltip: 'Total supply of KOIN tokens in circulation',
+              value: `${statsStore.formattedKoinTotalSupply()} ${
+                koinerStore.koinContract.symbol
+              }`,
+            },
+            {
+              title: 'VHP Sup',
+              tooltip: 'Total supply of VHP tokens in circulation',
+              value: `${statsStore.formattedVhpTotalSupply()} ${
+                koinerStore.vhpContract.symbol
+              }`,
+            },
+          ],
+        },
+        {
+          items: [
+            {
+              title: 'Producers',
+              tooltip:
+                'Total addresses that have produced blocks',
+              value:
+                statsStore.blockProduction.blockProducerCount.toLocaleString(
+                  undefined,
+                  { maximumFractionDigits: 2 }
+                ),
+            },
+            {
               title: 'Rewarded',
               tooltip: 'Total Koin rewarded to block producers',
-              value: formattedTokenAmount(
+              value: `${localizedTokenAmount(
                 statsStore.blockProduction.rewarded,
-                koinerStore.koinContract.decimals
-              ),
+                koinerStore.koinContract.decimals,
+                0
+              )} ${koinerStore.koinContract.symbol}`,
             },
             {
-              title: 'VHP',
-              tooltip: 'Total VHP burned by producers',
-              value: formattedTokenAmount(
-                statsStore.blockProduction.burned,
-                koinerStore.vhpContract.decimals
-              ),
-            },
-            {
-              title: 'ROI',
-              tooltip: 'Total ROI for all block producers',
-              progress: `${statsStore.blockProduction.roi.toString()}%`,
+              title: 'APY',
+              tooltip: 'Estimated APY for producing blocks',
+              progress: `${statsStore.blockProductionApy.toLocaleString(
+                undefined,
+                { maximumFractionDigits: 2 }
+              )}%`,
               progressClass: 'green--text',
             },
           ],
@@ -130,12 +171,18 @@ export default defineComponent({
             {
               title: 'Tokens',
               tooltip: 'Total Token smart contracts',
-              value: statsStore.tokenStats.contractCount.toString(),
+              value: statsStore.tokenStats.contractCount.toLocaleString(
+                undefined,
+                { maximumFractionDigits: 2 }
+              ),
             },
             {
               title: 'Transfers',
               tooltip: 'Total token transfers',
-              value: statsStore.tokenStats.transferCount.toString(),
+              value: statsStore.tokenStats.transferCount.toLocaleString(
+                undefined,
+                { maximumFractionDigits: 2 }
+              ),
             },
           ],
         },
@@ -150,7 +197,7 @@ export default defineComponent({
       ];
     };
 
-    let intervalId = setInterval(scrollTicker, 15000);
+    let intervalId = setInterval(scrollTicker, 5000);
     const tickerRow = ref(0);
 
     function scrollTicker() {
