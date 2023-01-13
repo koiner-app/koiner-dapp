@@ -321,7 +321,7 @@ export const useAccountStore = defineStore({
 
         for (const address of this[this.environment].addressesFilter) {
           const checkerApi = axios.create({
-            baseURL: 'https://checker.koiner.app',
+            baseURL: koinerConfig[this.environment].checker,
           });
 
           let manaBalance: number;

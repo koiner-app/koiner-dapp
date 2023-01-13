@@ -1,5 +1,6 @@
 <template>
   <div
+    v-if="accountStore.addressesFilter.length > 0"
     :class="`mana-bar mana-bar-${size} ${
       accountStore.manaChargedPercentage === 100 ? 'fully-charged' : 'charging'
     }`"
