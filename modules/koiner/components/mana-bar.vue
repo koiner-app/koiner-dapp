@@ -1,9 +1,13 @@
 <template>
-  <div :class="`mana-bar mana-bar-${size}`">
+  <div
+    :class="`mana-bar mana-bar-${size} ${
+      accountStore.manaChargedPercentage === 100 ? 'fully-charged' : 'charging'
+    }`"
+  >
     <button class="glowing-btn" @click="reload">
       <span
         class="charging-bg"
-        :style="`opacity: ${70 + accountStore.manaChargedPercentage * 0.3}%`"
+        :style="`opacity: ${50 + accountStore.manaChargedPercentage * 0.5}%`"
       ></span>
       <span class="glowing-txt"
         >{{ accountStore.manaChargedPercentage
@@ -23,7 +27,11 @@
               <span style="opacity: 0.75"
                 >Last updated:
                 {{ timeAgo(accountStore.onChainBalances[0].lastUpdated) }}</span
-              ><span v-if="isDesktop" style="opacity: 0.75; font-style: italic; margin: 1.125rem;" class="absolute-top-right">
+              ><span
+                v-if="isDesktop"
+                style="opacity: 0.75; font-style: italic; margin: 1.125rem"
+                class="absolute-top-right"
+              >
                 Click on mana bar to reload</span
               >
             </div>
@@ -76,6 +84,10 @@
       top: -3px;
       border-radius: 0.25rem;
     }
+
+    .glowing-txt {
+      margin-right: -0.3rem;
+    }
   }
 
   &.mana-bar-lg {
@@ -86,6 +98,10 @@
       padding: 0.05rem 1rem;
       letter-spacing: 0.75rem;
       border-radius: 0.45rem;
+    }
+
+    .glowing-txt {
+      margin-right: -0.8rem;
     }
   }
 
@@ -134,7 +150,6 @@
     bottom: 0;
     left: 0;
     color: var(--glow-text-color);
-    margin-right: -0.8rem;
     -webkit-text-shadow: 0 0 0.125rem hsl(0 0% 100% / 0.3),
       0 0 0.45rem var(--glow-text-color);
     -moz-text-shadow: 0 0 0.125em hsl(0 0% 100% / 0.3),
@@ -177,44 +192,45 @@
     transition: opacity 100ms linear;
   }
 
+  &.fully-charged .glowing-btn,
   .glowing-btn:hover {
     color: rgba(0, 0, 0, 0.8);
     text-shadow: none;
     animation: none;
-  }
 
-  .glowing-btn:hover .glowing-txt {
-    animation: none;
-  }
+    .glowing-txt {
+      animation: none;
+    }
 
-  .glowing-btn:hover .faulty-letter {
-    animation: none;
-    text-shadow: none;
-    opacity: 1;
-  }
+    .faulty-letter {
+      animation: none;
+      text-shadow: none;
+      opacity: 1;
+    }
 
-  .glowing-btn:hover:before {
-    filter: blur(1.5rem);
-    opacity: 1;
-  }
+    &:before {
+      filter: blur(1.5rem);
+      opacity: 1;
+    }
 
-  .glowing-btn:hover:after {
-    opacity: 1;
+    &:after {
+      opacity: 1;
+    }
   }
 }
 
 @keyframes faulty-flicker {
   0% {
-    opacity: 0.1;
+    opacity: 0.5;
   }
   2% {
-    opacity: 0.1;
+    opacity: 0.4;
   }
   4% {
-    opacity: 0.5;
+    opacity: 0.8;
   }
   19% {
-    opacity: 0.5;
+    opacity: 0.8;
   }
   21% {
     opacity: 0.1;
