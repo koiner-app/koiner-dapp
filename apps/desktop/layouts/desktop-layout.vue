@@ -9,7 +9,7 @@
           >
         </q-toolbar-title>
 
-        <api-switcher />
+        <mana-bar size="sm" class="q-mr-xs" />
         <search-dialog />
       </q-toolbar>
     </q-header>
@@ -27,6 +27,10 @@
     <q-footer reveal elevated>
       <q-toolbar>
         <ticker />
+
+        <q-space />
+
+        <api-switcher />
       </q-toolbar>
     </q-footer>
   </q-layout>
@@ -46,10 +50,12 @@ import { useBookmarkStore } from '@koiner/bookmarks';
 import ApiSwitcher from '@koiner/components/api-switcher.vue';
 import { useWindowSize } from '@vueuse/core';
 import { useRoute, useRouter } from 'vue-router';
+import ManaBar from '@koiner/components/mana-bar.vue';
 
 export default defineComponent({
   name: 'MainLayout',
   components: {
+    ManaBar,
     ApiSwitcher,
     SearchDialog,
     MainNavigation,

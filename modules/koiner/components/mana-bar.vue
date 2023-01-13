@@ -1,8 +1,6 @@
 <template>
-  <div
-    :class="`mana-bar mana-bar-${size}`"
-  >
-    <button class="glowing-btn">
+  <div :class="`mana-bar mana-bar-${size}`">
+    <button class="glowing-btn" @click="reload">
       <span
         class="charging-bg"
         :style="`opacity: ${70 + accountStore.manaChargedPercentage * 0.3}%`"
@@ -14,7 +12,7 @@
       <q-tooltip
         class="bg-accent text-white shadow-4"
         :offset="[0, 30]"
-        :hide-delay="4000"
+        :hide-delay="isDesktop ? 300 : 4000"
       >
         <div
           class="q-pa-sm q-gutter-xs"
@@ -25,6 +23,8 @@
               <span style="opacity: 0.75"
                 >Last updated:
                 {{ timeAgo(accountStore.onChainBalances[0].lastUpdated) }}</span
+              ><span v-if="isDesktop" style="opacity: 0.75; font-style: italic; margin: 1.125rem;" class="absolute-top-right">
+                Click on mana bar to reload</span
               >
             </div>
           </div>
@@ -68,28 +68,32 @@
 
   &.mana-bar-sm {
     .glowing-btn {
-      font-size: 0.75rem !important;
+      height: 20px;
+      min-width: 64px;
+      font-size: 0.625rem !important;
       padding: 0.05rem 1rem;
-      letter-spacing: 0.75rem;
+      letter-spacing: 0.25rem;
+      top: -3px;
+      border-radius: 0.25rem;
     }
   }
 
   &.mana-bar-lg {
     .glowing-btn {
+      height: 24px;
+      min-width: 102px;
       font-size: 0.75rem !important;
       padding: 0.05rem 1rem;
       letter-spacing: 0.75rem;
+      border-radius: 0.45rem;
     }
   }
 
   .glowing-btn {
-    min-width: 102px;
-    height: 24px;
     position: relative;
     color: var(--glow-color);
     cursor: pointer;
     border: 0.15rem solid var(--glow-color);
-    border-radius: 0.45rem;
     background: none;
     perspective: 2rem;
     font-family: 'Roboto Mono', serif !important;
@@ -298,9 +302,10 @@
 </style>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue';
+import { computed, defineComponent, PropType } from 'vue';
 import { useAccountStore } from 'stores/account';
 import { formattedTokenAmount, timeAgo } from '../utils';
+import { useWindowSize } from '@vueuse/core';
 
 export default defineComponent({
   name: 'ManaBar',
@@ -315,9 +320,19 @@ export default defineComponent({
 
   setup() {
     const accountStore = useAccountStore();
+    const { width } = useWindowSize();
 
     return {
       accountStore,
+      reload: () => {
+        // Only reload on desktop. Mobile shows hover on click
+        if (width.value >= 1024) {
+          accountStore.loadOnChainBalances();
+        }
+      },
+      isDesktop: computed(() => {
+        return width.value >= 1024;
+      }),
     };
   },
 });

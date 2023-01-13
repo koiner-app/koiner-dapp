@@ -359,9 +359,9 @@ export const useAccountStore = defineStore({
               onChainBalances: onChainBalances,
             },
           });
-
-          this.updateManaChargedPercentage();
         }
+
+        this.updateManaChargedPercentage();
       } catch (error) {
         throw error;
       }
