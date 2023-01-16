@@ -6,28 +6,23 @@
       :value="statsStore.formattedKoinPrice"
       :footer="{
         title: 'Marketcap:',
-        value: statsStore.formattedVirtualFDVMarketCap,
+        value: statsStore.formattedFDVMarketCap,
       }"
       :footer-tooltips="[
         {
           title: 'Circulating Marketcap:',
           value: statsStore.formattedMarketCap,
-          unit: '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Claimed KOIN (not burned)',
+          unit: '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Claimed KOIN (not burned)',
         },
         {
           title: 'Virtual Marketcap',
           value: statsStore.formattedVirtualMarketCap,
-          unit: '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;KOIN + VHP',
+          unit: '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;KOIN + VHP',
         },
         {
           title: 'Fully Diluted Valuation',
           value: statsStore.formattedFDVMarketCap,
-          unit: '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;All tokens claimed',
-        },
-        {
-          title: 'FDV Virtual MC',
-          value: statsStore.formattedVirtualFDVMarketCap,
-          unit: '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;All tokens claimed + VHP',
+          unit: '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;When all tokens claimed',
         },
       ]"
       :footer-tooltip-hide-delay="4000"
@@ -55,7 +50,7 @@
             "
           ></q-icon>
         </div>
-        <div class="text-center" style="padding-top: 1.75rem;">
+        <div class="text-center" style="padding-top: 1.75rem">
           <mana-bar />
         </div>
       </q-card-section>
@@ -73,7 +68,7 @@
       }"
       :footer-tooltips="[
         {
-          title: 'KOIN Total Supply',
+          title: 'KOIN Circulating Supply',
           value: statsStore.formattedKoinTotalSupply(),
           unit: koinerStore.koinContract.symbol,
         },
@@ -82,9 +77,24 @@
           value: statsStore.formattedVhpTotalSupply(),
           unit: koinerStore.vhpContract.symbol,
         },
+        {
+          title: 'Virtual Supply (KOIN + VHP)',
+          value: statsStore.formattedVirtualTotalSupply(),
+          unit: koinerStore.koinContract.symbol,
+        },
+        {
+          title: 'Rewarded Koin (inflation)',
+          value: statsStore.formattedInflation(),
+          unit: koinerStore.koinContract.symbol,
+        },
+        {
+          title: 'Fully Diluted Total Supply',
+          value: statsStore.formattedFullyDilutedTotalSupply(),
+          unit: koinerStore.koinContract.symbol,
+        },
       ]"
       :footer-tooltip-hide-delay="4000"
-      :tooltip-title-width="110"
+      :tooltip-title-width="140"
       :tooltip-item-width="100"
     />
 

@@ -7,7 +7,7 @@
         :value="statsStore.formattedKoinPrice"
         :footer="{
           title: 'Marketcap:',
-          value: statsStore.formattedVirtualFDVMarketCap,
+          value: statsStore.formattedFDVMarketCap,
         }"
         :footer-tooltips="[
           {
@@ -23,12 +23,7 @@
           {
             title: 'Fully Diluted Valuation',
             value: statsStore.formattedFDVMarketCap,
-            unit: '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;All tokens claimed - VHP',
-          },
-          {
-            title: 'FDV Virtual MC',
-            value: statsStore.formattedVirtualFDVMarketCap,
-            unit: '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;All tokens claimed including VHP',
+            unit: '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;When all tokens would be claimed',
           },
         ]"
         :tooltip-title-width="125"
@@ -49,7 +44,7 @@
         }"
         :footer-tooltips="[
           {
-            title: 'KOIN Total Supply',
+            title: 'KOIN Circulating Supply',
             value: statsStore.formattedKoinTotalSupply(),
             unit: koinerStore.koinContract.symbol,
           },
@@ -58,7 +53,23 @@
             value: statsStore.formattedVhpTotalSupply(),
             unit: koinerStore.vhpContract.symbol,
           },
+          {
+            title: 'Virtual Supply (KOIN + VHP)',
+            value: statsStore.formattedVirtualTotalSupply(),
+            unit: koinerStore.koinContract.symbol,
+          },
+          {
+            title: 'Rewarded Koin (inflation)',
+            value: statsStore.formattedInflation(),
+            unit: koinerStore.koinContract.symbol,
+          },
+          {
+            title: 'Fully Diluted Total Supply',
+            value: statsStore.formattedFullyDilutedTotalSupply(),
+            unit: koinerStore.koinContract.symbol,
+          },
         ]"
+        :tooltip-title-width="140"
       />
 
       <q-separator vertical />

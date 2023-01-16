@@ -37,6 +37,7 @@ export const useStatsStore = defineStore({
       koinTotalSupply: '' as string,
       vhpTotalSupply: '' as string,
       virtualTotalSupply: '' as string,
+      fullyDilutedSupply: 0 as number,
       claimed: 0 as number,
       burned: 0 as number,
     },
@@ -68,6 +69,22 @@ export const useStatsStore = defineStore({
       return (displayedDecimals = 0) =>
         localizedTokenAmount(
           parseInt(state.totalSupply.virtualTotalSupply),
+          8,
+          displayedDecimals
+        );
+    },
+    formattedFullyDilutedTotalSupply: (state) => {
+      return (displayedDecimals = 0) =>
+        localizedTokenAmount(
+          state.totalSupply.fullyDilutedSupply,
+          8,
+          displayedDecimals
+        );
+    },
+    formattedInflation: (state) => {
+      return (displayedDecimals = 0) =>
+        localizedTokenAmount(
+          state.blockProduction.rewarded,
           8,
           displayedDecimals
         );
@@ -104,20 +121,9 @@ export const useStatsStore = defineStore({
       if (state.koinStats.price) {
         const mc =
           tokenAmount(
-            9973874402587864 - parseInt(state.totalSupply.vhpTotalSupply),
+            9973874402587864 + (state.blockProduction.rewarded ?? 0),
             8
           ) * state.koinStats.price;
-
-        return `$${mc.toLocaleString(undefined, {
-          maximumFractionDigits: 0,
-        })}`;
-      }
-
-      return '?';
-    },
-    formattedVirtualFDVMarketCap: (state) => {
-      if (state.koinStats.price) {
-        const mc = tokenAmount(9973874402587864, 8) * state.koinStats.price;
 
         return `$${mc.toLocaleString(undefined, {
           maximumFractionDigits: 0,
@@ -282,13 +288,16 @@ export const useStatsStore = defineStore({
                 koinTotalSupply: koinContract.totalSupply,
                 vhpTotalSupply: vhpContract.totalSupply,
                 virtualTotalSupply: virtualTotalSupply.toString(),
+                fullyDilutedSupply:
+                  9973874402587864 + (this.blockProduction.rewarded ?? 0),
                 burned:
                   virtualTotalSupply && vhpTotalSupply
                     ? (vhpTotalSupply / virtualTotalSupply) * 100
                     : 0,
-                claimed: vhpTotalSupply
-                  ? (virtualTotalSupply / 9973874402587864) * 100
-                  : 0,
+                claimed:
+                  ((virtualTotalSupply - (this.blockProduction.rewarded ?? 0)) /
+                    9973874402587864) *
+                  100,
               },
             });
           }
