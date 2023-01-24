@@ -14,7 +14,7 @@
     self="top left"
     :offset="[0, -10]"
     class="bg-primary text-white shadow-4"
-    :hide-delay="15000"
+    :hide-delay="10000"
   >
     <div class="q-pa-sm">
       <div class="row q-mb-md">

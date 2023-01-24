@@ -25,7 +25,7 @@
           unit: '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;When all tokens claimed',
         },
       ]"
-      :footer-tooltip-hide-delay="4000"
+      :footer-tooltip-hide-delay="10000"
       :tooltip-title-width="110"
       :tooltip-item-width="200"
     />
@@ -93,7 +93,7 @@
           unit: koinerStore.koinContract.symbol,
         },
       ]"
-      :footer-tooltip-hide-delay="4000"
+      :footer-tooltip-hide-delay="10000"
       :tooltip-title-width="140"
       :tooltip-item-width="100"
     />
