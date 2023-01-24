@@ -28,7 +28,7 @@
     }
 
     .attribute--producer-index {
-      //line-height: 1.375;
+      color: #ffffff;
     }
 
     .attribute--producer-status {
@@ -52,16 +52,16 @@
     .attribute-wrapper--vhp-balance {
       margin-top: 2px;
       height: 1rem;
-
       font-size: 0.75rem;
     }
 
     .attribute--total-rewards {
-      //font-size: 0.75rem;
+      color: #ffffff;
     }
 
     .attribute--blocks-produced {
       font-size: 0.75rem;
+      color: #666666 !important;
     }
   }
 }
