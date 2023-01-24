@@ -65,16 +65,6 @@ export default defineComponent({
     );
 
     watch(
-      accountStore,
-      () => {
-        // blockProductionStore.syncAddressFilter(
-        //   bookmarkStore.bookmarkKeys('addresses')
-        // );
-      },
-      { deep: true }
-    );
-
-    watch(
       width,
       () => {
         if (width.value >= 1024) {
