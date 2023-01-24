@@ -70,7 +70,6 @@ export default defineComponent({
 
     return {
       accountStore,
-      blockProductionStore,
       bookmarkStore,
       filter,
       addresses,

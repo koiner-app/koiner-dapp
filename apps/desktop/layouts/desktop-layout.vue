@@ -48,6 +48,7 @@ import ApiSwitcher from '@koiner/components/api-switcher.vue';
 import { useWindowSize } from '@vueuse/core';
 import { useRoute, useRouter } from 'vue-router';
 import ManaBar from '@koiner/components/mana-bar.vue';
+import { useBlockProductionStore } from 'stores/block-production';
 
 export default defineComponent({
   name: 'MainLayout',
@@ -61,6 +62,7 @@ export default defineComponent({
   },
   setup() {
     const accountStore = useAccountStore();
+    const blockProductionStore = useBlockProductionStore();
     const koinosStore = useKoinosStore();
     const koinerStore = useKoinerStore();
     const statsStore = useStatsStore();
@@ -72,6 +74,7 @@ export default defineComponent({
     koinosStore.load();
     statsStore.load();
     accountStore.load(koinerStore.environment);
+    blockProductionStore.load(koinerStore.environment);
     bookmarkStore.load(koinerStore.environment);
 
     watch(

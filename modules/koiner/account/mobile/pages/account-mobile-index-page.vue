@@ -94,6 +94,7 @@ import TokenBalancesComponent from '@koiner/account/mobile/components/token-bala
 import BlockRewardsTable from '@koiner/network/components/block-production/search/view/block-rewards-table.vue';
 import TokenHolderBalancesMetric from '@koiner/tokenize/components/holder/metric/token-holder-balances-metric.vue';
 import { useBlockProductionStore } from 'stores/block-production';
+import { TokenHolder } from '@koiner/sdk';
 
 export default defineComponent({
   name: 'AccountMobileIndexPage',
@@ -126,16 +127,15 @@ export default defineComponent({
       openDialog,
 
       blockProducers: computed(() => {
-        return [];
         // Transform BlockProducer profits to TokenHolder for input of component
-        // return blockProductionStore.blockProducers.map((blockProducer) => {
-        //   return {
-        //     addressId: blockProducer.addressId,
-        //     balance: blockProducer.balance,
-        //     contract: koinerStore.koinContract,
-        //     contractId: koinerStore.koinContract.id,
-        //   } as TokenHolder;
-        // });
+        return blockProductionStore.blockProducers.map((blockProducer) => {
+          return {
+            addressId: blockProducer.addressId,
+            balance: blockProducer.balance,
+            contract: koinerStore.koinContract,
+            contractId: koinerStore.koinContract.id,
+          } as TokenHolder;
+        });
       }),
     };
   },

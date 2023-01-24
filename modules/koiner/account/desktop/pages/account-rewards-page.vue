@@ -6,9 +6,9 @@
     <q-card class="stats-cards" flat bordered>
       <q-card-section horizontal>
         <token-holder-balances-metric
-          v-if="tokenHolders && tokenHolders.length > 0"
+          v-if="blockProducers && blockProducers.length > 0"
           title="Total Rewards"
-          :token-holders="tokenHolders"
+          :token-holders="blockProducers"
         />
         <q-separator vertical />
         <token-holder-balances-metric
@@ -19,7 +19,7 @@
         />
         <q-separator vertical />
         <counter-metric
-          v-if="tokenHolders && tokenHolders.length > 0"
+          v-if="blockProducers && blockProducers.length > 0"
           title="ROI"
           :value="apy"
           :decimals="2"
@@ -27,7 +27,7 @@
         />
         <q-separator vertical />
         <counter-metric
-          v-if="blockProducersSearch.connection.value"
+          v-if="blockProductionStore.blockProducers.length > 0"
           title="Blocks Produced"
           :value="blocksProduced"
         />
@@ -39,7 +39,11 @@
         <div class="text-overline">Blocks Produced</div>
 
         <block-rewards-table
-          v-if="accountStore.addressesFilter.length > 0"
+          v-if="
+            accountStore.addressesFilter.length > 0 &&
+            blockProductionStore.blockProducers &&
+            blockProductionStore.blockProducers.length > 0
+          "
           :producer-ids="accountStore.addressesFilter"
         />
       </q-card-section>
@@ -58,16 +62,16 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, watch } from 'vue';
+import { computed, defineComponent, } from 'vue';
 import BlockRewardsTable from '@koiner/network/components/block-production/search/view/block-rewards-table.vue';
 import AccountAddressesFilter from '@koiner/chain/components/address/account-addresses-filter.vue';
-import { SearchRequestType, useSearchManager } from '@appvise/search-manager';
 import { TokenHolder } from '@koiner/sdk';
 import TokenHolderBalancesMetric from '@koiner/tokenize/components/holder/metric/token-holder-balances-metric.vue';
 import CounterMetric from '@koiner/components/metrics/counter-metric.vue';
 import { useAccountStore } from 'stores/account';
 import { useKoinerStore } from 'stores/koiner';
 import { useStatsStore } from 'stores/stats';
+import { useBlockProductionStore } from 'stores/block-production';
 
 export default defineComponent({
   name: 'AccountRewardsPage',
@@ -80,58 +84,21 @@ export default defineComponent({
 
   setup() {
     const accountStore = useAccountStore();
+    const blockProductionStore = useBlockProductionStore();
     const koinerStore = useKoinerStore();
     const statsStore = useStatsStore();
-    const blockProducersSearch = useSearchManager('blockProducers');
-
-    const loadBlockProducers = async () => {
-      if (accountStore.addressesFilter.length > 0) {
-        const request: SearchRequestType = {
-          first: 100,
-          filter: {
-            AND: [
-              {
-                OR: accountStore.addressesFilter.map((address) => {
-                  return {
-                    addressId: {
-                      equals: address,
-                    },
-                  };
-                }),
-              },
-            ],
-          },
-        };
-
-        await blockProducersSearch.search(request);
-      } else {
-        blockProducersSearch.reset();
-      }
-    };
-
-    onMounted(async () => {
-      await loadBlockProducers();
-    });
-
-    watch(
-      accountStore,
-      async () => {
-        await loadBlockProducers();
-      },
-      { deep: true }
-    );
 
     return {
       accountStore,
+      blockProductionStore,
       koinerStore,
-      blockProducersSearch,
 
-      tokenHolders: computed(() => {
+      blockProducers: computed(() => {
         // Transform BlockProducer profits to TokenHolder for input of component
-        return blockProducersSearch.connection.value?.edges?.map((edge) => {
+        return blockProductionStore.blockProducers.map((blockProducer) => {
           return {
-            addressId: edge.node.addressId,
-            balance: edge.node.balance,
+            addressId: blockProducer.addressId,
+            balance: blockProducer.balance,
             contract: koinerStore.koinContract,
             contractId: koinerStore.koinContract.id,
           } as TokenHolder;
@@ -139,10 +106,10 @@ export default defineComponent({
       }),
       vhpBurners: computed(() => {
         // Transform BlockProducer profits to TokenHolder for input of component
-        return blockProducersSearch.connection.value?.edges?.map((edge) => {
+        return blockProductionStore.blockProducers?.map((blockProducer) => {
           return {
-            addressId: edge.node.addressId,
-            balance: edge.node.burnedTotal,
+            addressId: blockProducer.addressId,
+            balance: blockProducer.burnedTotal,
             contract: koinerStore.vhpContract,
             contractId: koinerStore.vhpContract.id,
           } as TokenHolder;
@@ -151,19 +118,17 @@ export default defineComponent({
       blocksProduced: computed(() => {
         let total = 0;
 
-        blockProducersSearch.connection.value?.edges?.forEach(
-          (blockProducerEdge) => {
-            total += blockProducerEdge.node.blocksProduced;
-          }
-        );
+        blockProductionStore.blockProducers.forEach((blockProducer) => {
+          total += blockProducer.blocksProduced;
+        });
 
         return total;
       }),
       burnedTotal: computed(() => {
         let burnedTotal = 0;
 
-        blockProducersSearch.connection.value?.edges?.forEach((edge) => {
-          burnedTotal += parseInt(edge.node.burnedTotal);
+        blockProductionStore.blockProducers.forEach((blockProducer) => {
+          burnedTotal += parseInt(blockProducer.burnedTotal);
         });
 
         return burnedTotal;
