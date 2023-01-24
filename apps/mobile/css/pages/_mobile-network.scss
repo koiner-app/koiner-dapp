@@ -1,0 +1,81 @@
+.page--mobile-network {
+  .search-view-table {
+    &.regular-rows {
+      .q-table thead {
+        tr {
+          height: 2rem !important;
+        }
+        th {
+          font-size: 0.675rem !important;
+          &:not(:first-of-type):not(:last-of-type) {
+            padding: 0 0.5rem;
+          }
+        }
+      }
+      .q-table tbody.q-virtual-scroll__content td {
+      }
+    }
+
+    th {
+      &:last-of-type {
+        text-align: right;
+      }
+    }
+    td {
+      &:last-of-type {
+        text-align: right;
+      }
+    }
+
+    .attribute--producer-index {
+      //line-height: 1.375;
+    }
+
+    .attribute--producer-status {
+      height: 1rem;
+      width: 14px;
+      position: relative;
+
+      div {
+        span {
+          top: 4px;
+          position: absolute;
+          height: 14px !important;
+          width: 14px !important;
+        }
+      }
+    }
+
+    .attribute-wrapper--address {
+    }
+
+    .attribute-wrapper--vhp-balance {
+      margin-top: 2px;
+      height: 1rem;
+
+      font-size: 0.75rem;
+    }
+
+    .attribute--total-rewards {
+      //font-size: 0.75rem;
+    }
+
+    .attribute--blocks-produced {
+      font-size: 0.75rem;
+    }
+  }
+}
+
+.body--dark {
+  .page--mobile-network {
+    .search-view-table {
+      .attribute--total-rewards {
+        color: #ffffff !important;
+      }
+
+      .attribute--blocks-produced {
+        color: #666666 !important;
+      }
+    }
+  }
+}

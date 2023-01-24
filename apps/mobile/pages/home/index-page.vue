@@ -1,5 +1,5 @@
 <template>
-  <q-page class="row items-start">
+  <q-page class="row items-start q-pt-xs q-pb-xl">
     <q-banner
       class="bg-primary text-white"
       v-if="!accountStore.dismissedMobileBanner"
@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, Ref, ref, watch } from 'vue';
+import { defineComponent } from 'vue';
 import KoinosHomeStatsComponent from './components/koin-home-stats-component.vue';
 import { useAccountStore } from 'stores/account';
 

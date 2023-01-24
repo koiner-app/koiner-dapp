@@ -2,8 +2,8 @@
   <div :class="`text-grey-8 q-gutter-xs attribute-group ${customClass}`">
     <span v-if="before" class="before-attribute-group">{{ before }}</span>
     <dispatch-renderer
-      v-for="(attribute, index) in control.uischema.elements"
-      :key="`${control.path}-attribute-${index}`"
+      v-for="(attribute, attributeIndex) in control.uischema.elements"
+      :key="`${control.path}-attribute-${attributeIndex}`"
       :schema="control.schema"
       :uischema="attribute"
       :path="control.path"
@@ -11,6 +11,7 @@
       :renderers="control.renderers"
       :cells="control.cells"
       :result="result"
+      :index="index"
     />
     <span v-if="after" class="after-attribute-group">{{ after }}</span>
   </div>
@@ -35,6 +36,10 @@ export default defineComponent({
       type: Object as PropType<any>,
       required: false,
       default: null,
+    },
+    index: {
+      type: Number,
+      required: true,
     },
   },
   setup(props: RendererProps<AttributeElement>) {

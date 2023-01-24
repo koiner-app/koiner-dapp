@@ -12,9 +12,6 @@
       <q-separator dark vertical inset class="lt-md" />
       <q-toolbar-title>
         <koiner-logo />
-        <q-chip size="xs" color="primary" text-color="white" class="beta-chip"
-          >Beta</q-chip
-        >
       </q-toolbar-title>
     </q-toolbar>
   </q-header>

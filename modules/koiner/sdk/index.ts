@@ -179,10 +179,13 @@ export type BlockProducer = {
   createdAt: Scalars['DateTime'];
   /** Globally unique identifier for this entity */
   id: Scalars['ID'];
+  koinBalance: TokenHolder;
+  lastProducedBlock: Scalars['BigInt'];
   mintedTotal: Scalars['String'];
   roi: Scalars['Float'];
   /** Timestamp as to when this entity was last updated */
   updatedAt: Scalars['DateTime'];
+  vhpBalance: TokenHolder;
 };
 
 export type BlockProducerEdge = {
@@ -352,6 +355,7 @@ export type Chain = {
   createdAt: Scalars['DateTime'];
   /** Globally unique identifier for this entity */
   id: Scalars['ID'];
+  koinStats: KoinStats;
   stats: ChainStats;
   timestamp: Scalars['BigInt'];
   tokenStats: TokenStats;
@@ -488,6 +492,7 @@ export type ContractOperationWithDetails = {
   id: Scalars['ID'];
   name: Scalars['String'];
   timestamp: Scalars['BigInt'];
+  transaction?: Maybe<Transaction>;
   transactionId: Scalars['String'];
   /** Timestamp as to when this entity was last updated */
   updatedAt: Scalars['DateTime'];
@@ -540,6 +545,7 @@ export type ContractsConnection = {
 export type ContractsFilter = {
   AND?: InputMaybe<Array<ContractsFilter>>;
   OR?: InputMaybe<Array<ContractsFilter>>;
+  contractStandardType?: InputMaybe<StringFilter>;
   id?: InputMaybe<StringFilter>;
   search?: InputMaybe<StringFilter>;
   timestamp?: InputMaybe<NumericFilter>;
@@ -617,6 +623,22 @@ export enum EventsSortField {
 export type EventsSortInput = {
   direction: Direction;
   field: EventsSortField;
+};
+
+export type KoinStats = {
+  __typename?: 'KoinStats';
+  askPrice: Scalars['Float'];
+  askQuantity: Scalars['Float'];
+  bidPrice: Scalars['Float'];
+  bidQuantity: Scalars['Float'];
+  /** Timestamp as to when this entity was created */
+  createdAt: Scalars['DateTime'];
+  /** Globally unique identifier for this entity */
+  id: Scalars['ID'];
+  price: Scalars['Float'];
+  timestamp: Scalars['BigInt'];
+  /** Timestamp as to when this entity was last updated */
+  updatedAt: Scalars['DateTime'];
 };
 
 export type NumericFilter = {
@@ -726,6 +748,8 @@ export type Query = {
   contractsBulk: Array<ContractBulkResult>;
   event: Event;
   events: EventsConnection;
+  koinHoldersBulk: Array<TokenHolder>;
+  koinStats: KoinStats;
   operation: Operation;
   operations: OperationsConnection;
   tokenContract: TokenContract;
@@ -734,11 +758,14 @@ export type Query = {
   tokenEvents: TokenEventsConnection;
   tokenHolder: TokenHolder;
   tokenHolders: TokenHoldersConnection;
+  tokenHoldersBulk: Array<TokenHolder>;
   tokenOperation: TokenOperation;
   tokenOperations: TokenOperationsConnection;
   tokenStats: TokenStats;
   transaction: Transaction;
   transactions: TransactionsConnection;
+  transactionsBulk: Array<Transaction>;
+  vhpHoldersBulk: Array<TokenHolder>;
 };
 
 export type QueryAddressArgs = {
@@ -865,6 +892,15 @@ export type QueryEventsArgs = {
   sort?: InputMaybe<Array<EventsSortInput>>;
 };
 
+export type QueryKoinHoldersBulkArgs = {
+  first?: InputMaybe<Scalars['Int']>;
+  ids: Array<Scalars['String']>;
+};
+
+export type QueryKoinStatsArgs = {
+  id?: InputMaybe<Scalars['ID']>;
+};
+
 export type QueryOperationArgs = {
   id: Scalars['ID'];
 };
@@ -913,6 +949,12 @@ export type QueryTokenHoldersArgs = {
   sort?: InputMaybe<Array<TokenHoldersSortInput>>;
 };
 
+export type QueryTokenHoldersBulkArgs = {
+  contractId: Scalars['String'];
+  first?: InputMaybe<Scalars['Int']>;
+  ids: Array<Scalars['String']>;
+};
+
 export type QueryTokenOperationArgs = {
   id: Scalars['ID'];
 };
@@ -939,6 +981,16 @@ export type QueryTransactionsArgs = {
   filter?: InputMaybe<TransactionsFilter>;
   first?: InputMaybe<Scalars['Int']>;
   sort?: InputMaybe<Array<TransactionsSortInput>>;
+};
+
+export type QueryTransactionsBulkArgs = {
+  first?: InputMaybe<Scalars['Int']>;
+  ids: Array<Scalars['String']>;
+};
+
+export type QueryVhpHoldersBulkArgs = {
+  first?: InputMaybe<Scalars['Int']>;
+  ids: Array<Scalars['String']>;
 };
 
 export type StringFilter = {
@@ -1170,6 +1222,7 @@ export type TokenOperation = {
   name: Scalars['String'];
   timestamp: Scalars['BigInt'];
   to?: Maybe<Scalars['String']>;
+  transaction?: Maybe<Transaction>;
   transactionId: Scalars['String'];
   /** Timestamp as to when this entity was last updated */
   updatedAt: Scalars['DateTime'];
@@ -1820,6 +1873,14 @@ export type BlockProducersSearchQuery = {
         mintedTotal: string;
         burnedTotal: string;
         blocksProduced: any;
+        lastProducedBlock: any;
+        updatedAt: any;
+        koinBalance: {
+          __typename?: 'TokenHolder';
+          id: string;
+          balance: string;
+        };
+        vhpBalance: { __typename?: 'TokenHolder'; id: string; balance: string };
       };
     }>;
     pageInfo: {
@@ -2734,6 +2795,16 @@ export const BlockProducersSearchDocument = gql`
           mintedTotal
           burnedTotal
           blocksProduced
+          lastProducedBlock
+          updatedAt
+          koinBalance {
+            id
+            balance
+          }
+          vhpBalance {
+            id
+            balance
+          }
         }
         __typename
       }

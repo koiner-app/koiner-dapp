@@ -43,12 +43,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, Ref } from 'vue';
+import { defineComponent, onMounted, ref, Ref } from 'vue';
 import BlockProducersComponent from '../../components/block-production/search/view/block-producers-table.vue';
 import BlockRewardsComponent from '../../components/block-production/search/view/block-rewards-table.vue';
-import { useKoinerStore } from 'stores/koiner';
-import { useStatsStore } from 'stores/stats';
 import BlockProducerStats from '@koiner/network/components/block-production/stats/mobile/block-producer-stats.vue';
+import { useStatsStore } from 'stores/stats';
 
 export default defineComponent({
   name: 'NetworkIndexPage',
@@ -59,14 +58,15 @@ export default defineComponent({
   },
 
   setup() {
-    const koinerStore = useKoinerStore();
     const statsStore = useStatsStore();
-
     const tab: Ref<string> = ref('producers');
 
+    onMounted(() => {
+      // Make sure we have the latest height
+      statsStore.loadHeight();
+    });
+
     return {
-      koinerStore,
-      statsStore,
       tab,
     };
   },

@@ -36,6 +36,7 @@
 import { computed, defineComponent, ref, Ref, watch } from 'vue';
 import { useBookmarkStore } from '@koiner/bookmarks';
 import { useAccountStore } from 'stores/account';
+import { useBlockProductionStore } from 'stores/block-production';
 
 export default defineComponent({
   name: 'MobileAddressesFilter',
@@ -43,6 +44,7 @@ export default defineComponent({
 
   setup() {
     const accountStore = useAccountStore();
+    const blockProductionStore = useBlockProductionStore();
     const bookmarkStore = useBookmarkStore();
 
     const addresses: Ref<string[]> = ref(
@@ -55,6 +57,7 @@ export default defineComponent({
 
     watch(filter, () => {
       accountStore.syncAddressFilterSelection(filter.value);
+      blockProductionStore.syncAddressFilterSelection(filter.value);
     });
 
     watch(
@@ -67,6 +70,7 @@ export default defineComponent({
 
     return {
       accountStore,
+      blockProductionStore,
       bookmarkStore,
       filter,
       addresses,

@@ -18,14 +18,16 @@ $primary: #6f00f6;
 $secondary: #26a69a;
 $accent: #9c27b0;
 
-$dark: #141416;
+//$dark: #000000;
+$dark: #141416; // #191919;
 $dark-page: #18191d;
 $dark-page-2: #191919;
+$dark-page-3: #2A2A2A;
 
-$positive: #21ba45;
-$negative: #c10015;
+$positive: rgb(141, 176, 95); // #21ba45;
+$negative: rgb(186, 58, 69); // #c10015;
 $info: #31ccec;
-$warning: #f2c037;
+$warning: rgb(236, 204, 98); // #f2c037;
 
 $dark-text: #e5e2df;
 $dark-border: #1f2120;

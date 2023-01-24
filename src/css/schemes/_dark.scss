@@ -12,7 +12,8 @@
 
   a {
     text-decoration: none;
-    color: lighten($primary, 20);
+    //color: lighten($primary, 20);
+    color: darken(#ffffff, 5);
   }
 
   .red--text {
@@ -212,7 +213,7 @@
 }
 
 .q-card--dark {
-  background: $dark-page-2;
+  //background: lighten($dark-page-2, 2%) !important;
   border-color: $dark-border !important;
   //border-width: 1px;
   //border-style: solid;

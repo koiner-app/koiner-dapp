@@ -1,5 +1,5 @@
 <template>
-  <div class="column no-wrap">
+  <div class="column no-wrap q-py-sm">
     <div class="row">
       <counter-metric
         class="col"

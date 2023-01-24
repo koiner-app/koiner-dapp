@@ -6,11 +6,20 @@
   }
 
   .stats-card {
+    .q-card__section {
+      padding: 0.5rem 1rem;
+    }
+
+    .stat-title {
+      font-size: 0.75rem;
+      color: #666666;
+    }
+
     .stat-content {
-      font-size: 1.5rem;
+      font-size: 1rem;
 
       .stat-unit {
-        font-size: 1.25rem;
+        font-size: 0.75rem;
       }
     }
 
@@ -38,14 +47,18 @@
         white-space: nowrap;
         text-overflow: ellipsis;
         display: inline-block;
-        padding-top: 0.35rem;
+        //padding-top: 0.35rem;
+        line-height: 1.25;
+        height: 1rem;
+        margin-top: 1px;
+        font-size: 0.75rem;
       }
     }
 
     @media screen and (min-width: 400px) {
       .attribute-wrapper--address {
         span {
-          inline-size: 220px;
+          inline-size: 180px;
         }
       }
     }
@@ -53,7 +66,7 @@
     @media screen and (min-width: 440px) {
       .attribute-wrapper--address {
         span {
-          inline-size: 240px;
+          inline-size: 220px;
         }
       }
     }

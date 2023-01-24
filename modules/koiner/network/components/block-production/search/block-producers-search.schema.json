@@ -10,6 +10,15 @@
     "balance": {
       "type": "number"
     },
+    "vhpBalance": {
+      "type": "number"
+    },
+    "koinBalance": {
+      "type": "number"
+    },
+    "updatedAt": {
+      "type": "string"
+    },
     "balanceShort": {
       "type": "number"
     },

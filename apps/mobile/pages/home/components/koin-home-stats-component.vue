@@ -98,6 +98,10 @@
       :tooltip-item-width="100"
     />
 
+    <block-producers-statuses
+      v-if="blockProductionStore.blockProducers.length > 0"
+    />
+
     <counter-metric
       title="Transactions"
       :value="statsStore.chainStats.transactionCount"
@@ -144,24 +148,28 @@ import { defineComponent, ref } from 'vue';
 import { useKoinosStore } from 'stores/koinos';
 import { useKoinerStore } from 'stores/koiner';
 import { useStatsStore } from 'stores/stats';
-import CounterMetric from '@koiner/components/metrics/counter-metric.vue';
 import { useAccountStore } from 'stores/account';
+import { useBlockProductionStore } from 'stores/block-production';
+import CounterMetric from '@koiner/components/metrics/counter-metric.vue';
 import ManaBar from '@koiner/components/mana-bar.vue';
+import BlockProducersStatuses from '@koiner/network/components/block-production/block-producers-statuses.vue';
 
 export default defineComponent({
   name: 'KoinosHomeStatsComponent',
-  components: { ManaBar, CounterMetric },
+  components: { BlockProducersStatuses, ManaBar, CounterMetric },
   setup() {
     const koinosStore = useKoinosStore();
     const koinerStore = useKoinerStore();
     const statsStore = useStatsStore();
     const accountStore = useAccountStore();
+    const blockProductionStore = useBlockProductionStore();
 
     return {
       koinosStore,
       koinerStore,
       statsStore,
       accountStore,
+      blockProductionStore,
       manaCharged: ref(0),
     };
   },

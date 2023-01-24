@@ -45,8 +45,8 @@
             <token-holder-balances-metric
               v-if="
                 accountStore.addressesFilter.length > 0 &&
-                blockProducers &&
-                blockProducers.length > 0
+                blockProductionStore.blockProducers &&
+                blockProductionStore.blockProducers.length > 0
               "
               title="Total Rewards"
               :token-holders="blockProducers"
@@ -85,7 +85,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, ref, Ref, watch } from 'vue';
+import { computed, defineComponent, onMounted, ref, Ref } from 'vue';
 import { useKoinerStore } from 'stores/koiner';
 import { useStatsStore } from 'stores/stats';
 import { useAccountStore } from 'stores/account';
@@ -93,8 +93,7 @@ import AddressFilterDialog from '@koiner/components/search/address-filter-dialog
 import TokenBalancesComponent from '@koiner/account/mobile/components/token-balances-component.vue';
 import BlockRewardsTable from '@koiner/network/components/block-production/search/view/block-rewards-table.vue';
 import TokenHolderBalancesMetric from '@koiner/tokenize/components/holder/metric/token-holder-balances-metric.vue';
-import { TokenHolder } from '@koiner/sdk';
-import { SearchRequestType, useSearchManager } from '@appvise/search-manager';
+import { useBlockProductionStore } from 'stores/block-production';
 
 export default defineComponent({
   name: 'AccountMobileIndexPage',
@@ -109,68 +108,34 @@ export default defineComponent({
     const koinerStore = useKoinerStore();
     const statsStore = useStatsStore();
     const accountStore = useAccountStore();
+    const blockProductionStore = useBlockProductionStore();
 
     const tab: Ref<string> = ref('portfolio');
     const openDialog = ref(false);
 
-    const blockProducersSearch = useSearchManager('blockProducers');
-
-    const loadBlockProducers = async () => {
-      if (accountStore.addressesFilter.length > 0) {
-        const request: SearchRequestType = {
-          first: 100,
-          filter: {
-            AND: [
-              {
-                OR: accountStore.addressesFilter.map((address) => {
-                  return {
-                    addressId: {
-                      equals: address,
-                    },
-                  };
-                }),
-              },
-            ],
-          },
-        };
-
-        await blockProducersSearch.search(request);
-      } else {
-        blockProducersSearch.reset();
-      }
-    };
-
     onMounted(async () => {
       openDialog.value = accountStore.addressesFilter.length === 0;
-
-      await loadBlockProducers();
     });
-
-    watch(
-      accountStore,
-      async () => {
-        await loadBlockProducers();
-      },
-      { deep: true }
-    );
 
     return {
       koinerStore,
       statsStore,
       accountStore,
+      blockProductionStore,
       tab,
       openDialog,
 
       blockProducers: computed(() => {
+        return [];
         // Transform BlockProducer profits to TokenHolder for input of component
-        return blockProducersSearch.connection.value?.edges?.map((edge) => {
-          return {
-            addressId: edge.node.addressId,
-            balance: edge.node.balance,
-            contract: koinerStore.koinContract,
-            contractId: koinerStore.koinContract.id,
-          } as TokenHolder;
-        });
+        // return blockProductionStore.blockProducers.map((blockProducer) => {
+        //   return {
+        //     addressId: blockProducer.addressId,
+        //     balance: blockProducer.balance,
+        //     contract: koinerStore.koinContract,
+        //     contractId: koinerStore.koinContract.id,
+        //   } as TokenHolder;
+        // });
       }),
     };
   },

@@ -21,6 +21,16 @@ query BlockProducersSearch(
         mintedTotal
         burnedTotal
         blocksProduced
+        lastProducedBlock
+        updatedAt
+        koinBalance {
+          id
+          balance
+        }
+        vhpBalance {
+          id
+          balance
+        }
       }
       __typename
     }

@@ -10,16 +10,15 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, ref, watch } from 'vue';
-import KoinerLogo from 'src/components/koiner-logo.vue';
 import { useAccountStore } from 'stores/account';
 import { useKoinosStore } from 'stores/koinos';
 import { useKoinerStore } from 'stores/koiner';
 import { useStatsStore } from 'stores/stats';
 import { useBookmarkStore } from '@koiner/bookmarks';
 import MobileMainNavigation from '../components/mobile-main-navigation.vue';
-import MobileDrawerNavigation from '../components/mobile-drawer-navigation.vue';
 import { useWindowSize } from '@vueuse/core';
 import { useRoute, useRouter } from 'vue-router';
+import { useBlockProductionStore } from 'stores/block-production';
 
 export default defineComponent({
   name: 'MainLayout',
@@ -28,6 +27,7 @@ export default defineComponent({
   },
   setup() {
     const accountStore = useAccountStore();
+    const blockProductionStore = useBlockProductionStore();
     const koinosStore = useKoinosStore();
     const koinerStore = useKoinerStore();
     const statsStore = useStatsStore();
@@ -39,6 +39,7 @@ export default defineComponent({
     koinosStore.load();
     statsStore.load();
     accountStore.load(koinerStore.environment);
+    blockProductionStore.load(koinerStore.environment);
     bookmarkStore.load(koinerStore.environment);
 
     const redirect = () => {
@@ -59,6 +60,16 @@ export default defineComponent({
       bookmarkStore,
       () => {
         accountStore.syncAddressFilter(bookmarkStore.bookmarkKeys('addresses'));
+      },
+      { deep: true }
+    );
+
+    watch(
+      accountStore,
+      () => {
+        // blockProductionStore.syncAddressFilter(
+        //   bookmarkStore.bookmarkKeys('addresses')
+        // );
       },
       { deep: true }
     );
