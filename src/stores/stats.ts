@@ -3,6 +3,8 @@ import { watch } from 'vue';
 import { useQuery } from '@urql/vue';
 import { useKoinerStore } from 'stores/koiner';
 import { localizedTokenAmount, tokenAmount } from '@koiner/utils';
+import axios from 'axios';
+import { koinerConfig } from 'app/koiner.config';
 
 export const useStatsStore = defineStore({
   id: 'stats',
@@ -10,6 +12,7 @@ export const useStatsStore = defineStore({
   state: () => ({
     realtimeUpdates: true as boolean,
     chainStats: {
+      height: 0 as number,
       addressCount: 0 as number,
       operationCount: 0 as number,
       transactionCount: 0 as number,
@@ -164,6 +167,23 @@ export const useStatsStore = defineStore({
       // Calling load method now will cause cannot useQuery outside setup error.
       window.location.reload();
     },
+    async loadHeight() {
+      const koinerStore = useKoinerStore();
+
+      const checkerApi = axios.create({
+        baseURL: koinerConfig[koinerStore.environment].checker,
+      });
+
+      const response = await checkerApi.get('chain/height');
+
+      if (response.data) {
+        this.$patch({
+          chainStats: {
+            height: Number(response.data),
+          },
+        });
+      }
+    },
     load() {
       const koinerStore = useKoinerStore();
       const countsQuery = `query KoinerStats {
@@ -305,14 +325,8 @@ export const useStatsStore = defineStore({
         { deep: true }
       );
 
-      if (this.realtimeUpdates) {
-        // Fetch stats every 15 seconds
-        this.$patch({
-          intervalId: setInterval(reloadStats, 15000),
-        });
-      }
-
-      async function reloadStats() {
+      const reloadStats = async () => {
+        // async function reloadStats() {
         // Reload
         result.executeQuery({
           requestPolicy: 'network-only',
@@ -320,6 +334,15 @@ export const useStatsStore = defineStore({
 
         resultTS.executeQuery({
           requestPolicy: 'network-only',
+        });
+
+        this.loadHeight().then();
+      };
+
+      if (this.realtimeUpdates) {
+        // Fetch stats every 15 seconds
+        this.$patch({
+          intervalId: setInterval(reloadStats, 15000),
         });
       }
 
