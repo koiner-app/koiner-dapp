@@ -74,10 +74,18 @@
 
       <div v-if="parseInt(koinBalance) > 0">
         <div class="row q-mt-md q-mb-xs">
-          <div class="col">Expected producing ratio:</div>
+          <div class="col">Producing ratios:</div>
         </div>
         <div class="row">
-          <div class="col">Green:</div>
+          <div class="col">Expected:</div>
+          <div class="col">
+            1 in
+            {{ ratioOptimal.toFixed(0) }}
+            blocks
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">Green (exp * 2):</div>
           <div class="col">
             1 in
             {{ ratioGreen.toFixed(0) }}
@@ -85,7 +93,7 @@
           </div>
         </div>
         <div class="row">
-          <div class="col">Yellow:</div>
+          <div class="col">Yellow (exp * 5):</div>
           <div class="col">
             1 in
             {{ ratioYellow.toFixed(0) }}
@@ -139,6 +147,7 @@ export default defineComponent({
   setup(props) {
     const koinerStore = useKoinerStore();
     const statsStore = useStatsStore();
+    const ratioOptimal = ref(0);
     const ratioGreen = ref(0);
     const ratioYellow = ref(0);
     const lastInterval = ref(0);
@@ -165,7 +174,8 @@ export default defineComponent({
       const producerVhpSize = vhpSizeNumber(props.vhpBalance);
       const blockHeight = statsStore.chainStats.height - 60;
 
-      ratioGreen.value = producerVhpSize ? (100 / producerVhpSize) * 2 : 0;
+      ratioOptimal.value = producerVhpSize ? (100 / producerVhpSize) : 0;
+      ratioGreen.value = ratioOptimal.value * 2;
       ratioYellow.value = ratioGreen.value * 5;
       lastInterval.value = blockHeight - props.lastProducedBlock;
 
@@ -188,6 +198,7 @@ export default defineComponent({
     return {
       koinerStore,
       vhpSize,
+      ratioOptimal,
       ratioGreen,
       ratioYellow,
       lastInterval,
