@@ -4,9 +4,6 @@
       <q-toolbar>
         <q-toolbar-title>
           <koiner-logo />
-          <q-chip size="xs" color="primary" text-color="white" class="beta-chip"
-            >Beta</q-chip
-          >
         </q-toolbar-title>
 
         <mana-bar size="sm" class="q-mr-xs" />
