@@ -14,6 +14,7 @@
         )
       }}
       <router-link
+        v-if="linkToken"
         :to="{
           name: 'token',
           params: { id: koinerStore.koinContract.id },
@@ -27,6 +28,14 @@
           }}</q-tooltip>
         </span>
       </router-link>
+      <span v-else>
+        <span
+          >{{ koinerStore.koinContract.symbol
+          }}<q-tooltip :delay="500">{{
+            koinerStore.koinContract.name
+          }}</q-tooltip>
+        </span>
+      </span>
     </span>
   </attribute-wrapper>
 </template>
@@ -64,12 +73,17 @@ export default defineComponent({
       attributeControl.appliedOptions.value['decimals'] != null
         ? parseInt(attributeControl.appliedOptions.value['decimals'])
         : undefined;
+    const linkToken: boolean =
+      attributeControl.appliedOptions.value['linkToken'] != null
+        ? attributeControl.appliedOptions.value['linkToken']
+        : true;
 
     return {
       koinerStore,
       ...attributeControl,
       formattedTokenAmount,
       displayedDecimals,
+      linkToken,
     };
   },
 });
