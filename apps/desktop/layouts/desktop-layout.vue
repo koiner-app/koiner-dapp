@@ -77,6 +77,10 @@ export default defineComponent({
     blockProductionStore.load(koinerStore.environment);
     bookmarkStore.load(koinerStore.environment);
 
+    if (blockProductionStore.addressesFilter.length === 0) {
+      blockProductionStore.syncAddressFilterSelection(accountStore.addressesFilter);
+    }
+
     watch(
       bookmarkStore,
       () => {

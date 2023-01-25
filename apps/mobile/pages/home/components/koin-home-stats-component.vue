@@ -99,7 +99,7 @@
     />
 
     <block-producers-statuses
-      v-if="blockProductionStore.blockProducers.length > 0"
+      v-if="blockProductionStore.addressesFilter.length > 0"
     />
 
     <counter-metric
