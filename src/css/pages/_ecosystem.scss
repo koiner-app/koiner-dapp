@@ -1,3 +1,43 @@
+.layout--mobile {
+  .project-cards {
+    padding: 0.5rem;
+  }
+
+  .project-card {
+    width: 100%;
+    margin: 0.5rem;
+
+    @media (min-width: 768px) {
+      min-width: calc(50% - 1rem);
+      max-width: calc(50% - 1rem);
+    }
+
+    .project-title {
+      font-size: 1rem;
+
+      @media (min-width: 1200px) {
+        font-size: 1.125rem;
+      }
+    }
+
+    .project-description {
+      min-height: 60px;
+
+      @media (min-width: 768px) {
+        min-height: 100px;
+      }
+    }
+
+    .q-avatar__content {
+      border-radius: 50%;
+    }
+  }
+
+  .project-tag-button {
+    margin-bottom: 0.5rem;
+  }
+}
+
 .project-card {
   .project-title {
     font-weight: bold;
