@@ -25,10 +25,20 @@ export const mobileRoutes: RouteRecordRaw[] = [
 
           // Koiner Modules
           ...chainModuleMobileRoutes,
-          ...networkModuleMobileRoutes,
-          ...ecosystemModuleMobileRoutes,
           ...contractsModuleMobileRoutes,
           ...tokenizeModuleMobileRoutes,
+        ],
+      },
+
+      {
+        path: '/mobile/search',
+        component: () => import('../layouts/mobile-clean-layout.vue'),
+        children: [
+          {
+            name: 'mobile.search',
+            path: '',
+            component: () => import('../pages/mobile-search-page.vue'),
+          },
         ],
       },
 
@@ -36,6 +46,18 @@ export const mobileRoutes: RouteRecordRaw[] = [
         path: '/mobile/account',
         component: () => import('../layouts/mobile-clean-layout.vue'),
         children: [...accountModuleMobileRoutes],
+      },
+
+      {
+        path: '/mobile/ecosystem',
+        component: () => import('../layouts/mobile-clean-layout.vue'),
+        children: [...ecosystemModuleMobileRoutes],
+      },
+
+      {
+        path: '/mobile/network',
+        component: () => import('../layouts/mobile-clean-layout.vue'),
+        children: [...networkModuleMobileRoutes],
       },
     ],
   },

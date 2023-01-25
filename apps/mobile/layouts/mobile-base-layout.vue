@@ -46,7 +46,6 @@ export default defineComponent({
       blockProductionStore.syncAddressFilterSelection(accountStore.addressesFilter);
     }
 
-
     const redirect = () => {
       const desktopRedirects: { [key: string]: string } = {
         'mobile.ecosystem': 'ecosystem',
