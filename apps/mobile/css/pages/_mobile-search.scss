@@ -1,0 +1,18 @@
+.page--mobile-search {
+  .q-field--standout.q-field--dark {
+    .q-field__control {
+      background: #ffffff;
+    }
+
+    .q-field__native,
+    .q-field__prefix,
+    .q-field__suffix,
+    .q-field__input {
+      color: #000000 !important;
+    }
+
+    .q-field__marginal {
+      color: rgba(0, 0, 0, 0.54) !important;
+    }
+  }
+}

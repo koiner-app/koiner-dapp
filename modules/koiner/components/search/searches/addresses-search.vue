@@ -18,7 +18,7 @@
         "
       >
         <q-item-section>
-          <q-item-label :class="dark ? 'text-white' : ''">
+          <q-item-label>
             {{ edge.node.id }}
           </q-item-label>
         </q-item-section>

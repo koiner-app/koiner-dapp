@@ -70,6 +70,11 @@ export default defineComponent({
         icon: 'dashboard',
       },
       {
+        name: 'Search',
+        to: '/mobile/search',
+        icon: 'fa-solid fa-search',
+      },
+      {
         name: 'Portfolio',
         to: '/mobile/account',
         icon: 'fa-solid fa-chart-pie',

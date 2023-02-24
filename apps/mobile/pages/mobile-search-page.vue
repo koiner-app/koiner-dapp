@@ -1,10 +1,10 @@
 <template>
   <q-page class="row items-start">
     <q-card
-      style="width: 100%"
+      style="width: 100%; min-height: 100vh"
     >
       <q-card-section class="q-pt-lg">
-        <q-input dark dense standout v-model="search">
+        <q-input dense standout autofocus v-model="search">
           <template v-slot:prepend>
             <q-icon name="search" size="xs" />
           </template>
@@ -19,12 +19,7 @@
         </q-input>
       </q-card-section>
 
-      <pages-search :search="trimmedSearch" :mobile="mobile" />
-      <token-contracts-search :search="trimmedSearch" :mobile="mobile" />
-      <addresses-search :search="trimmedSearch" :mobile="mobile" />
-      <contracts-search :search="trimmedSearch" :mobile="mobile" />
-      <blocks-search :search="trimmedSearch" :mobile="mobile" />
-      <transactions-search :search="trimmedSearch" :mobile="mobile" />
+      <addresses-search :search="trimmedSearch" :mobile="true" />
       <projects-mobile-search :search="trimmedSearch" />
     </q-card>
   </q-page>
@@ -34,11 +29,6 @@
 import { computed, defineComponent, ref, watch, watchEffect } from 'vue';
 import { useMagicKeys } from '@vueuse/core';
 import AddressesSearch from '@koiner/components/search/searches/addresses-search.vue';
-import TokenContractsSearch from '@koiner/components/search/searches/token-contracts-search.vue';
-import ContractsSearch from '@koiner/components/search/searches/contracts-search.vue';
-import BlocksSearch from '@koiner/components/search/searches/blocks-search.vue';
-import TransactionsSearch from '@koiner/components/search/searches/transactions-search.vue';
-import PagesSearch from '@koiner/components/search/searches/pages-search.vue';
 import posthog from 'posthog-js';
 import ProjectsMobileSearch from '@koiner/components/search/searches/mobile/projects-mobile-search.vue';
 
@@ -47,18 +37,9 @@ export default defineComponent({
   components: {
     ProjectsMobileSearch,
     AddressesSearch,
-    BlocksSearch,
-    ContractsSearch,
-    PagesSearch,
-    TokenContractsSearch,
-    TransactionsSearch,
   },
   props: {
     openDialog: {
-      required: false,
-      type: Boolean,
-    },
-    mobile: {
       required: false,
       type: Boolean,
     },

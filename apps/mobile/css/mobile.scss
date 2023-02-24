@@ -63,3 +63,10 @@
     padding: 0.25rem 0.5rem;
   }
 }
+
+.q-dialog {
+  .q-card.q-dark.project-card {
+    background-color: $dark-page-3 !important;
+    min-width: calc(100% - 2rem);
+  }
+}

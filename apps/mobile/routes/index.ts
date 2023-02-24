@@ -24,10 +24,15 @@ export const mobileRoutes: RouteRecordRaw[] = [
           },
 
           // Koiner Modules
-          ...chainModuleMobileRoutes,
           ...contractsModuleMobileRoutes,
           ...tokenizeModuleMobileRoutes,
         ],
+      },
+
+      {
+        path: '/mobile/chain',
+        component: () => import('../layouts/mobile-clean-layout.vue'),
+        children: [...chainModuleMobileRoutes],
       },
 
       {
