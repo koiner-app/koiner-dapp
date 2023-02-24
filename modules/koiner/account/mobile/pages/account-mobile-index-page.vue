@@ -38,6 +38,17 @@
           </q-tab-panel>
 
           <q-tab-panel
+            name="history"
+            class="tab--mobile-network"
+            style="padding: 0 !important; min-height: 100vh"
+          >
+            <account-mobile-history
+              v-if="accountStore.addressesFilter.length > 0"
+              :addresses="accountStore.addressesFilter"
+            />
+          </q-tab-panel>
+
+          <q-tab-panel
             name="rewards"
             class="tab--mobile-network"
             style="padding: 0 !important; min-height: 100vh"
@@ -76,6 +87,12 @@
         <q-tab
           class="text-overline"
           :ripple="false"
+          label="History"
+          name="history"
+        />
+        <q-tab
+          class="text-overline"
+          :ripple="false"
           label="Rewards"
           name="rewards"
         />
@@ -95,10 +112,12 @@ import BlockRewardsTable from '@koiner/network/components/block-production/searc
 import TokenHolderBalancesMetric from '@koiner/tokenize/components/holder/metric/token-holder-balances-metric.vue';
 import { useBlockProductionStore } from 'stores/block-production';
 import { TokenHolder } from '@koiner/sdk';
+import AccountMobileHistory from '@koiner/account/mobile/components/account-mobile-history.vue';
 
 export default defineComponent({
   name: 'AccountMobileIndexPage',
   components: {
+    AccountMobileHistory,
     TokenHolderBalancesMetric,
     BlockRewardsTable,
     TokenBalancesComponent,
