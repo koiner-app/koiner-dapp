@@ -27,10 +27,6 @@
       }
     }
 
-    .attribute--producer-index {
-      color: #ffffff;
-    }
-
     .attribute--producer-status {
       height: 1rem;
       width: 14px;
@@ -46,22 +42,14 @@
       }
     }
 
-    .attribute-wrapper--address {
-    }
-
     .attribute-wrapper--vhp-balance {
       margin-top: 2px;
       height: 1rem;
       font-size: 0.75rem;
     }
 
-    .attribute--total-rewards {
-      color: #ffffff;
-    }
-
     .attribute--blocks-produced {
       font-size: 0.75rem;
-      color: #666666 !important;
     }
   }
 }
@@ -75,6 +63,14 @@
 
       .attribute--blocks-produced {
         color: #666666 !important;
+      }
+
+      .attribute--producer-index {
+        color: #ffffff;
+      }
+
+      .attribute--total-rewards {
+        color: #ffffff;
       }
     }
   }

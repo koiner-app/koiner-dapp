@@ -1,5 +1,5 @@
 <template>
-  <div :class="`text-grey-8 q-gutter-xs attribute-group ${customClass}`">
+  <div :class="`q-gutter-xs attribute-group ${customClass}`">
     <span v-if="before" class="before-attribute-group">{{ before }}</span>
     <dispatch-renderer
       v-for="(attribute, attributeIndex) in control.uischema.elements"
