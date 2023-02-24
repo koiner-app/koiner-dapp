@@ -28,8 +28,8 @@
 import { defineComponent } from 'vue';
 import { useSearchStore } from 'stores/search';
 import { KoinerRenderers } from '@koiner/renderers';
-import tokenContractsSearchSchema from '../../../components/contract/search/token-contracts-search.schema.json';
-import tokenContractsSearchUiSchema from '../../../components/contract/search/view/token-contracts-table.ui-schema.json';
+import schema from '../../../components/contract/search/token-contracts-search.schema.json';
+import uiSchema from '../../../components/contract/search/view/token-contracts-table.ui-schema.json';
 import TokenContractsTable from '../../../components/contract/search/view/token-contracts-table.vue';
 import CounterMetric from '@koiner/components/metrics/counter-metric.vue';
 import { useStatsStore } from 'stores/stats';
@@ -49,8 +49,8 @@ export default defineComponent({
     return {
       statsStore,
       onScroll,
-      schema: tokenContractsSearchSchema,
-      uiSchema: tokenContractsSearchUiSchema,
+      schema,
+      uiSchema,
       request: searchStore.tokenContracts.request,
       position: searchStore.tokenContracts.position,
       renderers: KoinerRenderers,

@@ -70,7 +70,7 @@ import { defineComponent, Ref, ref, watch } from 'vue';
 import BlocksComponent from './components/blocks-component.vue';
 import KoinosHomeStatsComponent from './components/koin-home-stats-component.vue';
 import ContractOperationsTable from '@koiner/contracts/components/contract/search/view/contracts-operations-table.vue';
-import TransactionsTable from '@koiner/chain/components/transaction/search/view/transactions-table.vue';
+import TransactionsTable from '@koiner/chain/transaction/search/view/transactions-table.vue';
 import TokensOperationsTable from '@koiner/tokenize/components/operation/search/view/tokens-operations-table.vue';
 import { useWindowSize } from '@vueuse/core';
 

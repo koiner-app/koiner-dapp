@@ -88,7 +88,7 @@
 import { computed, defineComponent, onMounted, ref, watch } from 'vue';
 import posthog from 'posthog-js';
 import AddressFilterResults from '@koiner/components/search/address-filter-dialog/address-filter-results.vue';
-import MobileAddressesFilter from '@koiner/chain/components/address/mobile-addresses-filter.vue';
+import MobileAddressesFilter from '@koiner/chain/address/mobile-addresses-filter.vue';
 import { useAccountStore } from 'stores/account';
 
 export default defineComponent({

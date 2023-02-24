@@ -61,8 +61,8 @@
 <script lang="ts">
 import { defineComponent, PropType, ref, Ref } from 'vue';
 import TokensOperationsTable from '@koiner/tokenize/components/operation/search/view/tokens-operations-table.vue';
-import TransactionsTable from '@koiner/chain/components/transaction/search/view/transactions-table.vue';
-import AccountAddressesFilter from '@koiner/chain/components/address/account-addresses-filter.vue';
+import TransactionsTable from '@koiner/chain/transaction/search/view/transactions-table.vue';
+import AccountAddressesFilter from '@koiner/chain/address/account-addresses-filter.vue';
 import ContractEventsTable from '@koiner/contracts/components/contract/search/view/contracts-events-table.vue';
 import { useAccountStore } from 'stores/account';
 import TokensEventsTable from '@koiner/tokenize/components/event/search/view/tokens-events-table.vue';

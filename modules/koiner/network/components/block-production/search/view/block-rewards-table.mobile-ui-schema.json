@@ -33,7 +33,7 @@
               "label": "Height",
               "scope": "#/properties/blockHeight",
               "options": {
-                "route": "block",
+                "route": "mobile.block",
                 "format": "link",
                 "linkParams": ["height"],
                 "mapping": "blockHeight",

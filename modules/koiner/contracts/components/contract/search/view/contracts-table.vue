@@ -25,8 +25,8 @@ import { useSearchStore } from 'stores/search';
 import { KoinerRenderers } from '@koiner/renderers';
 import SearchFilters from '@appvise/search-manager/search-filters.vue';
 import QJsonSearch from '@appvise/q-json-forms/QJsonSearch.vue';
-import contractsSearchSchema from '../contracts-search.schema.json';
-import contractsSearchUiSchema from './contracts-table.ui-schema.json';
+import schema from '../contracts-search.schema.json';
+import uiSchema from './contracts-table.ui-schema.json';
 
 export default defineComponent({
   name: 'ContractsTable',
@@ -47,8 +47,8 @@ export default defineComponent({
 
     return {
       onScroll,
-      schema: contractsSearchSchema,
-      uiSchema: contractsSearchUiSchema,
+      schema,
+      uiSchema,
       request: searchStore.contracts.request,
       position: searchStore.contracts.position,
       renderers: KoinerRenderers,

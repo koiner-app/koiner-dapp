@@ -18,8 +18,8 @@
 import { defineComponent, Ref, ref } from 'vue';
 import { useDialogPluginComponent, useQuasar } from 'quasar';
 import { JsonFormsChangeEvent } from '@jsonforms/vue';
-import addProjectSchema from './add-project.schema.json';
-import addProjectUiSchema from './add-project.uischema.json';
+import schema from './add-project.schema.json';
+import uiSchema from './add-project.uischema.json';
 import { useI18n } from 'vue-i18n';
 import QJsonForms from '@appvise/q-json-forms/QJsonForms.vue';
 import axios from 'axios';
@@ -35,11 +35,11 @@ export default defineComponent({
     ...useDialogPluginComponent.emits,
   ],
 
-  setup(props, { emit }) {
+  setup() {
     const $q = useQuasar();
 
     // Required for dialog
-    const { dialogRef, onDialogHide, onDialogOK, onDialogCancel } =
+    const { dialogRef, onDialogHide, onDialogCancel } =
       useDialogPluginComponent();
 
     const formData: Ref<Record<string, unknown>> = ref({
@@ -111,8 +111,8 @@ export default defineComponent({
       onDialogHide,
 
       formData,
-      schema: addProjectSchema,
-      uiSchema: addProjectUiSchema,
+      schema,
+      uiSchema,
       submit,
       cancel,
     };

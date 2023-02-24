@@ -1,7 +1,7 @@
 import { RouteRecordRaw } from 'vue-router';
 import { accountModuleMobileRoutes } from '@koiner/account/mobile/routes';
 
-import { chainModuleMobileRoutes } from '@koiner/chain/mobile/routes';
+import { chainModuleMobileRoutes } from '@koiner/chain/mobile-routes';
 import { contractsModuleMobileRoutes } from '@koiner/contracts/mobile/routes';
 import { ecosystemModuleMobileRoutes } from '@koiner/ecosystem/mobile/routes';
 import { networkModuleMobileRoutes } from '@koiner/network/mobile/routes';

@@ -1,7 +1,7 @@
 import { RouteRecordRaw } from 'vue-router';
 import { accountModuleDesktopRoutes } from '@koiner/account/desktop/routes';
 
-import { chainModuleRoutes } from '@koiner/chain/desktop/routes';
+import { chainModuleRoutes } from '@koiner/chain/desktop-routes';
 import { contractsModuleDesktopRoutes } from '@koiner/contracts/desktop/routes';
 import { networkModuleDesktopRoutes } from '@koiner/network/desktop/routes';
 import { tokenizeModuleRoutes } from '@koiner/tokenize/desktop/routes';

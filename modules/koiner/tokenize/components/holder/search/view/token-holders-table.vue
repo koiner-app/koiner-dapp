@@ -24,8 +24,8 @@ import { defineComponent } from 'vue';
 import { KoinerRenderers } from '@koiner/renderers';
 import SearchFilters from '@appvise/search-manager/search-filters.vue';
 import QJsonSearch from '@appvise/q-json-forms/QJsonSearch.vue';
-import tokenHoldersSearchSchema from '../token-holders-search.schema.json';
-import tokenHoldersSearchUiSchema from './token-holders-table.ui-schema.json';
+import schema from '../token-holders-search.schema.json';
+import uiSchema from './token-holders-table.ui-schema.json';
 
 export default defineComponent({
   name: 'TokenHoldersTable',
@@ -43,8 +43,8 @@ export default defineComponent({
 
   setup(props) {
     return {
-      schema: tokenHoldersSearchSchema,
-      uiSchema: tokenHoldersSearchUiSchema,
+      schema,
+      uiSchema,
       request: {
         filter: {
           contractId: { equals: props.contractId },

@@ -73,7 +73,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, ref, Ref } from 'vue';
-import AccountAddressesFilter from '@koiner/chain/components/address/account-addresses-filter.vue';
+import AccountAddressesFilter from '@koiner/chain/address/account-addresses-filter.vue';
 import TokenBalancesTable from '@koiner/tokenize/components/holder/search/view/token-balances-table.vue';
 import TokenHolderBalancesMetric from '@koiner/tokenize/components/holder/metric/token-holder-balances-metric.vue';
 import { TokenHolder, TokenHoldersConnection } from '@koiner/sdk';

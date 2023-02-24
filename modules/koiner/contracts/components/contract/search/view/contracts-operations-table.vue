@@ -24,8 +24,8 @@ import { defineComponent, onMounted, PropType, watch } from 'vue';
 import { KoinerRenderers } from '@koiner/renderers';
 import SearchFilters from '@appvise/search-manager/search-filters.vue';
 import QJsonSearch from '@appvise/q-json-forms/QJsonSearch.vue';
-import operationsSearchSchema from '../contract-operations-search.schema.json';
-import operationsSearchUiSchema from './contract-operations-table.ui-schema.json';
+import schema from '../contract-operations-search.schema.json';
+import uiSchema from './contract-operations-table.ui-schema.json';
 import { useSearchStore } from 'stores/search';
 
 export default defineComponent({
@@ -137,8 +137,8 @@ export default defineComponent({
 
     return {
       onScroll,
-      schema: operationsSearchSchema,
-      uiSchema: operationsSearchUiSchema,
+      schema,
+      uiSchema,
       request: searchStore.contractOperations.request,
       position: searchStore.contractOperations.position,
       renderers: KoinerRenderers,

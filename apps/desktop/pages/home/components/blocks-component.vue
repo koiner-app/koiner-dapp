@@ -22,8 +22,8 @@ import { defineComponent } from 'vue';
 import { KoinerRenderers } from '@koiner/renderers';
 import SearchFilters from '@appvise/search-manager/search-filters.vue';
 import QJsonSearch from '@appvise/q-json-forms/QJsonSearch.vue';
-import blocksSearchSchema from '@koiner/chain/components/block/search/blocks-search.schema.json';
-import blocksHomeSearchUiSchema from '@koiner/chain/components/block/search/view/blocks-home-table.ui-schema.json';
+import schema from '@koiner/chain/block/search/blocks-search.schema.json';
+import uiSchema from '@koiner/chain/block/search/view/blocks-home-table.ui-schema.json';
 import { useSearchStore } from 'stores/search';
 
 export default defineComponent({
@@ -34,8 +34,8 @@ export default defineComponent({
     const searchStore = useSearchStore();
 
     return {
-      schema: blocksSearchSchema,
-      uiSchema: blocksHomeSearchUiSchema,
+      schema,
+      uiSchema,
       request: searchStore.blocks.request,
       renderers: KoinerRenderers,
     };

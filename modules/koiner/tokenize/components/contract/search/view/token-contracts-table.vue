@@ -28,8 +28,8 @@ import { useSearchStore } from 'stores/search';
 import { KoinerRenderers } from '@koiner/renderers';
 import SearchFilters from '@appvise/search-manager/search-filters.vue';
 import QJsonSearch from '@appvise/q-json-forms/QJsonSearch.vue';
-import tokenContractsSearchSchema from '../token-contracts-search.schema.json';
-import tokenContractsSearchUiSchema from './token-contracts-table.ui-schema.json';
+import schema from '../token-contracts-search.schema.json';
+import uiSchema from './token-contracts-table.ui-schema.json';
 
 export default defineComponent({
   name: 'TokenContractsTable',
@@ -50,8 +50,8 @@ export default defineComponent({
 
     return {
       onScroll,
-      schema: tokenContractsSearchSchema,
-      uiSchema: tokenContractsSearchUiSchema,
+      schema,
+      uiSchema,
       request: searchStore.tokenContracts.request,
       position: searchStore.tokenContracts.position,
       renderers: KoinerRenderers,
