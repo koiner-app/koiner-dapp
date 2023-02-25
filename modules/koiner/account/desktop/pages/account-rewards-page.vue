@@ -63,7 +63,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, } from 'vue';
-import BlockRewardsTable from '@koiner/network/components/block-production/search/view/block-rewards-table.vue';
+import BlockRewardsTable from '@koiner/network/block-production/search/view/block-rewards-table.vue';
 import AccountAddressesFilter from '@koiner/chain/address/account-addresses-filter.vue';
 import { TokenHolder } from '@koiner/sdk';
 import TokenHolderBalancesMetric from '@koiner/tokenize/components/holder/metric/token-holder-balances-metric.vue';

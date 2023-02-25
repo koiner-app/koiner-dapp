@@ -25,7 +25,8 @@ import { KoinerRenderers } from '@koiner/renderers';
 import SearchFilters from '@appvise/search-manager/search-filters.vue';
 import QJsonSearch from '@appvise/q-json-forms/QJsonSearch.vue';
 import schema from '../contract-events-search.schema.json';
-import uiSchema from './contract-events-table.ui-schema.json';
+import mobileUiSchema from './contract-events-table.mobile-ui-schema.json';
+import desktopUiSchema from './contract-events-table.ui-schema.json';
 import { useSearchStore } from 'stores/search';
 
 export default defineComponent({
@@ -51,6 +52,11 @@ export default defineComponent({
     parentId: {
       required: false,
       type: String,
+    },
+    mobile: {
+      required: false,
+      type: Boolean,
+      default: false,
     },
   },
 
@@ -116,7 +122,7 @@ export default defineComponent({
       if (props.parentId) {
         searchStore.contractEvents.request.filter.AND!.push({
           parentId: {
-            equals: props.parentId
+            equals: props.parentId,
           },
         });
       }
@@ -138,7 +144,7 @@ export default defineComponent({
     return {
       onScroll,
       schema,
-      uiSchema,
+      uiSchema: props.mobile ? mobileUiSchema : desktopUiSchema,
       request: searchStore.contractEvents.request,
       position: searchStore.contractEvents.position,
       renderers: KoinerRenderers,

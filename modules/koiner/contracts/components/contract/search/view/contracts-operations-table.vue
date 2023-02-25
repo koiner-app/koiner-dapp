@@ -25,7 +25,8 @@ import { KoinerRenderers } from '@koiner/renderers';
 import SearchFilters from '@appvise/search-manager/search-filters.vue';
 import QJsonSearch from '@appvise/q-json-forms/QJsonSearch.vue';
 import schema from '../contract-operations-search.schema.json';
-import uiSchema from './contract-operations-table.ui-schema.json';
+import mobileUiSchema from './contract-operations-table.mobile-ui-schema.json';
+import desktopUiSchema from './contract-operations-table.ui-schema.json';
 import { useSearchStore } from 'stores/search';
 
 export default defineComponent({
@@ -51,6 +52,11 @@ export default defineComponent({
     transactionId: {
       required: false,
       type: String,
+    },
+    mobile: {
+      required: false,
+      type: Boolean,
+      default: false,
     },
   },
 
@@ -138,7 +144,7 @@ export default defineComponent({
     return {
       onScroll,
       schema,
-      uiSchema,
+      uiSchema: props.mobile ? mobileUiSchema : desktopUiSchema,
       request: searchStore.contractOperations.request,
       position: searchStore.contractOperations.position,
       renderers: KoinerRenderers,

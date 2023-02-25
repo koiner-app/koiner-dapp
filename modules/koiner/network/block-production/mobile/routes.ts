@@ -7,7 +7,7 @@ export const networkModuleMobileRoutes: RouteRecordRaw[] = [
       {
         name: 'mobile.network',
         path: '',
-        component: () => import('../pages/network-index-page.vue'),
+        component: () => import('./pages/network-index-page.vue'),
       },
     ],
   },

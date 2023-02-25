@@ -24,7 +24,7 @@ import {
   useJsonAttribute,
   useQuasarAttribute,
 } from '@appvise/jsonsearch-quasar';
-import BlockProducerStatus from '@koiner/network/components/block-production/block-producer-status.vue';
+import BlockProducerStatus from '@koiner/network/block-production/block-producer-status.vue';
 
 export default defineComponent({
   name: 'ProducerStatusAttributeRenderer',

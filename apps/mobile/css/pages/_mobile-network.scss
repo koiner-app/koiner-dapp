@@ -1,5 +1,12 @@
-.page--mobile-network {
+.tab--mobile-network {
+  padding: 0 !important;
+  min-height: 100vh;
+
   .search-view-table {
+    .q-table td {
+      font-size: 0.75rem;
+    }
+
     &.regular-rows {
       .q-table thead {
         tr {
@@ -46,6 +53,7 @@
       margin-top: 2px;
       height: 1rem;
       font-size: 0.75rem;
+      opacity: 0.5;
     }
 
     .attribute--blocks-produced {

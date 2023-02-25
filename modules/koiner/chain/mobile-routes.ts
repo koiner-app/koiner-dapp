@@ -1,6 +1,7 @@
 import { RouteRecordRaw } from 'vue-router';
 import { addressMobileRoutes } from '@koiner/chain/address/mobile/routes';
 import { blockMobileRoutes } from '@koiner/chain/block/mobile/routes';
+import { transactionMobileRoutes } from '@koiner/chain/transaction/mobile/routes';
 
 export const chainModuleMobileRoutes: RouteRecordRaw[] = [
   {
@@ -10,4 +11,5 @@ export const chainModuleMobileRoutes: RouteRecordRaw[] = [
   },
   ...addressMobileRoutes,
   ...blockMobileRoutes,
+  ...transactionMobileRoutes,
 ];

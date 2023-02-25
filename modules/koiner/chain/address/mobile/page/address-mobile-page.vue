@@ -39,11 +39,11 @@
             />
           </q-tab-panel>
 
-          <q-tab-panel
-            name="rewards"
-            class="tab--mobile-network"
-            style="padding: 0 !important; min-height: 100vh"
-          >
+          <q-tab-panel name="history" class="tab--mobile-table">
+            <address-mobile-history v-if="id" :addresses="[id]" />
+          </q-tab-panel>
+
+          <q-tab-panel name="rewards" class="tab--mobile-table">
             <token-holder-balances-metric
               v-if="blockProducers && blockProducers.length > 0"
               title="Total Rewards"
@@ -76,6 +76,12 @@
         <q-tab
           class="text-overline"
           :ripple="false"
+          label="History"
+          name="history"
+        />
+        <q-tab
+          class="text-overline"
+          :ripple="false"
           label="Rewards"
           name="rewards"
         />
@@ -89,16 +95,18 @@ import { computed, defineComponent, onMounted, ref, Ref, watch } from 'vue';
 import { useKoinerStore } from 'stores/koiner';
 import { useStatsStore } from 'stores/stats';
 import TokenBalancesComponent from '@koiner/account/mobile/components/token-balances-component.vue';
-import BlockRewardsTable from '@koiner/network/components/block-production/search/view/block-rewards-table.vue';
+import BlockRewardsTable from '@koiner/network/block-production/search/view/block-rewards-table.vue';
 import TokenHolderBalancesMetric from '@koiner/tokenize/components/holder/metric/token-holder-balances-metric.vue';
 import { TokenHolder } from '@koiner/sdk';
 import { SearchRequestType, useSearchManager } from '@appvise/search-manager';
 import { useRoute } from 'vue-router';
 import { tokenAmount } from '@koiner/utils';
+import AddressMobileHistory from '@koiner/chain/address/mobile/components/address-mobile-history.vue';
 
 export default defineComponent({
   name: 'AddressMobilePage',
   components: {
+    AddressMobileHistory,
     TokenHolderBalancesMetric,
     BlockRewardsTable,
     TokenBalancesComponent,

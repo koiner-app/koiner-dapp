@@ -76,8 +76,9 @@ import { useSearchStore } from 'stores/search';
 import { KoinerRenderers } from '@koiner/renderers';
 import QJsonSearch from '@appvise/q-json-forms/QJsonSearch.vue';
 import SearchFilters from '@appvise/search-manager/search-filters.vue';
-import tokenEventsSearchSchema from '../token-events-search.schema.json';
-import tokenEventsSearchUiSchema from './token-events-table.ui-schema.json';
+import schema from '../token-events-search.schema.json';
+import mobileUiSchema from './token-events-table.mobile-ui-schema.json';
+import desktopUiSchema from './token-events-table.ui-schema.json';
 
 export default defineComponent({
   name: 'TokensEventsTable',
@@ -122,10 +123,14 @@ export default defineComponent({
       type: Boolean,
       default: true,
     },
+    mobile: {
+      required: false,
+      type: Boolean,
+      default: false,
+    },
   },
 
   setup(props) {
-    const uiSchema = ref(tokenEventsSearchUiSchema);
     const searchStore = useSearchStore();
 
     const burn: Ref<boolean> = ref(props.burnFilter);
@@ -263,8 +268,8 @@ export default defineComponent({
       mint,
       burn,
       onScroll,
-      schema: tokenEventsSearchSchema,
-      uiSchema,
+      schema,
+      uiSchema: props.mobile ? mobileUiSchema : desktopUiSchema,
       request: searchStore.tokenEvents.request,
       position: searchStore.tokenEvents.position,
       renderers: KoinerRenderers,

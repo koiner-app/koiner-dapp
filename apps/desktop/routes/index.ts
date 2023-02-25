@@ -3,7 +3,7 @@ import { accountModuleDesktopRoutes } from '@koiner/account/desktop/routes';
 
 import { chainModuleRoutes } from '@koiner/chain/desktop-routes';
 import { contractsModuleDesktopRoutes } from '@koiner/contracts/desktop/routes';
-import { networkModuleDesktopRoutes } from '@koiner/network/desktop/routes';
+import { networkModuleDesktopRoutes } from '@koiner/network/block-production/desktop';
 import { tokenizeModuleRoutes } from '@koiner/tokenize/desktop/routes';
 import { ecosystemModuleDesktopRoutes } from '@koiner/ecosystem/desktop/routes';
 

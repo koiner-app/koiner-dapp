@@ -3,20 +3,12 @@
     <q-card class="tabs-card" flat bordered>
       <q-card-section class="q-pt-xs q-px-none">
         <q-tab-panels v-model="tab" animated>
-          <q-tab-panel
-            name="producers"
-            class="tab--mobile-network"
-            style="padding: 0 !important; min-height: 100vh"
-          >
+          <q-tab-panel name="producers" class="tab--mobile-network">
             <block-producer-stats />
 
             <block-producers-component :mobile="true" />
           </q-tab-panel>
-          <q-tab-panel
-            name="rewards"
-            class="tab--mobile-network"
-            style="padding: 0 !important; min-height: 100vh"
-          >
+          <q-tab-panel name="rewards" class="tab--mobile-table">
             <block-rewards-component :mobile="true" />
           </q-tab-panel>
         </q-tab-panels>
@@ -44,9 +36,9 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, ref, Ref } from 'vue';
-import BlockProducersComponent from '../../components/block-production/search/view/block-producers-table.vue';
-import BlockRewardsComponent from '../../components/block-production/search/view/block-rewards-table.vue';
-import BlockProducerStats from '@koiner/network/components/block-production/stats/mobile/block-producer-stats.vue';
+import BlockProducersComponent from '../../search/view/block-producers-table.vue';
+import BlockRewardsComponent from '../../search/view/block-rewards-table.vue';
+import BlockProducerStats from '@koiner/network/block-production/stats/mobile/block-producer-stats.vue';
 import { useStatsStore } from 'stores/stats';
 
 export default defineComponent({

@@ -37,22 +37,14 @@
             />
           </q-tab-panel>
 
-          <q-tab-panel
-            name="history"
-            class="tab--mobile-network"
-            style="padding: 0 !important; min-height: 100vh"
-          >
-            <account-mobile-history
+          <q-tab-panel name="history" class="tab--mobile-table">
+            <address-mobile-history
               v-if="accountStore.addressesFilter.length > 0"
               :addresses="accountStore.addressesFilter"
             />
           </q-tab-panel>
 
-          <q-tab-panel
-            name="rewards"
-            class="tab--mobile-network"
-            style="padding: 0 !important; min-height: 100vh"
-          >
+          <q-tab-panel name="rewards" class="tab--mobile-table">
             <token-holder-balances-metric
               v-if="
                 accountStore.addressesFilter.length > 0 &&
@@ -108,16 +100,16 @@ import { useStatsStore } from 'stores/stats';
 import { useAccountStore } from 'stores/account';
 import AddressFilterDialog from '@koiner/components/search/address-filter-dialog/address-filter-dialog.vue';
 import TokenBalancesComponent from '@koiner/account/mobile/components/token-balances-component.vue';
-import BlockRewardsTable from '@koiner/network/components/block-production/search/view/block-rewards-table.vue';
+import BlockRewardsTable from '@koiner/network/block-production/search/view/block-rewards-table.vue';
 import TokenHolderBalancesMetric from '@koiner/tokenize/components/holder/metric/token-holder-balances-metric.vue';
 import { useBlockProductionStore } from 'stores/block-production';
 import { TokenHolder } from '@koiner/sdk';
-import AccountMobileHistory from '@koiner/account/mobile/components/account-mobile-history.vue';
+import AddressMobileHistory from '@koiner/chain/address/mobile/components/address-mobile-history.vue';
 
 export default defineComponent({
   name: 'AccountMobileIndexPage',
   components: {
-    AccountMobileHistory,
+    AddressMobileHistory,
     TokenHolderBalancesMetric,
     BlockRewardsTable,
     TokenBalancesComponent,

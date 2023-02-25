@@ -1,0 +1,155 @@
+.tab--mobile-table {
+  padding: 0 !important;
+  min-height: 100vh;
+
+  .q-tab__label {
+    font-size: 0.675rem;
+    line-height: 1.715em;
+    font-weight: 500;
+    min-height: 1rem;
+  }
+
+  .q-tab__indicator {
+    background: $accent !important;
+  }
+
+  .q-tab-panel {
+    padding: 0;
+  }
+
+  .search-view-table {
+    .q-table {
+      td {
+        font-size: 0.75rem;
+        vertical-align: top;
+      }
+
+      thead {
+        tr {
+          height: 2rem !important;
+        }
+
+        th {
+          font-size: 0.675rem !important;
+
+          &:not(:first-of-type):not(:last-of-type) {
+            padding: 0 0.5rem;
+          }
+        }
+      }
+    }
+
+    .attribute-wrapper--group-1,
+    .attribute-wrapper--group-2,
+    .attribute-wrapper--group-3 {
+      padding: 0.75rem 0;
+      white-space: pre-wrap;
+
+      .attribute-root:first-of-type {
+        inline-size: 100% !important;
+        width: 100%;
+      }
+
+      > div {
+        opacity: 0.5;
+
+        &:nth-of-type(1) {
+          opacity: 1;
+        }
+      }
+    }
+
+    .attribute-wrapper--group-1 {
+      min-width: 70px;
+    }
+
+    .attribute-wrapper--group-3 {
+      min-width: 70px;
+
+      .attribute-root:first-of-type {
+        padding-right: 0.25rem;
+      }
+    }
+
+    th {
+      &:last-of-type {
+        text-align: right;
+      }
+    }
+    td {
+      &:last-of-type {
+        text-align: right;
+      }
+    }
+
+    //
+    // Responsive
+    //
+
+    .q-table {
+      thead tr,
+      tbody.q-virtual-scroll__content td {
+        padding: 0 0.5rem;
+      }
+    }
+
+    .attribute-wrapper--address,
+    .attribute-wrapper--transaction {
+      span {
+        inline-size: 140px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        display: block;
+      }
+
+      .attribute-wrapper {
+        transform: translateY(6px);
+        margin-top: -5px;
+      }
+    }
+
+    @media screen and (min-width: 400px) {
+      .attribute-wrapper--address,
+      .attribute-wrapper--transaction {
+        span {
+          inline-size: 180px;
+        }
+      }
+    }
+
+    @media screen and (min-width: 440px) {
+      .attribute-wrapper--address,
+      .attribute-wrapper--transaction {
+        span {
+          inline-size: 220px;
+        }
+      }
+    }
+
+    @media screen and (min-width: 500px) {
+      .attribute-wrapper--address,
+      .attribute-wrapper--transaction {
+        span {
+          inline-size: 280px;
+        }
+      }
+    }
+
+    @media screen and (min-width: 520px) {
+      .q-table {
+        thead tr,
+        tbody.q-virtual-scroll__content td {
+          padding: 0 1rem;
+        }
+      }
+
+      .attribute-wrapper--address,
+      .attribute-wrapper--transaction {
+        span {
+          inline-size: auto;
+        }
+      }
+    }
+  }
+}

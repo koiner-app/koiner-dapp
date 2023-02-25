@@ -152,7 +152,7 @@ import { useAccountStore } from 'stores/account';
 import { useBlockProductionStore } from 'stores/block-production';
 import CounterMetric from '@koiner/components/metrics/counter-metric.vue';
 import ManaBar from '@koiner/components/mana-bar.vue';
-import BlockProducersStatuses from '@koiner/network/components/block-production/block-producers-statuses.vue';
+import BlockProducersStatuses from '@koiner/network/block-production/block-producers-statuses.vue';
 
 export default defineComponent({
   name: 'KoinosHomeStatsComponent',

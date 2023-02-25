@@ -82,8 +82,8 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, ref, Ref, watch } from 'vue';
-import BlockProducersComponent from '../../components/block-production/search/view/block-producers-table.vue';
-import BlockRewardsComponent from '../../components/block-production/search/view/block-rewards-table.vue';
+import BlockProducersComponent from '../../search/view/block-producers-table.vue';
+import BlockRewardsComponent from '../../search/view/block-rewards-table.vue';
 import { useKoinerStore } from 'stores/koiner';
 import { useStatsStore } from 'stores/stats';
 import CounterMetric from '@koiner/components/metrics/counter-metric.vue';

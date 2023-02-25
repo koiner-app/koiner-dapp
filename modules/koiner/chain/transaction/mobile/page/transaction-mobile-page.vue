@@ -1,28 +1,18 @@
 <template>
-  <q-page v-if="block" class="row items-start mobile-tab-page">
+  <q-page v-if="transaction" class="row items-start mobile-tab-page">
     <q-card class="tabs-card" flat bordered>
       <q-card-section class="q-pt-xs q-px-none">
         <q-tab-panels v-model="tab" animated>
           <q-tab-panel name="details">
             <q-card class="stats-cards" flat bordered>
-              <q-card-section>
-                <h5>Block</h5>
-              </q-card-section>
               <q-card-section horizontal>
-                <counter-metric title="Height" :value="block.header.height" />
-
-                <q-separator vertical />
-
-                <counter-metric
-                  title="Transactions"
-                  :value="block.transactionCount"
-                />
+                <counter-metric title="Transaction Id" :value="transaction.id" />
 
                 <q-separator vertical />
 
                 <counter-metric
                   title="Events"
-                  :value="block.receipt.eventCount"
+                  :value="transaction.receipt.eventCount"
                 />
               </q-card-section>
               <q-card-section
@@ -34,52 +24,35 @@
                     <q-card-section class="q-pa-none q-pt-xs">
                       <div class="text-overline">Details</div>
 
-                      <block-details-component :block="block" />
-                    </q-card-section>
-                  </q-card-section>
-                </q-card>
-
-                <q-card flat bordered>
-                  <q-card-section>
-                    <q-card-section class="q-pa-none q-pt-xs">
-                      <div class="text-overline">Block Reward</div>
-                      <block-producer-component :block="block" />
+                      <transaction-details-component :transaction="transaction" />
                     </q-card-section>
                   </q-card-section>
                 </q-card>
               </q-card-section>
             </q-card>
           </q-tab-panel>
-          <q-tab-panel
-            name="transactions"
-            class="tab--mobile-table"
-          >
-            <transactions-table
-              :heights="[block.header.height]"
-              :mobile="true"
-            />
-          </q-tab-panel>
           <q-tab-panel name="contract-operations" class="tab--mobile-table">
             <contract-operations-table
-              :heights="[block.header.height]"
+              :transaction-id="transaction.id"
               :mobile="true"
             />
           </q-tab-panel>
           <q-tab-panel name="token-operations" class="tab--mobile-table">
             <tokens-operations-table
-              :heights="[block.header.height]"
+              :transaction-ids="[transaction.id]"
               :mobile="true"
             />
           </q-tab-panel>
           <q-tab-panel name="token-events" class="tab--mobile-table">
             <tokens-events-table
-              :heights="[block.header.height]"
+              :parent-id="transaction.id"
+              parent-type="transaction"
               :mobile="true"
             />
           </q-tab-panel>
           <q-tab-panel name="events" class="tab--mobile-table">
             <contract-events-table
-              :heights="[block.header.height]"
+              :parent-id="transaction.id"
               :mobile="true"
             />
           </q-tab-panel>
@@ -92,14 +65,8 @@
         <q-tab
           class="text-overline"
           :ripple="false"
-          label="Details"
+          label="Tx Details"
           name="details"
-        />
-        <q-tab
-          class="text-overline"
-          :ripple="false"
-          label="Tx"
-          name="transactions"
         />
         <q-tab
           class="text-overline"
@@ -137,22 +104,18 @@ import CounterMetric from '@koiner/components/metrics/counter-metric.vue';
 import TokensOperationsTable from '@koiner/tokenize/components/operation/search/view/tokens-operations-table.vue';
 import TokensEventsTable from '@koiner/tokenize/components/event/search/view/tokens-events-table.vue';
 import { useRoute } from 'vue-router';
-import BlockDetailsComponent from '@koiner/chain/block/block-details-component.vue';
+import TransactionDetailsComponent from '@koiner/chain/transaction/transaction-details-component.vue';
 import ContractOperationsTable from '@koiner/contracts/components/contract/search/view/contracts-operations-table.vue';
-import TransactionsTable from '@koiner/chain/transaction/search/view/transactions-table.vue';
 import { ItemState } from '@appvise/search-manager';
-import { Block, useBlockPageQuery } from '@koiner/sdk';
-import BlockProducerComponent from '@koiner/chain/block/block-producer-component.vue';
+import { Transaction, useTransactionPageQuery } from '@koiner/sdk';
 import ContractEventsTable from '@koiner/contracts/components/contract/search/view/contracts-events-table.vue';
 
 export default defineComponent({
-  name: 'BlockMobilePage',
+  name: 'TransactionMobilePage',
   components: {
     ContractEventsTable,
-    BlockProducerComponent,
-    TransactionsTable,
     ContractOperationsTable,
-    BlockDetailsComponent,
+    TransactionDetailsComponent,
     TokensEventsTable,
     TokensOperationsTable,
     CounterMetric,
@@ -164,16 +127,16 @@ export default defineComponent({
 
     const tab: Ref<string> = ref('details');
 
-    const itemState = ItemState.create<Block>();
-    const variables: Ref<{ height: string }> = ref({ height: '' });
+    const itemState = ItemState.create<Transaction>();
+    const variables: Ref<{ id: string }> = ref({ id: '' });
 
     const executeQuery = () => {
-      const { data, fetching, error, isPaused } = useBlockPageQuery({
+      const { data, fetching, error, isPaused } = useTransactionPageQuery({
         variables,
       });
 
       watch(data, (updatedData) => {
-        itemState.item.value = updatedData?.block as Block;
+        itemState.item.value = updatedData?.transaction as Transaction;
       });
 
       itemState.error = error;
@@ -181,7 +144,7 @@ export default defineComponent({
       itemState.isPaused = isPaused;
     };
 
-    variables.value.height = route.params.height.toString();
+    variables.value.id = route.params.id.toString();
 
     executeQuery();
 
@@ -191,10 +154,10 @@ export default defineComponent({
     itemState.isPaused.value = false;
 
     watch(
-      () => route.params.height,
-      async (newHeight) => {
-        itemState.isPaused.value = !newHeight;
-        variables.value.height = newHeight ? newHeight.toString() : '';
+      () => route.params.id,
+      async (newId) => {
+        itemState.isPaused.value = !newId;
+        variables.value.id = newId ? newId.toString() : '';
       }
     );
 
@@ -203,7 +166,7 @@ export default defineComponent({
       statsStore,
 
       itemState,
-      block: itemState.item,
+      transaction: itemState.item,
       error: itemState.error,
     };
   },

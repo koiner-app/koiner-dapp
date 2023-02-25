@@ -16,7 +16,7 @@
 import { defineComponent, PropType, ref, Ref } from 'vue';
 import { KoinerRenderers } from '@koiner/renderers';
 import QJsonSearch from '@appvise/q-json-forms/QJsonSearch.vue';
-import blockProducersSearchSchema from '..//block-producers-search.schema.json';
+import blockProducersSearchSchema from '../block-producers-search.schema.json';
 import desktopUiSchema from './block-producers-table.ui-schema.json';
 import mobileUiSchema from './block-producers-table.mobile-ui-schema.json';
 import { QueryBlockProducersArgs } from '@koiner/sdk';

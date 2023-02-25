@@ -16,7 +16,7 @@
 import { defineComponent, onMounted, PropType, ref, Ref, watch } from 'vue';
 import { KoinerRenderers } from '@koiner/renderers';
 import QJsonSearch from '@appvise/q-json-forms/QJsonSearch.vue';
-import blockRewardsSearchSchema from '..//block-rewards-search.schema.json';
+import blockRewardsSearchSchema from '../block-rewards-search.schema.json';
 import { QueryBlockRewardsArgs } from '@koiner/sdk';
 import mobileUiSchema from './block-rewards-table.mobile-ui-schema.json';
 import desktopUiSchema from './block-rewards-table.ui-schema.json';

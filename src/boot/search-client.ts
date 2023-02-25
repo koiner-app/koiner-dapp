@@ -10,8 +10,8 @@ import { OperationsSearchProvider } from '@koiner/chain/operation/search/operati
 import { ContractsSearchProvider } from '@koiner/contracts/components/contract/search/contracts-search-provider';
 import { ContractEventsSearchProvider } from '@koiner/contracts/components/contract/search/contract-events-search-provider';
 import { ContractOperationsSearchProvider } from '@koiner/contracts/components/contract/search/contract-operations-search-provider';
-import { BlockProducersSearchProvider } from '@koiner/network/components/block-production/search/block-producers-search-provider';
-import { BlockRewardsSearchProvider } from '@koiner/network/components/block-production/search/block-rewards-search-provider';
+import { BlockProducersSearchProvider } from '@koiner/network/block-production/search/block-producers-search-provider';
+import { BlockRewardsSearchProvider } from '@koiner/network/block-production/search/block-rewards-search-provider';
 import { TokenContractsSearchProvider } from '@koiner/tokenize/components//contract/search/token-contract-search-provider';
 import { TokenEventsSearchProvider } from '@koiner/tokenize/components//event/search/token-events-search-provider';
 import { TokenHoldersSearchProvider } from '@koiner/tokenize/components//holder/search/token-holder-search-provider';

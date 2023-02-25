@@ -119,7 +119,7 @@ import BlockProducerComponent from '@koiner/chain/block/block-producer-component
 import ContractEventsTable from '@koiner/contracts/components/contract/search/view/contracts-events-table.vue';
 
 export default defineComponent({
-  name: 'NetworkIndexPage',
+  name: 'BlockPage',
   components: {
     ContractEventsTable,
     BlockProducerComponent,
@@ -139,9 +139,6 @@ export default defineComponent({
 
     const itemState = ItemState.create<Block>();
     const variables: Ref<{ height: string }> = ref({ height: '' });
-
-    // const account = useAccountStore();
-    // const block: Ref<Block | undefined> = ref();
 
     const executeQuery = () => {
       const { data, fetching, error, isPaused } = useBlockPageQuery({

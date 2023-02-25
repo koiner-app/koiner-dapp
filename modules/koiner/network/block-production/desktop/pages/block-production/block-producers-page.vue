@@ -93,7 +93,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import BlockProducersComponent from '../../../components/block-production/search/view/block-producers-table.vue';
+import BlockProducersComponent from '../../../search/view/block-producers-table.vue';
 import { useKoinerStore } from 'stores/koiner';
 import { useStatsStore } from 'stores/stats';
 import CounterMetric from '@koiner/components/metrics/counter-metric.vue';

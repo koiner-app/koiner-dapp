@@ -10,7 +10,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import BlockRewardsComponent from '../../../components/block-production/search/view/block-rewards-table.vue';
+import BlockRewardsComponent from '../../../search/view/block-rewards-table.vue';
 
 export default defineComponent({
   name: 'BlockRewardsPage',

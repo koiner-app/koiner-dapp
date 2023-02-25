@@ -5,7 +5,7 @@
       "type": "TableView",
       "options": {
         "search": {
-          "provider": "transactions"
+          "provider": "tokenEvents"
         }
       },
       "elements": [
@@ -46,7 +46,7 @@
         },
         {
           "type": "AttributeGroup",
-          "label": "Tx / Cp - St - Bw",
+          "label": "From / To",
           "scope": "#/properties/group2",
           "options": {
             "class": "attribute-wrapper--group-2"
@@ -54,76 +54,57 @@
           "elements": [
             {
               "type": "Attribute",
-              "label": "ID",
-              "scope": "#/properties/id",
+              "label": "From",
+              "scope": "#/properties/from",
               "options": {
-                "format": "transaction",
-                "mapping": "id",
-                "route": "mobile.transaction",
-                "class": "attribute-wrapper--transaction"
+                "format": "address",
+                "mapping": "from",
+                "class": "attribute-wrapper--address"
               }
             },
             {
               "type": "Attribute",
-              "label": "Compute",
-              "scope": "#/properties/receipt/properties/computeBandwidthUsed",
+              "label": "To",
+              "scope": "#/properties/to",
               "options": {
-                "mapping": "receipt.computeBandwidthUsed"
-              }
-            },
-            {
-              "type": "Attribute",
-              "label": "Storage",
-              "scope": "#/properties/receipt/properties/diskStorageUsed",
-              "options": {
-                "before": "- ",
-                "mapping": "receipt.diskStorageUsed"
-              }
-            },
-            {
-              "type": "Attribute",
-              "label": "Network",
-              "scope": "#/properties/receipt/properties/networkBandwidthUsed",
-              "options": {
-                "before": "- ",
-                "mapping": "receipt.networkBandwidthUsed"
+                "format": "address",
+                "mapping": "to",
+                "class": "attribute-wrapper--address"
               }
             }
           ]
         },
         {
           "type": "AttributeGroup",
-          "label": "Mn / Ops - Ex",
-          "scope": "#/properties/detailsGroup",
+          "label": "Value / Type",
+          "scope": "#/properties/group3",
           "options": {
             "class": "attribute-wrapper--group-3"
           },
           "elements": [
             {
               "type": "Attribute",
-              "label": "Mana used",
-              "scope": "#/properties/receipt/properties/rcUsed",
+              "label": "Value",
+              "scope": "#/properties/value",
               "options": {
-                "format": "manaTokenAmount",
-                "mapping": "receipt.rcUsed",
-                "decimals": 2
+                "decimals": 1,
+                "format": "tokenAmount",
+                "mapping": "value",
+                "mappings": {
+                  "contract.id": "contract.id",
+                  "contract.name": "contract.name",
+                  "contract.symbol": "contract.symbol",
+                  "contract.decimals": "contract.decimals"
+                }
               }
             },
             {
               "type": "Attribute",
-              "scope": "#/properties/operationCount",
+              "scope": "#/properties/name",
               "options": {
-                "mapping": "operationCount",
-                "after": "x"
-              }
-            },
-            {
-              "type": "Attribute",
-              "scope": "#/properties/receipt/properties/eventCount",
-              "options": {
-                "before": "- ",
-                "mapping": "receipt.eventCount",
-                "after": "x"
+                "format": "tokenEventName",
+                "mapping": "name",
+                "class": "attribute--icon"
               }
             }
           ]

@@ -47,7 +47,7 @@
 <script lang="ts">
 import { computed, defineComponent, onMounted, ref, Ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
-import BlockRewardsComponent from '@koiner/network/components/block-production/search/view/block-rewards-table.vue';
+import BlockRewardsComponent from '@koiner/network/block-production/search/view/block-rewards-table.vue';
 import CounterMetric from '@koiner/components/metrics/counter-metric.vue';
 import TokenHolderBalancesMetric from '@koiner/tokenize/components/holder/metric/token-holder-balances-metric.vue';
 import { SearchRequestType, useSearchManager } from '@appvise/search-manager';

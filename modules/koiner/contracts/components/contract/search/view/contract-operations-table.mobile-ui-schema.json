@@ -1,0 +1,89 @@
+{
+  "type": "object",
+  "elements": [
+    {
+      "type": "TableView",
+      "options": {
+        "search": {
+          "provider": "contractOperations"
+        }
+      },
+      "elements": [
+        {
+          "type": "AttributeGroup",
+          "label": "Age / Bx",
+          "scope": "#/properties/group1",
+          "options": {
+            "class": "attribute-wrapper--group-1"
+          },
+          "elements": [
+            {
+              "type": "Attribute",
+              "label": "Age",
+              "scope": "#/properties/timestamp",
+              "options": {
+                "format": "age",
+                "mapping": "timestamp",
+                "class": "attribute-wrapper--age"
+              }
+            },
+            {
+              "type": "Attribute",
+              "scope": "#/properties/transactionId",
+              "options": {
+                "format": "transaction",
+                "icon": "receipt",
+                "route": "mobile.transaction",
+                "mapping": "transactionId",
+                "mappings": {
+                  "id": "transactionId"
+                }
+              }
+            },
+            {
+              "type": "Attribute",
+              "label": "Height",
+              "scope": "#/properties/blockHeight",
+              "options": {
+                "route": "mobile.block",
+                "format": "link",
+                "linkParams": ["height"],
+                "mapping": "blockHeight",
+                "mappings": {
+                  "height": "blockHeight"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "AttributeGroup",
+          "label": "Event",
+          "scope": "#/properties/group2",
+          "options": {
+            "class": "attribute-wrapper--group-2"
+          },
+          "elements": [
+            {
+              "type": "Attribute",
+              "label": "Name",
+              "scope": "#/properties/name",
+              "options": {
+                "mapping": "name"
+              }
+            },
+            {
+              "type": "Attribute",
+              "label": "Data",
+              "scope": "#/properties/data",
+              "options": {
+                "format": "data",
+                "mapping": "data"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

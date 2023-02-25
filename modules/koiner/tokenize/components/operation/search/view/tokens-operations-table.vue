@@ -75,8 +75,9 @@ import { defineComponent, onMounted, PropType, ref, Ref, watch } from 'vue';
 import { useSearchStore } from 'stores/search';
 import { KoinerRenderers } from '@koiner/renderers';
 import QJsonSearch from '@appvise/q-json-forms/QJsonSearch.vue';
-import tokenOperationsSearchSchema from '../token-operations-search.schema.json';
-import tokenOperationsSearchUiSchema from './token-operations-table.ui-schema.json';
+import schema from '../token-operations-search.schema.json';
+import mobileUiSchema from './token-operations-table.mobile-ui-schema.json';
+import desktopUiSchema from './token-operations-table.ui-schema.json';
 import SearchFilters from '@appvise/search-manager/search-filters.vue';
 
 export default defineComponent({
@@ -118,10 +119,14 @@ export default defineComponent({
       type: Boolean,
       default: true,
     },
+    mobile: {
+      required: false,
+      type: Boolean,
+      default: false,
+    },
   },
 
   setup(props) {
-    const uiSchema = ref(tokenOperationsSearchUiSchema);
     const searchStore = useSearchStore();
 
     const burn: Ref<boolean> = ref(props.burnFilter);
@@ -266,8 +271,8 @@ export default defineComponent({
       mint,
       burn,
       onScroll,
-      schema: tokenOperationsSearchSchema,
-      uiSchema,
+      schema,
+      uiSchema: props.mobile ? mobileUiSchema : desktopUiSchema,
       request: searchStore.tokenOperations.request,
       position: searchStore.tokenOperations.position,
       renderers: KoinerRenderers,

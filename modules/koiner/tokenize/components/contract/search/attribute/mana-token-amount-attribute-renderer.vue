@@ -13,10 +13,7 @@
           displayedDecimals
         )
       }}
-      <span>
-        Mana
-        <q-tooltip :delay="500">Resource Credits</q-tooltip>
-      </span>
+      <span>Mana<q-tooltip :delay="500">Resource Credits</q-tooltip></span>
     </span>
   </attribute-wrapper>
 </template>
