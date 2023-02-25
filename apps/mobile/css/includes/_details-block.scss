@@ -1,0 +1,21 @@
+.details-block {
+  border-radius: 0;
+  border-width: 1px 0 0 0;
+
+  .q-item {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .block-id-section {
+    .q-item__label {
+      word-break: break-word;
+    }
+  }
+
+  .timestamp {
+    font-size: 0.75rem;
+    opacity: 0.5;
+    margin-left: 0.5rem;
+  }
+}

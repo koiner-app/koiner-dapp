@@ -1,6 +1,6 @@
 <template>
   <q-page class="row items-start mobile-tab-page">
-    <q-card class="tabs-card" flat bordered>
+    <q-card class="tabs-card" flat>
       <q-card-section class="q-pt-xs q-px-none">
         <q-tab-panels v-model="tab" animated>
           <q-tab-panel
@@ -38,6 +38,55 @@
           </q-tab-panel>
 
           <q-tab-panel name="history" class="tab--mobile-table">
+            <q-card
+              class="stats-card"
+              flat
+              v-if="accountStore.addressesFilter.length > 0"
+            >
+              <q-card-section>
+                <div class="stat-title">My History</div>
+                <div
+                  class="stat-footer" style="padding-top: 0.25rem !important;"
+                  v-if="accountStore.addressesFilter.length > 0"
+                >
+                  <span class="stat-footer-stat"
+                  >{{ accountStore.addressesFilter.length }}
+                    <span class="stat-unit">{{
+                        `address${
+                          accountStore.addressesFilter.length > 1 ? 'es' : ''
+                        }`
+                      }}</span>
+                  </span>
+                  <q-icon
+                    name="help"
+                    color="grey"
+                    style="padding-bottom: 3px"
+                    class="q-ml-xs"
+                  />
+                  <q-tooltip
+                    anchor="bottom start"
+                    self="top left"
+                    class="bg-primary text-white shadow-4"
+                    :hide-delay="3000"
+                  >
+                    <div class="q-pa-sm q-gutter-xs">
+                      <div
+                        class="row q-gutter-xs"
+                        v-for="address in accountStore.addressesFilter"
+                        :key="address"
+                      >
+                        <div class="col" style="min-width: 220px">
+                          {{ address }}
+                        </div>
+                      </div>
+                    </div>
+                  </q-tooltip>
+                </div>
+              </q-card-section>
+            </q-card>
+
+            <address-filter-dialog :open-dialog="openDialog" />
+
             <address-mobile-history
               v-if="accountStore.addressesFilter.length > 0"
               :addresses="accountStore.addressesFilter"

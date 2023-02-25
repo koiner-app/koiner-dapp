@@ -4,6 +4,7 @@
   .q-btn {
     text-transform: none;
     text-align: center;
+    padding: 0.25rem 0;
 
     .q-icon.on-left {
       margin-right: 0;
@@ -28,6 +29,7 @@
 
 .mobile-tab-page {
   .q-page-sticky {
+    z-index: 1000;
     border-bottom-width: 1px;
     border-bottom-style: solid;
   }

@@ -11,6 +11,13 @@
               <q-card-section>
                 <div class="text-caption">Address</div>
                 <div class="stat-title">{{ id }}</div>
+
+                <bookmark-component
+                  :item="{ id, type: 'address' }"
+                  list-id="addresses"
+                  item-translation="koiner.chain.item.address"
+                  class="q-px-sm q-mx-lg absolute-top-right q-mt-md"
+                />
               </q-card-section>
               <q-card-section>
                 <div class="stat-title">Virtual Koin Balance</div>
@@ -40,6 +47,18 @@
           </q-tab-panel>
 
           <q-tab-panel name="history" class="tab--mobile-table">
+            <q-card-section>
+              <div class="text-caption">Address</div>
+              <div class="stat-title">{{ id }}</div>
+
+              <bookmark-component
+                :item="{ id, type: 'address' }"
+                list-id="addresses"
+                item-translation="koiner.chain.item.address"
+                class="q-px-sm q-mx-lg absolute-top-right q-mt-md"
+              />
+            </q-card-section>
+
             <address-mobile-history v-if="id" :addresses="[id]" />
           </q-tab-panel>
 
@@ -102,10 +121,12 @@ import { SearchRequestType, useSearchManager } from '@appvise/search-manager';
 import { useRoute } from 'vue-router';
 import { tokenAmount } from '@koiner/utils';
 import AddressMobileHistory from '@koiner/chain/address/mobile/components/address-mobile-history.vue';
+import BookmarkComponent from '@koiner/bookmarks/components/bookmark-component.vue';
 
 export default defineComponent({
   name: 'AddressMobilePage',
   components: {
+    BookmarkComponent,
     AddressMobileHistory,
     TokenHolderBalancesMetric,
     BlockRewardsTable,

@@ -1,59 +1,48 @@
 <template>
   <q-page v-if="block" class="row items-start mobile-tab-page">
-    <q-card class="tabs-card" flat bordered>
+    <q-card class="tabs-card" flat>
       <q-card-section class="q-pt-xs q-px-none">
         <q-tab-panels v-model="tab" animated>
-          <q-tab-panel name="details">
-            <q-card class="stats-cards" flat bordered>
+          <q-tab-panel
+            name="details"
+            style="padding: 0 !important; min-height: 100vh"
+          >
+            <q-card class="stats-card" flat>
               <q-card-section>
-                <h5>Block</h5>
+                <div class="stat-title">Block</div>
+                <div class="stat-content" style="font-size: 1.5rem">
+                  #{{ block.header.height }} <br /><span
+                    :class="`stat-unit`"
+                    style="font-size: 0.875rem"
+                    >{{ block.transactionCount }} Transaction<span
+                      v-if="block.transactionCount > 1"
+                      >s</span
+                    ></span
+                  >
+                </div>
               </q-card-section>
-              <q-card-section horizontal>
-                <counter-metric title="Height" :value="block.header.height" />
+            </q-card>
 
-                <q-separator vertical />
+            <q-card flat bordered class="details-block">
+              <q-card-section>
+                <q-card-section class="q-pa-none q-pt-xs">
+                  <div class="text-overline">Details</div>
 
-                <counter-metric
-                  title="Transactions"
-                  :value="block.transactionCount"
-                />
-
-                <q-separator vertical />
-
-                <counter-metric
-                  title="Events"
-                  :value="block.receipt.eventCount"
-                />
+                  <block-details-component :block="block" />
+                </q-card-section>
               </q-card-section>
-              <q-card-section
-                class="q-pa-none"
-                style="padding-top: 0 !important"
-              >
-                <q-card flat bordered class="q-mb-lg">
-                  <q-card-section>
-                    <q-card-section class="q-pa-none q-pt-xs">
-                      <div class="text-overline">Details</div>
+            </q-card>
 
-                      <block-details-component :block="block" />
-                    </q-card-section>
-                  </q-card-section>
-                </q-card>
-
-                <q-card flat bordered>
-                  <q-card-section>
-                    <q-card-section class="q-pa-none q-pt-xs">
-                      <div class="text-overline">Block Reward</div>
-                      <block-producer-component :block="block" />
-                    </q-card-section>
-                  </q-card-section>
-                </q-card>
+            <q-card flat bordered class="details-block">
+              <q-card-section>
+                <q-card-section class="q-pa-none q-pt-xs">
+                  <div class="text-overline">Block Reward</div>
+                  <block-producer-component :block="block" />
+                </q-card-section>
               </q-card-section>
             </q-card>
           </q-tab-panel>
-          <q-tab-panel
-            name="transactions"
-            class="tab--mobile-table"
-          >
+          <q-tab-panel name="transactions" class="tab--mobile-table">
             <transactions-table
               :heights="[block.header.height]"
               :mobile="true"
@@ -133,7 +122,6 @@
 <script lang="ts">
 import { defineComponent, ref, Ref, watch } from 'vue';
 import { useStatsStore } from 'stores/stats';
-import CounterMetric from '@koiner/components/metrics/counter-metric.vue';
 import TokensOperationsTable from '@koiner/tokenize/components/operation/search/view/tokens-operations-table.vue';
 import TokensEventsTable from '@koiner/tokenize/components/event/search/view/tokens-events-table.vue';
 import { useRoute } from 'vue-router';
@@ -155,7 +143,6 @@ export default defineComponent({
     BlockDetailsComponent,
     TokensEventsTable,
     TokensOperationsTable,
-    CounterMetric,
   },
 
   setup() {

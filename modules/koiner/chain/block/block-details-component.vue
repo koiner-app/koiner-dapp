@@ -1,7 +1,7 @@
 <template>
   <q-list v-if="block">
     <q-item>
-      <q-item-section>
+      <q-item-section class="block-id-section">
         <q-item-label caption>ID</q-item-label>
         <q-item-label lines="2"> {{ block.id }} </q-item-label>
       </q-item-section>
@@ -9,7 +9,12 @@
     <q-item>
       <q-item-section>
         <q-item-label caption>Timestamp</q-item-label>
-        <q-item-label lines="2"> {{ block.header.timestamp }} </q-item-label>
+        <q-item-label lines="2">
+          {{ timeAgo(block.header.timestamp) }}
+          <span class="timestamp">({{
+            new Date(block.header.timestamp).toLocaleString()
+          }})</span>
+        </q-item-label>
       </q-item-section>
     </q-item>
 
@@ -40,9 +45,11 @@
 import { defineComponent, PropType } from 'vue';
 import { Block } from '@koiner/sdk';
 import { useKoinerStore } from 'stores/koiner';
+import { timeAgo } from '../../utils';
 
 export default defineComponent({
   name: 'BlockDetailsComponent',
+  methods: { timeAgo },
   props: {
     block: {
       required: true,

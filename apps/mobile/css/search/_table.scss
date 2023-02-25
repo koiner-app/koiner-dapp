@@ -1,6 +1,10 @@
 .search-view-table {
   font-family: 'Roboto Mono', serif !important;
 
+  &:before {
+    height: 2rem;
+  }
+
   .ago {
     display: none;
   }
