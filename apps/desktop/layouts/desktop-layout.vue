@@ -91,6 +91,16 @@ export default defineComponent({
 
     const redirect = () => {
       const mobileRedirects: { [key: string]: string } = {
+        address: 'mobile.address',
+        'address.history': 'mobile.address',
+        'address.rewards': 'mobile.address',
+        addresses: 'mobile.chain',
+        block: 'mobile.block',
+        blocks: 'mobile.chain',
+        events: 'mobile.chain',
+        operations: 'mobile.chain',
+        transaction: 'mobile.transaction',
+        transactions: 'mobile.chain',
         ecosystem: 'mobile.ecosystem',
         'account.portfolio': 'mobile.account',
         network: 'mobile.network',

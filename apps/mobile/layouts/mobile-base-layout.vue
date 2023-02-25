@@ -43,11 +43,17 @@ export default defineComponent({
     bookmarkStore.load(koinerStore.environment);
 
     if (blockProductionStore.addressesFilter.length === 0) {
-      blockProductionStore.syncAddressFilterSelection(accountStore.addressesFilter);
+      blockProductionStore.syncAddressFilterSelection(
+        accountStore.addressesFilter
+      );
     }
 
     const redirect = () => {
       const desktopRedirects: { [key: string]: string } = {
+        'mobile.address': 'address',
+        'mobile.chain': 'blocks',
+        'mobile.block': 'block',
+        'mobile.transaction': 'transaction',
         'mobile.ecosystem': 'ecosystem',
         'mobile.account': 'account.portfolio',
         'mobile.network': 'network',
