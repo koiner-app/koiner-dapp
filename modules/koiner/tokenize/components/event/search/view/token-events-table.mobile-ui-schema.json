@@ -59,6 +59,7 @@
               "options": {
                 "format": "address",
                 "mapping": "from",
+                "route": "mobile.address",
                 "class": "attribute-wrapper--address"
               }
             },
@@ -69,6 +70,7 @@
               "options": {
                 "format": "address",
                 "mapping": "to",
+                "route": "mobile.address",
                 "class": "attribute-wrapper--address"
               }
             }
