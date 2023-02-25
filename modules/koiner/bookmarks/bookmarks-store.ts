@@ -271,10 +271,10 @@ export const useBookmarkStore = defineStore({
       const list = this.list(listId);
 
       if (list) {
-        if (listId?.includes('addresses') && list.bookmarks.size === 10) {
+        if (listId?.includes('addresses') && list.bookmarks.size >= 8) {
           Dialog.create({
             title: 'Max reached',
-            message: 'You have reached the maximum amount of 10 addresses',
+            message: 'You have reached the maximum amount of 8 addresses',
             cancel: false,
             ok: {
               color: 'primary',
