@@ -2,7 +2,7 @@
   <q-page v-if="transaction" class="row items-baseline justify-evenly">
     <q-card class="stats-cards" flat bordered>
       <q-card-section horizontal>
-        <counter-metric title="Block Height" :value="transaction.blockHeight" />
+        <counter-metric title="ID" :value="`${transaction.id.substring(0, 10)}...`" />
 
         <q-separator vertical />
 
@@ -83,6 +83,20 @@
       </q-card-section>
     </q-card>
 
+    <q-card class="search-card bg-transparent" flat>
+      <q-card-section class="q-pa-none" style="padding-top: 0 !important;">
+        <q-card flat bordered class="q-mb-lg">
+          <q-card-section>
+            <q-card-section class="q-pa-none q-pt-xs">
+              <div class="text-overline">Details</div>
+
+              <transaction-details-component :transaction="transaction" />
+            </q-card-section>
+          </q-card-section>
+        </q-card>
+      </q-card-section>
+    </q-card>
+
     <error-view :error="itemState.error" />
   </q-page>
 </template>
@@ -98,9 +112,11 @@ import ContractOperationsTable from '@koiner/contracts/components/contract/searc
 import TokensOperationsTable from '@koiner/tokenize/components/operation/search/view/tokens-operations-table.vue';
 import TokensEventsTable from '@koiner/tokenize/components/event/search/view/tokens-events-table.vue';
 import ContractEventsTable from '@koiner/contracts/components/contract/search/view/contracts-events-table.vue';
+import TransactionDetailsComponent from '@koiner/chain/transaction/transaction-details-component.vue';
 
 export default defineComponent({
   components: {
+    TransactionDetailsComponent,
     ContractEventsTable,
     TokensEventsTable,
     TokensOperationsTable,

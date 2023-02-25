@@ -3,6 +3,7 @@ query TransactionPage($id: ID!) {
     id
     blockHeight
     operationCount
+    timestamp
     header {
       payer
       nonce

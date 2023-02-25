@@ -3,31 +3,36 @@
     <q-card class="tabs-card" flat>
       <q-card-section class="q-pt-xs q-px-none">
         <q-tab-panels v-model="tab" animated>
-          <q-tab-panel name="details">
-            <q-card class="stats-cards" flat bordered>
-              <q-card-section horizontal>
-                <counter-metric title="Transaction Id" :value="transaction.id" />
-
-                <q-separator vertical />
-
-                <counter-metric
-                  title="Events"
-                  :value="transaction.receipt.eventCount"
-                />
+          <q-tab-panel
+            name="details"
+            style="padding: 0 !important; min-height: 100vh"
+          >
+            <q-card class="stats-card" flat>
+              <q-card-section>
+                <div class="stat-title">Transaction</div>
+                <div class="stat-content" style="font-size: 1.5rem">
+                  {{ transaction.id }} <br /><span
+                    :class="`stat-unit`"
+                    style="font-size: 0.875rem"
+                    >{{ transaction.operationCount }} Operations<span
+                      v-if="transaction.operationCount > 1"
+                      >s</span
+                    ></span
+                  >
+                </div>
               </q-card-section>
-              <q-card-section
-                class="q-pa-none"
-                style="padding-top: 0 !important"
-              >
-                <q-card flat bordered class="q-mb-lg">
-                  <q-card-section>
-                    <q-card-section class="q-pa-none q-pt-xs">
-                      <div class="text-overline">Details</div>
+            </q-card>
 
-                      <transaction-details-component :transaction="transaction" />
-                    </q-card-section>
-                  </q-card-section>
-                </q-card>
+            <q-card flat bordered class="details-block">
+              <q-card-section>
+                <q-card-section class="q-pa-none q-pt-xs">
+                  <div class="text-overline">Details</div>
+
+                  <transaction-details-component
+                    :transaction="transaction"
+                    :mobile="true"
+                  />
+                </q-card-section>
               </q-card-section>
             </q-card>
           </q-tab-panel>
@@ -51,10 +56,7 @@
             />
           </q-tab-panel>
           <q-tab-panel name="events" class="tab--mobile-table">
-            <contract-events-table
-              :parent-id="transaction.id"
-              :mobile="true"
-            />
+            <contract-events-table :parent-id="transaction.id" :mobile="true" />
           </q-tab-panel>
         </q-tab-panels>
       </q-card-section>
@@ -100,7 +102,6 @@
 <script lang="ts">
 import { defineComponent, ref, Ref, watch } from 'vue';
 import { useStatsStore } from 'stores/stats';
-import CounterMetric from '@koiner/components/metrics/counter-metric.vue';
 import TokensOperationsTable from '@koiner/tokenize/components/operation/search/view/tokens-operations-table.vue';
 import TokensEventsTable from '@koiner/tokenize/components/event/search/view/tokens-events-table.vue';
 import { useRoute } from 'vue-router';
@@ -118,7 +119,6 @@ export default defineComponent({
     TransactionDetailsComponent,
     TokensEventsTable,
     TokensOperationsTable,
-    CounterMetric,
   },
 
   setup() {
