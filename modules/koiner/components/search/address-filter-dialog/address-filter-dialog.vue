@@ -32,9 +32,9 @@
 
         <q-separator />
 
-        <mobile-addresses-filter />
+        <mobile-addresses-filter v-if="!searchActive" />
 
-        <q-separator class="q-mb-lg" />
+        <q-separator v-if="!searchActive" class="q-mb-lg" />
 
         <q-input
           v-if="searchActive || accountStore.addressesFilter.length === 0"
@@ -44,7 +44,7 @@
           standout
           v-model="search"
           autofocus
-          class="q-mx-md"
+          class="q-mx-md q-mt-md"
           ref="searchInput"
         >
           <template v-slot:prepend>
@@ -66,6 +66,7 @@
         :dark="false"
         @selected="
           search = '';
+          searchActive = false;
           $refs.searchInput.$el.focus();
         "
       />
