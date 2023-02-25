@@ -37,7 +37,7 @@
               <q-card-section>
                 <q-card-section class="q-pa-none q-pt-xs">
                   <div class="text-overline">Block Reward</div>
-                  <block-producer-component :block="block" />
+                  <block-producer-component :block="block" :mobile="true" />
                 </q-card-section>
               </q-card-section>
             </q-card>

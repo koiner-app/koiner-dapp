@@ -6,7 +6,7 @@
         <q-item-label>
           <router-link
             :to="{
-              name: 'address.rewards',
+              name: mobile ? 'mobile.address' : 'address.rewards',
               params: { id: block.reward?.producerId },
             }"
           >
@@ -88,6 +88,11 @@ export default defineComponent({
     block: {
       required: true,
       type: Object as PropType<Block>,
+    },
+    mobile: {
+      required: false,
+      type: Boolean,
+      default: false,
     },
   },
 

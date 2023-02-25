@@ -1,7 +1,7 @@
 <template>
   <q-list v-if="block">
     <q-item>
-      <q-item-section class="block-id-section">
+      <q-item-section class="id-section">
         <q-item-label caption>ID</q-item-label>
         <q-item-label lines="2"> {{ block.id }} </q-item-label>
       </q-item-section>
