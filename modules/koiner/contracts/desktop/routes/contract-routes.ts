@@ -8,7 +8,8 @@ export const contractRoutes: RouteRecordRaw[] = [
       {
         name: 'contract',
         path: '',
-        component: () => import('../pages/contract/id/contract-page.vue'),
+        component: () =>
+          import('../pages/contract/id/contract-operations-page.vue'),
       },
       {
         name: 'contract.events',
