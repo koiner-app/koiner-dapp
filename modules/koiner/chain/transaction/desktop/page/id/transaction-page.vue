@@ -96,9 +96,9 @@
         </q-card>
       </q-card-section>
     </q-card>
-
-    <error-view :error="itemState.error" />
   </q-page>
+
+  <error-view :error="itemState.error" />
 </template>
 
 <script lang="ts">
@@ -125,11 +125,11 @@ export default defineComponent({
     ErrorView,
   },
   setup() {
-    const itemState = ItemState.create<Transaction>();
-    const variables: Ref<{ id: string }> = ref({ id: '' });
     const route = useRoute();
 
     const tab: Ref<string> = ref('contract-operations');
+    const itemState = ItemState.create<Transaction>();
+    const variables: Ref<{ id: string }> = ref({ id: '' });
 
     const executeQuery = () => {
       const { data, fetching, error, isPaused } = useTransactionPageQuery({
@@ -140,7 +140,10 @@ export default defineComponent({
         itemState.item.value = updatedData?.transaction as Transaction;
       });
 
-      itemState.error = error;
+      watch(error, (updatedError) => {
+        itemState.error.value = updatedError;
+      });
+
       itemState.fetching = fetching;
       itemState.isPaused = isPaused;
     };
@@ -148,14 +151,11 @@ export default defineComponent({
     onMounted(async () => {
       variables.value.id = route.params.id.toString();
       executeQuery();
-      itemState.isPaused.value = true;
-      itemState.isPaused.value = false;
     });
 
     watch(
       () => route.params.id,
       async (newId) => {
-        itemState.isPaused.value = !newId;
         variables.value.id = newId ? newId.toString() : '';
       }
     );
@@ -166,7 +166,6 @@ export default defineComponent({
       itemState,
       transaction: itemState.item,
       error: itemState.error,
-      executeQuery,
     };
   },
 });
