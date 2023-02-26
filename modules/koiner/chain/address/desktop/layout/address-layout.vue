@@ -52,9 +52,10 @@ export default defineComponent({
   name: 'AddressLayout',
   components: { ErrorView, BookmarkComponent },
   setup() {
+    const route = useRoute();
+
     const itemState = ItemState.create<Address>();
     const variables: Ref<{ id: string }> = ref({ id: '' });
-    const route = useRoute();
 
     const executeQuery = () => {
       const { data, fetching, error, isPaused } = useAddressLayoutQuery({

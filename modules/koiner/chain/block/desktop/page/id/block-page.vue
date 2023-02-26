@@ -1,8 +1,5 @@
 <template>
-  <q-page
-    v-if="block"
-    class="row items-start"
-  >
+  <q-page v-if="block" class="row items-start">
     <q-card class="stats-cards" flat bordered>
       <q-card-section horizontal>
         <counter-metric title="Height" :value="block.header.height" />
@@ -59,14 +56,10 @@
             <transactions-table :heights="[block.header.height]" />
           </q-tab-panel>
           <q-tab-panel name="contract-operations">
-            <contract-operations-table
-              :heights="[block.header.height]"
-            />
+            <contract-operations-table :heights="[block.header.height]" />
           </q-tab-panel>
           <q-tab-panel name="token-operations">
-            <tokens-operations-table
-              :heights="[block.header.height]"
-            />
+            <tokens-operations-table :heights="[block.header.height]" />
           </q-tab-panel>
           <q-tab-panel name="token-events">
             <tokens-events-table :heights="[block.header.height]" />
@@ -79,7 +72,7 @@
     </q-card>
 
     <q-card class="search-card bg-transparent" flat>
-      <q-card-section class="q-pa-none" style="padding-top: 0 !important;">
+      <q-card-section class="q-pa-none" style="padding-top: 0 !important">
         <q-card flat bordered class="q-mb-lg">
           <q-card-section>
             <q-card-section class="q-pa-none q-pt-xs">
@@ -101,10 +94,12 @@
       </q-card-section>
     </q-card>
   </q-page>
+
+  <error-view :error="itemState.error" />
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, Ref, watch } from 'vue';
+import { defineComponent, onMounted, ref, Ref, watch } from 'vue';
 import { useStatsStore } from 'stores/stats';
 import CounterMetric from '@koiner/components/metrics/counter-metric.vue';
 import TokensOperationsTable from '@koiner/tokenize/components/operation/search/view/tokens-operations-table.vue';
@@ -117,10 +112,12 @@ import { ItemState } from '@appvise/search-manager';
 import { Block, useBlockPageQuery } from '@koiner/sdk';
 import BlockProducerComponent from '@koiner/chain/block/block-producer-component.vue';
 import ContractEventsTable from '@koiner/contracts/components/contract/search/view/contracts-events-table.vue';
+import ErrorView from 'components/error-view.vue';
 
 export default defineComponent({
   name: 'BlockPage',
   components: {
+    ErrorView,
     ContractEventsTable,
     BlockProducerComponent,
     TransactionsTable,
@@ -136,7 +133,6 @@ export default defineComponent({
     const route = useRoute();
 
     const tab: Ref<string> = ref('transactions');
-
     const itemState = ItemState.create<Block>();
     const variables: Ref<{ height: string }> = ref({ height: '' });
 
@@ -149,24 +145,22 @@ export default defineComponent({
         itemState.item.value = updatedData?.block as Block;
       });
 
-      itemState.error = error;
+      watch(error, (updatedError) => {
+        itemState.error.value = updatedError;
+      });
+
       itemState.fetching = fetching;
       itemState.isPaused = isPaused;
     };
 
-    variables.value.height = route.params.height.toString();
-
-    executeQuery();
-
-    // Workaround to reactivate urql to resume on a re-entering of page
-    // TODO: Find out why this is necessary
-    itemState.isPaused.value = true;
-    itemState.isPaused.value = false;
+    onMounted(async () => {
+      variables.value.height = route.params.height.toString();
+      executeQuery();
+    });
 
     watch(
       () => route.params.height,
       async (newHeight) => {
-        itemState.isPaused.value = !newHeight;
         variables.value.height = newHeight ? newHeight.toString() : '';
       }
     );
