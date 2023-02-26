@@ -16,7 +16,7 @@
       </q-card-section>
     </q-card>
 
-    <q-card class="table-card shadow-1">
+    <q-card class="table-card">
       <q-card-section>
         <token-contracts-table title="Tokens" />
       </q-card-section>

@@ -1,6 +1,6 @@
 <template>
   <q-page class="row items-baseline justify-evenly">
-    <q-card class="table-card shadow-1">
+    <q-card class="table-card">
       <q-card-section>
         <tokens-operations-table title="Operations" />
       </q-card-section>

@@ -83,7 +83,7 @@
       </div>
     </div>
 
-    <q-card class="table-card shadow-1">
+    <q-card class="table-card">
       <q-card-section>
         <block-producers-component title="Producers" />
       </q-card-section>

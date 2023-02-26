@@ -1,6 +1,6 @@
 <template>
   <q-page class="row items-baseline justify-evenly transactions-search-page">
-    <q-card class="table-card shadow-1">
+    <q-card class="table-card">
       <q-card-section>
         <transactions-table title="Transactions" />
       </q-card-section>
