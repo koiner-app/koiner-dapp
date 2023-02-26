@@ -58,10 +58,10 @@
 
         <q-tab-panels v-model="tab" animated>
           <q-tab-panel name="token-operations">
-            <tokens-operations-table :contract-ids="[id]" />
+            <tokens-operations-table :contract-ids="[tokenContract.id]" />
           </q-tab-panel>
           <q-tab-panel name="token-events">
-            <tokens-events-table :contract-ids="[id]" />
+            <tokens-events-table :contract-ids="[tokenContract.id]" />
           </q-tab-panel>
         </q-tab-panels>
       </q-card-section>
@@ -72,7 +72,7 @@
         <div class="text-overline">Token Holders</div>
 
         <div class="search-card-content">
-          <token-holders-table :contract-id="id" />
+          <token-holders-table :contract-id="tokenContract.id" />
         </div>
       </q-card-section>
     </q-card>
@@ -80,24 +80,28 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref, Ref, watch } from 'vue';
+import { defineComponent, PropType, ref, Ref } from 'vue';
 import { useKoinerStore } from 'stores/koiner';
 import { useStatsStore } from 'stores/stats';
+import { TokenContract } from '@koiner/sdk';
 import CounterMetric from '@koiner/components/metrics/counter-metric.vue';
+import TokenHoldersTable from '../../../../components/holder/search/view/token-holders-table.vue';
 import TokensOperationsTable from '../../../../components/operation/search/view/tokens-operations-table.vue';
 import TokensEventsTable from '../../../../components/event/search/view/tokens-events-table.vue';
-import { ItemState } from '@appvise/search-manager';
-import { TokenContract, useTokenDesktopLayoutQuery } from '@koiner/sdk';
-import { useRoute } from 'vue-router';
-import TokenHoldersTable from '@koiner/tokenize/components/holder/search/view/token-holders-table.vue';
 
 export default defineComponent({
-  name: 'NetworkIndexPage',
+  name: 'TokenPage',
   components: {
     TokenHoldersTable,
     TokensEventsTable,
     TokensOperationsTable,
     CounterMetric,
+  },
+  props: {
+    tokenContract: {
+      required: true,
+      type: Object as PropType<TokenContract>,
+    },
   },
 
   setup() {
@@ -105,53 +109,11 @@ export default defineComponent({
     const statsStore = useStatsStore();
 
     const tab: Ref<string> = ref('token-operations');
-    let id: Ref<string | undefined> = ref();
-
-    const itemState = ItemState.create<TokenContract>();
-    const variables: Ref<{ id: string }> = ref({ id: '' });
-    const route = useRoute();
-
-    const executeQuery = () => {
-      const { data, fetching, error, isPaused } = useTokenDesktopLayoutQuery({
-        variables,
-      });
-
-      watch(data, (updatedData) => {
-        itemState.item.value = updatedData?.tokenContract as TokenContract;
-      });
-
-      itemState.error = error;
-      itemState.fetching = fetching;
-      itemState.isPaused = isPaused;
-    };
-
-    onMounted(async () => {
-      id.value = route.params.id.toString();
-      variables.value.id = route.params.id.toString();
-      executeQuery();
-      itemState.isPaused.value = true;
-      itemState.isPaused.value = false;
-    });
-
-    watch(
-      () => route.params.id,
-      async (newId) => {
-        itemState.isPaused.value = !newId;
-        variables.value.id = newId ? newId.toString() : '';
-      }
-    );
 
     return {
-      id,
-
       tab,
       koinerStore,
       statsStore,
-
-      itemState,
-      tokenContract: itemState.item,
-      error: itemState.error,
-      executeQuery,
     };
   },
 });

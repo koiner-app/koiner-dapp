@@ -1,33 +1,29 @@
 <template>
-  <q-page class="row items-baseline justify-evenly">
+  <q-page class="row items-baseline justify-evenly" v-if="tokenContract">
     <q-card class="table-card">
       <q-card-section>
-        <tokens-operations-table title="Operations" :contract-ids="[id]" />
+        <tokens-operations-table
+          title="Operations"
+          :contract-ids="[tokenContract.id]"
+        />
       </q-card-section>
     </q-card>
   </q-page>
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref, Ref } from 'vue';
-import { useRoute } from 'vue-router';
+import { defineComponent, PropType } from 'vue';
 import TokensOperationsTable from '../../../../components/operation/search/view/tokens-operations-table.vue';
+import { TokenContract } from '@koiner/sdk';
 
 export default defineComponent({
   name: 'TokenOperationsPage',
   components: { TokensOperationsTable },
-
-  setup() {
-    let id: Ref<string | undefined> = ref();
-    const route = useRoute();
-
-    onMounted(async () => {
-      id.value = route.params.id.toString();
-    });
-
-    return {
-      id,
-    };
+  props: {
+    tokenContract: {
+      required: true,
+      type: Object as PropType<TokenContract>,
+    },
   },
 });
 </script>

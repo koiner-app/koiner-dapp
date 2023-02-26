@@ -43,23 +43,31 @@
     </div>
   </div>
 
-  <router-view class="koiner-topbar-page" />
+  <router-view
+    v-if="tokenContract"
+    :token-contract="tokenContract"
+    class="koiner-topbar-page"
+  />
+
+  <error-view :error="itemState.error" />
 </template>
 
 <script lang="ts">
 import { defineComponent, onMounted, Ref, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { TokenContract, useTokenDesktopLayoutQuery } from '@koiner/sdk';
-import BookmarkComponent from '@koiner/bookmarks/components/bookmark-component.vue';
 import { ItemState } from '@appvise/search-manager';
+import BookmarkComponent from '@koiner/bookmarks/components/bookmark-component.vue';
+import ErrorView from 'components/error-view.vue';
 
 export default defineComponent({
   name: 'TokenLayout',
-  components: { BookmarkComponent },
+  components: { ErrorView, BookmarkComponent },
   setup() {
+    const route = useRoute();
+
     const itemState = ItemState.create<TokenContract>();
     const variables: Ref<{ id: string }> = ref({ id: '' });
-    const route = useRoute();
 
     const executeQuery = () => {
       const { data, fetching, error, isPaused } = useTokenDesktopLayoutQuery({
@@ -70,7 +78,10 @@ export default defineComponent({
         itemState.item.value = updatedData?.tokenContract as TokenContract;
       });
 
-      itemState.error = error;
+      watch(error, (updatedError) => {
+        itemState.error.value = updatedError;
+      });
+
       itemState.fetching = fetching;
       itemState.isPaused = isPaused;
     };
@@ -78,14 +89,11 @@ export default defineComponent({
     onMounted(async () => {
       variables.value.id = route.params.id.toString();
       executeQuery();
-      itemState.isPaused.value = true;
-      itemState.isPaused.value = false;
     });
 
     watch(
       () => route.params.id,
       async (newId) => {
-        itemState.isPaused.value = !newId;
         variables.value.id = newId ? newId.toString() : '';
       }
     );
@@ -94,7 +102,6 @@ export default defineComponent({
       itemState,
       tokenContract: itemState.item,
       error: itemState.error,
-      executeQuery,
     };
   },
 });
