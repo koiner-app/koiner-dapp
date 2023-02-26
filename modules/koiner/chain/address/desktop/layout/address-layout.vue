@@ -35,7 +35,9 @@
     </div>
   </div>
 
-  <router-view class="koiner-topbar-page" />
+  <router-view v-if="address" :address="address" class="koiner-topbar-page" />
+
+  <error-view :error="itemState.error" />
 </template>
 
 <script lang="ts">
@@ -44,10 +46,11 @@ import { useRoute } from 'vue-router';
 import BookmarkComponent from '@koiner/bookmarks/components/bookmark-component.vue';
 import { ItemState } from '@appvise/search-manager';
 import { Address, useAddressLayoutQuery } from '@koiner/sdk';
+import ErrorView from 'components/error-view.vue';
 
 export default defineComponent({
   name: 'AddressLayout',
-  components: { BookmarkComponent },
+  components: { ErrorView, BookmarkComponent },
   setup() {
     const itemState = ItemState.create<Address>();
     const variables: Ref<{ id: string }> = ref({ id: '' });
@@ -62,7 +65,10 @@ export default defineComponent({
         itemState.item.value = updatedData?.address as Address;
       });
 
-      itemState.error = error;
+      watch(error, (updatedError) => {
+        itemState.error.value = updatedError;
+      });
+
       itemState.fetching = fetching;
       itemState.isPaused = isPaused;
     };
@@ -70,14 +76,11 @@ export default defineComponent({
     onMounted(async () => {
       variables.value.id = route.params.id.toString();
       executeQuery();
-      itemState.isPaused.value = true;
-      itemState.isPaused.value = false;
     });
 
     watch(
       () => route.params.id,
       async (newId) => {
-        itemState.isPaused.value = !newId;
         variables.value.id = newId ? newId.toString() : '';
       }
     );

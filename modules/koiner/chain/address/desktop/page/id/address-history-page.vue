@@ -1,5 +1,5 @@
 <template>
-  <q-page v-if="id" class="row items-start">
+  <q-page v-if="address" class="row items-start">
     <q-card class="tabs-card" flat bordered style="max-width: 100%">
       <q-card-section class="q-pt-xs">
         <q-tabs v-model="tab" dense align="left" style="width: 100%">
@@ -33,16 +33,16 @@
 
         <q-tab-panels v-model="tab" animated>
           <q-tab-panel name="token-operations">
-            <tokens-operations-table :addresses="[id]" />
+            <tokens-operations-table :addresses="[address.id]" />
           </q-tab-panel>
           <q-tab-panel name="transactions">
-            <transactions-table :addresses="[id]" />
+            <transactions-table :addresses="[address.id]" />
           </q-tab-panel>
           <q-tab-panel name="contract-events">
-            <contract-events-table :addresses="[id]" />
+            <contract-events-table :addresses="[address.id]" />
           </q-tab-panel>
           <q-tab-panel name="token-events">
-            <tokens-events-table :addresses="[id]" />
+            <tokens-events-table :addresses="[address.id]" />
           </q-tab-panel>
         </q-tab-panels>
       </q-card-section>
@@ -51,12 +51,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref, Ref, watch } from 'vue';
+import { defineComponent, PropType, ref, Ref } from 'vue';
 import TokensOperationsTable from '@koiner/tokenize/components/operation/search/view/tokens-operations-table.vue';
 import TransactionsTable from '@koiner/chain/transaction/search/view/transactions-table.vue';
 import ContractEventsTable from '@koiner/contracts/components/contract/search/view/contracts-events-table.vue';
-import { useRoute } from 'vue-router';
 import TokensEventsTable from '@koiner/tokenize/components/event/search/view/tokens-events-table.vue';
+import { Address } from '@koiner/sdk';
 
 export default defineComponent({
   name: 'AccountHistoryPage',
@@ -66,22 +66,14 @@ export default defineComponent({
     TransactionsTable,
     TokensOperationsTable,
   },
+  props: {
+    address: {
+      required: true,
+      type: Object as PropType<Address>,
+    },
+  },
 
   setup() {
-    let id: Ref<string | undefined> = ref();
-    const route = useRoute();
-
-    onMounted(async () => {
-      id.value = route.params.id.toString();
-    });
-
-    watch(
-      () => route.params.id,
-      async (newId) => {
-        id.value = newId.toString();
-      }
-    );
-
     const tab: Ref<string> = ref('token-operations');
     const addressFilter: Ref<string[]> = ref([]);
 
@@ -90,7 +82,6 @@ export default defineComponent({
     };
 
     return {
-      id,
       tab,
       addressFilter,
       updateFilter,

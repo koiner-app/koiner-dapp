@@ -17,7 +17,7 @@
       </q-scroll-area>
     </q-drawer>
 
-    <q-page-container :class="`page--${route.name}`">
+    <q-page-container :class="`page--${route.name}`" style="height: 100vh">
       <router-view />
     </q-page-container>
 

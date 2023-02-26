@@ -38,8 +38,8 @@
         <div class="text-overline">Portfolio</div>
 
         <token-balances-table
-          v-if="id"
-          :addresses="[id]"
+          v-if="address"
+          :addresses="[address.id]"
           :show-address="false"
           @change="updateTokenHolders"
         />
@@ -49,11 +49,10 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, ref, Ref, watch } from 'vue';
+import { computed, defineComponent, PropType, ref, Ref } from 'vue';
 import TokenBalancesTable from '@koiner/tokenize/components/holder/search/view/token-balances-table.vue';
 import TokenHolderBalancesMetric from '@koiner/tokenize/components/holder/metric/token-holder-balances-metric.vue';
-import { TokenHolder, TokenHoldersConnection } from '@koiner/sdk';
-import { useRoute } from 'vue-router';
+import { Address, TokenHolder, TokenHoldersConnection } from '@koiner/sdk';
 import CounterMetric from '@koiner/components/metrics/counter-metric.vue';
 import { useKoinerStore } from 'stores/koiner';
 
@@ -64,28 +63,18 @@ export default defineComponent({
     TokenBalancesTable,
     TokenHolderBalancesMetric,
   },
+  props: {
+    address: {
+      required: true,
+      type: Object as PropType<Address>,
+    },
+  },
 
   setup() {
     const koinerStore = useKoinerStore();
 
-    const id: Ref<string | undefined> = ref();
-    const route = useRoute();
     const totalVhp: Ref<number | undefined> = ref();
     const totalVirtualKoin: Ref<number | undefined> = ref();
-
-    onMounted(async () => {
-      id.value = route.params.id.toString();
-    });
-
-    watch(
-      () => route.params.id,
-      async (newId) => {
-        if (newId) {
-          id.value = newId.toString();
-        }
-      }
-    );
-
     const tokenHolders: Ref<TokenHolder[]> = ref([]);
 
     const updateTokenHolders = (newConnection: TokenHoldersConnection) => {
@@ -95,7 +84,6 @@ export default defineComponent({
     };
 
     return {
-      id,
       updateTokenHolders,
       tokenHolders,
       koinerStore,

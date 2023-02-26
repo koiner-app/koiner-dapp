@@ -30,7 +30,10 @@
     <q-card flat bordered style="width: 100%">
       <q-card-section class="q-pt-xs">
         <div class="text-overline">Blocks Produced</div>
-        <block-rewards-component v-if="id" :producer-ids="[id]" />
+        <block-rewards-component
+          v-if="address.id"
+          :producer-ids="[address.id]"
+        />
       </q-card-section>
     </q-card>
   </q-page>
@@ -45,13 +48,12 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, onMounted, ref, Ref, watch } from 'vue';
-import { useRoute } from 'vue-router';
+import { computed, defineComponent, onMounted, PropType, watch } from 'vue';
 import BlockRewardsComponent from '@koiner/network/block-production/search/view/block-rewards-table.vue';
 import CounterMetric from '@koiner/components/metrics/counter-metric.vue';
 import TokenHolderBalancesMetric from '@koiner/tokenize/components/holder/metric/token-holder-balances-metric.vue';
 import { SearchRequestType, useSearchManager } from '@appvise/search-manager';
-import { TokenHolder } from '@koiner/sdk';
+import { Address, TokenHolder } from '@koiner/sdk';
 import { useKoinerStore } from 'stores/koiner';
 import { useStatsStore } from 'stores/stats';
 
@@ -62,21 +64,25 @@ export default defineComponent({
     CounterMetric,
     TokenHolderBalancesMetric,
   },
+  props: {
+    address: {
+      required: true,
+      type: Object as PropType<Address>,
+    },
+  },
 
-  setup() {
+  setup(props) {
     const koinerStore = useKoinerStore();
     const statsStore = useStatsStore();
-    let id: Ref<string | undefined> = ref();
-    const route = useRoute();
     const blockProducersSearch = useSearchManager('blockProducers');
 
     const loadBlockProducer = async () => {
-      if (id.value) {
+      if (props.address?.id) {
         const request: SearchRequestType = {
           first: 100,
           filter: {
             addressId: {
-              equals: id.value,
+              equals: props.address.id,
             },
           },
         };
@@ -88,22 +94,17 @@ export default defineComponent({
     };
 
     onMounted(async () => {
-      id.value = route.params.id.toString();
       await loadBlockProducer();
     });
 
     watch(
-      () => route.params.id,
-      async (newId) => {
-        if (newId) {
-          id.value = newId.toString();
-          await loadBlockProducer();
-        }
+      () => props.address.id,
+      async () => {
+        await loadBlockProducer();
       }
     );
 
     return {
-      id,
       koinerStore,
       blockProducersSearch,
 
