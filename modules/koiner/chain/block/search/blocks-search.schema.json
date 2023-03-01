@@ -13,9 +13,6 @@
     "transactionCount": {
       "type": "number"
     },
-    "producerId": {
-      "type": "string"
-    },
     "receipt": {
       "properties": {
         "eventCount": {

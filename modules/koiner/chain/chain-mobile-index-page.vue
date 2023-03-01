@@ -3,19 +3,19 @@
     <q-card class="tabs-card" flat bordered>
       <q-card-section class="q-pt-xs q-px-none">
         <q-tab-panels v-model="tab" animated>
-          <q-tab-panel name="blocks">
+          <q-tab-panel name="blocks" class="tab--mobile-table">
             <blocks-table :mobile="true" />
           </q-tab-panel>
-          <q-tab-panel name="transactions">
+          <q-tab-panel name="transactions" class="tab--mobile-table">
             <transactions-table :mobile="true" />
           </q-tab-panel>
-          <q-tab-panel name="operations">
+          <q-tab-panel name="operations" class="tab--mobile-table">
             <operations-table />
           </q-tab-panel>
-          <q-tab-panel name="events">
+          <q-tab-panel name="events" class="tab--mobile-table">
             <events-table />
           </q-tab-panel>
-          <q-tab-panel name="addresses">
+          <q-tab-panel name="addresses" class="tab--mobile-table">
             <addresses-table :mobile="true" />
           </q-tab-panel>
         </q-tab-panels>
