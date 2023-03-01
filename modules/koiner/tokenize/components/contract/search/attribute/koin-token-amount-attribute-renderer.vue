@@ -16,7 +16,7 @@
       <router-link
         v-if="linkToken"
         :to="{
-          name: 'token',
+          name: isMobile ? 'mobile.token' : 'token',
           params: { id: koinerStore.koinContract.id },
         }"
         :class="`${styles.attribute.link}`"
@@ -69,6 +69,7 @@ export default defineComponent({
   setup(props: RendererProps<AttributeElement>) {
     const koinerStore = useKoinerStore();
     const attributeControl = useQuasarAttribute(useJsonAttribute(props));
+
     const displayedDecimals =
       attributeControl.appliedOptions.value['decimals'] != null
         ? parseInt(attributeControl.appliedOptions.value['decimals'])
@@ -77,13 +78,19 @@ export default defineComponent({
       attributeControl.appliedOptions.value['linkToken'] != null
         ? attributeControl.appliedOptions.value['linkToken']
         : true;
+    const isMobile: boolean =
+      attributeControl.appliedOptions.value['mobile'] != null
+        ? attributeControl.appliedOptions.value['mobile']
+        : false;
 
     return {
       koinerStore,
       ...attributeControl,
       formattedTokenAmount,
+
       displayedDecimals,
       linkToken,
+      isMobile,
     };
   },
 });

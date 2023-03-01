@@ -58,6 +58,7 @@
               "options": {
                 "mapping": "transactionId",
                 "format": "transaction",
+                "route": "mobile.transaction",
                 "class": "attribute-wrapper--address"
               }
             },

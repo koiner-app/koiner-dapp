@@ -1,0 +1,80 @@
+{
+  "type": "object",
+  "elements": [
+    {
+      "type": "TableView",
+      "options": {
+        "search": {
+          "provider": "tokenHolders"
+        }
+      },
+      "elements": [
+        {
+          "type": "AttributeGroup",
+          "label": "#",
+          "scope": "#/properties/group1",
+          "options": {
+            "class": "attribute-wrapper--group-1 group--xs"
+          },
+          "elements": [
+            {
+              "type": "Attribute",
+              "label": "#",
+              "scope": "#/properties/id",
+              "options": {
+                "format": "index",
+                "mapping": "id"
+              }
+            }
+          ]
+        },
+        {
+          "type": "AttributeGroup",
+          "label": "Address",
+          "scope": "#/properties/group2",
+          "options": {
+            "class": "attribute-wrapper--group-2"
+          },
+          "elements": [
+            {
+              "type": "Attribute",
+              "label": "Address",
+              "scope": "#/properties/addressId",
+              "options": {
+                "format": "address",
+                "route": "mobile.address",
+                "mapping": "addressId",
+                "class": "attribute-wrapper--address"
+              }
+            }
+          ]
+        },
+        {
+          "type": "AttributeGroup",
+          "label": "Balance",
+          "scope": "#/properties/group3",
+          "options": {
+            "class": "attribute-wrapper--group-3"
+          },
+          "elements": [
+            {
+              "type": "Attribute",
+              "scope": "#/properties/balance",
+              "options": {
+                "decimals": 2,
+                "format": "tokenAmount",
+                "mapping": "balance",
+                "mappings": {
+                  "contract.id": "contract.id",
+                  "contract.name": "contract.name",
+                  "contract.symbol": "contract.symbol",
+                  "contract.decimals": "contract.decimals"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

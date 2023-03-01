@@ -78,7 +78,8 @@
               "options": {
                 "format": "koinTokenAmount",
                 "mapping": "value",
-                "decimals": 4
+                "decimals": 4,
+                "mobile": true
               }
             },
             {
@@ -87,7 +88,8 @@
               "options": {
                 "format": "vhpTokenAmount",
                 "mapping": "burnedValue",
-                "decimals": 4
+                "decimals": 4,
+                "mobile": true
               }
             }
           ]

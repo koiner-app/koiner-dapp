@@ -92,9 +92,8 @@
                 "format": "koinTokenAmount",
                 "mapping": "balance",
                 "decimals": 2,
-                "linkToken": false,
+                "mobile": true,
                 "class": "attribute--total-rewards"
-
               }
             },
             {

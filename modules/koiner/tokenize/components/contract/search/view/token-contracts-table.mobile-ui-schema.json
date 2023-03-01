@@ -22,7 +22,7 @@
               "label": "ID",
               "scope": "#/properties/id",
               "options": {
-                "route": "token",
+                "route": "mobile.token",
                 "format": "link",
                 "linkParams": ["id"],
                 "mapping": "name",
@@ -63,7 +63,8 @@
                   "contract.name": "name",
                   "contract.symbol": "symbol",
                   "contract.decimals": "decimals"
-                }
+                },
+                "route": "mobile.token"
               }
             },
             {

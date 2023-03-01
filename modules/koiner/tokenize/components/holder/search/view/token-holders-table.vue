@@ -25,7 +25,8 @@ import { KoinerRenderers } from '@koiner/renderers';
 import SearchFilters from '@appvise/search-manager/search-filters.vue';
 import QJsonSearch from '@appvise/q-json-forms/QJsonSearch.vue';
 import schema from '../token-holders-search.schema.json';
-import uiSchema from './token-holders-table.ui-schema.json';
+import mobileUiSchema from './token-holders-table.mobile-ui-schema.json';
+import desktopUiSchema from './token-holders-table.ui-schema.json';
 
 export default defineComponent({
   name: 'TokenHoldersTable',
@@ -39,12 +40,17 @@ export default defineComponent({
       required: true,
       type: String,
     },
+    mobile: {
+      required: false,
+      type: Boolean,
+      default: false,
+    },
   },
 
   setup(props) {
     return {
       schema,
-      uiSchema,
+      uiSchema: props.mobile ? mobileUiSchema : desktopUiSchema,
       request: {
         filter: {
           contractId: { equals: props.contractId },

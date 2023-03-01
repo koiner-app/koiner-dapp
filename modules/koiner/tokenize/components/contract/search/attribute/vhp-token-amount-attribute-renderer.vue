@@ -14,9 +14,10 @@
         )
       }}
       <router-link
+        v-if="linkToken"
         :to="{
-          name: 'token',
-          params: { id: '1JZqj7dDrK5LzvdJgufYBJNUFo88xBoWC8' },
+          name: isMobile ? 'mobile.token' : 'token',
+          params: { id: koinerStore.vhpContract.id  },
         }"
         :class="`${styles.attribute.link}`"
       >
@@ -25,6 +26,14 @@
           <q-tooltip :delay="500">{{ koinerStore.vhpContract.name }}</q-tooltip>
         </span>
       </router-link>
+      <span v-else>
+        <span
+          >{{ koinerStore.vhpContract.symbol
+          }}<q-tooltip :delay="500">{{
+            koinerStore.vhpContract.name
+          }}</q-tooltip>
+        </span>
+      </span>
     </span>
   </attribute-wrapper>
 </template>
@@ -58,16 +67,28 @@ export default defineComponent({
   setup(props: RendererProps<AttributeElement>) {
     const koinerStore = useKoinerStore();
     const attributeControl = useQuasarAttribute(useJsonAttribute(props));
+
     const displayedDecimals =
       attributeControl.appliedOptions.value['decimals'] != null
         ? parseInt(attributeControl.appliedOptions.value['decimals'])
         : undefined;
+    const linkToken: boolean =
+      attributeControl.appliedOptions.value['linkToken'] != null
+        ? attributeControl.appliedOptions.value['linkToken']
+        : true;
+    const isMobile: boolean =
+      attributeControl.appliedOptions.value['mobile'] != null
+        ? attributeControl.appliedOptions.value['mobile']
+        : false;
 
     return {
       koinerStore,
       ...attributeControl,
       formattedTokenAmount,
+
       displayedDecimals,
+      linkToken,
+      isMobile,
     };
   },
 });

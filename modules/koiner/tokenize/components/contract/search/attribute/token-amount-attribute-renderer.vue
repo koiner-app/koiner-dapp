@@ -64,7 +64,7 @@ export default defineComponent({
     const to = (data: Record<string, unknown>) => {
       // Use route with params
       return {
-        name: 'token',
+        name: attributeControl.appliedOptions.value['route'] ?? 'token',
         params: { id: data },
       };
     };

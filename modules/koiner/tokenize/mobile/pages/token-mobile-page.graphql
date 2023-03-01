@@ -1,0 +1,15 @@
+query TokenMobilePage($id: ID!) {
+  tokenContract(id: $id) {
+    id
+    name
+    symbol
+    decimals
+    totalSupply
+    burnCount
+    mintCount
+    transferCount
+    holders {
+      totalCount
+    }
+  }
+}

@@ -97,7 +97,8 @@
                   "contract.name": "contract.name",
                   "contract.symbol": "contract.symbol",
                   "contract.decimals": "contract.decimals"
-                }
+                },
+                "route": "mobile.token"
               }
             },
             {
