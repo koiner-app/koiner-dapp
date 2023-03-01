@@ -10,22 +10,46 @@
       },
       "elements": [
         {
-          "type": "Attribute",
-          "label": "ID",
-          "scope": "#/properties/id",
+          "type": "AttributeGroup",
+          "label": "Address / First seen",
+          "scope": "#/properties/group1",
           "options": {
-            "route": "mobile.address",
-            "format": "link",
-            "linkParams": ["id"],
-            "mappings": {
-              "id": "id"
+            "class": "attribute-wrapper--group-1"
+          },
+          "elements": [
+            {
+              "type": "Attribute",
+              "scope": "#/properties/id",
+              "options": {
+                "route": "mobile.address",
+                "format": "link",
+                "linkParams": [
+                  "id"
+                ],
+                "mapping": "id",
+                "mappings": {
+                  "id": "id"
+                }
+              }
+            },
+            {
+              "type": "Attribute",
+              "scope": "#/properties/timestamp",
+              "options": {
+                "format": "age",
+                "mapping": "timestamp",
+                "class": "attribute-wrapper--age"
+              }
             }
-          }
+          ]
         },
         {
           "type": "AttributeGroup",
           "label": "Tags",
           "scope": "#/properties/tags",
+          "options": {
+            "class": "attribute-wrapper--group-2 address-tags"
+          },
           "elements": [
             {
               "type": "Attribute",

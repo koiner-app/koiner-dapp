@@ -19,6 +19,7 @@ query AddressesSearch(
         isProducer
         isContract
         isTokenContract
+        timestamp
       }
       __typename
     }

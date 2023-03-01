@@ -90,7 +90,6 @@ export default defineComponent({
       itemState,
       address: itemState.item,
       error: itemState.error,
-      executeQuery,
     };
   },
 });

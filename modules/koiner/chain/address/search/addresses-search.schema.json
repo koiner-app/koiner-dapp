@@ -12,6 +12,9 @@
     },
     "isTokenContract": {
       "type": "boolean"
+    },
+    "timestamp": {
+      "type": "number"
     }
   }
 }

@@ -1414,6 +1414,7 @@ export type AddressesSearchQuery = {
         isProducer: boolean;
         isContract: boolean;
         isTokenContract: boolean;
+        timestamp: any;
       };
     }>;
     pageInfo: {
@@ -2198,6 +2199,7 @@ export const AddressesSearchDocument = gql`
           isProducer
           isContract
           isTokenContract
+          timestamp
         }
         __typename
       }
