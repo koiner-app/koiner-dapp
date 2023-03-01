@@ -13,13 +13,16 @@
         v-for="edge in tokenContractsSearch.connection.value.edges"
         :key="edge.cursor"
         @click.prevent="
-          router.push({ name: 'token', params: { id: edge.node.id } })
+          router.push({
+            name: mobile ? 'mobile.token' : 'token',
+            params: { id: edge.node.id },
+          })
         "
       >
         <q-item-section>
           <q-item-label
             >{{ edge.node.name
-            }}<q-chip dense square size="sm" color="white" class="q-ml-sm">{{
+            }}<q-chip dense square size="sm" class="q-ml-sm">{{
               edge.node.symbol
             }}</q-chip></q-item-label
           >
@@ -54,7 +57,7 @@ export default defineComponent({
     mobile: {
       required: false,
       type: Boolean,
-    }
+    },
   },
 
   setup(props) {

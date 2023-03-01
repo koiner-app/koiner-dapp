@@ -1,8 +1,6 @@
 <template>
   <q-page class="row items-start">
-    <q-card
-      style="width: 100%; min-height: 100vh"
-    >
+    <q-card style="width: 100%; min-height: 100vh">
       <q-card-section class="q-pt-lg">
         <q-input dense standout autofocus v-model="search">
           <template v-slot:prepend>
@@ -20,6 +18,7 @@
       </q-card-section>
 
       <mobile-pages-search :search="trimmedSearch" :mobile="true" />
+      <token-contracts-search :search="trimmedSearch" :mobile="true" />
       <addresses-search :search="trimmedSearch" :mobile="true" />
       <blocks-search :search="trimmedSearch" :mobile="true" />
       <transactions-search :search="trimmedSearch" :mobile="true" />
@@ -37,10 +36,12 @@ import ProjectsMobileSearch from '@koiner/components/search/searches/mobile/proj
 import BlocksSearch from '@koiner/components/search/searches/blocks-search.vue';
 import TransactionsSearch from '@koiner/components/search/searches/transactions-search.vue';
 import MobilePagesSearch from '@koiner/components/search/searches/mobile/mobile-pages-search.vue';
+import TokenContractsSearch from '@koiner/components/search/searches/token-contracts-search.vue';
 
 export default defineComponent({
   name: 'MobileSearchPage',
   components: {
+    TokenContractsSearch,
     MobilePagesSearch,
     TransactionsSearch,
     BlocksSearch,

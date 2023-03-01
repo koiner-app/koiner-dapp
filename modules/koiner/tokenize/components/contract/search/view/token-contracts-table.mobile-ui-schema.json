@@ -45,7 +45,7 @@
         },
         {
           "type": "AttributeGroup",
-          "label": "Total Supply - Holders - Transfer",
+          "label": "Total Supply - Holders - Transfers",
           "scope": "#/properties/group2",
           "options": {
             "class": "attribute-wrapper--group-2"
