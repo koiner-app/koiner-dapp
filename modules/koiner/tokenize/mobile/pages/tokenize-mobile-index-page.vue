@@ -1,16 +1,16 @@
 <template>
   <q-page class="row items-start mobile-tab-page">
     <q-card class="tabs-card" flat bordered>
-      <q-card-section class="q-pt-xs">
+      <q-card-section class="q-pt-xs q-px-none">
         <q-tab-panels v-model="tab" animated>
-          <q-tab-panel name="tokens">
-            <token-contracts-table />
+          <q-tab-panel name="tokens" class="tab--mobile-table">
+            <token-contracts-table :mobile="true" />
           </q-tab-panel>
-          <q-tab-panel name="token-operations">
-            <tokens-operations-table />
+          <q-tab-panel name="token-operations" class="tab--mobile-table">
+            <tokens-operations-table :mobile="true" />
           </q-tab-panel>
-          <q-tab-panel name="token-events">
-            <tokens-events-table />
+          <q-tab-panel name="token-events" class="tab--mobile-table">
+            <tokens-events-table :mobile="true" />
           </q-tab-panel>
         </q-tab-panels>
       </q-card-section>

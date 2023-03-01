@@ -1953,6 +1953,8 @@ export type TokenContractsSearchQuery = {
         decimals: number;
         totalSupply: string;
         timestamp: any;
+        transferCount: any;
+        holders: { __typename?: 'TokenHoldersConnection'; totalCount: number };
       };
     }>;
     pageInfo: {
@@ -2905,6 +2907,10 @@ export const TokenContractsSearchDocument = gql`
           decimals
           totalSupply
           timestamp
+          transferCount
+          holders {
+            totalCount
+          }
         }
         __typename
       }

@@ -21,6 +21,10 @@ query TokenContractsSearch(
         decimals
         totalSupply
         timestamp
+        transferCount
+        holders {
+          totalCount
+        }
       }
       __typename
     }

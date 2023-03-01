@@ -1,0 +1,90 @@
+{
+  "type": "object",
+  "elements": [
+    {
+      "type": "TableView",
+      "options": {
+        "search": {
+          "provider": "tokenContracts"
+        }
+      },
+      "elements": [
+        {
+          "type": "AttributeGroup",
+          "label": "Name / Age",
+          "scope": "#/properties/group1",
+          "options": {
+            "class": "attribute-wrapper--group-1"
+          },
+          "elements": [
+            {
+              "type": "Attribute",
+              "label": "ID",
+              "scope": "#/properties/id",
+              "options": {
+                "route": "token",
+                "format": "link",
+                "linkParams": ["id"],
+                "mapping": "name",
+                "mappings": {
+                  "id": "id"
+                }
+              }
+            },
+            {
+              "type": "Attribute",
+              "label": "Age",
+              "scope": "#/properties/timestamp",
+              "options": {
+                "format": "age",
+                "mapping": "timestamp",
+                "class": "attribute-wrapper--age"
+              }
+            }
+          ]
+        },
+        {
+          "type": "AttributeGroup",
+          "label": "Total Supply - Holders - Transfer",
+          "scope": "#/properties/group2",
+          "options": {
+            "class": "attribute-wrapper--group-2"
+          },
+          "elements": [
+            {
+              "type": "Attribute",
+              "label": "Total supply",
+              "scope": "#/properties/totalSupply",
+              "options": {
+                "format": "tokenAmount",
+                "mapping": "totalSupply",
+                "mappings": {
+                  "contract.id": "id",
+                  "contract.name": "name",
+                  "contract.symbol": "symbol",
+                  "contract.decimals": "decimals"
+                }
+              }
+            },
+            {
+              "type": "Attribute",
+              "scope": "#/properties/holderCount",
+              "options": {
+                "mapping": "holders.totalCount",
+                "after": " holders -"
+              }
+            },
+            {
+              "type": "Attribute",
+              "scope": "#/properties/transferCount",
+              "options": {
+                "after": "x",
+                "mapping": "transferCount"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

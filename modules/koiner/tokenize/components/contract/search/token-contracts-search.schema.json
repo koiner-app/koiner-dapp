@@ -4,19 +4,8 @@
     "id": {
       "type": "string"
     },
-    "nameGroup": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "name": {
-          "type": "string"
-        },
-        "symbol": {
-          "type": "string"
-        }
-      }
+    "timestamp": {
+      "type": "number"
     },
     "symbol": {
       "type": "string"
@@ -25,6 +14,12 @@
       "type": "number"
     },
     "totalSupply": {
+      "type": "number"
+    },
+    "transferCount": {
+      "type": "number"
+    },
+    "holderCount": {
       "type": "number"
     }
   }

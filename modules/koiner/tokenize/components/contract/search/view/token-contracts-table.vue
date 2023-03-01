@@ -29,7 +29,8 @@ import { KoinerRenderers } from '@koiner/renderers';
 import SearchFilters from '@appvise/search-manager/search-filters.vue';
 import QJsonSearch from '@appvise/q-json-forms/QJsonSearch.vue';
 import schema from '../token-contracts-search.schema.json';
-import uiSchema from './token-contracts-table.ui-schema.json';
+import mobileUiSchema from './token-contracts-table.mobile-ui-schema.json';
+import desktopUiSchema from './token-contracts-table.ui-schema.json';
 
 export default defineComponent({
   name: 'TokenContractsTable',
@@ -39,9 +40,14 @@ export default defineComponent({
       required: false,
       type: String,
     },
+    mobile: {
+      required: false,
+      type: Boolean,
+      default: false,
+    },
   },
 
-  setup() {
+  setup(props) {
     const searchStore = useSearchStore();
 
     const onScroll = (newScrollPosition: number) => {
@@ -51,7 +57,7 @@ export default defineComponent({
     return {
       onScroll,
       schema,
-      uiSchema,
+      uiSchema: props.mobile ? mobileUiSchema : desktopUiSchema,
       request: searchStore.tokenContracts.request,
       position: searchStore.tokenContracts.position,
       renderers: KoinerRenderers,
