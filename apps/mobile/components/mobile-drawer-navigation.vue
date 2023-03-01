@@ -69,13 +69,19 @@ export default defineComponent({
         {
           name: 'Home',
           to: '/mobile',
-          icon: 'token',
+          icon: 'dashboard',
           disabled: false,
         },
         {
           name: 'Chain',
           to: '/mobile/chain',
           icon: 'token',
+          disabled: false,
+        },
+        {
+          name: 'Tokens',
+          to: '/mobile/tokenize',
+          icon: 'toll',
           disabled: false,
         },
       ],
