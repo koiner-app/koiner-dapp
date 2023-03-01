@@ -19,7 +19,10 @@
         </q-input>
       </q-card-section>
 
+      <mobile-pages-search :search="trimmedSearch" :mobile="true" />
       <addresses-search :search="trimmedSearch" :mobile="true" />
+      <blocks-search :search="trimmedSearch" :mobile="true" />
+      <transactions-search :search="trimmedSearch" :mobile="true" />
       <projects-mobile-search :search="trimmedSearch" />
     </q-card>
   </q-page>
@@ -31,10 +34,16 @@ import { useMagicKeys } from '@vueuse/core';
 import AddressesSearch from '@koiner/components/search/searches/addresses-search.vue';
 import posthog from 'posthog-js';
 import ProjectsMobileSearch from '@koiner/components/search/searches/mobile/projects-mobile-search.vue';
+import BlocksSearch from '@koiner/components/search/searches/blocks-search.vue';
+import TransactionsSearch from '@koiner/components/search/searches/transactions-search.vue';
+import MobilePagesSearch from '@koiner/components/search/searches/mobile/mobile-pages-search.vue';
 
 export default defineComponent({
   name: 'MobileSearchPage',
   components: {
+    MobilePagesSearch,
+    TransactionsSearch,
+    BlocksSearch,
     ProjectsMobileSearch,
     AddressesSearch,
   },

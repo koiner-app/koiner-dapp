@@ -11,11 +11,14 @@
         v-for="edge in transactionsSearch.connection.value.edges"
         :key="edge.cursor"
         @click.prevent="
-          router.push({ name: 'transaction', params: { id: edge.node.id } })
+          router.push({
+            name: `${mobile ? 'mobile.' : ''}transaction`,
+            params: { id: edge.node.id },
+          })
         "
       >
         <q-item-section>
-          <q-item-label class="text-white">
+          <q-item-label>
             {{ edge.node.id }}
           </q-item-label>
         </q-item-section>
@@ -54,7 +57,7 @@ export default defineComponent({
     mobile: {
       required: false,
       type: Boolean,
-    }
+    },
   },
 
   setup(props) {

@@ -12,13 +12,13 @@
         :key="edge.cursor"
         @click.prevent="
           router.push({
-            name: 'block',
+            name: `${mobile ? 'mobile.' : ''}block`,
             params: { height: edge.node.header.height },
           })
         "
       >
         <q-item-section>
-          <q-item-label class="text-white">
+          <q-item-label>
             {{ edge.node.header.height }}
           </q-item-label>
         </q-item-section>

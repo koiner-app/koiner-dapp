@@ -15,7 +15,7 @@
         "
       >
         <q-item-section>
-          <q-item-label class="text-white"
+          <q-item-label
             >{{ edge.node.id
             }}<q-chip dense square size="md" color="white" class="q-ml-sm">{{
               edge.node.contractStandardType

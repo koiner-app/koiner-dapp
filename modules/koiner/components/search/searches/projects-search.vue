@@ -5,7 +5,7 @@
     <q-list dense>
       <q-item v-ripple v-for="project in results" :key="project.name">
         <q-item-section>
-          <q-item-label class="text-white">
+          <q-item-label>
             {{ project.name }}
             <q-chip dense square size="sm" color="white" class="q-ml-sm">{{
                 project.types[0]

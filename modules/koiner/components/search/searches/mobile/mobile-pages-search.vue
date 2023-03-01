@@ -29,10 +29,10 @@
 
 <script lang="ts">
 import { defineComponent, ref, Ref, watch } from 'vue';
-import { pages } from '@koiner/components/search/searches/pages';
+import { mobilePages } from './mobile-pages';
 
 export default defineComponent({
-  name: 'PagesSearch',
+  name: 'MobilePagesSearch',
   props: {
     search: {
       required: true,
@@ -52,7 +52,7 @@ export default defineComponent({
       props,
       async () => {
         if (props.search !== '' && props.search.length > 1) {
-          results.value = pages.filter(
+          results.value = mobilePages.filter(
             (page) =>
               page.name.toLowerCase().includes(props.search.toLowerCase()) ||
               page.module.toLowerCase().includes(props.search.toLowerCase())
