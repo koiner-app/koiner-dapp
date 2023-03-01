@@ -27,8 +27,9 @@ import { useSearchStore } from 'stores/search';
 import { KoinerRenderers } from '@koiner/renderers';
 import SearchFilters from '@appvise/search-manager/search-filters.vue';
 import QJsonSearch from '@appvise/q-json-forms/QJsonSearch.vue';
-import schema from '@koiner/chain/operation/search/operations-search.schema.json';
-import uiSchema from '@koiner/chain/operation/search/view/operations-table.ui-schema.json';
+import schema from '../operations-search.schema.json';
+import mobileUiSchema from './operations-table.mobile-ui-schema.json';
+import desktopUiSchema from './operations-table.ui-schema.json';
 
 export default defineComponent({
   name: 'OperationsTable',
@@ -38,9 +39,14 @@ export default defineComponent({
       required: false,
       type: String,
     },
+    mobile: {
+      required: false,
+      type: Boolean,
+      default: false,
+    },
   },
 
-  setup() {
+  setup(props) {
     const searchStore = useSearchStore();
 
     const onScroll = (newScrollPosition: number) => {
@@ -50,7 +56,7 @@ export default defineComponent({
     return {
       onScroll,
       schema,
-      uiSchema,
+      uiSchema: props.mobile ? mobileUiSchema : desktopUiSchema,
       request: searchStore.operations.request,
       position: searchStore.operations.position,
       renderers: KoinerRenderers,

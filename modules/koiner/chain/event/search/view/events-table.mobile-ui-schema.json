@@ -1,0 +1,91 @@
+{
+  "type": "object",
+  "elements": [
+    {
+      "type": "TableView",
+      "options": {
+        "search": {
+          "provider": "events"
+        }
+      },
+      "elements": [
+        {
+          "type": "AttributeGroup",
+          "label": "Age / Bx",
+          "scope": "#/properties/group1",
+          "options": {
+            "class": "attribute-wrapper--group-1"
+          },
+          "elements": [
+            {
+              "type": "Attribute",
+              "scope": "#/properties/timestamp",
+              "options": {
+                "format": "age",
+                "mapping": "timestamp",
+                "class": "attribute-wrapper--age"
+              }
+            },
+            {
+              "type": "Attribute",
+              "scope": "#/properties/blockHeight",
+              "options": {
+                "route": "block",
+                "format": "link",
+                "linkParams": ["height"],
+                "mapping": "blockHeight",
+                "mappings": {
+                  "height": "blockHeight"
+                }
+              }
+            }
+          ]
+        },
+        {
+          "type": "AttributeGroup",
+          "label": "Name / Parent",
+          "scope": "#/properties/group2",
+          "options": {
+            "class": "attribute-wrapper--group-2"
+          },
+          "elements": [
+            {
+              "type": "Attribute",
+              "scope": "#/properties/parentId",
+              "options": {
+                "format": "parent",
+                "mapping": "parentId",
+                "class": "attribute-wrapper--parent"
+              }
+            },
+            {
+              "type": "Attribute",
+              "scope": "#/properties/name",
+              "options": {
+                "mapping": "name",
+                "class": "attribute-wrapper--parent"
+              }
+            }
+          ]
+        },
+        {
+          "type": "AttributeGroup",
+          "label": "Sequence",
+          "scope": "#/properties/detailsGroup",
+          "options": {
+            "class": "attribute-wrapper--group-3"
+          },
+          "elements": [
+            {
+              "type": "Attribute",
+              "scope": "#/properties/sequence",
+              "options": {
+                "mapping": "sequence"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

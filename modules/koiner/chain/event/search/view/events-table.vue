@@ -27,8 +27,9 @@ import { useSearchStore } from 'stores/search';
 import { KoinerRenderers } from '@koiner/renderers';
 import SearchFilters from '@appvise/search-manager/search-filters.vue';
 import QJsonSearch from '@appvise/q-json-forms/QJsonSearch.vue';
-import schema from '@koiner/chain/event/search/events-search.schema.json';
-import uiSchema from '@koiner/chain/event/search/view/events-table.ui-schema.json';
+import schema from '../events-search.schema.json';
+import mobileUiSchema from './events-table.mobile-ui-schema.json';
+import desktopUiSchema from './events-table.ui-schema.json';
 
 export default defineComponent({
   name: 'EventsTable',
@@ -38,9 +39,14 @@ export default defineComponent({
       required: false,
       type: String,
     },
+    mobile: {
+      required: false,
+      type: Boolean,
+      default: false,
+    },
   },
 
-  setup() {
+  setup(props) {
     const searchStore = useSearchStore();
 
     const onScroll = (newScrollPosition: number) => {
@@ -50,7 +56,7 @@ export default defineComponent({
     return {
       onScroll,
       schema,
-      uiSchema,
+      uiSchema: props.mobile ? mobileUiSchema : desktopUiSchema,
       request: searchStore.events.request,
       position: searchStore.events.position,
       renderers: KoinerRenderers,

@@ -9,14 +9,14 @@
           <q-tab-panel name="transactions" class="tab--mobile-table">
             <transactions-table :mobile="true" />
           </q-tab-panel>
-          <q-tab-panel name="operations" class="tab--mobile-table">
-            <operations-table />
-          </q-tab-panel>
-          <q-tab-panel name="events" class="tab--mobile-table">
-            <events-table />
-          </q-tab-panel>
           <q-tab-panel name="addresses" class="tab--mobile-table">
             <addresses-table :mobile="true" />
+          </q-tab-panel>
+          <q-tab-panel name="operations" class="tab--mobile-table">
+            <operations-table :mobile="true" />
+          </q-tab-panel>
+          <q-tab-panel name="events" class="tab--mobile-table">
+            <events-table :mobile="true" />
           </q-tab-panel>
         </q-tab-panels>
       </q-card-section>
@@ -39,6 +39,12 @@
         <q-tab
           class="text-overline"
           :ripple="false"
+          label="Addresses"
+          name="addresses"
+        />
+        <q-tab
+          class="text-overline"
+          :ripple="false"
           label="Operations"
           name="operations"
         />
@@ -47,12 +53,6 @@
           :ripple="false"
           label="Events"
           name="events"
-        />
-        <q-tab
-          class="text-overline"
-          :ripple="false"
-          label="Addresses"
-          name="addresses"
         />
       </q-tabs>
     </q-page-sticky>

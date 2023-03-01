@@ -32,7 +32,7 @@
         th {
           font-size: 0.675rem !important;
 
-          &:not(:first-of-type):not(:last-of-type) {
+          &:not(:first-of-type):not(:nth-of-type(3)) {
             padding: 0 0.5rem;
           }
         }
@@ -72,12 +72,12 @@
     }
 
     th {
-      &:last-of-type {
+      &:nth-of-type(3) {
         text-align: right;
       }
     }
     td {
-      &:last-of-type {
+      &:nth-of-type(3) {
         text-align: right;
       }
     }
@@ -94,7 +94,8 @@
     }
 
     .attribute-wrapper--address,
-    .attribute-wrapper--transaction {
+    .attribute-wrapper--transaction,
+    .attribute-wrapper--parent {
       span {
         inline-size: 140px;
         overflow: hidden;
@@ -111,7 +112,8 @@
 
     @media screen and (min-width: 400px) {
       .attribute-wrapper--address,
-      .attribute-wrapper--transaction {
+      .attribute-wrapper--transaction,
+      .attribute-wrapper--parent {
         span {
           inline-size: 180px;
         }
@@ -120,7 +122,8 @@
 
     @media screen and (min-width: 440px) {
       .attribute-wrapper--address,
-      .attribute-wrapper--transaction {
+      .attribute-wrapper--transaction,
+      .attribute-wrapper--parent {
         span {
           inline-size: 220px;
         }
@@ -129,7 +132,8 @@
 
     @media screen and (min-width: 500px) {
       .attribute-wrapper--address,
-      .attribute-wrapper--transaction {
+      .attribute-wrapper--transaction,
+      .attribute-wrapper--parent {
         span {
           inline-size: 280px;
         }
@@ -145,7 +149,8 @@
       }
 
       .attribute-wrapper--address,
-      .attribute-wrapper--transaction {
+      .attribute-wrapper--transaction,
+      .attribute-wrapper--parent {
         span {
           inline-size: auto;
         }

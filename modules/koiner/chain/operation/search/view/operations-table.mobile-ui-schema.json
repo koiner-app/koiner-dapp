@@ -1,0 +1,77 @@
+{
+  "type": "object",
+  "elements": [
+    {
+      "type": "TableView",
+      "options": {
+        "search": {
+          "provider": "operations"
+        }
+      },
+      "elements": [
+        {
+          "type": "AttributeGroup",
+          "label": "Age / Bx",
+          "scope": "#/properties/group1",
+          "options": {
+            "class": "attribute-wrapper--group-1"
+          },
+          "elements": [
+            {
+              "type": "Attribute",
+              "label": "Height",
+              "scope": "#/properties/blockHeight",
+              "options": {
+                "route": "block",
+                "format": "link",
+                "linkParams": ["height"],
+                "mapping": "blockHeight",
+                "mappings": {
+                  "height": "blockHeight"
+                }
+              }
+            },
+            {
+              "type": "Attribute",
+              "label": "Age",
+              "scope": "#/properties/timestamp",
+              "options": {
+                "format": "age",
+                "mapping": "timestamp",
+                "class": "attribute-wrapper--age"
+              }
+            }
+          ]
+        },
+        {
+          "type": "AttributeGroup",
+          "label": "Tx / Cp - St - Bw",
+          "scope": "#/properties/group2",
+          "options": {
+            "class": "attribute-wrapper--group-2"
+          },
+          "elements": [
+            {
+              "type": "Attribute",
+              "label": "Txn",
+              "scope": "#/properties/transactionId",
+              "options": {
+                "mapping": "transactionId",
+                "format": "transaction",
+                "class": "attribute-wrapper--address"
+              }
+            },
+            {
+              "type": "Attribute",
+              "label": "Type",
+              "scope": "#/properties/type",
+              "options": {
+                "mapping": "type"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
