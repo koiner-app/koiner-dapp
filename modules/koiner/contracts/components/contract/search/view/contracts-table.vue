@@ -26,7 +26,8 @@ import { KoinerRenderers } from '@koiner/renderers';
 import SearchFilters from '@appvise/search-manager/search-filters.vue';
 import QJsonSearch from '@appvise/q-json-forms/QJsonSearch.vue';
 import schema from '../contracts-search.schema.json';
-import uiSchema from './contracts-table.ui-schema.json';
+import mobileUiSchema from './contracts-table.mobile-ui-schema.json';
+import desktopUiSchema from './contracts-table.ui-schema.json';
 
 export default defineComponent({
   name: 'ContractsTable',
@@ -36,9 +37,14 @@ export default defineComponent({
       required: false,
       type: String,
     },
+    mobile: {
+      required: false,
+      type: Boolean,
+      default: false,
+    },
   },
 
-  setup() {
+  setup(props) {
     const searchStore = useSearchStore();
 
     const onScroll = (newScrollPosition: number) => {
@@ -48,7 +54,7 @@ export default defineComponent({
     return {
       onScroll,
       schema,
-      uiSchema,
+      uiSchema: props.mobile ? mobileUiSchema : desktopUiSchema,
       request: searchStore.contracts.request,
       position: searchStore.contracts.position,
       renderers: KoinerRenderers,

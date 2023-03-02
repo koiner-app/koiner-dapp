@@ -84,6 +84,12 @@ export default defineComponent({
           icon: 'toll',
           disabled: false,
         },
+        {
+          name: 'Contracts',
+          to: '/mobile/contracts',
+          icon: 'document_scanner',
+          disabled: false,
+        },
       ],
     };
   },

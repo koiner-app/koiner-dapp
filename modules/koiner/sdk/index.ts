@@ -1852,6 +1852,21 @@ export type ContractQuery = {
   };
 };
 
+export type ContractMobilePageQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+export type ContractMobilePageQuery = {
+  __typename?: 'Query';
+  contract: {
+    __typename?: 'Contract';
+    id: string;
+    contractStandardType?: ContractStandardType | null;
+    abi?: string | null;
+    timestamp: any;
+  };
+};
+
 export type BlockProducersSearchQueryVariables = Exact<{
   after?: InputMaybe<Scalars['String']>;
   before?: InputMaybe<Scalars['String']>;
@@ -2102,6 +2117,26 @@ export type TokenDesktopLayoutQueryVariables = Exact<{
 }>;
 
 export type TokenDesktopLayoutQuery = {
+  __typename?: 'Query';
+  tokenContract: {
+    __typename?: 'TokenContract';
+    id: string;
+    name: string;
+    symbol: string;
+    decimals: number;
+    totalSupply: string;
+    burnCount: any;
+    mintCount: any;
+    transferCount: any;
+    holders: { __typename?: 'TokenHoldersConnection'; totalCount: number };
+  };
+};
+
+export type TokenMobilePageQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+export type TokenMobilePageQuery = {
   __typename?: 'Query';
   tokenContract: {
     __typename?: 'TokenContract';
@@ -2777,6 +2812,28 @@ export function useContractQuery(
 ) {
   return Urql.useQuery<ContractQuery>({ query: ContractDocument, ...options });
 }
+export const ContractMobilePageDocument = gql`
+  query ContractMobilePage($id: ID!) {
+    contract(id: $id) {
+      id
+      contractStandardType
+      abi
+      timestamp
+    }
+  }
+`;
+
+export function useContractMobilePageQuery(
+  options: Omit<
+    Urql.UseQueryArgs<never, ContractMobilePageQueryVariables>,
+    'query'
+  > = {}
+) {
+  return Urql.useQuery<ContractMobilePageQuery>({
+    query: ContractMobilePageDocument,
+    ...options,
+  });
+}
 export const BlockProducersSearchDocument = gql`
   query BlockProducersSearch(
     $after: String
@@ -3127,6 +3184,35 @@ export function useTokenDesktopLayoutQuery(
 ) {
   return Urql.useQuery<TokenDesktopLayoutQuery>({
     query: TokenDesktopLayoutDocument,
+    ...options,
+  });
+}
+export const TokenMobilePageDocument = gql`
+  query TokenMobilePage($id: ID!) {
+    tokenContract(id: $id) {
+      id
+      name
+      symbol
+      decimals
+      totalSupply
+      burnCount
+      mintCount
+      transferCount
+      holders {
+        totalCount
+      }
+    }
+  }
+`;
+
+export function useTokenMobilePageQuery(
+  options: Omit<
+    Urql.UseQueryArgs<never, TokenMobilePageQueryVariables>,
+    'query'
+  > = {}
+) {
+  return Urql.useQuery<TokenMobilePageQuery>({
+    query: TokenMobilePageDocument,
     ...options,
   });
 }

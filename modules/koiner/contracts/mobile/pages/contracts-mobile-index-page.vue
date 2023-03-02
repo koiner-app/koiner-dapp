@@ -3,14 +3,14 @@
     <q-card class="tabs-card" flat>
       <q-card-section class="q-pt-xs">
         <q-tab-panels v-model="tab" animated>
-          <q-tab-panel name="contracts">
-            <contracts-table />
+          <q-tab-panel name="contracts" class="tab--mobile-table">
+            <contracts-table :mobile="true"  />
           </q-tab-panel>
-          <q-tab-panel name="contract-operations">
-            <contract-operations-table />
+          <q-tab-panel name="contract-operations" class="tab--mobile-table">
+            <contract-operations-table :mobile="true"  />
           </q-tab-panel>
-          <q-tab-panel name="contract-events">
-            <contract-events-table />
+          <q-tab-panel name="contract-events" class="tab--mobile-table">
+            <contract-events-table :mobile="true"  />
           </q-tab-panel>
         </q-tab-panels>
       </q-card-section>
