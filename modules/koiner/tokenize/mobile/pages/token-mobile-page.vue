@@ -1,6 +1,6 @@
 <template>
   <q-page class="row items-start mobile-tab-page">
-    <q-card class="tabs-card" flat bordered v-if="tokenContract">
+    <q-card class="tabs-card" flat v-if="tokenContract">
       <q-card-section class="q-pt-xs q-px-none">
         <q-tab-panels v-model="tab" animated>
           <q-tab-panel name="token-details" class="tab--mobile-table">
@@ -65,9 +65,7 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, ref, Ref, watch } from 'vue';
-import { useKoinerStore } from 'stores/koiner';
-import { useStatsStore } from 'stores/stats';
-import { TokenContract, useTokenDesktopLayoutQuery } from '@koiner/sdk';
+import { TokenContract, useTokenMobilePageQuery } from '@koiner/sdk';
 import { ItemState } from '@appvise/search-manager';
 import { useRoute } from 'vue-router';
 import TokensOperationsTable from '@koiner/tokenize/components/operation/search/view/tokens-operations-table.vue';
@@ -75,7 +73,7 @@ import TokensEventsTable from '@koiner/tokenize/components/event/search/view/tok
 import TokenHoldersTable from '@koiner/tokenize/components/holder/search/view/token-holders-table.vue';
 
 export default defineComponent({
-  name: 'AddressMobilePage',
+  name: 'TokenMobilePage',
   components: {
     TokenHoldersTable,
     TokensEventsTable,
@@ -83,8 +81,6 @@ export default defineComponent({
   },
 
   setup() {
-    const koinerStore = useKoinerStore();
-    const statsStore = useStatsStore();
     const route = useRoute();
 
     const tab: Ref<string> = ref('token-details');
@@ -92,7 +88,7 @@ export default defineComponent({
     const variables: Ref<{ id: string }> = ref({ id: '' });
 
     const executeQuery = () => {
-      const { data, fetching, error, isPaused } = useTokenDesktopLayoutQuery({
+      const { data, fetching, error, isPaused } = useTokenMobilePageQuery({
         variables,
       });
 
@@ -121,13 +117,10 @@ export default defineComponent({
     );
 
     return {
+      tab,
       itemState,
       tokenContract: itemState.item,
       error: itemState.error,
-
-      tab,
-      koinerStore,
-      statsStore,
     };
   },
 });

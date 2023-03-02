@@ -1,6 +1,6 @@
 <template>
   <q-page class="row items-start mobile-tab-page">
-    <q-card class="tabs-card" flat bordered v-if="id">
+    <q-card class="tabs-card" flat v-if="id">
       <q-card-section class="q-pt-xs q-px-none">
         <q-tab-panels v-model="tab" animated>
           <q-tab-panel
