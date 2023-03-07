@@ -11,28 +11,28 @@
         <q-item-label caption>Timestamp</q-item-label>
         <q-item-label lines="2">
           {{ timeAgo(block.header.timestamp) }}
-          <span class="timestamp">({{
-            new Date(block.header.timestamp).toLocaleString()
-          }})</span>
+          <span class="timestamp"
+            >({{ new Date(block.header.timestamp).toLocaleString() }})</span
+          >
         </q-item-label>
       </q-item-section>
     </q-item>
 
-    <q-item>
+    <q-item v-if="block.receipt.diskStorageUsed">
       <q-item-section>
         <q-item-label caption>Disk Storage Used:</q-item-label>
         <q-item-label>{{ block.receipt.diskStorageUsed }}</q-item-label>
       </q-item-section>
     </q-item>
 
-    <q-item>
+    <q-item v-if="block.receipt.networkBandwidthUsed">
       <q-item-section>
         <q-item-label caption>Network Bandwidth Used:</q-item-label>
         <q-item-label>{{ block.receipt.networkBandwidthUsed }}</q-item-label>
       </q-item-section>
     </q-item>
 
-    <q-item>
+    <q-item v-if="block.receipt.computeBandwidthUsed">
       <q-item-section>
         <q-item-label caption>Compute Bandwidth Used:</q-item-label>
         <q-item-label>{{ block.receipt.computeBandwidthUsed }}</q-item-label>
