@@ -32,14 +32,14 @@
       </q-item-section>
     </q-item>
 
-    <q-item>
+    <q-item v-if="transaction.receipt?.diskStorageUsed">
       <q-item-section>
         <q-item-label caption>Disk Storage Used:</q-item-label>
         <q-item-label>{{ transaction.receipt.diskStorageUsed }}</q-item-label>
       </q-item-section>
     </q-item>
 
-    <q-item>
+    <q-item v-if="transaction.receipt?.networkBandwidthUsed">
       <q-item-section>
         <q-item-label caption>Network Bandwidth Used:</q-item-label>
         <q-item-label>{{
@@ -48,7 +48,7 @@
       </q-item-section>
     </q-item>
 
-    <q-item>
+    <q-item v-if="transaction.receipt?.computeBandwidthUsed">
       <q-item-section>
         <q-item-label caption>Compute Bandwidth Used:</q-item-label>
         <q-item-label>{{
