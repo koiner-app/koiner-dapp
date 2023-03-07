@@ -1,5 +1,5 @@
 <template>
-  <q-page v-if="block" :class="index ? 'row items-start' : ''">
+  <q-page v-if="block" :class="indexed ? 'row items-start' : ''">
     <q-card class="stats-cards" flat bordered>
       <q-card-section horizontal>
         <counter-metric title="Height" :value="block.header.height" />
@@ -157,7 +157,7 @@ import BlockProducerComponent from '@koiner/chain/block/block-producer-component
 import ContractEventsTable from '@koiner/contracts/components/contract/search/view/contracts-events-table.vue';
 import ErrorView from 'components/error-view.vue';
 import { getBlock } from '@koiner/chain/koilib-service';
-import { timeToGo } from '../../../../../utils';
+import { timeToGo } from '@koiner/utils';
 
 export default defineComponent({
   name: 'BlockPage',
@@ -247,11 +247,6 @@ export default defineComponent({
         itemState.isPaused.value = true;
         itemState.isPaused.value = false;
       }
-
-      if (!itemState.item.value && msToIndex.value < -600000) {
-        // Reload after 6 minutes if retrieving indexed data has failed
-        location.reload();
-      }
     };
 
     const startWatcher = () => {
@@ -281,7 +276,7 @@ export default defineComponent({
     });
 
     const loadFromChain = async () => {
-      if (height.value) {
+      if (height.value && !blockFromChain.value) {
         blockFromChain.value = await getBlock(height.value);
 
         if (!blockFromChain.value) {

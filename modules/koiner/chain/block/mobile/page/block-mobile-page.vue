@@ -164,7 +164,6 @@ import {
   Ref,
   watch,
 } from 'vue';
-import { useStatsStore } from 'stores/stats';
 import TokensOperationsTable from '@koiner/tokenize/components/operation/search/view/tokens-operations-table.vue';
 import TokensEventsTable from '@koiner/tokenize/components/event/search/view/tokens-events-table.vue';
 import { useRoute } from 'vue-router';
@@ -194,7 +193,6 @@ export default defineComponent({
   },
 
   setup() {
-    const statsStore = useStatsStore();
     const route = useRoute();
 
     const tab: Ref<string> = ref('details');
@@ -266,11 +264,6 @@ export default defineComponent({
         itemState.isPaused.value = true;
         itemState.isPaused.value = false;
       }
-
-      if (!itemState.item.value && msToIndex.value < -600000) {
-        // Reload after 6 minutes if retrieving indexed data has failed
-        location.reload();
-      }
     };
 
     const startWatcher = () => {
@@ -300,7 +293,7 @@ export default defineComponent({
     });
 
     const loadFromChain = async () => {
-      if (height.value) {
+      if (height.value && !blockFromChain.value) {
         blockFromChain.value = await getBlock(height.value);
 
         if (!blockFromChain.value) {
@@ -316,7 +309,6 @@ export default defineComponent({
 
     return {
       tab,
-      statsStore,
       indexed,
       indexTime,
       msToIndex,
