@@ -1,20 +1,52 @@
 <template>
-  <q-page v-if="block" class="row items-start">
+  <q-page v-if="block" :class="index ? 'row items-start' : ''">
     <q-card class="stats-cards" flat bordered>
       <q-card-section horizontal>
         <counter-metric title="Height" :value="block.header.height" />
 
         <q-separator vertical />
 
-        <counter-metric title="Transactions" :value="block.transactionCount" />
+        <q-banner class="alert q-my-lg" v-if="!indexed">
+          <template v-slot:avatar>
+            <q-circular-progress
+              show-value
+              font-size="12px"
+              :value="indexProgress"
+              size="50px"
+              :thickness="0.22"
+              color="teal"
+              track-color="grey-3"
+              class="q-ma-md"
+            >
+              &nbsp;
+            </q-circular-progress>
+          </template>
+          <span style="font-size: 0.75rem !important; line-height: 1">
+            Full data will be shown after block is irreversible and indexed by
+            our servers.
+            <span v-if="indexTime - Date.now() > 0"
+              >Expected time to index: {{ timeToGo(indexTime) }}</span
+            >
+          </span>
+        </q-banner>
 
-        <q-separator vertical />
+        <counter-metric
+          v-if="indexed"
+          title="Transactions"
+          :value="block.transactionCount"
+        />
 
-        <counter-metric title="Events" :value="block.receipt.eventCount" />
+        <q-separator v-if="indexed" vertical />
+
+        <counter-metric
+          v-if="indexed"
+          title="Events"
+          :value="block.receipt.eventCount"
+        />
       </q-card-section>
     </q-card>
 
-    <q-card class="tabs-card" flat bordered>
+    <q-card v-if="indexed" class="tabs-card" flat bordered>
       <q-card-section class="q-pt-xs">
         <q-tabs v-model="tab" dense align="left" style="width: 100%">
           <q-tab
@@ -83,7 +115,7 @@
           </q-card-section>
         </q-card>
 
-        <q-card flat bordered>
+        <q-card flat bordered v-if="indexed">
           <q-card-section>
             <q-card-section class="q-pa-none q-pt-xs">
               <div class="text-overline">Block Reward</div>
@@ -95,11 +127,22 @@
     </q-card>
   </q-page>
 
-  <error-view :error="itemState.error" />
+  <error-view
+    v-if="height && !block && showError && itemState.id"
+    :error="itemState.error"
+  />
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref, Ref, watch } from 'vue';
+import {
+  computed,
+  defineComponent,
+  onMounted,
+  onUnmounted,
+  ref,
+  Ref,
+  watch,
+} from 'vue';
 import { useStatsStore } from 'stores/stats';
 import CounterMetric from '@koiner/components/metrics/counter-metric.vue';
 import TokensOperationsTable from '@koiner/tokenize/components/operation/search/view/tokens-operations-table.vue';
@@ -113,9 +156,12 @@ import { Block, useBlockPageQuery } from '@koiner/sdk';
 import BlockProducerComponent from '@koiner/chain/block/block-producer-component.vue';
 import ContractEventsTable from '@koiner/contracts/components/contract/search/view/contracts-events-table.vue';
 import ErrorView from 'components/error-view.vue';
+import { getBlock } from '@koiner/chain/koilib-service';
+import { timeToGo } from '../../../../../utils';
 
 export default defineComponent({
   name: 'BlockPage',
+  methods: { timeToGo },
   components: {
     ErrorView,
     ContractEventsTable,
@@ -133,8 +179,17 @@ export default defineComponent({
     const route = useRoute();
 
     const tab: Ref<string> = ref('transactions');
+    const indexed = ref(false);
+    const indexTime = ref(0);
+    const msToIndex = ref(0);
+    const indexProgress = ref(0);
+    const intervalId: Ref<NodeJS.Timeout | undefined> = ref();
+    const progressIntervalId: Ref<NodeJS.Timeout | undefined> = ref();
+    const blockFromChain: Ref<Block | undefined> = ref();
     const itemState = ItemState.create<Block>();
     const variables: Ref<{ height: string }> = ref({ height: '' });
+    const height: Ref<number | undefined> = ref();
+    const showError = ref(false);
 
     const executeQuery = () => {
       const { data, fetching, error, isPaused } = useBlockPageQuery({
@@ -143,34 +198,120 @@ export default defineComponent({
 
       watch(data, (updatedData) => {
         itemState.item.value = updatedData?.block as Block;
+
+        if (itemState.item.value) {
+          indexed.value = true;
+          blockFromChain.value = undefined;
+          stopWatcher();
+        }
       });
 
       watch(error, (updatedError) => {
         itemState.error.value = updatedError;
+
+        if (
+          updatedError?.message.includes('Entity was not found') &&
+          !blockFromChain.value
+        ) {
+          // Load block from chain if not found
+          loadFromChain();
+        }
       });
 
       itemState.fetching = fetching;
       itemState.isPaused = isPaused;
     };
 
-    onMounted(async () => {
-      variables.value.height = route.params.height.toString();
-      executeQuery();
-    });
-
     watch(
       () => route.params.height,
       async (newHeight) => {
-        variables.value.height = newHeight ? newHeight.toString() : '';
+        itemState.isPaused.value = !newHeight;
+
+        if (newHeight) {
+          height.value = Number(newHeight.toString());
+          variables.value.height = newHeight.toString();
+        } else {
+          variables.value.height = '';
+        }
       }
     );
+
+    const updateProgress = () => {
+      msToIndex.value = indexTime.value - Date.now();
+      indexProgress.value = 100 - (msToIndex.value / 240000) * 100;
+    };
+
+    const tryAgain = () => {
+      if (!itemState.item.value && msToIndex.value < 60000) {
+        // Try again by pausing query
+        itemState.isPaused.value = true;
+        itemState.isPaused.value = false;
+      }
+
+      if (!itemState.item.value && msToIndex.value < -600000) {
+        // Reload after 6 minutes if retrieving indexed data has failed
+        location.reload();
+      }
+    };
+
+    const startWatcher = () => {
+      intervalId.value = setInterval(updateProgress, 1000);
+      progressIntervalId.value = setInterval(tryAgain, 5000);
+    };
+
+    const stopWatcher = () => {
+      if (intervalId.value) {
+        clearInterval(intervalId.value);
+      }
+
+      if (progressIntervalId.value) {
+        clearInterval(progressIntervalId.value);
+      }
+    };
+
+    onMounted(() => {
+      height.value = Number(route.params.height.toString());
+      variables.value.height = height.value.toString();
+
+      executeQuery();
+    });
+
+    onUnmounted(() => {
+      stopWatcher();
+    });
+
+    const loadFromChain = async () => {
+      if (height.value) {
+        blockFromChain.value = await getBlock(height.value);
+
+        if (!blockFromChain.value) {
+          // Only show error if fetching from chain has failed
+          showError.value = true;
+        }
+      }
+
+      indexTime.value = blockFromChain.value?.header.timestamp + 240000;
+
+      startWatcher();
+    };
 
     return {
       tab,
       statsStore,
-
+      indexed,
+      indexTime,
+      msToIndex,
+      indexProgress,
       itemState,
-      block: itemState.item,
+      height,
+      block: computed((): Block | undefined => {
+        if (!itemState.item.value) {
+          return blockFromChain.value;
+        } else {
+          return itemState.item.value;
+        }
+      }),
+      showError,
       error: itemState.error,
     };
   },

@@ -198,14 +198,12 @@ export default defineComponent({
     const route = useRoute();
 
     const tab: Ref<string> = ref('details');
-
     const indexed = ref(false);
     const indexTime = ref(0);
     const msToIndex = ref(0);
     const indexProgress = ref(0);
     const intervalId: Ref<NodeJS.Timeout | undefined> = ref();
     const progressIntervalId: Ref<NodeJS.Timeout | undefined> = ref();
-
     const blockFromChain: Ref<Block | undefined> = ref();
     const itemState = ItemState.create<Block>();
     const variables: Ref<{ height: string }> = ref({ height: '' });
@@ -319,12 +317,10 @@ export default defineComponent({
     return {
       tab,
       statsStore,
-
       indexed,
       indexTime,
       msToIndex,
       indexProgress,
-
       itemState,
       height,
       block: computed((): Block | undefined => {
