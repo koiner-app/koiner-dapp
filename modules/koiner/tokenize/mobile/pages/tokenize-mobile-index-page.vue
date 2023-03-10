@@ -44,10 +44,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, Ref, ref } from 'vue';
+import { defineComponent, onMounted, Ref, ref } from 'vue';
 import TokenContractsTable from '@koiner/tokenize/components/contract/search/view/token-contracts-table.vue';
 import TokensOperationsTable from '@koiner/tokenize/components/operation/search/view/tokens-operations-table.vue';
 import TokensEventsTable from '@koiner/tokenize/components/event/search/view/tokens-events-table.vue';
+import { useRoute } from 'vue-router';
 
 export default defineComponent({
   name: 'ChainMobileIndexPage',
@@ -58,7 +59,15 @@ export default defineComponent({
   },
 
   setup() {
+    const route = useRoute();
+
     const tab: Ref<string> = ref('tokens');
+
+    onMounted(async () => {
+      if (route.query['tab']) {
+        tab.value = route.query['tab'].toString();
+      }
+    });
 
     return {
       tab,

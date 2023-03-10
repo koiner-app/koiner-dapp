@@ -107,6 +107,10 @@ export default defineComponent({
     onMounted(async () => {
       variables.value.id = route.params.id.toString();
       executeQuery();
+
+      if (route.query['tab']) {
+        tab.value = route.query['tab'].toString();
+      }
     });
 
     watch(

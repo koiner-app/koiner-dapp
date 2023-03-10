@@ -60,12 +60,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, Ref, ref } from 'vue';
+import { defineComponent, onMounted, Ref, ref } from 'vue';
 import TransactionsTable from './transaction/search/view/transactions-table.vue';
 import BlocksTable from './block/search/view/blocks-table.vue';
 import OperationsTable from './operation/search/view/operations-table.vue';
 import EventsTable from './event/search/view/events-table.vue';
 import AddressesTable from './address/search/view/addresses-table.vue';
+import { useRoute } from 'vue-router';
 
 export default defineComponent({
   name: 'ChainMobileIndexPage',
@@ -78,7 +79,14 @@ export default defineComponent({
   },
 
   setup() {
+    const route = useRoute();
     const tab: Ref<string> = ref('blocks');
+
+    onMounted(() => {
+      if (route.query['tab']) {
+        tab.value = route.query['tab'].toString();
+      }
+    });
 
     return {
       tab,
