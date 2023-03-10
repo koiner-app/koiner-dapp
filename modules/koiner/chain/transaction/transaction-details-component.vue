@@ -1,9 +1,15 @@
 <template>
+  <q-separator class="q-mb-lg" />
+
+  <div class="text-overline">Details</div>
+
   <q-list v-if="transaction">
     <q-item>
       <q-item-section class="id-section">
         <q-item-label caption>ID</q-item-label>
-        <q-item-label lines="2"> {{ transaction.id }} </q-item-label>
+        <q-item-label lines="2" style="word-break: break-word">
+          {{ transaction.id }}
+        </q-item-label>
       </q-item-section>
     </q-item>
     <q-item>
@@ -12,7 +18,7 @@
         <q-item-label lines="2"
           ><router-link
             :to="{
-              name: mobile ? 'mobile.block' : 'block',
+              name: 'block',
               params: { height: transaction.blockHeight },
             }"
             >{{ transaction.blockHeight }}</router-link
@@ -31,7 +37,74 @@
         </q-item-label>
       </q-item-section>
     </q-item>
+  </q-list>
 
+  <q-separator class="q-my-lg" />
+
+  <div class="text-overline">Mana</div>
+
+  <q-list>
+    <q-item>
+      <q-item-section>
+        <q-item-label caption>Payer:</q-item-label>
+        <q-item-label>
+          <router-link
+            :to="{
+              name: 'address',
+              params: { id: transaction.header.payer },
+            }"
+            >{{ transaction.header.payer }}</router-link
+          ></q-item-label
+        >
+      </q-item-section>
+    </q-item>
+
+    <q-item>
+      <q-item-section>
+        <q-item-label caption>Payee:</q-item-label>
+        <q-item-label
+          ><router-link
+            v-if="transaction.header.payee"
+            :to="{
+              name: 'address',
+              params: { id: transaction.header.payee },
+            }"
+            >{{ transaction.header.payee }}</router-link
+          >
+          <span v-else>-</span>
+        </q-item-label>
+      </q-item-section>
+    </q-item>
+
+    <q-item>
+      <q-item-section>
+        <q-item-label caption>Mana used:</q-item-label>
+        <q-item-label
+          >{{
+            formattedTokenAmount(transaction.receipt.rcUsed, 8)
+          }}
+          Mana</q-item-label
+        >
+      </q-item-section>
+    </q-item>
+
+    <q-item>
+      <q-item-section>
+        <q-item-label caption>Mana limit (Max payer RC)</q-item-label>
+        <q-item-label
+          >{{ formattedTokenAmount(transaction.receipt.rcLimit, 8) }} Mana ({{
+            formattedTokenAmount(transaction.receipt.maxPayerRc, 8)
+          }})</q-item-label
+        >
+      </q-item-section>
+    </q-item>
+  </q-list>
+
+  <q-separator class="q-my-lg" />
+
+  <div class="text-overline">Resources Used</div>
+
+  <q-list>
     <q-item v-if="transaction.receipt?.diskStorageUsed">
       <q-item-section>
         <q-item-label caption>Disk Storage Used:</q-item-label>
@@ -63,11 +136,11 @@
 import { defineComponent, PropType } from 'vue';
 import { Transaction } from '@koiner/sdk';
 import { useKoinerStore } from 'stores/koiner';
-import { timeAgo } from '../../utils';
+import { formattedTokenAmount, timeAgo } from '../../utils';
 
 export default defineComponent({
   name: 'TransactionDetailsComponent',
-  methods: { timeAgo },
+  methods: { formattedTokenAmount, timeAgo },
   props: {
     transaction: {
       required: true,

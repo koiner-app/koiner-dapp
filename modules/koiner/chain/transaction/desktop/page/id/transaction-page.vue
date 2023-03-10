@@ -74,22 +74,64 @@
 
         <q-card class="search-card bg-transparent" flat>
           <q-card-section class="q-mt-sm">
-            <div class="text-overline">&nbsp;</div>
+            <div class="text-overline">Mana</div>
 
-            <q-list v-if="transaction">
+            <q-list>
               <q-item>
                 <q-item-section>
-                  <q-item-label caption>Operations:</q-item-label>
-                  <q-item-label>{{ transaction.operationCount }}</q-item-label>
+                  <q-item-label caption>Payer:</q-item-label>
+                  <q-item-label>
+                    <router-link
+                      :to="{
+                        name: 'address',
+                        params: { id: transaction.header.payer },
+                      }"
+                      >{{ transaction.header.payer }}</router-link
+                    ></q-item-label
+                  >
                 </q-item-section>
               </q-item>
 
               <q-item>
                 <q-item-section>
-                  <q-item-label caption>Events:</q-item-label>
-                  <q-item-label>{{
-                    transaction.receipt.eventCount
-                  }}</q-item-label>
+                  <q-item-label caption>Payee:</q-item-label>
+                  <q-item-label
+                    ><router-link
+                      v-if="transaction.header.payee"
+                      :to="{
+                        name: 'address',
+                        params: { id: transaction.header.payee },
+                      }"
+                      >{{ transaction.header.payee }}</router-link
+                    >
+                    <span v-else>-</span>
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
+
+              <q-item>
+                <q-item-section>
+                  <q-item-label caption>Mana used:</q-item-label>
+                  <q-item-label
+                    >{{
+                      formattedTokenAmount(transaction.receipt.rcUsed, 8)
+                    }}
+                    Mana</q-item-label
+                  >
+                </q-item-section>
+              </q-item>
+
+              <q-item>
+                <q-item-section>
+                  <q-item-label caption>Mana limit (Max payer RC)</q-item-label>
+                  <q-item-label
+                    >{{
+                      formattedTokenAmount(transaction.receipt.rcLimit, 8)
+                    }}
+                    Mana ({{
+                      formattedTokenAmount(transaction.receipt.maxPayerRc, 8)
+                    }})</q-item-label
+                  >
                 </q-item-section>
               </q-item>
             </q-list>
@@ -102,7 +144,7 @@
           <q-card-section class="q-mt-sm">
             <div class="text-overline">Resources Used</div>
 
-            <q-list v-if="transaction">
+            <q-list>
               <q-item v-if="transaction.receipt?.diskStorageUsed">
                 <q-item-section>
                   <q-item-label caption>Disk Storage Used:</q-item-label>
@@ -127,6 +169,22 @@
                   <q-item-label>{{
                     transaction.receipt.computeBandwidthUsed
                   }}</q-item-label>
+                </q-item-section>
+              </q-item>
+
+              <q-item>
+                <q-item-section>
+                  <q-item-label caption>Stats:</q-item-label>
+                  <q-item-label
+                    >{{ transaction.operationCount }} operation<span
+                      v-if="transaction.operationCount !== 1"
+                      >s</span
+                    >
+                    + {{ transaction.receipt.eventCount }} event<span
+                      v-if="transaction.receipt.eventCount !== 1"
+                      >s</span
+                    ></q-item-label
+                  >
                 </q-item-section>
               </q-item>
             </q-list>
@@ -227,12 +285,17 @@ import ContractOperationsTable from '@koiner/contracts/components/contract/searc
 import TokensOperationsTable from '@koiner/tokenize/components/operation/search/view/tokens-operations-table.vue';
 import TokensEventsTable from '@koiner/tokenize/components/event/search/view/tokens-events-table.vue';
 import ContractEventsTable from '@koiner/contracts/components/contract/search/view/contracts-events-table.vue';
-import { timeAgo, timeToGo } from '@koiner/utils';
+import { formattedTokenAmount, timeAgo, timeToGo } from '@koiner/utils';
 import { useOnChainStore } from '@koiner/onchain';
 import { ContractsWithAbiSearchProvider } from '@koiner/contracts/components/contract/search/contracts-with-abi-search-provider';
 import { TokenContractsSearchProvider } from '@koiner/tokenize/components/contract/search/token-contract-search-provider';
 
 export default defineComponent({
+  methods: {
+    formattedTokenAmount,
+    timeAgo,
+    timeToGo,
+  },
   components: {
     ContractEventsTable,
     TokensEventsTable,
@@ -369,8 +432,6 @@ export default defineComponent({
     };
 
     return {
-      timeAgo,
-      timeToGo,
       tab,
       indexed,
       indexTime,

@@ -220,7 +220,7 @@
 }
 
 .q-separator--dark {
-  background: $dark-page;
+  background: lighten($dark-page, 10%);
 }
 
 //

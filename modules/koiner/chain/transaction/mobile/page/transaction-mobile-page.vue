@@ -45,26 +45,28 @@
                     "
                     >{{ transaction.id }}</span
                   >
-                  <br /><span :class="`stat-unit`" style="font-size: 0.875rem"
-                    >{{ transaction.operationCount }} Operation<span
-                      v-if="transaction.operationCount !== 1"
-                      >s</span
+                  <br /><span :class="`stat-unit`" style="font-size: 0.875rem">
+                    <span
+                      >{{ transaction.operationCount }} operation<span
+                        v-if="transaction.operationCount !== 1"
+                        >s</span
+                      >
+                      + {{ transaction.receipt.eventCount }} event<span
+                        v-if="transaction.receipt.eventCount !== 1"
+                        >s</span
+                      ></span
                     ></span
                   >
                 </div>
               </q-card-section>
             </q-card>
 
-            <q-card flat bordered class="details-transaction">
+            <q-card flat class="details-transaction q-pt-none">
               <q-card-section>
-                <q-card-section class="q-pa-none q-pt-xs">
-                  <div class="text-overline">Details</div>
-
-                  <transaction-details-component
-                    :transaction="transaction"
-                    :mobile="true"
-                  />
-                </q-card-section>
+                <transaction-details-component
+                  :transaction="transaction"
+                  :mobile="true"
+                />
               </q-card-section>
             </q-card>
           </q-tab-panel>
@@ -168,6 +170,9 @@ import { ContractsWithAbiSearchProvider } from '@koiner/contracts/components/con
 import { TokenContractsSearchProvider } from '@koiner/tokenize/components/contract/search/token-contract-search-provider';
 
 export default defineComponent({
+  methods: {
+    timeToGo,
+  },
   name: 'TransactionMobilePage',
   components: {
     ErrorView,
@@ -307,7 +312,6 @@ export default defineComponent({
     };
 
     return {
-      timeToGo,
       tab,
       indexed,
       indexTime,
