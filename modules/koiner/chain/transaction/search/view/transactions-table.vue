@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, PropType, watch } from 'vue';
+import { defineComponent, onMounted, PropType, ref, watch } from 'vue';
 import { useSearchStore } from 'stores/search';
 import { KoinerRenderers } from '@koiner/renderers';
 import SearchFilters from '@appvise/search-manager/search-filters.vue';
@@ -52,12 +52,25 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    live: {
+      required: false,
+      type: Boolean,
+      default: false,
+    },
   },
 
   setup(props) {
     const searchStore = useSearchStore();
     let heightsFilter: any;
     let addressFilter: any;
+
+    const uiSchema = ref(props.mobile ? mobileUiSchema : desktopUiSchema);
+
+    if (props.live) {
+      // Use on chain search provider
+      uiSchema.value.elements[0].options.search.provider =
+        'onChainTransactions';
+    }
 
     const onScroll = (newScrollPosition: number) => {
       searchStore.transactions.position = newScrollPosition;
@@ -115,7 +128,7 @@ export default defineComponent({
     return {
       onScroll,
       schema,
-      uiSchema: props.mobile ? mobileUiSchema : desktopUiSchema,
+      uiSchema: uiSchema.value,
       request: searchStore.transactions.request,
       position: searchStore.transactions.position,
       renderers: KoinerRenderers,

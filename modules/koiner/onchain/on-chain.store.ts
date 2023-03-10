@@ -15,6 +15,7 @@ import {
   TokenOperationsConnection,
   TransactionEdge,
   TransactionHeader,
+  TransactionsConnection,
 } from '@koiner/sdk';
 import {
   ContractDecoder,
@@ -40,6 +41,7 @@ export const useOnChainStore = defineStore({
           raw: RawBlock;
         }
       >(),
+      blockTransactions: new Map<string, TransactionsConnection>(),
       transactions: new Map<
         string,
         {
@@ -63,6 +65,7 @@ export const useOnChainStore = defineStore({
           raw: RawBlock;
         }
       >(),
+      blockTransactions: new Map<string, TransactionsConnection>(),
       transactions: new Map<
         string,
         {
@@ -86,6 +89,7 @@ export const useOnChainStore = defineStore({
           raw: RawBlock;
         }
       >(),
+      blockTransactions: new Map<string, TransactionsConnection>(),
       transactions: new Map<
         string,
         {
@@ -118,6 +122,11 @@ export const useOnChainStore = defineStore({
       return (id: string) => state[state.environment].blocks.get(id);
     },
     blocks: (state) => state[state.environment].blocks,
+    blockTransactions: (state) => state[state.environment].blockTransactions,
+    blockTransactionsByHeight: (state) => {
+      return (height: number) =>
+        state[state.environment].blockTransactions.get(height.toString());
+    },
     contract: (state) => {
       return (id: string) => state[state.environment].contracts.get(id);
     },
@@ -158,16 +167,36 @@ export const useOnChainStore = defineStore({
       });
     },
 
-    async loadBlock(blockId: string) {
-      const block = this.block(blockId);
+    async loadBlock(
+      blockId: string | number,
+      contractsSearch: ContractsSearchProvider,
+      tokenContractsSearch: TokenContractsSearchProvider
+    ) {
+      const block = this.block(blockId.toString());
 
       if (!block) {
         const provider = new Provider([this.rpcUrl]);
 
+        let byType = 'id';
+        let params: any = {
+          block_ids: [blockId],
+        };
+
+        if (typeof blockId === 'number') {
+          const head = await provider.getHeadInfo();
+
+          byType = 'height';
+          params = {
+            head_block_id: head.head_topology.id,
+            ancestor_start_height: blockId,
+            num_blocks: 1,
+          };
+        }
+
         const blocks = await provider.call<{
           block_items: RawBlock[];
-        }>('block_store.get_blocks_by_id', {
-          block_ids: [blockId],
+        }>(`block_store.get_blocks_by_${byType}`, {
+          ...params,
           return_block: true,
           return_receipt: true,
         });
@@ -175,7 +204,7 @@ export const useOnChainStore = defineStore({
         if (blocks.block_items.length > 0) {
           const block = blocks.block_items[0];
 
-          this.blocks.set(blockId, {
+          const koinerBlock = {
             raw: block,
             edge: {
               cursor: block.block_id,
@@ -191,7 +220,7 @@ export const useOnChainStore = defineStore({
                   },
                 },
                 header: {
-                  height: Number(block.block.header?.height),
+                  height: Number(block.block_height),
                   previous: block.block.header?.previous,
                   previousStateMerkleRoot: block.block.header?.previous,
                   signer: block.block.header?.signer,
@@ -199,7 +228,7 @@ export const useOnChainStore = defineStore({
                   transactionMerkleRoot:
                     block.block.header?.transaction_merkle_root,
                 } as BlockHeader,
-                height: Number(block.block.header?.height),
+                height: Number(block.block_height),
                 id: block.block_id,
                 receipt: {
                   diskStorageUsed: block.receipt.disk_storage_used ?? '0',
@@ -228,10 +257,43 @@ export const useOnChainStore = defineStore({
                 updatedAt: '',
               },
             } as BlockEdge,
-          });
+          };
 
-          // TODO: Save transactions
-          //
+          // Save block for both height + block id
+          this.blocks.set(block.block_height, koinerBlock);
+          this.blocks.set(block.block_id, koinerBlock);
+
+          if (block.block.transactions) {
+            const blockTransactions = {
+              edges: [] as TransactionEdge[],
+              pageInfo: {
+                hasPreviousPage: false,
+                hasNextPage: false,
+              },
+              totalCount: 0,
+            } as TransactionsConnection;
+
+            for (const transaction of block.block.transactions) {
+              if (transaction.id) {
+                await this.loadTransaction(
+                  transaction.id,
+                  contractsSearch,
+                  tokenContractsSearch
+                );
+
+                const txFromStore = this.transaction(transaction.id);
+
+                if (txFromStore) {
+                  blockTransactions.edges.push(txFromStore.edge);
+                  blockTransactions.totalCount += 1;
+                }
+              }
+            }
+
+            // Save transactions for both height + block id
+            this.blockTransactions.set(block.block_height, blockTransactions);
+            this.blockTransactions.set(block.block_id, blockTransactions);
+          }
         }
       }
     },
@@ -260,11 +322,17 @@ export const useOnChainStore = defineStore({
           ) {
             const blockId = transaction.containing_blocks[0];
 
-            await this.loadBlock(blockId);
+            let block = this.block(blockId);
 
-            const block = this.block(blockId);
+            if (!block) {
+              await this.loadBlock(
+                blockId,
+                contractsSearch,
+                tokenContractsSearch
+              );
 
-            console.log({ txBlock: block });
+              block = this.block(blockId);
+            }
 
             if (block) {
               const receipt = block.raw.receipt.transaction_receipts.find(
@@ -272,10 +340,7 @@ export const useOnChainStore = defineStore({
               );
 
               if (receipt) {
-                console.log({
-                  receipt,
-                });
-                this.transactions.set(transactionId, {
+                const koinerTransaction = {
                   raw: transaction.transaction,
                   blockIds: transaction.containing_blocks,
                   edge: {
@@ -290,7 +355,7 @@ export const useOnChainStore = defineStore({
                           hasNextPage: false,
                           hasPreviousPage: false,
                         },
-                      }, //EventsConnection;
+                      },
                       header: {
                         nonce: block.edge.node.header.signer,
                         operationMerkleRoot:
@@ -317,12 +382,14 @@ export const useOnChainStore = defineStore({
                         eventCount: receipt.events ? receipt.events.length : 0,
                       },
                       signatures: [],
-                      timestamp: Date.now() - 60000, //block.edge.node.header.timestamp,
+                      timestamp: block.edge.node.header.timestamp,
                       createdAt: '',
                       updatedAt: '',
                     },
                   },
-                });
+                };
+
+                this.transactions.set(transactionId, koinerTransaction);
               }
 
               await this.loadContractEventsByTransaction(
@@ -658,11 +725,6 @@ export const useOnChainStore = defineStore({
         }
       }
 
-      console.log({
-        contractEvents,
-        tokenEvents,
-      });
-
       this.contractEvents.set(transactionId, contractEvents);
       this.tokenEvents.set(transactionId, tokenEvents);
     },
@@ -800,6 +862,7 @@ export const useOnChainStore = defineStore({
               raw: RawBlock;
             }
           >(),
+          blockTransactions: new Map<string, TransactionsConnection>(),
           transactions: new Map<
             string,
             {
@@ -823,6 +886,7 @@ export const useOnChainStore = defineStore({
               raw: RawBlock;
             }
           >(),
+          blockTransactions: new Map<string, TransactionsConnection>(),
           transactions: new Map<
             string,
             {
@@ -846,6 +910,7 @@ export const useOnChainStore = defineStore({
               raw: RawBlock;
             }
           >(),
+          blockTransactions: new Map<string, TransactionsConnection>(),
           transactions: new Map<
             string,
             {

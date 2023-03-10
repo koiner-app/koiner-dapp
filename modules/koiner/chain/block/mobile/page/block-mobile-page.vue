@@ -21,7 +21,6 @@
                       track-color="grey-3"
                       class="q-ma-md"
                     >
-                      &nbsp;
                     </q-circular-progress>
                   </template>
                   <span style="font-size: 0.75rem !important; line-height: 1">
@@ -71,6 +70,7 @@
             <transactions-table
               :heights="[block.header.height]"
               :mobile="true"
+              :live="!indexed"
             />
           </q-tab-panel>
           <q-tab-panel name="contract-operations" class="tab--mobile-table">
@@ -114,7 +114,6 @@
           :ripple="false"
           label="Tx"
           name="transactions"
-          :disable="!indexed"
         />
         <q-tab
           class="text-overline"
@@ -175,12 +174,16 @@ import { Block, useBlockPageQuery } from '@koiner/sdk';
 import BlockProducerComponent from '@koiner/chain/block/block-producer-component.vue';
 import ContractEventsTable from '@koiner/contracts/components/contract/search/view/contracts-events-table.vue';
 import ErrorView from 'components/error-view.vue';
-import { timeAgo, timeToGo } from '@koiner/utils';
-import { getBlock } from '@koiner/chain/koilib-service';
+import { timeToGo } from '@koiner/utils';
+import { ContractsWithAbiSearchProvider } from '@koiner/contracts/components/contract/search/contracts-with-abi-search-provider';
+import { TokenContractsSearchProvider } from '@koiner/tokenize/components/contract/search/token-contract-search-provider';
+import { useOnChainStore } from '@koiner/onchain';
 
 export default defineComponent({
+  methods: {
+    timeToGo,
+  },
   name: 'BlockMobilePage',
-  methods: { timeToGo, timeAgo },
   components: {
     ErrorView,
     ContractEventsTable,
@@ -194,6 +197,7 @@ export default defineComponent({
 
   setup() {
     const route = useRoute();
+    const onChainStore = useOnChainStore();
 
     const tab: Ref<string> = ref('details');
     const indexed = ref(false);
@@ -207,6 +211,8 @@ export default defineComponent({
     const variables: Ref<{ height: string }> = ref({ height: '' });
     const height: Ref<number | undefined> = ref();
     const showError = ref(false);
+    const contractsSearch = new ContractsWithAbiSearchProvider();
+    const tokenContractsSearch = new TokenContractsSearchProvider();
 
     const executeQuery = () => {
       const { data, fetching, error, isPaused } = useBlockPageQuery({
@@ -255,7 +261,7 @@ export default defineComponent({
 
     const updateProgress = () => {
       msToIndex.value = indexTime.value - Date.now();
-      indexProgress.value = 100 - (msToIndex.value / 240000) * 100;
+      indexProgress.value = 100 - (msToIndex.value / 210000) * 100;
     };
 
     const tryAgain = () => {
@@ -293,8 +299,18 @@ export default defineComponent({
     });
 
     const loadFromChain = async () => {
+      console.log('loadFromChain');
+
       if (height.value && !blockFromChain.value) {
-        blockFromChain.value = await getBlock(height.value);
+        await onChainStore.loadBlock(
+          height.value,
+          contractsSearch,
+          tokenContractsSearch
+        );
+
+        blockFromChain.value = onChainStore.block(
+          height.value.toString()
+        )?.edge.node;
 
         if (!blockFromChain.value) {
           // Only show error if fetching from chain has failed
@@ -302,7 +318,7 @@ export default defineComponent({
         }
       }
 
-      indexTime.value = blockFromChain.value?.header.timestamp + 240000;
+      indexTime.value = blockFromChain.value?.header.timestamp + 210000;
 
       startWatcher();
     };

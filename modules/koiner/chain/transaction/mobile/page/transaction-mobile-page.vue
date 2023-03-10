@@ -249,7 +249,7 @@ export default defineComponent({
 
     const updateProgress = () => {
       msToIndex.value = indexTime.value - Date.now();
-      indexProgress.value = 100 - (msToIndex.value / 240000) * 100;
+      indexProgress.value = 100 - (msToIndex.value / 210000) * 100;
     };
 
     const tryAgain = () => {

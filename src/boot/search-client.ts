@@ -21,6 +21,7 @@ import { TokenHoldersSearchProvider } from '@koiner/tokenize/components//holder/
 import { TokenEventsOnChainSearchProvider } from '@koiner/tokenize/components/event/search/token-events-on-chain-search-provider';
 import { TokenOperationsSearchProvider } from '@koiner/tokenize/components//operation/search/token-operation-search-provider';
 import { TokenOperationOnChainSearchProvider } from '@koiner/tokenize/components/operation/search/token-operation-on-chain-search-provider';
+import { TransactionsOnChainSearchProvider } from '@koiner/chain/transaction/search/transactions-on-chain-search-provider';
 
 export default boot(({ app }) => {
   app.use(searchClient, {
@@ -44,6 +45,7 @@ export default boot(({ app }) => {
       tokenHolders: TokenHoldersSearchProvider,
       tokenOperations: TokenOperationsSearchProvider,
 
+      onChainTransactions: TransactionsOnChainSearchProvider,
       onChainContractOperations: ContractOperationOnChainSearchProvider,
       onChainContractEvents: ContractEventsOnChainSearchProvider,
       onChainTokenEvents: TokenEventsOnChainSearchProvider,
