@@ -2,6 +2,12 @@
   <div class="large-stats-cards">
     <counter-metric
       class="token-price"
+      :link="{
+        to: {
+          name: 'mobile.token',
+          params: { id: koinerStore.koinContract.id },
+        },
+      }"
       title="KOIN Price"
       :value="statsStore.formattedKoinPrice"
       :footer="{
@@ -58,6 +64,11 @@
 
     <counter-metric
       title="Burned Koin"
+      :link="{
+        to: {
+          name: 'mobile.network',
+        },
+      }"
       :value="statsStore.totalSupply.burned"
       unit="%"
       :decimals="2"
@@ -103,16 +114,43 @@
     />
 
     <counter-metric
-      title="Transactions"
-      :value="statsStore.chainStats.transactionCount"
+      title="Latest block"
+      :link="{
+        to: {
+          name: 'mobile.block',
+          params: { height: statsStore.chainStats.height },
+        },
+      }"
+      :value="statsStore.chainStats.height"
       :footer="{
-        title: 'Token transfer events:',
-        value: statsStore.tokenStats.transferCount,
+        title: 'Total transactions:',
+        value: statsStore.chainStats.transactionCount,
+      }"
+    />
+
+    <counter-metric
+      title="Token transfers"
+      :link="{
+        to: {
+          name: 'mobile.tokenize',
+          query: { tab: 'token-operations' },
+        },
+      }"
+      :value="statsStore.tokenStats.transferCount"
+      :footer="{
+        title: 'Tokens:',
+        value: statsStore.tokenStats.contractCount,
       }"
     />
 
     <counter-metric
       title="Claimed Koin"
+      :link="{
+        to: {
+          name: 'mobile.token',
+          params: { id: koinerStore.koinContract.id },
+        },
+      }"
       :value="statsStore.totalSupply.claimed"
       unit="%"
       :decimals="2"

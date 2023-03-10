@@ -1,12 +1,22 @@
 <template>
   <q-card class="stats-card" flat>
     <q-card-section>
-      <div class="stat-title">{{ title }}</div>
+      <div class="stat-title">
+        {{ title }}
+      </div>
       <div class="stat-content">
-        {{ formattedValue }}
-        <span v-if="unit" :class="`stat-unit ${unitClass ?? ''}`">{{
-          unit
-        }}</span>
+        <router-link v-if="link" :to="link.to"
+          >{{ formattedValue }}
+          <span v-if="unit" :class="`stat-unit ${unitClass ?? ''}`">{{
+            unit
+          }}</span></router-link
+        >
+        <span v-else>
+          {{ formattedValue }}
+          <span v-if="unit" :class="`stat-unit ${unitClass ?? ''}`">{{
+            unit
+          }}</span>
+        </span>
       </div>
       <div class="stat-footer" v-if="footer">
         {{ footer.title }}
@@ -67,6 +77,7 @@
 import { computed, defineComponent, PropType } from 'vue';
 import { round } from 'lodash';
 import { localizedTokenAmount } from '@koiner/utils';
+import { RouterLinkProps } from 'vue-router';
 
 interface StatItem {
   title: string;
@@ -81,6 +92,10 @@ export default defineComponent({
     title: {
       required: true,
       type: String,
+    },
+    link: {
+      required: false,
+      type: Object as PropType<RouterLinkProps>,
     },
     value: {
       required: true,
