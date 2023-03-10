@@ -21,6 +21,7 @@
                       track-color="grey-3"
                       class="q-ma-md"
                     >
+                      &nbsp;
                     </q-circular-progress>
                   </template>
                   <span style="font-size: 0.75rem !important; line-height: 1">
