@@ -146,7 +146,7 @@
       </q-card-section>
     </q-card>
 
-    <q-card class="tabs-card" flat bordered>
+    <q-card class="tabs-card" flat bordered style="max-width: 100% !important;">
       <q-card-section class="q-pt-xs">
         <q-tabs v-model="tab" dense align="left" style="width: 100%">
           <q-tab
