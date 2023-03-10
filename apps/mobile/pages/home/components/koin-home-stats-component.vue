@@ -115,6 +115,7 @@
 
     <counter-metric
       title="Latest block"
+      class="large-number-stat"
       :link="{
         to: {
           name: 'mobile.block',
@@ -123,13 +124,14 @@
       }"
       :value="statsStore.chainStats.height"
       :footer="{
-        title: 'Total transactions:',
+        title: 'Total Tx:',
         value: statsStore.chainStats.transactionCount,
       }"
     />
 
     <counter-metric
       title="Token transfers"
+      class="large-number-stat"
       :link="{
         to: {
           name: 'mobile.tokenize',
