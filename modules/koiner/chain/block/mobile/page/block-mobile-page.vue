@@ -38,11 +38,16 @@
                     v-if="block.transactionCount != null"
                     :class="`stat-unit`"
                     style="font-size: 0.875rem"
-                    >{{ block.transactionCount }} Transaction<span
-                      v-if="block.transactionCount > 1"
-                      >s</span
-                    ></span
                   >
+                    {{ block.transactionCount }} transactions<span
+                      v-if="block.transactionCount !== 1"
+                      >s</span
+                    >
+                    + {{ block.receipt.eventCount }} event<span
+                      v-if="block.receipt.eventCount !== 1"
+                      >s</span
+                    >
+                  </span>
                 </div>
               </q-card-section>
             </q-card>
