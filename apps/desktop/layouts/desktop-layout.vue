@@ -49,6 +49,7 @@ import { useWindowSize } from '@vueuse/core';
 import { useRoute, useRouter } from 'vue-router';
 import ManaBar from '@koiner/components/mana-bar.vue';
 import { useBlockProductionStore } from 'stores/block-production';
+import { useOnChainStore } from '@koiner/onchain';
 
 export default defineComponent({
   name: 'MainLayout',
@@ -67,6 +68,7 @@ export default defineComponent({
     const koinerStore = useKoinerStore();
     const statsStore = useStatsStore();
     const bookmarkStore = useBookmarkStore();
+    const onChainStore = useOnChainStore();
     const { width } = useWindowSize();
     const router = useRouter();
     const route = useRoute();
@@ -76,9 +78,12 @@ export default defineComponent({
     accountStore.load(koinerStore.environment);
     blockProductionStore.load(koinerStore.environment);
     bookmarkStore.load(koinerStore.environment);
+    onChainStore.load(koinerStore.environment);
 
     if (blockProductionStore.addressesFilter.length === 0) {
-      blockProductionStore.syncAddressFilterSelection(accountStore.addressesFilter);
+      blockProductionStore.syncAddressFilterSelection(
+        accountStore.addressesFilter
+      );
     }
 
     watch(

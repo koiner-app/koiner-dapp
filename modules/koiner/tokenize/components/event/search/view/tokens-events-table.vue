@@ -128,6 +128,11 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    live: {
+      required: false,
+      type: Boolean,
+      default: false,
+    },
   },
 
   setup(props) {
@@ -139,6 +144,13 @@ export default defineComponent({
     let heightsFilter: any;
     let addressFilter: any;
     let contractsFilter: any;
+
+    const uiSchema = ref(props.mobile ? mobileUiSchema : desktopUiSchema);
+
+    if (props.live) {
+      // Use on chain search provider
+      uiSchema.value.elements[0].options.search.provider = 'onChainTokenEvents';
+    }
 
     const nameFilters: Ref<
       Array<{
@@ -269,7 +281,7 @@ export default defineComponent({
       burn,
       onScroll,
       schema,
-      uiSchema: props.mobile ? mobileUiSchema : desktopUiSchema,
+      uiSchema: uiSchema.value,
       request: searchStore.tokenEvents.request,
       position: searchStore.tokenEvents.position,
       renderers: KoinerRenderers,

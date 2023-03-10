@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, PropType, watch } from 'vue';
+import { defineComponent, onMounted, PropType, ref, watch } from 'vue';
 import { KoinerRenderers } from '@koiner/renderers';
 import SearchFilters from '@appvise/search-manager/search-filters.vue';
 import QJsonSearch from '@appvise/q-json-forms/QJsonSearch.vue';
@@ -58,6 +58,11 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    live: {
+      required: false,
+      type: Boolean,
+      default: false,
+    },
   },
 
   setup(props) {
@@ -65,6 +70,14 @@ export default defineComponent({
     let heightsFilter: any;
     let addressFilter: any;
     let contractsFilter: any;
+
+    const uiSchema = ref(props.mobile ? mobileUiSchema : desktopUiSchema);
+
+    if (props.live) {
+      // Use on chain search provider
+      uiSchema.value.elements[0].options.search.provider =
+        'onChainContractOperations';
+    }
 
     const onScroll = (newScrollPosition: number) => {
       searchStore.contractOperations.position = newScrollPosition;
@@ -122,7 +135,7 @@ export default defineComponent({
       if (props.transactionId) {
         searchStore.contractOperations.request.filter.AND!.push({
           transactionId: {
-            equals: props.transactionId
+            equals: props.transactionId,
           },
         });
       }
@@ -144,7 +157,7 @@ export default defineComponent({
     return {
       onScroll,
       schema,
-      uiSchema: props.mobile ? mobileUiSchema : desktopUiSchema,
+      uiSchema: uiSchema.value,
       request: searchStore.contractOperations.request,
       position: searchStore.contractOperations.position,
       renderers: KoinerRenderers,

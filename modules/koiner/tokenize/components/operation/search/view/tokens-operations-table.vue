@@ -124,6 +124,11 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    live: {
+      required: false,
+      type: Boolean,
+      default: false,
+    },
   },
 
   setup(props) {
@@ -141,6 +146,14 @@ export default defineComponent({
         name: { equals: string };
       }>
     > = ref([]);
+
+    const uiSchema = ref(props.mobile ? mobileUiSchema : desktopUiSchema);
+
+    if (props.live) {
+      // Use on chain search provider
+      uiSchema.value.elements[0].options.search.provider =
+        'onChainTokenOperations';
+    }
 
     const updateNameFilter = (filterName: string, active: boolean) => {
       if (active) {
@@ -272,7 +285,7 @@ export default defineComponent({
       burn,
       onScroll,
       schema,
-      uiSchema: props.mobile ? mobileUiSchema : desktopUiSchema,
+      uiSchema: uiSchema.value,
       request: searchStore.tokenOperations.request,
       position: searchStore.tokenOperations.position,
       renderers: KoinerRenderers,

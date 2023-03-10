@@ -1,6 +1,7 @@
 export const koinerConfig = {
   production: {
     api: process.env.GRAPHQL_URI ?? 'https://api.koiner.app/graphql',
+    rpc: process.env.JSON_RPC_URL ?? 'https://api.koinos.io',
     checker: 'https://checker.koiner.app',
     chainId: 'QmeehjqATVaC4ReXxwbw4DQLbEdEAo8SmTBVzZz8s5ZV5F',
     chainName: 'mainnet',
@@ -32,6 +33,7 @@ export const koinerConfig = {
   },
   test: {
     api: process.env.GRAPHQL_URI_TEST ?? 'https://api.test.koiner.app/graphql',
+    rpc: process.env.JSON_RPC_URL ?? 'https://harbinger-api.koinos.io/',
     checker: 'https://checker.test.koiner.app',
     chainId: 'QmeehjqATVaC4ReXxwbw4DQLbEdEAo8SmTBVzZz8s5ZV5F',
     chainName: 'mainnet',
@@ -63,6 +65,7 @@ export const koinerConfig = {
   },
   local: {
     api: process.env.GRAPHQL_URI_TEST ?? 'http://api.local/graphql',
+    rpc: process.env.JSON_RPC_URL ?? 'https://api.koinos.io',
     checker: 'http://checker.local',
     chainId: 'QmeehjqATVaC4ReXxwbw4DQLbEdEAo8SmTBVzZz8s5ZV5F',
     chainName: 'mainnet',

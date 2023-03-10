@@ -15,6 +15,7 @@ import { useKoinosStore } from 'stores/koinos';
 import { useKoinerStore } from 'stores/koiner';
 import { useStatsStore } from 'stores/stats';
 import { useBookmarkStore } from '@koiner/bookmarks';
+import { useOnChainStore } from '@koiner/onchain';
 import MobileMainNavigation from '../components/mobile-main-navigation.vue';
 import { useWindowSize } from '@vueuse/core';
 import { useRoute, useRouter } from 'vue-router';
@@ -32,6 +33,7 @@ export default defineComponent({
     const koinerStore = useKoinerStore();
     const statsStore = useStatsStore();
     const bookmarkStore = useBookmarkStore();
+    const onChainStore = useOnChainStore();
     const { width } = useWindowSize();
     const router = useRouter();
     const route = useRoute();
@@ -41,6 +43,7 @@ export default defineComponent({
     accountStore.load(koinerStore.environment);
     blockProductionStore.load(koinerStore.environment);
     bookmarkStore.load(koinerStore.environment);
+    onChainStore.load(koinerStore.environment);
 
     if (blockProductionStore.addressesFilter.length === 0) {
       blockProductionStore.syncAddressFilterSelection(

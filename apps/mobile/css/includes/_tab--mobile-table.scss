@@ -139,7 +139,7 @@
       .attribute-wrapper--transaction,
       .attribute-wrapper--parent {
         span {
-          inline-size: 280px;
+          inline-size: 276px;
         }
       }
     }
@@ -153,10 +153,17 @@
       }
 
       .attribute-wrapper--address,
-      .attribute-wrapper--transaction,
       .attribute-wrapper--parent {
         span {
           inline-size: auto;
+        }
+      }
+    }
+
+    @media screen and (min-width: 600px) {
+      .attribute-wrapper--transaction {
+        span {
+          inline-size: 320px;
         }
       }
     }

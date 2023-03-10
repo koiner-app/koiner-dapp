@@ -25,10 +25,10 @@
                     </q-circular-progress>
                   </template>
                   <span style="font-size: 0.75rem !important; line-height: 1">
-                    Full data will be shown after containing block is
-                    irreversible and indexed by our servers.
+                    Transaction is being confirmed by the network.
                     <span v-if="indexTime - Date.now() > 0"
-                      >Expected time to index: {{ timeToGo(indexTime) }}</span
+                      >Expected time until parent block is irreversible:
+                      {{ timeToGo(indexTime) }}</span
                     >
                   </span>
                 </q-banner>
@@ -47,7 +47,7 @@
                   >
                   <br /><span :class="`stat-unit`" style="font-size: 0.875rem"
                     >{{ transaction.operationCount }} Operation<span
-                      v-if="transaction.operationCount > 1"
+                      v-if="transaction.operationCount !== 1"
                       >s</span
                     ></span
                   >
@@ -72,12 +72,14 @@
             <contract-operations-table
               :transaction-id="transaction.id"
               :mobile="true"
+              :live="!indexed"
             />
           </q-tab-panel>
           <q-tab-panel name="token-operations" class="tab--mobile-table">
             <tokens-operations-table
               :transaction-ids="[transaction.id]"
               :mobile="true"
+              :live="!indexed"
             />
           </q-tab-panel>
           <q-tab-panel name="token-events" class="tab--mobile-table">
@@ -85,10 +87,15 @@
               :parent-id="transaction.id"
               parent-type="transaction"
               :mobile="true"
+              :live="!indexed"
             />
           </q-tab-panel>
           <q-tab-panel name="events" class="tab--mobile-table">
-            <contract-events-table :parent-id="transaction.id" :mobile="true" />
+            <contract-events-table
+              :parent-id="transaction.id"
+              :mobile="true"
+              :live="!indexed"
+            />
           </q-tab-panel>
         </q-tab-panels>
       </q-card-section>
@@ -107,28 +114,24 @@
           :ripple="false"
           label="Contract Ops"
           name="contract-operations"
-          :disable="!indexed"
         />
         <q-tab
           class="text-overline"
           :ripple="false"
           label="Token Ops"
           name="token-operations"
-          :disable="!indexed"
         />
         <q-tab
           class="text-overline"
           :ripple="false"
           label="Token Events"
           name="token-events"
-          :disable="!indexed"
         />
         <q-tab
           class="text-overline"
           :ripple="false"
           label="Events"
           name="events"
-          :disable="!indexed"
         />
       </q-tabs>
     </q-page-sticky>
@@ -158,13 +161,14 @@ import ContractOperationsTable from '@koiner/contracts/components/contract/searc
 import { ItemState } from '@appvise/search-manager';
 import { Transaction, useTransactionPageQuery } from '@koiner/sdk';
 import ContractEventsTable from '@koiner/contracts/components/contract/search/view/contracts-events-table.vue';
-import { getTransaction } from '@koiner/chain/koilib-service';
 import { timeToGo } from '@koiner/utils';
 import ErrorView from 'components/error-view.vue';
+import { useOnChainStore } from '@koiner/onchain';
+import { ContractsWithAbiSearchProvider } from '@koiner/contracts/components/contract/search/contracts-with-abi-search-provider';
+import { TokenContractsSearchProvider } from '@koiner/tokenize/components/contract/search/token-contract-search-provider';
 
 export default defineComponent({
   name: 'TransactionMobilePage',
-  methods: { timeToGo },
   components: {
     ErrorView,
     ContractEventsTable,
@@ -176,6 +180,7 @@ export default defineComponent({
 
   setup() {
     const route = useRoute();
+    const onChainStore = useOnChainStore();
 
     const tab: Ref<string> = ref('details');
     const indexed = ref(false);
@@ -189,6 +194,8 @@ export default defineComponent({
     const variables: Ref<{ id: string }> = ref({ id: '' });
     const id: Ref<string | undefined> = ref();
     const showError = ref(false);
+    const contractsSearch = new ContractsWithAbiSearchProvider();
+    const tokenContractsSearch = new TokenContractsSearchProvider();
 
     const executeQuery = () => {
       const { data, fetching, error, isPaused } = useTransactionPageQuery({
@@ -276,8 +283,17 @@ export default defineComponent({
 
     const loadFromChain = async () => {
       console.log('loadFromChain');
+
       if (id.value && !transactionFromChain.value) {
-        transactionFromChain.value = await getTransaction(id.value);
+        await onChainStore.loadTransaction(
+          id.value,
+          contractsSearch,
+          tokenContractsSearch
+        );
+
+        transactionFromChain.value = onChainStore.transaction(
+          id.value
+        )?.edge.node;
 
         if (!transactionFromChain.value) {
           // Only show error if fetching from chain has failed
@@ -285,12 +301,13 @@ export default defineComponent({
         }
       }
 
-      indexTime.value = transactionFromChain.value?.timestamp + 240000;
+      indexTime.value = transactionFromChain.value?.timestamp + 210000;
 
       startWatcher();
     };
 
     return {
+      timeToGo,
       tab,
       indexed,
       indexTime,

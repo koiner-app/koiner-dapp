@@ -1,64 +1,141 @@
 <template>
-  <q-page
-    v-if="transaction"
-    :class="indexed ? 'row items-baseline justify-evenly' : ''"
-  >
+  <q-page v-if="transaction" class="row items-baseline">
+    <q-banner class="alert q-my-xs" v-if="!indexed">
+      <template v-slot:avatar>
+        <q-circular-progress
+          show-value
+          font-size="12px"
+          :value="indexProgress"
+          size="50px"
+          :thickness="0.22"
+          color="teal"
+          track-color="grey-3"
+          class="q-ma-md"
+        >
+          &nbsp;
+        </q-circular-progress>
+      </template>
+      <span style="font-size: 0.75rem !important; line-height: 1">
+        Transaction is being confirmed by the network.
+        <span v-if="indexTime - Date.now() > 0"
+          >Expected time until parent block is irreversible:
+          {{ timeToGo(indexTime) }}</span
+        >
+      </span>
+    </q-banner>
+
     <q-card class="stats-cards" flat bordered>
       <q-card-section horizontal>
-        <counter-metric
-          title="Transaction"
-          :value="`${transaction.id.substring(0, 10)}...`"
-        />
+        <q-card class="search-card bg-transparent" flat>
+          <q-card-section class="q-mt-sm">
+            <div class="text-overline">Details</div>
 
-        <q-separator vertical />
+            <q-list v-if="transaction">
+              <q-item>
+                <q-item-section class="id-section">
+                  <q-item-label caption>ID</q-item-label>
+                  <q-item-label lines="2" style="word-break: break-word">
+                    {{ transaction.id }}
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
+              <q-item>
+                <q-item-section class="id-section">
+                  <q-item-label caption>Block</q-item-label>
+                  <q-item-label lines="2"
+                    ><router-link
+                      :to="{
+                        name: 'block',
+                        params: { height: transaction.blockHeight },
+                      }"
+                      >{{ transaction.blockHeight }}</router-link
+                    ></q-item-label
+                  >
+                </q-item-section>
+              </q-item>
+              <q-item>
+                <q-item-section>
+                  <q-item-label caption>Timestamp</q-item-label>
+                  <q-item-label lines="2">
+                    {{ timeAgo(transaction.timestamp) }}
+                    <span class="timestamp"
+                      >({{
+                        new Date(transaction.timestamp).toLocaleString()
+                      }})</span
+                    >
+                  </q-item-label>
+                </q-item-section>
+              </q-item>
+            </q-list>
+          </q-card-section>
+        </q-card>
 
-        <q-banner class="alert q-my-lg" v-if="!indexed">
-          <template v-slot:avatar>
-            <q-circular-progress
-              show-value
-              font-size="12px"
-              :value="indexProgress"
-              size="50px"
-              :thickness="0.22"
-              color="teal"
-              track-color="grey-3"
-              class="q-ma-md"
-            >
-              &nbsp;
-            </q-circular-progress>
-          </template>
-          <span style="font-size: 0.75rem !important; line-height: 1">
-            Full data will be shown after block is irreversible and indexed by
-            our servers.
-            <span v-if="indexTime - Date.now() > 0"
-              >Expected time to index: {{ timeToGo(indexTime) }}</span
-            >
-          </span>
-        </q-banner>
+        <q-separator vertical style="max-height: 180px !important" />
 
-        <counter-metric
-          v-if="indexed"
-          title="Operations"
-          :value="transaction.operationCount"
-        />
+        <q-card class="search-card bg-transparent" flat>
+          <q-card-section class="q-mt-sm">
+            <div class="text-overline">&nbsp;</div>
 
-        <q-separator v-if="indexed" vertical />
+            <q-list v-if="transaction">
+              <q-item>
+                <q-item-section>
+                  <q-item-label caption>Operations:</q-item-label>
+                  <q-item-label>{{ transaction.operationCount }}</q-item-label>
+                </q-item-section>
+              </q-item>
 
-        <counter-metric
-          v-if="indexed"
-          title="Events"
-          :value="transaction.receipt.eventCount"
-        />
+              <q-item>
+                <q-item-section>
+                  <q-item-label caption>Events:</q-item-label>
+                  <q-item-label>{{
+                    transaction.receipt.eventCount
+                  }}</q-item-label>
+                </q-item-section>
+              </q-item>
+            </q-list>
+          </q-card-section>
+        </q-card>
+
+        <q-separator vertical style="max-height: 180px !important" />
+
+        <q-card class="search-card bg-transparent" flat>
+          <q-card-section class="q-mt-sm">
+            <div class="text-overline">Resources Used</div>
+
+            <q-list v-if="transaction">
+              <q-item v-if="transaction.receipt?.diskStorageUsed">
+                <q-item-section>
+                  <q-item-label caption>Disk Storage Used:</q-item-label>
+                  <q-item-label>{{
+                    transaction.receipt.diskStorageUsed
+                  }}</q-item-label>
+                </q-item-section>
+              </q-item>
+
+              <q-item v-if="transaction.receipt?.networkBandwidthUsed">
+                <q-item-section>
+                  <q-item-label caption>Network Bandwidth Used:</q-item-label>
+                  <q-item-label>{{
+                    transaction.receipt.networkBandwidthUsed
+                  }}</q-item-label>
+                </q-item-section>
+              </q-item>
+
+              <q-item v-if="transaction.receipt?.computeBandwidthUsed">
+                <q-item-section>
+                  <q-item-label caption>Compute Bandwidth Used:</q-item-label>
+                  <q-item-label>{{
+                    transaction.receipt.computeBandwidthUsed
+                  }}</q-item-label>
+                </q-item-section>
+              </q-item>
+            </q-list>
+          </q-card-section>
+        </q-card>
       </q-card-section>
     </q-card>
 
-    <q-card
-      v-if="indexed"
-      class="tabs-card"
-      flat
-      bordered
-      style="max-width: 100%"
-    >
+    <q-card class="tabs-card" flat bordered style="max-width: 100%">
       <q-card-section class="q-pt-xs">
         <q-tabs v-model="tab" dense align="left" style="width: 100%">
           <q-tab
@@ -95,6 +172,7 @@
               :burn-filter="false"
               :mint-filter="false"
               :transaction-id="transaction.id"
+              :live="!indexed"
             />
           </q-tab-panel>
           <q-tab-panel name="token-operations">
@@ -103,40 +181,32 @@
               :mint-filter="false"
               :transaction-ids="[transaction.id]"
               parent-type="transaction"
+              :live="!indexed"
             />
           </q-tab-panel>
           <q-tab-panel name="token-events">
             <tokens-events-table
               :parent-id="transaction.id"
               parent-type="transaction"
+              :live="!indexed"
             />
           </q-tab-panel>
           <q-tab-panel name="events">
             <contract-events-table
               :parent-id="transaction.id"
               parent-type="transaction"
+              :live="!indexed"
             />
           </q-tab-panel>
         </q-tab-panels>
       </q-card-section>
     </q-card>
-
-    <q-card class="search-card bg-transparent" flat>
-      <q-card-section class="q-pa-none" style="padding-top: 0 !important">
-        <q-card flat bordered class="q-mb-lg">
-          <q-card-section>
-            <q-card-section class="q-pa-none q-pt-xs">
-              <div class="text-overline">Details</div>
-
-              <transaction-details-component :transaction="transaction" />
-            </q-card-section>
-          </q-card-section>
-        </q-card>
-      </q-card-section>
-    </q-card>
   </q-page>
 
-  <error-view :error="itemState.error" />
+  <error-view
+    v-if="id && !transaction && showError && itemState.id"
+    :error="itemState.error"
+  />
 </template>
 
 <script lang="ts">
@@ -153,26 +223,26 @@ import { useRoute } from 'vue-router';
 import { Transaction, useTransactionPageQuery } from '@koiner/sdk';
 import { ItemState } from '@appvise/search-manager';
 import ErrorView from 'components/error-view.vue';
-import CounterMetric from '@koiner/components/metrics/counter-metric.vue';
 import ContractOperationsTable from '@koiner/contracts/components/contract/search/view/contracts-operations-table.vue';
 import TokensOperationsTable from '@koiner/tokenize/components/operation/search/view/tokens-operations-table.vue';
 import TokensEventsTable from '@koiner/tokenize/components/event/search/view/tokens-events-table.vue';
 import ContractEventsTable from '@koiner/contracts/components/contract/search/view/contracts-events-table.vue';
-import TransactionDetailsComponent from '@koiner/chain/transaction/transaction-details-component.vue';
-import { getTransaction } from '@koiner/chain/koilib-service';
+import { timeAgo, timeToGo } from '@koiner/utils';
+import { useOnChainStore } from '@koiner/onchain';
+import { ContractsWithAbiSearchProvider } from '@koiner/contracts/components/contract/search/contracts-with-abi-search-provider';
+import { TokenContractsSearchProvider } from '@koiner/tokenize/components/contract/search/token-contract-search-provider';
 
 export default defineComponent({
   components: {
-    TransactionDetailsComponent,
     ContractEventsTable,
     TokensEventsTable,
     TokensOperationsTable,
     ContractOperationsTable,
-    CounterMetric,
     ErrorView,
   },
   setup() {
     const route = useRoute();
+    const onChainStore = useOnChainStore();
 
     const tab: Ref<string> = ref('contract-operations');
     const indexed = ref(false);
@@ -186,6 +256,8 @@ export default defineComponent({
     const variables: Ref<{ id: string }> = ref({ id: '' });
     const id: Ref<string | undefined> = ref();
     const showError = ref(false);
+    const contractsSearch = new ContractsWithAbiSearchProvider();
+    const tokenContractsSearch = new TokenContractsSearchProvider();
 
     const executeQuery = () => {
       const { data, fetching, error, isPaused } = useTransactionPageQuery({
@@ -273,8 +345,17 @@ export default defineComponent({
 
     const loadFromChain = async () => {
       console.log('loadFromChain');
+
       if (id.value && !transactionFromChain.value) {
-        transactionFromChain.value = await getTransaction(id.value);
+        await onChainStore.loadTransaction(
+          id.value,
+          contractsSearch,
+          tokenContractsSearch
+        );
+
+        transactionFromChain.value = onChainStore.transaction(
+          id.value
+        )?.edge.node;
 
         if (!transactionFromChain.value) {
           // Only show error if fetching from chain has failed
@@ -282,12 +363,14 @@ export default defineComponent({
         }
       }
 
-      indexTime.value = transactionFromChain.value?.timestamp + 240000;
+      indexTime.value = transactionFromChain.value?.timestamp + 180000;
 
       startWatcher();
     };
 
     return {
+      timeAgo,
+      timeToGo,
       tab,
       indexed,
       indexTime,

@@ -1837,6 +1837,39 @@ export type ContractsSearchQuery = {
   };
 };
 
+export type ContractsWithAbiSearchQueryVariables = Exact<{
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  filter?: InputMaybe<ContractsFilter>;
+  sort?: InputMaybe<Array<ContractsSortInput> | ContractsSortInput>;
+}>;
+
+export type ContractsWithAbiSearchQuery = {
+  __typename?: 'Query';
+  contracts: {
+    __typename?: 'ContractsConnection';
+    edges: Array<{
+      __typename: 'ContractEdge';
+      cursor: string;
+      node: {
+        __typename?: 'Contract';
+        id: string;
+        contractStandardType?: ContractStandardType | null;
+        timestamp: any;
+        abi?: string | null;
+      };
+    }>;
+    pageInfo: {
+      __typename?: 'PageInfo';
+      hasNextPage: boolean;
+      hasPreviousPage: boolean;
+      startCursor?: string | null;
+      endCursor?: string | null;
+    };
+  };
+};
+
 export type ContractQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
@@ -2793,6 +2826,52 @@ export function useContractsSearchQuery(
 ) {
   return Urql.useQuery<ContractsSearchQuery>({
     query: ContractsSearchDocument,
+    ...options,
+  });
+}
+export const ContractsWithAbiSearchDocument = gql`
+  query ContractsWithAbiSearch(
+    $after: String
+    $before: String
+    $first: Int
+    $filter: ContractsFilter
+    $sort: [ContractsSortInput!]
+  ) {
+    contracts(
+      after: $after
+      before: $before
+      first: $first
+      filter: $filter
+      sort: $sort
+    ) {
+      edges {
+        cursor
+        node {
+          id
+          contractStandardType
+          timestamp
+          abi
+        }
+        __typename
+      }
+      pageInfo {
+        hasNextPage
+        hasPreviousPage
+        startCursor
+        endCursor
+      }
+    }
+  }
+`;
+
+export function useContractsWithAbiSearchQuery(
+  options: Omit<
+    Urql.UseQueryArgs<never, ContractsWithAbiSearchQueryVariables>,
+    'query'
+  > = {}
+) {
+  return Urql.useQuery<ContractsWithAbiSearchQuery>({
+    query: ContractsWithAbiSearchDocument,
     ...options,
   });
 }

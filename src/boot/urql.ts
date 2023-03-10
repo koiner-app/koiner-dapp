@@ -10,7 +10,7 @@ export default boot(({ app }) => {
 
   app.use(urql, {
     url: koinerStore.apiUrl,
-    requestPolicy: 'network-only',
+    requestPolicy: 'cache-and-network',
     exchanges: [
       devtoolsExchange,
       dedupExchange,
@@ -44,6 +44,7 @@ export default boot(({ app }) => {
           BlockReward: () => null,
           BlockReceipt: () => null,
           ChainStats: () => null,
+          TransactionHeader: () => null,
           TransactionReceipt: () => null,
         },
       }),
