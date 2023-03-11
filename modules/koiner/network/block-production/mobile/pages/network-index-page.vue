@@ -40,6 +40,7 @@ import BlockProducersComponent from '../../search/view/block-producers-table.vue
 import BlockRewardsComponent from '../../search/view/block-rewards-table.vue';
 import BlockProducerStats from '@koiner/network/block-production/stats/mobile/block-producer-stats.vue';
 import { useStatsStore } from 'stores/stats';
+import { useRoute } from 'vue-router';
 
 export default defineComponent({
   name: 'NetworkIndexPage',
@@ -50,10 +51,15 @@ export default defineComponent({
   },
 
   setup() {
+    const route = useRoute();
     const statsStore = useStatsStore();
     const tab: Ref<string> = ref('producers');
 
     onMounted(() => {
+      if (route.query['tab']) {
+        tab.value = route.query['tab'].toString();
+      }
+
       // Make sure we have the latest height
       statsStore.loadHeight();
     });

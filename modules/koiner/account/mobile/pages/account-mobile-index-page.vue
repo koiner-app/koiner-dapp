@@ -154,6 +154,7 @@ import TokenHolderBalancesMetric from '@koiner/tokenize/components/holder/metric
 import { useBlockProductionStore } from 'stores/block-production';
 import { TokenHolder } from '@koiner/sdk';
 import AddressMobileHistory from '@koiner/chain/address/mobile/components/address-mobile-history.vue';
+import {useRoute} from 'vue-router';
 
 export default defineComponent({
   name: 'AccountMobileIndexPage',
@@ -166,6 +167,7 @@ export default defineComponent({
   },
 
   setup() {
+    const route = useRoute();
     const koinerStore = useKoinerStore();
     const statsStore = useStatsStore();
     const accountStore = useAccountStore();
@@ -175,6 +177,10 @@ export default defineComponent({
     const openDialog = ref(false);
 
     onMounted(async () => {
+      if (route.query['tab']) {
+        tab.value = route.query['tab'].toString();
+      }
+
       openDialog.value = accountStore.addressesFilter.length === 0;
     });
 

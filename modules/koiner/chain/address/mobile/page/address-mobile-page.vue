@@ -134,9 +134,9 @@ export default defineComponent({
   },
 
   setup() {
+    const route = useRoute();
     const koinerStore = useKoinerStore();
     const statsStore = useStatsStore();
-    const route = useRoute();
 
     const id: Ref<string | undefined> = ref();
     const tab: Ref<string> = ref('portfolio');
@@ -212,7 +212,12 @@ export default defineComponent({
       virtualKoinValue.value = virtualKoin.value * statsStore.koinStats.price;
     };
 
+
     onMounted(async () => {
+      if (route.query['tab']) {
+        tab.value = route.query['tab'].toString();
+      }
+
       await loadTokenHolders();
       await loadBlockProducers();
     });
