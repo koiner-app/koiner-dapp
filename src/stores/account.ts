@@ -33,7 +33,6 @@ export const useAccountStore = defineStore({
   id: 'account',
   persist: true,
   state: () => ({
-    dismissedMobileBanner: false as boolean,
     environment: 'production' as 'production' | 'test' | 'local',
     anonymousId: uuidv4().toString() as string,
     theme: 'auto' as KoinerThemeType,

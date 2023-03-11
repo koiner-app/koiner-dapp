@@ -1,20 +1,5 @@
 <template>
   <q-page class="row items-start q-pt-xs q-pb-xl">
-    <q-banner
-      class="bg-primary text-white"
-      v-if="!accountStore.dismissedMobileBanner"
-    >
-      Mobile version is being developed. Please use a larger screen to view more
-      data.
-      <template v-slot:action>
-        <q-btn
-          flat
-          color="white"
-          label="Dismiss"
-          @click="accountStore.dismissedMobileBanner = true"
-        />
-      </template>
-    </q-banner>
     <koinos-home-stats-component />
   </q-page>
 </template>
