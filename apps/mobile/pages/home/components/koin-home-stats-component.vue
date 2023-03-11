@@ -11,7 +11,7 @@
       title="KOIN Price"
       :value="statsStore.formattedKoinPrice"
       :footer="{
-        title: 'Marketcap:',
+        title: 'FDV Marketcap:',
         value: statsStore.formattedFDVMarketCap,
       }"
       :footer-tooltips="[
