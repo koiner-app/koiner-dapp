@@ -15,6 +15,7 @@
         }}
       </span>
       <router-link
+        v-if="linkToken"
         :to="to(mappedValue(result.node, 'contract.id'))"
         :class="`${styles.attribute.link} q-ml-xs`"
       >
@@ -25,6 +26,12 @@
           }}</q-tooltip>
         </span>
       </router-link>
+      <span v-else>
+        {{ mappedValue(result.node, 'contract.symbol') }}
+        <q-tooltip :delay="500">{{
+          mappedValue(result.node, 'contract.name')
+        }}</q-tooltip>
+      </span>
     </span>
   </attribute-wrapper>
 </template>
@@ -60,11 +67,21 @@ export default defineComponent({
       attributeControl.appliedOptions.value['decimals'] != null
         ? parseInt(attributeControl.appliedOptions.value['decimals'])
         : undefined;
+    const linkToken: boolean =
+      attributeControl.appliedOptions.value['linkToken'] != null
+        ? attributeControl.appliedOptions.value['linkToken']
+        : true;
+    const isMobile: boolean =
+      attributeControl.appliedOptions.value['mobile'] != null
+        ? attributeControl.appliedOptions.value['mobile']
+        : false;
 
     const to = (data: Record<string, unknown>) => {
       // Use route with params
       return {
-        name: attributeControl.appliedOptions.value['route'] ?? 'token',
+        name:
+          attributeControl.appliedOptions.value['route'] ??
+          (isMobile ? 'mobile.token' : 'token'),
         params: { id: data },
       };
     };
@@ -73,7 +90,10 @@ export default defineComponent({
       ...attributeControl,
       to,
       formattedTokenAmount,
+
       displayedDecimals,
+      linkToken,
+      isMobile,
     };
   },
 });
