@@ -105,6 +105,7 @@ export default defineComponent({
         events: 'mobile.chain',
         operations: 'mobile.chain',
         transaction: 'mobile.transaction',
+        'transaction.tab': 'mobile.transaction.tab',
         transactions: 'mobile.chain',
         ecosystem: 'mobile.ecosystem',
         'account.portfolio': 'mobile.account',

@@ -57,6 +57,7 @@ export default defineComponent({
         'mobile.chain': 'blocks',
         'mobile.block': 'block',
         'mobile.transaction': 'transaction',
+        'mobile.transaction.tab': 'transaction.tab',
         'mobile.ecosystem': 'ecosystem',
         'mobile.account': 'account.portfolio',
         'mobile.network': 'network',

@@ -81,7 +81,7 @@
         <q-item-label caption>Mana used:</q-item-label>
         <q-item-label
           >{{
-            formattedTokenAmount(transaction.receipt.rcUsed, 8)
+            formattedTokenAmount(Number(transaction.receipt.rcUsed), 8)
           }}
           Mana</q-item-label
         >
@@ -92,8 +92,8 @@
       <q-item-section>
         <q-item-label caption>Mana limit (Max payer RC)</q-item-label>
         <q-item-label
-          >{{ formattedTokenAmount(transaction.receipt.rcLimit, 8) }} Mana ({{
-            formattedTokenAmount(transaction.receipt.maxPayerRc, 8)
+          >{{ formattedTokenAmount(Number(transaction.receipt.rcLimit), 8) }} Mana ({{
+            formattedTokenAmount(Number(transaction.receipt.maxPayerRc), 8)
           }})</q-item-label
         >
       </q-item-section>

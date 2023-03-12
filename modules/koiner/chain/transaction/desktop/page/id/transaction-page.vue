@@ -46,7 +46,7 @@
                     ><router-link
                       :to="{
                         name: 'block',
-                        params: { height: transaction.blockHeight },
+                        params: { height: transaction.blockHeight }
                       }"
                       >{{ transaction.blockHeight }}</router-link
                     ></q-item-label
@@ -84,7 +84,7 @@
                     <router-link
                       :to="{
                         name: 'address',
-                        params: { id: transaction.header.payer },
+                        params: { id: transaction.header.payer }
                       }"
                       >{{ transaction.header.payer }}</router-link
                     ></q-item-label
@@ -100,7 +100,7 @@
                       v-if="transaction.header.payee"
                       :to="{
                         name: 'address',
-                        params: { id: transaction.header.payee },
+                        params: { id: transaction.header.payee }
                       }"
                       >{{ transaction.header.payee }}</router-link
                     >
@@ -114,7 +114,10 @@
                   <q-item-label caption>Mana used:</q-item-label>
                   <q-item-label
                     >{{
-                      formattedTokenAmount(Number(transaction.receipt.rcUsed), 8)
+                      formattedTokenAmount(
+                        Number(transaction.receipt.rcUsed),
+                        8
+                      )
                     }}
                     Mana</q-item-label
                   >
@@ -126,10 +129,16 @@
                   <q-item-label caption>Mana limit (Max payer RC)</q-item-label>
                   <q-item-label
                     >{{
-                      formattedTokenAmount(Number(transaction.receipt.rcLimit), 8)
+                      formattedTokenAmount(
+                        Number(transaction.receipt.rcLimit),
+                        8
+                      )
                     }}
                     Mana ({{
-                      formattedTokenAmount(Number(transaction.receipt.maxPayerRc), 8)
+                      formattedTokenAmount(
+                        Number(transaction.receipt.maxPayerRc),
+                        8
+                      )
                     }})</q-item-label
                   >
                 </q-item-section>
@@ -307,6 +316,12 @@ export default defineComponent({
     const route = useRoute();
     const onChainStore = useOnChainStore();
 
+    const tabs = [
+      'contract-operations',
+      'token-operations',
+      'token-events',
+      'contract-events',
+    ];
     const tab: Ref<string> = ref('contract-operations');
     const indexed = ref(false);
     const indexTime = ref(0);
@@ -367,6 +382,15 @@ export default defineComponent({
       }
     );
 
+    watch(
+      () => route.params.tab,
+      async (newTab) => {
+        if (newTab && tabs.includes(newTab.toString())) {
+          tab.value = newTab.toString();
+        }
+      }
+    );
+
     const updateProgress = () => {
       msToIndex.value = indexTime.value - Date.now();
       indexProgress.value = 100 - (msToIndex.value / 240000) * 100;
@@ -398,6 +422,10 @@ export default defineComponent({
     onMounted(() => {
       id.value = route.params.id.toString();
       variables.value.id = id.value;
+
+      if (route.params.tab && tabs.includes(route.params.tab.toString())) {
+        tab.value = route.params.tab.toString();
+      }
 
       executeQuery();
     });

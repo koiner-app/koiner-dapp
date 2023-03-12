@@ -1,14 +1,14 @@
-import { watch } from 'vue';
+import { ref } from 'vue';
 import { SearchProvider, SearchState } from '@appvise/search-manager';
 import {
   TokenOperationsConnection,
   TokenOperation,
   TokenOperationEdge,
-  useTokenOperationsSearchQuery,
   QueryTokenOperationsArgs,
 } from '@koiner/sdk';
+import { useOnChainStore } from '@koiner/onchain';
 
-export class TokenOperationsSearchProvider
+export class TokenOperationsOnChainSearchProvider
   implements
     SearchProvider<
       QueryTokenOperationsArgs,
@@ -25,18 +25,9 @@ export class TokenOperationsSearchProvider
   >();
 
   constructor() {
-    const { data, fetching, error, isPaused } = useTokenOperationsSearchQuery({
-      variables: this.state.request,
-    });
-
-    watch(data, (updatedData) => {
-      this._state.connection.value =
-        updatedData?.tokenOperations as TokenOperationsConnection;
-    });
-
-    this._state.error = error;
-    this._state.fetching = fetching;
-    this._state.isPaused = isPaused;
+    this._state.error = ref();
+    this._state.fetching = ref(false);
+    this._state.isPaused = ref(false);
   }
 
   public get state(): SearchState<
@@ -60,7 +51,35 @@ export class TokenOperationsSearchProvider
   > {
     this._state.request.value = request;
 
-    return new Promise((resolve) => {
+    return new Promise(async (resolve) => {
+      if (this._state.isPaused.value) {
+        resolve(this._state);
+      }
+
+      let transactionId;
+
+      request.filter?.AND?.forEach((filter) => {
+        if (
+          filter.OR &&
+          filter.OR.length > 0 &&
+          filter.OR[0].transactionId?.equals
+        ) {
+          transactionId = filter.OR[0].transactionId?.equals;
+        }
+      });
+
+      if (transactionId) {
+        const onChainStore = useOnChainStore();
+
+        const tokenOperations =
+          onChainStore.tokenOperationsByTransaction(transactionId);
+
+        if (tokenOperations) {
+          this._state.connection.value = tokenOperations;
+          this._state.isPaused.value = true;
+        }
+      }
+
       resolve(this._state);
     });
   }

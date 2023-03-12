@@ -61,6 +61,8 @@
               </q-card-section>
             </q-card>
 
+            <tokens-transferred-view v-if="id" :transaction-id="id" :live="!indexed" />
+
             <q-card flat class="details-transaction q-pt-none">
               <q-card-section>
                 <transaction-details-component
@@ -163,18 +165,21 @@ import ContractOperationsTable from '@koiner/contracts/components/contract/searc
 import { ItemState } from '@appvise/search-manager';
 import { Transaction, useTransactionPageQuery } from '@koiner/sdk';
 import ContractEventsTable from '@koiner/contracts/components/contract/search/view/contracts-events-table.vue';
-import { timeToGo } from '@koiner/utils';
+import { formattedTokenAmount, timeToGo } from '@koiner/utils';
 import ErrorView from 'components/error-view.vue';
 import { useOnChainStore } from '@koiner/onchain';
 import { ContractsWithAbiSearchProvider } from '@koiner/contracts/components/contract/search/contracts-with-abi-search-provider';
 import { TokenContractsSearchProvider } from '@koiner/tokenize/components/contract/search/token-contract-search-provider';
+import TokensTransferredView from '@koiner/chain/transaction/mobile/view/tokens-transferred-view.vue';
 
 export default defineComponent({
   methods: {
+    formattedTokenAmount,
     timeToGo,
   },
   name: 'TransactionMobilePage',
   components: {
+    TokensTransferredView,
     ErrorView,
     ContractEventsTable,
     ContractOperationsTable,
@@ -187,6 +192,13 @@ export default defineComponent({
     const route = useRoute();
     const onChainStore = useOnChainStore();
 
+    const tabs = [
+      'details',
+      'contract-operations',
+      'token-operations',
+      'token-events',
+      'contract-events',
+    ];
     const tab: Ref<string> = ref('details');
     const indexed = ref(false);
     const indexTime = ref(0);
@@ -247,6 +259,15 @@ export default defineComponent({
       }
     );
 
+    watch(
+      () => route.params.tab,
+      async (newTab) => {
+        if (newTab && tabs.includes(newTab.toString())) {
+          tab.value = newTab.toString();
+        }
+      }
+    );
+
     const updateProgress = () => {
       msToIndex.value = indexTime.value - Date.now();
       indexProgress.value = 100 - (msToIndex.value / 240000) * 100;
@@ -278,6 +299,10 @@ export default defineComponent({
     onMounted(() => {
       id.value = route.params.id.toString();
       variables.value.id = id.value;
+
+      if (route.params.tab && tabs.includes(route.params.tab.toString())) {
+        tab.value = route.params.tab.toString();
+      }
 
       executeQuery();
     });

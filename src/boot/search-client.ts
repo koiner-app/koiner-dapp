@@ -19,8 +19,8 @@ import { TokenContractsSearchProvider } from '@koiner/tokenize/components//contr
 import { TokenEventsSearchProvider } from '@koiner/tokenize/components//event/search/token-events-search-provider';
 import { TokenHoldersSearchProvider } from '@koiner/tokenize/components//holder/search/token-holder-search-provider';
 import { TokenEventsOnChainSearchProvider } from '@koiner/tokenize/components/event/search/token-events-on-chain-search-provider';
-import { TokenOperationsSearchProvider } from '@koiner/tokenize/components//operation/search/token-operation-search-provider';
-import { TokenOperationOnChainSearchProvider } from '@koiner/tokenize/components/operation/search/token-operation-on-chain-search-provider';
+import { TokenOperationsSearchProvider } from '@koiner/tokenize/components/operation/search/token-operations-search-provider';
+import { TokenOperationsOnChainSearchProvider } from '@koiner/tokenize/components/operation/search/token-operations-on-chain-search-provider';
 import { TransactionsOnChainSearchProvider } from '@koiner/chain/transaction/search/transactions-on-chain-search-provider';
 
 export default boot(({ app }) => {
@@ -49,7 +49,7 @@ export default boot(({ app }) => {
       onChainContractOperations: ContractOperationOnChainSearchProvider,
       onChainContractEvents: ContractEventsOnChainSearchProvider,
       onChainTokenEvents: TokenEventsOnChainSearchProvider,
-      onChainTokenOperations: TokenOperationOnChainSearchProvider,
+      onChainTokenOperations: TokenOperationsOnChainSearchProvider,
 
       // Network
       blockProducers: BlockProducersSearchProvider,

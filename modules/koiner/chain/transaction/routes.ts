@@ -18,4 +18,9 @@ export const transactionsRoutes: RouteRecordRaw[] = [
     path: '/transactions/:id',
     component: () => import('./desktop/page/id/transaction-page.vue'),
   },
+  {
+    name: 'transaction.tab',
+    path: '/transactions/:id/:tab',
+    component: () => import('./desktop/page/id/transaction-page.vue'),
+  },
 ];
