@@ -11,7 +11,7 @@ export const contractsModuleMobileRoutes: RouteRecordRaw[] = [
       },
       {
         name: 'mobile.contract',
-        path: '/mobile/contract/:id',
+        path: '/mobile/contracts/:id',
         component: () => import('../pages/contract-mobile-page.vue'),
       },
     ],
