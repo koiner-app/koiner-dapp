@@ -110,6 +110,10 @@ export default defineComponent({
         ecosystem: 'mobile.ecosystem',
         'account.portfolio': 'mobile.account',
         network: 'mobile.network',
+        contract: 'mobile.contract',
+        'contract.events': 'mobile.contract',
+        'contract.operations': 'mobile.contract',
+        contracts: 'mobile.contracts',
       };
 
       if (route.name && mobileRedirects[route.name.toString()]) {

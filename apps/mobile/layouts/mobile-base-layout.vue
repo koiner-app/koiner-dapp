@@ -61,6 +61,8 @@ export default defineComponent({
         'mobile.ecosystem': 'ecosystem',
         'mobile.account': 'account.portfolio',
         'mobile.network': 'network',
+        'mobile.contract': 'contract.operations',
+        'mobile.contracts': 'contracts',
       };
 
       if (route.name && desktopRedirects[route.name.toString()]) {

@@ -7,7 +7,7 @@ export const contractRoutes: RouteRecordRaw[] = [
     children: [
       {
         name: 'contract',
-        path: '',
+        path: '/contracts/:id',
         component: () =>
           import('../pages/contract/id/contract-operations-page.vue'),
       },
