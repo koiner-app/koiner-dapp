@@ -1,4 +1,4 @@
-import { parse, Root, Type } from 'protobufjs';
+import { parse, Root, Type } from 'protobufjs/minimal';
 import * as koinosPbToProto from '@roamin/koinos-pb-to-proto';
 import { ProtoDescriptor } from '@roamin/koinos-pb-to-proto';
 import { utils } from 'koilib';

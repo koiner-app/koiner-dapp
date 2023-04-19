@@ -81,18 +81,18 @@ module.exports = configure(function (/* ctx */) {
       // viteVuePluginOptions: {},
 
       alias: {
-        // 'protobufjs/light': path.resolve(
-        //   __dirname,
-        //   './node_modules/protobufjs/dist/light/protobuf.min.js'
-        // ),
-        // 'protobufjs/minimal': path.resolve(
-        //   __dirname,
-        //   './node_modules/protobufjs/dist/minimal/protobuf.min.js'
-        // ),
-        // protobufjs: path.resolve(
-        //   __dirname,
-        //   './node_modules/protobufjs/dist/protobuf.min.js'
-        // ),
+        'protobufjs/light': path.resolve(
+          __dirname,
+          './node_modules/protobufjs/dist/light/protobuf.min.js'
+        ),
+        'protobufjs/minimal': path.resolve(
+          __dirname,
+          './node_modules/protobufjs/dist/minimal/protobuf.min.js'
+        ),
+        protobufjs: path.resolve(
+          __dirname,
+          './node_modules/protobufjs/dist/protobuf.min.js'
+        ),
         '@appvise': path.resolve(__dirname, './modules/appvise'),
         '@koiner': path.resolve(__dirname, './modules/koiner'),
         '@desktop': path.resolve(__dirname, './apps/desktop'),
