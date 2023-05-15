@@ -25,9 +25,12 @@
 
       <q-item>
         <q-item-section top avatar class="q-pt-xs">
-          <q-avatar v-if="tokenBalance.contract.symbol === 'KOIN'" size="md">
+          <q-avatar
+            v-if="tokenLogo(tokenBalance.contract.symbol)"
+            size="md q-pa-sm"
+          >
             <img
-              src="/projects/koinos.svg"
+              :src="`/tokens/${tokenLogo(tokenBalance.contract.symbol)}`"
               :alt="tokenBalance.contract.symbol"
             />
           </q-avatar>
@@ -118,7 +121,7 @@ export default defineComponent({
       required: false,
       type: Boolean,
       default: true,
-    }
+    },
   },
 
   setup(props) {
@@ -139,6 +142,17 @@ export default defineComponent({
           koinerStore.vhpContract.id,
           koinerStore.pVhpContract.id,
         ].includes(contractId);
+      },
+      tokenLogo: (symbol: string): string => {
+        const logos: Record<string, string> = {
+          koin: 'koin.svg',
+          koindx: 'koindx.svg',
+          pvhp: 'pvhp.svg',
+          vapor: 'vapor.svg',
+          vhp: 'vhp.svg',
+        };
+
+        return logos[symbol.toLowerCase()] ?? null;
       },
       computedTokenBalances: computed(() => {
         const tokenBalancesMap = new Map<string, TokenHolder>([]);
