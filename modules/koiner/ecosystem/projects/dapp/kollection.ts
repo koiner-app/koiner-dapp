@@ -20,7 +20,11 @@ export const kollection: Project = {
       url: 'https://twitter.com/KollectionMkt',
       icon: 'fa-brands fa-twitter',
     },
+    {
+      url: 'https://github.com/kollection-nft',
+      icon: 'fa-brands fa-github',
+    },
   ],
   maintainers: [],
-  tags: ['dApp', 'NFT', 'In development'],
+  tags: ['dApp', 'NFT'],
 };

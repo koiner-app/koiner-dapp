@@ -20,6 +20,10 @@ export const ogRex: Project = {
       url: 'https://twitter.com/OGREXKoinos',
       icon: 'fa-brands fa-twitter',
     },
+    {
+      url: 'https://kollection.app/collection/1N2AhqGGticZ8hYmwNPWoroEBvTp3YGsLW',
+      icon: 'fa-solid fa-shop',
+    },
   ],
   maintainers: [],
   tags: ['NFT'],

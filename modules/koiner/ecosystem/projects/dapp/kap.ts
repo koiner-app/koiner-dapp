@@ -20,7 +20,11 @@ export const kap: Project = {
       url: 'https://twitter.com/kapdomains',
       icon: 'fa-brands fa-twitter',
     },
+    {
+      url: 'https://github.com/lukemwillis?tab=repositories',
+      icon: 'fa-brands fa-github',
+    },
   ],
   maintainers: [],
-  tags: ['dApp', 'In development'],
+  tags: ['dApp'],
 };

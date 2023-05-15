@@ -12,6 +12,10 @@ export const koinpressBadges: Project = {
       url: 'https://nft.thekoinpress.com/',
       icon: 'fa-solid fa-globe',
     },
+    {
+      url: 'https://kollection.app/collection/1MDyZtgrmBbH63FuGd7JXT4mSQfgBAUzWk',
+      icon: 'fa-solid fa-shop',
+    },
   ],
   maintainers: [],
   tags: ['NFT'],

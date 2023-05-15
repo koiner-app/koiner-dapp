@@ -9,14 +9,16 @@ import { koinBridge } from './koinos-bridge';
 import { atomicSwaps } from './atomic-swaps';
 import { kap } from './kap';
 import { kollection } from './kollection';
+import { koinCity } from './koin-city';
 
 export const dappProjects = [
   kap,
   kollection,
+  koinDx,
   koinClaimApp,
   fogataMiningPool,
   burnKoin,
-  koinDx,
+  koinCity,
   koiner,
   koinosBlocks,
   koinosExplorer,
