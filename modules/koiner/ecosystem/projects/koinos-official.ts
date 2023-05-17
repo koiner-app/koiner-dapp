@@ -20,7 +20,7 @@ export const koinosOfficial: Project = {
       icon: 'fa-brands fa-github',
     },
     {
-      url: 'https://discord.gg/koinos',
+      url: 'https://discord.gg/yxU8FuVP',
       icon: 'fa-brands fa-discord',
     },
     {
