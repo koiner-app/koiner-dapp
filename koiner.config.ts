@@ -14,8 +14,14 @@ export const koinerConfig = {
         decimals: 8,
       },
       vhp: {
-        id: '1AdzuXSpC6K9qtXdCBgD5NUpDNwHjMgrc9',
+        id: '18tWNU7E4yuQzz7hMVpceb9ixmaWLVyQsr',
         name: 'Virtual Hashpower',
+        symbol: 'VHP',
+        decimals: 8,
+      },
+      oldVhp: {
+        id: '1AdzuXSpC6K9qtXdCBgD5NUpDNwHjMgrc9',
+        name: 'Virtual Hashpower V1',
         symbol: 'VHP',
         decimals: 8,
       },
@@ -78,8 +84,14 @@ export const koinerConfig = {
         decimals: 8,
       },
       vhp: {
-        id: '1AdzuXSpC6K9qtXdCBgD5NUpDNwHjMgrc9',
+        id: '18tWNU7E4yuQzz7hMVpceb9ixmaWLVyQsr',
         name: 'Virtual Hashpower',
+        symbol: 'VHP',
+        decimals: 8,
+      },
+      oldVhp: {
+        id: '1AdzuXSpC6K9qtXdCBgD5NUpDNwHjMgrc9',
+        name: 'Virtual Hashpower V1',
         symbol: 'VHP',
         decimals: 8,
       },
