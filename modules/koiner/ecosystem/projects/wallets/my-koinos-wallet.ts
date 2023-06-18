@@ -18,5 +18,5 @@ export const myKoinosWallet: Project = {
     },
   ],
   maintainers: [],
-  tags: ['Wallet', 'In development'],
+  tags: ['Wallet'],
 };
