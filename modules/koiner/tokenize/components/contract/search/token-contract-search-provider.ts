@@ -7,6 +7,7 @@ import {
   useTokenContractsSearchQuery,
   QueryTokenContractsArgs,
 } from '@koiner/sdk';
+import { koinerConfig } from 'app/koiner.config';
 
 export class TokenContractsSearchProvider
   implements
@@ -31,8 +32,15 @@ export class TokenContractsSearchProvider
     });
 
     watch(data, (updatedData) => {
-      this._state.connection.value =
+      const newConnection =
         updatedData?.tokenContracts as TokenContractsConnection;
+
+      // Exclude old VHP contract
+      newConnection.edges = newConnection.edges.filter(
+        (edge) => edge.node.id !== koinerConfig.production.contracts.oldVhp.id
+      );
+
+      this._state.connection.value = newConnection;
     });
 
     this._state.error = error;
