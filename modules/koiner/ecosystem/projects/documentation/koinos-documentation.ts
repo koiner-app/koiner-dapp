@@ -2,7 +2,7 @@ import { Project } from '@koiner/ecosystem';
 
 export const koinosDocumentation: Project = {
   name: 'Koinos Documentation',
-  types: ['Tools'],
+  types: ['Docs'],
   caption: 'Documentation',
   icon: 'fa-solid fa-book',
   description:

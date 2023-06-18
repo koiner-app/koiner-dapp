@@ -2,9 +2,9 @@ import { Project } from '@koiner/ecosystem';
 
 export const myKoinosWallet: Project = {
   name: 'My Koinos Wallet',
-  types: ['Tools'],
-  caption: 'In development',
-  image: '/projects/tools/my-koinos-wallet.png',
+  types: ['Wallet'],
+  caption: 'Wallet',
+  image: '/projects/wallets/my-koinos-wallet.png',
   icon: 'fa-solid fa-wallet',
   description: 'My Koinos Wallet is a web-based wallet for Koinos Blockchain.',
   links: [
