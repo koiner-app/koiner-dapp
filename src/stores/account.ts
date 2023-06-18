@@ -435,8 +435,16 @@ export const useAccountStore = defineStore({
       });
 
       watch(data, (updatedData) => {
-        queryState.connection.value =
+        const newConnection =
           updatedData?.tokenHolders as TokenHoldersConnection;
+
+        // Exclude old VHP contract
+        newConnection.edges = newConnection.edges.filter(
+          (edge) =>
+            edge.node.contractId !== koinerConfig.production.contracts.oldVhp.id
+        );
+
+        queryState.connection.value = newConnection;
 
         this.$patch({
           [this.environment]: {
