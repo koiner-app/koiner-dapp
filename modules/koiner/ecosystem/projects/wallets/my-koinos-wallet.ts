@@ -3,13 +3,13 @@ import { Project } from '@koiner/ecosystem';
 export const myKoinosWallet: Project = {
   name: 'My Koinos Wallet',
   types: ['Wallet'],
-  caption: 'Wallet',
+  caption: 'Web-based Wallet',
   image: '/projects/wallets/my-koinos-wallet.png',
   icon: 'fa-solid fa-wallet',
   description: 'My Koinos Wallet is a web-based wallet for Koinos Blockchain.',
   links: [
     {
-      url: 'https://my-koinos-wallet.vercel.app/',
+      url: 'https://my-koinos-wallet.vercel.app',
       icon: 'fa-brands fa-chrome',
     },
     {

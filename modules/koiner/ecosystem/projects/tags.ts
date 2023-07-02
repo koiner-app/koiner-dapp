@@ -1,6 +1,7 @@
 export const ProjectTypes = [
   'dApp',
   'Docs',
+  'Game',
   'Wallet',
   'NFT',
   'Social',

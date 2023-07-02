@@ -3,7 +3,7 @@ import { Project } from '@koiner/ecosystem';
 export const konio: Project = {
   name: 'Konio App Wallet',
   types: ['Wallet'],
-  caption: 'In development',
+  caption: 'Mobile Wallet',
   image: '/projects/wallets/konio.png',
   description:
     'Konio is the first mobile wallet for the Koinos Blockchain. (In development)',
@@ -26,5 +26,5 @@ export const konio: Project = {
     },
   ],
   maintainers: [],
-  tags: ['Wallet', 'In development'],
+  tags: ['Wallet'],
 };

@@ -1,7 +1,4 @@
 import { koinosDocumentation } from './koinos-documentation';
-// import { learnKoinos } from './learn-koinos';
+import { learnKoinos } from './learn-koinos';
 
-export const documentation = [
-  // learnKoinos,
-  koinosDocumentation,
-];
+export const documentation = [learnKoinos, koinosDocumentation];

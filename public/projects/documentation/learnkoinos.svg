@@ -1,0 +1,9 @@
+<svg width="525" height="600" viewBox="0 0 398 455" fill="none" xmlns="http://www.w3.org/2000/svg" class="hero-image">
+  <path fill-rule="evenodd" clip-rule="evenodd" class="hero-image-path" d="M397.506 121.512C397.506 115.796 394.456 110.514 389.506 107.656L206.753 2.14359C201.802 -0.714532 195.703 -0.71453 190.753 2.14359L8.00001 107.656C3.0496 110.514 1.38125e-05 115.796 1.34482e-05 121.512L0 332.537C0 338.253 3.04958 343.535 8 346.394L190.753 451.906C195.703 454.764 201.802 454.764 206.753 451.906L389.506 346.394C394.456 343.535 397.506 338.253 397.506 332.537L397.506 121.512ZM199.14 147L336.195 191.008L199.14 247.728L62.082 191.011L199.14 147ZM99.2359 218.005V270.128L199.192 308L299.041 270.128V218.005L199.052 259.899L99.2359 218.005ZM346.258 247L335 199L323.742 247H346.258Z" fill="url(#paint0_radial_5_37)"></path>
+  <defs>
+    <radialGradient id="paint0_radial_5_37" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(198.753 227.025) rotate(150) scale(229.5)">
+      <stop stop-color="#EC0F0F"></stop>
+      <stop offset="0.708333" stop-color="#F10F0F"></stop>
+    </radialGradient>
+  </defs>
+</svg>
