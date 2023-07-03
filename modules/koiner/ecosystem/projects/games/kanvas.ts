@@ -3,7 +3,7 @@ import { Project } from '@koiner/ecosystem';
 export const kanvas: Project = {
   name: 'Kanvas',
   types: ['Game'],
-  caption: 'Address/key generator',
+  caption: 'Collaborative canvas',
   image: '/projects/game/kanvas.png',
   description:
     'The first collaborative and decentralized canvas, based on the first fee-less smart-contract blockchain.',

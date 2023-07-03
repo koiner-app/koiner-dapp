@@ -5,8 +5,7 @@ export const konio: Project = {
   types: ['Wallet'],
   caption: 'Mobile Wallet',
   image: '/projects/wallets/konio.png',
-  description:
-    'Konio is the first mobile wallet for the Koinos Blockchain. (In development)',
+  description: 'Konio is the first mobile wallet for the Koinos Blockchain.',
   links: [
     {
       url: 'https://konio.io',
