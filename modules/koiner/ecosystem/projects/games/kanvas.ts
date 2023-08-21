@@ -2,7 +2,7 @@ import { Project } from '@koiner/ecosystem';
 
 export const kanvas: Project = {
   name: 'Kanvas',
-  types: ['Game'],
+  types: ['Game', 'dApp'],
   caption: 'Collaborative canvas',
   image: '/projects/game/kanvas.png',
   description:
@@ -21,11 +21,11 @@ export const kanvas: Project = {
       icon: 'fa-brands fa-telegram',
     },
     {
-      url: 'https://twitter.com/KanvasOfficial',
+      url: 'https://x.com/KanvasOfficial',
       icon: 'fa-brands fa-twitter',
     },
     {
-      url: 'https://gitlab.com/engrave/koinos/koinos-paper-wallet',
+      url: 'https://github.com/EtheredRaven/kanvas',
       icon: 'fa-brands fa-github',
     },
   ],

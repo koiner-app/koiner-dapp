@@ -12,7 +12,7 @@ export const konio: Project = {
       icon: 'fa-brands fa-chrome',
     },
     {
-      url: 'https://twitter.com/konio_wallet',
+      url: 'https://x.com/konio_wallet',
       icon: 'fa-brands fa-twitter',
     },
     {

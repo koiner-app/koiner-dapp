@@ -13,7 +13,7 @@ export const koinCity: Project = {
       icon: 'fa-solid fa-globe',
     },
     {
-      url: 'https://twitter.com/TheRealKoincity',
+      url: 'https://x.com/TheRealKoincity',
       icon: 'fa-brands fa-twitter',
     },
   ],

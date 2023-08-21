@@ -28,7 +28,7 @@ export const koinosOfficial: Project = {
       icon: 'fa-brands fa-telegram',
     },
     {
-      url: 'https://twitter.com/koinosnetwork',
+      url: 'https://x.com/koinosnetwork',
       icon: 'fa-brands fa-twitter',
     },
     {

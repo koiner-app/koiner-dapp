@@ -17,7 +17,7 @@ export const ogRex: Project = {
       icon: 'fa-brands fa-discord',
     },
     {
-      url: 'https://twitter.com/OGREXKoinos',
+      url: 'https://x.com/OGREXKoinos',
       icon: 'fa-brands fa-twitter',
     },
     {

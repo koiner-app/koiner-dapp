@@ -16,7 +16,7 @@ export const koinDx: Project = {
       icon: 'fa-solid fa-globe',
     },
     {
-      url: 'https://twitter.com/koindx',
+      url: 'https://x.com/koindx',
       icon: 'fa-brands fa-twitter',
     },
     {
@@ -29,5 +29,5 @@ export const koinDx: Project = {
     },
   ],
   maintainers: [],
-  tags: ['Dex', 'dApp', 'In development'],
+  tags: ['Dex', 'dApp'],
 };

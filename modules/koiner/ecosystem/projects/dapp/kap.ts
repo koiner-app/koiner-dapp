@@ -17,7 +17,7 @@ export const kap: Project = {
       icon: 'fa-solid fa-file-lines',
     },
     {
-      url: 'https://twitter.com/kapdomains',
+      url: 'https://x.com/kapdomains',
       icon: 'fa-brands fa-twitter',
     },
     {

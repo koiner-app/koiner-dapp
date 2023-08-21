@@ -17,7 +17,7 @@ export const kollection: Project = {
       icon: 'fa-brands fa-discord',
     },
     {
-      url: 'https://twitter.com/KollectionMkt',
+      url: 'https://x.com/KollectionMkt',
       icon: 'fa-brands fa-twitter',
     },
     {
