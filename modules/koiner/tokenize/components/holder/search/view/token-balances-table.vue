@@ -23,6 +23,10 @@ import tokenHoldersSearchSchema from '../token-holders-search.schema.json';
 import tokenAddressBalancesSearchUiSchema from './address-token-balances-table.ui-schema.json';
 import tokenBalancesSearchUiSchema from './token-balances-table.ui-schema.json';
 import { QueryTokenHoldersArgs, TokenHoldersConnection } from '@koiner/sdk';
+import axios from 'axios';
+import { koinerConfig } from 'app/koiner.config';
+import { useAccountStore } from 'stores/account';
+import { round } from 'lodash';
 
 export default defineComponent({
   name: 'TokenBalancesTable',
@@ -49,6 +53,7 @@ export default defineComponent({
   emits: ['change'],
 
   setup(props, { emit }) {
+    const accountStore = useAccountStore();
     let request: Ref<QueryTokenHoldersArgs> = ref({ filter: {} });
     let contractIdsFilter: any;
     let addressFilter: any;
@@ -98,6 +103,10 @@ export default defineComponent({
       { deep: true }
     );
 
+    const checkerApi = axios.create({
+      baseURL: koinerConfig[accountStore.environment].checker,
+    });
+
     return {
       schema: tokenHoldersSearchSchema,
       uiSchema: !props.showAddress
@@ -106,6 +115,27 @@ export default defineComponent({
       request: request,
       renderers: KoinerRenderers,
       onChange: (data: TokenHoldersConnection) => {
+        data.edges?.map(async (edge) => {
+          console.log(
+            `get balance: ${edge.node.contractId}/balance/${edge.node.addressId}`
+          );
+          const response = await checkerApi.get(
+            `token/${edge.node.contractId}/balance/${edge.node.addressId}`
+          );
+
+          if (response.data) {
+            console.log(
+              `update balance ${edge.node.contractId}/balance/${edge.node.addressId}: ${response.data}`
+            );
+            edge.node.balance = round(
+              response.data * Math.pow(10, 8),
+              8
+            ).toString();
+          }
+
+          return edge;
+        });
+
         emit('change', data);
       },
     };

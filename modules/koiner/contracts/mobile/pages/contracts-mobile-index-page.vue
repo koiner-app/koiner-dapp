@@ -1,16 +1,16 @@
 <template>
   <q-page class="row items-start mobile-tab-page">
     <q-card class="tabs-card" flat>
-      <q-card-section class="q-pt-xs">
+      <q-card-section class="q-pa-none">
         <q-tab-panels v-model="tab" animated>
           <q-tab-panel name="contracts" class="tab--mobile-table">
-            <contracts-table :mobile="true"  />
+            <contracts-table :mobile="true" />
           </q-tab-panel>
           <q-tab-panel name="contract-operations" class="tab--mobile-table">
-            <contract-operations-table :mobile="true"  />
+            <contract-operations-table :mobile="true" />
           </q-tab-panel>
           <q-tab-panel name="contract-events" class="tab--mobile-table">
-            <contract-events-table :mobile="true"  />
+            <contract-events-table :mobile="true" />
           </q-tab-panel>
         </q-tab-panels>
       </q-card-section>

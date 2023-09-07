@@ -15,6 +15,7 @@ import { SearchState } from '@appvise/search-manager';
 import { tokenAmount } from '@koiner/utils';
 import { koinerConfig } from 'app/koiner.config';
 import axios from 'axios';
+import { round } from 'lodash';
 
 export type KoinerThemeType = 'auto' | 'hybrid' | 'dark' | 'light';
 export const KoinerThemes: KoinerThemeType[] = ['auto', 'hybrid', 'dark'];
@@ -434,7 +435,11 @@ export const useAccountStore = defineStore({
         },
       });
 
-      watch(data, (updatedData) => {
+      watch(data, async (updatedData) => {
+        const checkerApi = axios.create({
+          baseURL: koinerConfig[this.environment].checker,
+        });
+
         const newConnection =
           updatedData?.tokenHolders as TokenHoldersConnection;
 
@@ -446,11 +451,28 @@ export const useAccountStore = defineStore({
 
         queryState.connection.value = newConnection;
 
+        const edges: TokenHolderEdge[] = [];
+
+        if (updatedData?.tokenHolders.edges) {
+          for (let i = 0; i < updatedData?.tokenHolders.edges.length; i++) {
+            edges.push(updatedData?.tokenHolders.edges[i] as TokenHolderEdge);
+
+            const response = await checkerApi.get(
+              `token/${edges[i].node.contractId}/balance/${edges[i].node.addressId}`
+            );
+
+            if (response.data) {
+              edges[i].node.balance = round(
+                response.data * Math.pow(10, 8),
+                8
+              ).toString();
+            }
+          }
+        }
+
         this.$patch({
           [this.environment]: {
-            tokenBalances: updatedData?.tokenHolders.edges.map(
-              (edge) => edge.node
-            ),
+            tokenBalances: edges.map((edge) => edge.node),
           },
         });
 
