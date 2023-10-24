@@ -63,11 +63,15 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.mc-description-short {
-  display: inline;
-}
+.mc-description-short,
 .mc-description-full {
   display: none !important;
+}
+
+@media (min-width: 400px) {
+  .mc-description-short {
+    display: inline !important;
+  }
 }
 
 @media (min-width: 460px) {
