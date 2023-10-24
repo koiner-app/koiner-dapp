@@ -2,20 +2,26 @@
   <q-card class="stats-card" flat>
     <q-card-section>
       <div class="stat-title">
-        {{ title }}
+        <slot name="title">
+          {{ title }}
+        </slot>
       </div>
       <div class="stat-content">
         <router-link v-if="link" :to="link.to"
           >{{ formattedValue }}
-          <span v-if="unit" :class="`stat-unit ${unitClass ?? ''}`">{{
-            unit
-          }}</span></router-link
-        >
+          <slot name="unit">
+            <span v-if="unit" :class="`stat-unit ${unitClass ?? ''}`">{{
+              unit
+            }}</span>
+          </slot>
+        </router-link>
         <span v-else>
           {{ formattedValue }}
-          <span v-if="unit" :class="`stat-unit ${unitClass ?? ''}`">{{
-            unit
-          }}</span>
+          <slot name="unit">
+            <span v-if="unit" :class="`stat-unit ${unitClass ?? ''}`">{{
+              unit
+            }}</span>
+          </slot>
         </span>
       </div>
       <div class="stat-footer" v-if="footer">
@@ -70,6 +76,7 @@
           </div>
         </q-tooltip>
       </div>
+      <slot name="footer" />
     </q-card-section>
   </q-card>
 </template>
