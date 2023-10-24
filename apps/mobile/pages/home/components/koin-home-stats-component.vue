@@ -1,40 +1,8 @@
 <template>
   <div class="large-stats-cards">
-    <counter-metric
-      class="token-price"
-      :link="{
-        to: {
-          name: 'mobile.token',
-          params: { id: koinerStore.koinContract.id },
-        },
-      }"
-      title="KOIN Price"
-      :value="statsStore.formattedKoinPrice"
-      :footer="{
-        title: 'FDV Marketcap:',
-        value: statsStore.formattedFDVMarketCap,
-      }"
-      :footer-tooltips="[
-        {
-          title: 'Circulating Marketcap:',
-          value: statsStore.formattedMarketCap,
-          unit: '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Claimed KOIN (not burned)',
-        },
-        {
-          title: 'Virtual Marketcap',
-          value: statsStore.formattedVirtualMarketCap,
-          unit: '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;KOIN + VHP',
-        },
-        {
-          title: 'Fully Diluted Valuation',
-          value: statsStore.formattedFDVMarketCap,
-          unit: '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;When all tokens claimed',
-        },
-      ]"
-      :footer-tooltip-hide-delay="10000"
-      :tooltip-title-width="110"
-      :tooltip-item-width="200"
-    />
+    <koin-price-mobile />
+    <market-caps-mobile />
+    <exchanges-mobile />
 
     <q-card
       class="stats-card"
@@ -161,25 +129,6 @@
         value: statsStore.chainStats.addressCount,
       }"
     />
-
-    <q-card class="stats-card" flat>
-      <q-card-section>
-        <div class="stat-title">Exchanges</div>
-
-        <div class="text-center q-pt-lg">
-          <q-btn
-            href="https://www.mexc.com/en-US/register?inviteCode=mexc-1XbK7"
-            target="_blank"
-            solid
-            color="primary"
-            size="sm"
-            class="q-mb-md"
-            style="border-radius: 8px"
-            >MEXC Global</q-btn
-          >
-        </div>
-      </q-card-section>
-    </q-card>
   </div>
 </template>
 
@@ -193,10 +142,20 @@ import { useBlockProductionStore } from 'stores/block-production';
 import CounterMetric from '@koiner/components/metrics/counter-metric.vue';
 import ManaBar from '@koiner/components/mana-bar.vue';
 import BlockProducersStatuses from '@koiner/network/block-production/block-producers-statuses.vue';
+import MarketCapsMobile from '@mobile/pages/home/components/market-caps-mobile.vue';
+import ExchangesMobile from '@mobile/pages/home/components/exchanges-mobile.vue';
+import KoinPriceMobile from '@mobile/pages/home/components/koin-price-mobile.vue';
 
 export default defineComponent({
   name: 'KoinosHomeStatsComponent',
-  components: { BlockProducersStatuses, ManaBar, CounterMetric },
+  components: {
+    KoinPriceMobile,
+    ExchangesMobile,
+    MarketCapsMobile,
+    BlockProducersStatuses,
+    ManaBar,
+    CounterMetric,
+  },
   setup() {
     const koinosStore = useKoinosStore();
     const koinerStore = useKoinerStore();
