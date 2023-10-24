@@ -18,5 +18,5 @@ export const koinCity: Project = {
     },
   ],
   maintainers: [],
-  tags: ['Dex', 'dApp', 'In development'],
+  tags: ['Dex', 'dApp'],
 };

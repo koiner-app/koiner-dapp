@@ -18,5 +18,5 @@ export const koinosRaffles: Project = {
     },
   ],
   maintainers: [],
-  tags: ['Game', 'In development'],
+  tags: ['Game'],
 };
