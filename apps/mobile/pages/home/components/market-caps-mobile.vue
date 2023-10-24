@@ -7,7 +7,7 @@
             <div class="mc-title">
               Circulating MC
               <span class="stat-unit mc-description mc-description-short">
-                (Claimed)
+                (KOIN)
               </span>
               <span class="stat-unit mc-description mc-description-full">
                 (Claimed KOIN)
@@ -63,7 +63,6 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.mc-description-short,
 .mc-description-full {
   display: none !important;
 }

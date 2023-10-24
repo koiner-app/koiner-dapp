@@ -22,9 +22,10 @@
         anchor="bottom start"
         self="top left"
         class="bg-primary text-white shadow-4"
+        :hide-delay="5000"
       >
         <div class="q-pa-sm q-gutter-xs">
-          Price at Mexc Global retrieved at
+          Price at Mexc Global at
           {{ new Date(statsStore.koinStats.timestamp).toLocaleDateString() }}
           {{ new Date(statsStore.koinStats.timestamp).toLocaleTimeString() }}
         </div>
