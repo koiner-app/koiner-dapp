@@ -6,29 +6,22 @@
         title="KOIN Price"
         :value="statsStore.formattedKoinPrice"
         :footer="{
-          title: 'Marketcap:',
-          value: statsStore.formattedFDVMarketCap,
+          title: 'Transactions:',
+          value: statsStore.chainStats.transactionCount,
         }"
         :footer-tooltips="[
           {
-            title: 'Circulating Marketcap:',
-            value: statsStore.formattedMarketCap,
-            unit: '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Claimed KOIN (that\'s not burned)',
-          },
-          {
-            title: 'Virtual Marketcap',
-            value: statsStore.formattedVirtualMarketCap,
-            unit: '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;KOIN + VHP',
-          },
-          {
-            title: 'Fully Diluted Valuation',
-            value: statsStore.formattedFDVMarketCap,
-            unit: '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;When all tokens would be claimed',
+            title: 'Token transfer events:',
+            value: statsStore.tokenStats.transferCount,
           },
         ]"
         :tooltip-title-width="125"
         :tooltip-item-width="250"
       />
+
+      <q-separator vertical />
+
+      <market-caps />
 
       <q-separator vertical />
 
@@ -75,17 +68,6 @@
       <q-separator vertical />
 
       <counter-metric
-        title="Transactions"
-        :value="statsStore.chainStats.transactionCount"
-        :footer="{
-          title: 'Token transfer events:',
-          value: statsStore.tokenStats.transferCount,
-        }"
-      />
-
-      <q-separator vertical />
-
-      <counter-metric
         title="Claimed Koin"
         :value="statsStore.totalSupply.claimed"
         unit="%"
@@ -105,10 +87,11 @@ import { useKoinosStore } from 'stores/koinos';
 import { useKoinerStore } from 'stores/koiner';
 import { useStatsStore } from 'stores/stats';
 import CounterMetric from '@koiner/components/metrics/counter-metric.vue';
+import MarketCaps from '@desktop/pages/home/components/market-caps.vue';
 
 export default defineComponent({
   name: 'KoinosHomeStatsComponent',
-  components: { CounterMetric },
+  components: { MarketCaps, CounterMetric },
   setup() {
     const koinosStore = useKoinosStore();
     const koinerStore = useKoinerStore();
