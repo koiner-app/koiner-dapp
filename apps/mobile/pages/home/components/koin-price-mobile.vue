@@ -24,7 +24,9 @@
         class="bg-primary text-white shadow-4"
       >
         <div class="q-pa-sm q-gutter-xs">
-          @Mexc Global at {{ statsStore.koinStats.timestamp }}
+          Price at Mexc Global retrieved at
+          {{ new Date(statsStore.koinStats.timestamp).toLocaleDateString() }}
+          {{ new Date(statsStore.koinStats.timestamp).toLocaleTimeString() }}
         </div>
       </q-tooltip>
     </template>
