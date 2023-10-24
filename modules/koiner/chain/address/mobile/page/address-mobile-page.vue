@@ -222,6 +222,10 @@ export default defineComponent({
         tab.value = route.query['tab'].toString();
       }
 
+      if (route.name === 'mobile.address.history') {
+        tab.value = 'history';
+      }
+
       await loadTokenHolders();
       await loadBlockProducers();
     });

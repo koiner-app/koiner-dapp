@@ -97,7 +97,7 @@ export default defineComponent({
     const redirect = () => {
       const mobileRedirects: { [key: string]: string } = {
         address: 'mobile.address',
-        'address.history': 'mobile.address',
+        'address.history': 'mobile.address.history',
         'address.rewards': 'mobile.address',
         addresses: 'mobile.chain',
         block: 'mobile.block',

@@ -54,6 +54,7 @@ export default defineComponent({
     const redirect = () => {
       const desktopRedirects: { [key: string]: string } = {
         'mobile.address': 'address',
+        'mobile.address.history': 'address.history',
         'mobile.chain': 'blocks',
         'mobile.block': 'block',
         'mobile.transaction': 'transaction',
