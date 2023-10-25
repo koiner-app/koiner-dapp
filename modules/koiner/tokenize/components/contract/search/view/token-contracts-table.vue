@@ -16,6 +16,7 @@
     :uischema="uiSchema"
     :request="request"
     :data="{}"
+    @change="emitContractCount"
     @on-scroll="onScroll"
     :scroll-position="position"
     :additional-renderers="renderers"
@@ -31,6 +32,7 @@ import QJsonSearch from '@appvise/q-json-forms/QJsonSearch.vue';
 import schema from '../token-contracts-search.schema.json';
 import mobileUiSchema from './token-contracts-table.mobile-ui-schema.json';
 import desktopUiSchema from './token-contracts-table.ui-schema.json';
+import { TokenContractsConnection } from '@koiner/sdk';
 
 export default defineComponent({
   name: 'TokenContractsTable',
@@ -45,20 +47,79 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    liquidityPools: {
+      required: false,
+      type: Boolean,
+      default: false,
+    },
   },
+  emits: ['contractCountUpdated'],
 
-  setup(props) {
+  setup(props, { emit }) {
     const searchStore = useSearchStore();
 
     const onScroll = (newScrollPosition: number) => {
       searchStore.tokenContracts.position = newScrollPosition;
     };
 
+    const emitContractCount = (data: TokenContractsConnection) => {
+      emit('contractCountUpdated', data?.edges ? data.edges.length : 0);
+    };
+
     return {
       onScroll,
+      emitContractCount,
       schema,
       uiSchema: props.mobile ? mobileUiSchema : desktopUiSchema,
-      request: searchStore.tokenContracts.request,
+      request: props.liquidityPools
+        ? {
+            filter: {
+              name: {
+                iContains: 'LIQUIDITY',
+              },
+            },
+          }
+        : {
+            filter: {
+              AND: [
+                {
+                  name: {
+                    excludes: 'LIQUIDITY',
+                  },
+                },
+                {
+                  name: {
+                    excludes: 'Test',
+                  },
+                },
+                {
+                  name: {
+                    excludes: 'test',
+                  },
+                },
+                {
+                  id: {
+                    excludes: '1Gov26MjgHcRP95p8WaqVNBRLVmZSThkxP',
+                  },
+                },
+                {
+                  id: {
+                    excludes: '1H3NBeKhbjiviqNUqvf35ZgDJEWt9hrmmN',
+                  },
+                },
+                {
+                  id: {
+                    excludes: '1LnmquvXUKPS18dFszBCvkLD9WiBsUt8eq',
+                  },
+                },
+                {
+                  id: {
+                    excludes: '16QqxFiift3FhBBaNCJiGoZUivx44Seqxe',
+                  },
+                },
+              ],
+            },
+          },
       position: searchStore.tokenContracts.position,
       renderers: KoinerRenderers,
     };

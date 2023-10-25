@@ -2,10 +2,11 @@
   <q-page class="row items-baseline justify-evenly">
     <q-card class="stats-cards" flat bordered>
       <q-card-section horizontal>
-        <counter-metric
-          title="Tokens"
-          :value="statsStore.tokenStats.contractCount"
-        />
+        <counter-metric title="Tokens" :value="tokenContractsCount" />
+
+        <q-separator vertical />
+
+        <counter-metric title="Liquidity Pools" :value="liquidityPoolsCount" />
 
         <q-separator vertical />
 
@@ -16,16 +17,60 @@
       </q-card-section>
     </q-card>
 
-    <q-card class="table-card">
+    <q-card class="table-card" flat bordered style="width: 100%">
       <q-card-section>
-        <token-contracts-table title="Tokens" />
+        <q-tabs v-model="tab" dense align="left" style="width: 100%">
+          <q-tab
+            class="text-overline"
+            :ripple="false"
+            label="Tokens"
+            name="tokens"
+          />
+          <q-tab
+            class="text-overline"
+            :ripple="false"
+            label="Liquidity Pools"
+            name="liquidity-pools"
+          />
+        </q-tabs>
+
+        <q-separator />
+
+        <q-tab-panels v-model="tab" animated>
+          <q-tab-panel name="tokens">
+            <token-contracts-table
+              :liquidity-pools="false"
+              @contract-count-updated="(newCount: number) => tokenContractsCount = newCount"
+            />
+
+            <!-- Hacky way for now to fetch liquidityPoolsCount before opening liquidity-pool tab -->
+            <div
+              style="
+                height: 0 !important;
+                width: 0 !important;
+                opacity: 0 !important;
+              "
+            >
+              <token-contracts-table
+                :liquidity-pools="true"
+                @contract-count-updated="(newCount: number) => liquidityPoolsCount = newCount"
+              />
+            </div>
+          </q-tab-panel>
+          <q-tab-panel name="liquidity-pools" class="token-transfers">
+            <token-contracts-table
+              :liquidity-pools="true"
+              @contract-count-updated="(newCount: number) => liquidityPoolsCount = newCount"
+            />
+          </q-tab-panel>
+        </q-tab-panels>
       </q-card-section>
     </q-card>
   </q-page>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, onMounted, ref, Ref, watch } from 'vue';
 import { useSearchStore } from 'stores/search';
 import { KoinerRenderers } from '@koiner/renderers';
 import schema from '../../../components/contract/search/token-contracts-search.schema.json';
@@ -36,7 +81,10 @@ import { useStatsStore } from 'stores/stats';
 
 export default defineComponent({
   name: 'TokenContractsIndexPage',
-  components: { CounterMetric, TokenContractsTable },
+  components: {
+    CounterMetric,
+    TokenContractsTable,
+  },
 
   setup() {
     const statsStore = useStatsStore();
@@ -46,8 +94,16 @@ export default defineComponent({
       searchStore.tokenContracts.position = newScrollPosition;
     };
 
+    const tab: Ref<string> = ref('tokens');
+
+    const tokenContractsCount = ref(0);
+    const liquidityPoolsCount = ref(0);
+
     return {
+      tab,
       statsStore,
+      tokenContractsCount,
+      liquidityPoolsCount,
       onScroll,
       schema,
       uiSchema,

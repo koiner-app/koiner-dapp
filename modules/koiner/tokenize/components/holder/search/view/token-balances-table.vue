@@ -12,6 +12,7 @@
     :data="{}"
     :additional-renderers="renderers"
     @change="onChange"
+    :class="onchainLoaded ? 'onchain-loaded' : ''"
   />
 </template>
 
@@ -57,6 +58,7 @@ export default defineComponent({
     let request: Ref<QueryTokenHoldersArgs> = ref({ filter: {} });
     let contractIdsFilter: any;
     let addressFilter: any;
+    const onchainLoaded = ref(false);
 
     const updateFilters = () => {
       request.value.filter = { AND: [] };
@@ -107,6 +109,8 @@ export default defineComponent({
       baseURL: koinerConfig[accountStore.environment].checker,
     });
 
+    const onChainSyncTime = ref(0);
+
     return {
       schema: tokenHoldersSearchSchema,
       uiSchema: !props.showAddress
@@ -114,31 +118,50 @@ export default defineComponent({
         : tokenBalancesSearchUiSchema,
       request: request,
       renderers: KoinerRenderers,
+      onchainLoaded,
       onChange: (data: TokenHoldersConnection) => {
-        data.edges?.map(async (edge) => {
-          console.log(
-            `get balance: ${edge.node.contractId}/balance/${edge.node.addressId}`
-          );
-          const response = await checkerApi.get(
-            `token/${edge.node.contractId}/balance/${edge.node.addressId}`
-          );
+        // Only fetch onchain balances if last time was 60 seconds ago
+        if (data.edges) {
+          // && onChainSyncTime.value < Date.now() - 3600) {
+          onChainSyncTime.value = Date.now();
 
-          if (response.data) {
+          data.edges?.map(async (edge) => {
             console.log(
-              `update balance ${edge.node.contractId}/balance/${edge.node.addressId}: ${response.data}`
+              `get balance: ${edge.node.contractId}/balance/${edge.node.addressId}`
             );
-            edge.node.balance = round(
-              response.data * Math.pow(10, 8),
-              8
-            ).toString();
-          }
 
-          return edge;
-        });
+            const response = await checkerApi.get(
+              `token/${edge.node.contractId}/balance/${edge.node.addressId}`
+            );
+
+            if (response.data) {
+              console.log(
+                `update balance ${edge.node.contractId}/balance/${edge.node.addressId}: ${response.data}`
+              );
+              edge.node.balance = round(
+                response.data * Math.pow(10, 8),
+                8
+              ).toString();
+            }
+
+            return edge;
+          });
+        }
 
         emit('change', data);
+
+        onchainLoaded.value = true;
       },
     };
   },
 });
 </script>
+
+<style lang="scss">
+[id*='#/properties/balance'] {
+  opacity: 0 !important;
+}
+.onchain-loaded [id*='#/properties/balance'] {
+  opacity: 1 !important;
+}
+</style>
