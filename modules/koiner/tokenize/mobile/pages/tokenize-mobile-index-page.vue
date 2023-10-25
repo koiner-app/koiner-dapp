@@ -4,7 +4,10 @@
       <q-card-section class="q-pt-xs q-px-none">
         <q-tab-panels v-model="tab" animated>
           <q-tab-panel name="tokens" class="tab--mobile-table">
-            <token-contracts-table :mobile="true" />
+            <token-contracts-table :mobile="true" :liquidity-pools="false" />
+          </q-tab-panel>
+          <q-tab-panel name="liquidity-pools" class="tab--mobile-table">
+            <token-contracts-table :mobile="true" :liquidity-pools="true" />
           </q-tab-panel>
           <q-tab-panel name="token-operations" class="tab--mobile-table">
             <tokens-operations-table :mobile="true" />
@@ -23,6 +26,12 @@
           :ripple="false"
           label="Tokens"
           name="tokens"
+        />
+        <q-tab
+          class="text-overline"
+          :ripple="false"
+          label="Liquidity Pools"
+          name="liquidity-pools"
         />
         <q-tab
           class="text-overline"
