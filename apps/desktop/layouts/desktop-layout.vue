@@ -114,6 +114,11 @@ export default defineComponent({
         'contract.events': 'mobile.contract',
         'contract.operations': 'mobile.contract',
         contracts: 'mobile.contracts',
+        tokens: 'mobile.tokenize',
+        token: 'mobile.token',
+        'token.balances': 'mobile.token',
+        'token.events': 'mobile.token',
+        'token.operations': 'mobile.token',
       };
 
       if (route.name && mobileRedirects[route.name.toString()]) {

@@ -64,6 +64,8 @@ export default defineComponent({
         'mobile.network': 'network',
         'mobile.contract': 'contract.operations',
         'mobile.contracts': 'contracts',
+        'mobile.tokenize': 'tokens',
+        'mobile.token': 'token',
       };
 
       if (route.name && desktopRedirects[route.name.toString()]) {
