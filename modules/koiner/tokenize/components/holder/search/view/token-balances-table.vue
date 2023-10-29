@@ -120,9 +120,8 @@ export default defineComponent({
       renderers: KoinerRenderers,
       onchainLoaded,
       onChange: (data: TokenHoldersConnection) => {
-        // Only fetch onchain balances if last time was 60 seconds ago
-        if (data.edges) {
-          // && onChainSyncTime.value < Date.now() - 3600) {
+        // Only fetch onchain balances if last time was 10 mins ago
+        if (data.edges && onChainSyncTime.value < Date.now() - 600000) {
           onChainSyncTime.value = Date.now();
 
           data.edges?.map(async (edge) => {

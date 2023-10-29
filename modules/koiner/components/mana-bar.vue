@@ -344,7 +344,7 @@ export default defineComponent({
       reload: () => {
         // Only reload on desktop. Mobile shows hover on click
         if (width.value >= 1024) {
-          accountStore.loadOnChainBalances();
+          accountStore.loadOnChainBalances(true);
         }
       },
       isDesktop: computed(() => {

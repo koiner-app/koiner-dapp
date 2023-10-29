@@ -51,6 +51,7 @@ export const useAccountStore = defineStore({
       totalVhp: 0 as number,
       totalVirtualKoin: 0 as number,
       burned: 0.0 as number,
+      onChainSyncTime: 0 as number,
     },
     test: {
       name: 'Mystery Test Koiner',
@@ -66,6 +67,7 @@ export const useAccountStore = defineStore({
       totalVhp: 0 as number,
       totalVirtualKoin: 0 as number,
       burned: 0.0 as number,
+      onChainSyncTime: 0 as number,
     },
     local: {
       name: 'Mystery Local Koiner',
@@ -81,6 +83,7 @@ export const useAccountStore = defineStore({
       totalVhp: 0 as number,
       totalVirtualKoin: 0 as number,
       burned: 0.0 as number,
+      onChainSyncTime: 0 as number,
     },
   }),
 
@@ -191,6 +194,9 @@ export const useAccountStore = defineStore({
         });
       };
     },
+    onChainSyncTime: (state): number => {
+      return state[state.environment].onChainSyncTime;
+    },
   },
 
   actions: {
@@ -299,7 +305,12 @@ export const useAccountStore = defineStore({
       });
     },
 
-    async loadOnChainBalances() {
+    async loadOnChainBalances(reset: boolean) {
+      if (reset) {
+        this.$patch({
+          [this.environment]: { onChainSyncTime: 0 },
+        });
+      }
       /**
        * Load OnChain balance with Mana balances
        */
@@ -453,10 +464,21 @@ export const useAccountStore = defineStore({
 
         const edges: TokenHolderEdge[] = [];
 
-        if (updatedData?.tokenHolders.edges) {
+        // Only fetch onchain balances if last time was 10 mins ago
+        if (
+          updatedData?.tokenHolders.edges &&
+          this.onChainSyncTime < Date.now() - 600000
+        ) {
+          this.$patch({
+            [this.environment]: { onChainSyncTime: Date.now() },
+          });
+
           for (let i = 0; i < updatedData?.tokenHolders.edges.length; i++) {
             edges.push(updatedData?.tokenHolders.edges[i] as TokenHolderEdge);
 
+            console.log(
+              `ACCOUNT ONCHAIN: token/${edges[i].node.contractId}/balance/${edges[i].node.addressId}`
+            );
             const response = await checkerApi.get(
               `token/${edges[i].node.contractId}/balance/${edges[i].node.addressId}`
             );
@@ -476,7 +498,7 @@ export const useAccountStore = defineStore({
           },
         });
 
-        this.loadOnChainBalances();
+        // this.loadOnChainBalances();
       });
 
       queryState.error = error;
