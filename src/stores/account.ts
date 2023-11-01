@@ -305,7 +305,7 @@ export const useAccountStore = defineStore({
       });
     },
 
-    async loadOnChainBalances(reset: boolean) {
+    async loadOnChainBalances(reset = false) {
       if (reset) {
         this.$patch({
           [this.environment]: { onChainSyncTime: 0 },
@@ -465,29 +465,35 @@ export const useAccountStore = defineStore({
         const edges: TokenHolderEdge[] = [];
 
         // Only fetch onchain balances if last time was 10 mins ago
-        if (
-          updatedData?.tokenHolders.edges &&
-          this.onChainSyncTime < Date.now() - 600000
-        ) {
-          this.$patch({
-            [this.environment]: { onChainSyncTime: Date.now() },
-          });
+        if (updatedData?.tokenHolders.edges) {
+          let syncOnChain = false;
+
+          if (this.onChainSyncTime < Date.now() - 600000) {
+            syncOnChain = true;
+
+            this.$patch({
+              [this.environment]: { onChainSyncTime: Date.now() },
+            });
+          }
 
           for (let i = 0; i < updatedData?.tokenHolders.edges.length; i++) {
             edges.push(updatedData?.tokenHolders.edges[i] as TokenHolderEdge);
 
-            console.log(
-              `ACCOUNT ONCHAIN: token/${edges[i].node.contractId}/balance/${edges[i].node.addressId}`
-            );
-            const response = await checkerApi.get(
-              `token/${edges[i].node.contractId}/balance/${edges[i].node.addressId}`
-            );
+            if (syncOnChain) {
+              console.log(
+                `ACCOUNT ONCHAIN: token/${edges[i].node.contractId}/balance/${edges[i].node.addressId}`
+              );
 
-            if (response.data) {
-              edges[i].node.balance = round(
-                response.data * Math.pow(10, 8),
-                8
-              ).toString();
+              const response = await checkerApi.get(
+                `token/${edges[i].node.contractId}/balance/${edges[i].node.addressId}`
+              );
+
+              if (response.data) {
+                edges[i].node.balance = round(
+                  response.data * Math.pow(10, 8),
+                  8
+                ).toString();
+              }
             }
           }
         }
@@ -498,7 +504,7 @@ export const useAccountStore = defineStore({
           },
         });
 
-        // this.loadOnChainBalances();
+        await this.loadOnChainBalances();
       });
 
       queryState.error = error;
