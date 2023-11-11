@@ -2,7 +2,11 @@ import { defineStore } from 'pinia';
 import { watch } from 'vue';
 import { useQuery } from '@urql/vue';
 import { useKoinerStore } from 'stores/koiner';
-import { localizedTokenAmount, tokenAmount } from '@koiner/utils';
+import {
+  localizedTokenAmount,
+  tokenAmount,
+  tokenAmountToSatoshi,
+} from '@koiner/utils';
 import axios from 'axios';
 import { koinerConfig } from 'app/koiner.config';
 
@@ -184,8 +188,51 @@ export const useStatsStore = defineStore({
         });
       }
     },
-    load() {
+    async loadKoinVHPSupplies() {
       const koinerStore = useKoinerStore();
+
+      const checkerApi = axios.create({
+        baseURL: koinerConfig[koinerStore.environment].checker,
+      });
+
+      let koinTotalSupply;
+      let vhpTotalSupply;
+
+      const koinResponse = await checkerApi.get('koin/total-supply');
+
+      if (koinResponse.data != null) {
+        koinTotalSupply = tokenAmountToSatoshi(Number(koinResponse.data), 8);
+      }
+
+      const vhpResponse = await checkerApi.get('vhp/total-supply');
+
+      if (vhpResponse.data != null) {
+        vhpTotalSupply = tokenAmountToSatoshi(parseInt(vhpResponse.data), 8);
+      }
+
+      if (koinTotalSupply != null && vhpTotalSupply != null) {
+        const virtualTotalSupply = koinTotalSupply + vhpTotalSupply;
+
+        this.$patch({
+          totalSupply: {
+            koinTotalSupply: koinTotalSupply.toString(),
+            vhpTotalSupply: vhpTotalSupply.toString(),
+            virtualTotalSupply: virtualTotalSupply.toString(),
+            fullyDilutedSupply:
+              9973874402587864 + (this.blockProduction.rewarded ?? 0),
+            burned:
+              virtualTotalSupply && vhpTotalSupply
+                ? (vhpTotalSupply / virtualTotalSupply) * 100
+                : 0,
+            claimed:
+              ((virtualTotalSupply - (this.blockProduction.rewarded ?? 0)) /
+                9973874402587864) *
+              100,
+          },
+        });
+      }
+    },
+    load() {
       const countsQuery = `query KoinerStats {
   chain {
     id
@@ -220,30 +267,8 @@ export const useStatsStore = defineStore({
 }
 `;
 
-      const totalSuppliesQuery = `query KoinVHPTotalSupplies {
-  tokenContracts(
-    first: 2
-    filter: {
-      OR: [
-        { id: { equals: "${koinerStore.koinContract.id}" } },
-        { id: { equals: "${koinerStore.vhpContract.id}" } }
-      ]
-    }
-  ) {
-    nodes {
-      id
-      name
-      totalSupply
-    }
-  }
-}`;
-
       const result = useQuery({
         query: countsQuery,
-      });
-
-      const resultTS = useQuery({
-        query: totalSuppliesQuery,
       });
 
       watch(
@@ -282,49 +307,6 @@ export const useStatsStore = defineStore({
         { deep: true }
       );
 
-      watch(
-        resultTS.data,
-        () => {
-          const tokenContracts = resultTS.data.value.tokenContracts.nodes;
-
-          const koinContract = tokenContracts.find(
-            (tokenContract: { id: string; totalSupply: string }) =>
-              tokenContract.id === koinerStore.koinContract.id
-          );
-
-          const vhpContract = tokenContracts.find(
-            (tokenContract: { id: string; totalSupply: string }) =>
-              tokenContract.id === koinerStore.vhpContract.id
-          );
-
-          if (koinContract && vhpContract) {
-            const vhpTotalSupply = parseInt(vhpContract.totalSupply);
-            const virtualTotalSupply =
-              parseInt(koinContract.totalSupply) +
-              parseInt(vhpContract.totalSupply);
-
-            this.$patch({
-              totalSupply: {
-                koinTotalSupply: koinContract.totalSupply,
-                vhpTotalSupply: vhpContract.totalSupply,
-                virtualTotalSupply: virtualTotalSupply.toString(),
-                fullyDilutedSupply:
-                  9973874402587864 + (this.blockProduction.rewarded ?? 0),
-                burned:
-                  virtualTotalSupply && vhpTotalSupply
-                    ? (vhpTotalSupply / virtualTotalSupply) * 100
-                    : 0,
-                claimed:
-                  ((virtualTotalSupply - (this.blockProduction.rewarded ?? 0)) /
-                    9973874402587864) *
-                  100,
-              },
-            });
-          }
-        },
-        { deep: true }
-      );
-
       const reloadStats = async () => {
         // async function reloadStats() {
         // Reload
@@ -332,9 +314,7 @@ export const useStatsStore = defineStore({
           requestPolicy: 'network-only',
         });
 
-        resultTS.executeQuery({
-          requestPolicy: 'network-only',
-        });
+        await this.loadKoinVHPSupplies();
 
         this.loadHeight().then();
       };
