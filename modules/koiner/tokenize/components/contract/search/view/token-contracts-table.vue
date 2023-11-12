@@ -16,7 +16,7 @@
     :uischema="uiSchema"
     :request="request"
     :data="{}"
-    @change="emitContractCount"
+    @change="onChange"
     @on-scroll="onScroll"
     :scroll-position="position"
     :additional-renderers="renderers"
@@ -33,6 +33,7 @@ import schema from '../token-contracts-search.schema.json';
 import mobileUiSchema from './token-contracts-table.mobile-ui-schema.json';
 import desktopUiSchema from './token-contracts-table.ui-schema.json';
 import { TokenContractsConnection } from '@koiner/sdk';
+import { useTokensStore } from 'stores/tokens';
 
 export default defineComponent({
   name: 'TokenContractsTable',
@@ -57,18 +58,31 @@ export default defineComponent({
 
   setup(props, { emit }) {
     const searchStore = useSearchStore();
+    const tokensStore = useTokensStore();
 
     const onScroll = (newScrollPosition: number) => {
       searchStore.tokenContracts.position = newScrollPosition;
     };
 
-    const emitContractCount = (data: TokenContractsConnection) => {
+    const onChange = (data: TokenContractsConnection) => {
+      if (data.edges) {
+        data.edges?.map(async (edge) => {
+          const supply = await tokensStore.supply(edge.node.id);
+
+          if (supply != null) {
+            edge.node.totalSupply = supply.supply.toString();
+          }
+
+          return edge;
+        });
+      }
+
       emit('contractCountUpdated', data?.edges ? data.edges.length : 0);
     };
 
     return {
       onScroll,
-      emitContractCount,
+      onChange,
       schema,
       uiSchema: props.mobile ? mobileUiSchema : desktopUiSchema,
       request: props.liquidityPools
