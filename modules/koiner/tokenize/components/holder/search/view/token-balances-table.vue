@@ -24,10 +24,7 @@ import tokenHoldersSearchSchema from '../token-holders-search.schema.json';
 import tokenAddressBalancesSearchUiSchema from './address-token-balances-table.ui-schema.json';
 import tokenBalancesSearchUiSchema from './token-balances-table.ui-schema.json';
 import { QueryTokenHoldersArgs, TokenHoldersConnection } from '@koiner/sdk';
-import axios from 'axios';
-import { koinerConfig } from 'app/koiner.config';
-import { useAccountStore } from 'stores/account';
-import { round } from 'lodash';
+import { useTokensStore } from 'stores/tokens';
 
 export default defineComponent({
   name: 'TokenBalancesTable',
@@ -54,7 +51,8 @@ export default defineComponent({
   emits: ['change'],
 
   setup(props, { emit }) {
-    const accountStore = useAccountStore();
+    const tokensStore = useTokensStore();
+
     let request: Ref<QueryTokenHoldersArgs> = ref({ filter: {} });
     let contractIdsFilter: any;
     let addressFilter: any;
@@ -105,12 +103,6 @@ export default defineComponent({
       { deep: true }
     );
 
-    const checkerApi = axios.create({
-      baseURL: koinerConfig[accountStore.environment].checker,
-    });
-
-    const onChainSyncTime = ref(0);
-
     return {
       schema: tokenHoldersSearchSchema,
       uiSchema: !props.showAddress
@@ -120,27 +112,15 @@ export default defineComponent({
       renderers: KoinerRenderers,
       onchainLoaded,
       onChange: (data: TokenHoldersConnection) => {
-        // Only fetch onchain balances if last time was 10 mins ago
-        if (data.edges && onChainSyncTime.value < Date.now() - 600000) {
-          onChainSyncTime.value = Date.now();
-
+        if (data.edges) {
           data.edges?.map(async (edge) => {
-            console.log(
-              `get balance: ${edge.node.contractId}/balance/${edge.node.addressId}`
+            const balance = await tokensStore.balance(
+              edge.node.contractId,
+              edge.node.addressId
             );
 
-            const response = await checkerApi.get(
-              `token/${edge.node.contractId}/balance/${edge.node.addressId}`
-            );
-
-            if (response.data) {
-              console.log(
-                `update balance ${edge.node.contractId}/balance/${edge.node.addressId}: ${response.data}`
-              );
-              edge.node.balance = round(
-                response.data * Math.pow(10, 8),
-                8
-              ).toString();
+            if (balance != null) {
+              edge.node.balance = balance.balance.toString();
             }
 
             return edge;
