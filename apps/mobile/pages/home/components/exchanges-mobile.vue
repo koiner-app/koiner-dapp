@@ -1,7 +1,7 @@
 <template>
   <q-card class="stats-card" flat>
     <q-card-section>
-      <div class="stat-title">Exchanges</div>
+      <div class="stat-title">Buy $KOIN</div>
 
       <div class="q-pt-sm">
         <q-btn
@@ -24,6 +24,13 @@
           color="primary"
           size="sm"
           >Coinstore</q-btn
+        >
+        <q-btn
+          href="https://www.chainge.finance/info/currencies/KOIN"
+          target="_blank"
+          color="primary"
+          size="sm"
+          >Chainge</q-btn
         >
       </div>
     </q-card-section>
