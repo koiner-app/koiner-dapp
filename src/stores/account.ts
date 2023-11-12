@@ -14,8 +14,7 @@ import { useStatsStore } from 'stores/stats';
 import { SearchState } from '@appvise/search-manager';
 import { tokenAmount } from '@koiner/utils';
 import { koinerConfig } from 'app/koiner.config';
-import axios from 'axios';
-import { round } from 'lodash';
+import { useTokensStore } from 'stores/tokens';
 
 export type KoinerThemeType = 'auto' | 'hybrid' | 'dark' | 'light';
 export const KoinerThemes: KoinerThemeType[] = ['auto', 'hybrid', 'dark'];
@@ -51,7 +50,6 @@ export const useAccountStore = defineStore({
       totalVhp: 0 as number,
       totalVirtualKoin: 0 as number,
       burned: 0.0 as number,
-      onChainSyncTime: 0 as number,
     },
     test: {
       name: 'Mystery Test Koiner',
@@ -67,7 +65,6 @@ export const useAccountStore = defineStore({
       totalVhp: 0 as number,
       totalVirtualKoin: 0 as number,
       burned: 0.0 as number,
-      onChainSyncTime: 0 as number,
     },
     local: {
       name: 'Mystery Local Koiner',
@@ -83,7 +80,6 @@ export const useAccountStore = defineStore({
       totalVhp: 0 as number,
       totalVirtualKoin: 0 as number,
       burned: 0.0 as number,
-      onChainSyncTime: 0 as number,
     },
   }),
 
@@ -194,9 +190,6 @@ export const useAccountStore = defineStore({
         });
       };
     },
-    onChainSyncTime: (state): number => {
-      return state[state.environment].onChainSyncTime;
-    },
   },
 
   actions: {
@@ -306,11 +299,14 @@ export const useAccountStore = defineStore({
     },
 
     async loadOnChainBalances(reset = false) {
+      const tokensStore = useTokensStore();
+
       if (reset) {
         this.$patch({
-          [this.environment]: { onChainSyncTime: 0 },
+          [this.environment]: {},
         });
       }
+
       /**
        * Load OnChain balance with Mana balances
        */
@@ -331,24 +327,27 @@ export const useAccountStore = defineStore({
         const onChainBalances: OnChainBalance[] = [];
 
         for (const address of this[this.environment].addressesFilter) {
-          const checkerApi = axios.create({
-            baseURL: koinerConfig[this.environment].checker,
-          });
-
           let manaBalance: number;
           let koinBalance: number;
 
-          const response = await checkerApi.get(`koin/balance/${address}`);
+          const koinOnChainBalance = await tokensStore.balance(
+            'koin',
+            address,
+            reset
+          );
 
-          if (response.data) {
-            koinBalance = Number(response.data);
+          if (koinOnChainBalance != null) {
+            koinBalance = koinOnChainBalance.balance;
+
+            const manaOnChainBalance = await tokensStore.balance(
+              'mana',
+              address,
+              reset
+            );
 
             // Fetch mana balance when we retrieved koin balance
-            const responseMana = await checkerApi.get(
-              `mana/balance/${address}`
-            );
-            if (responseMana.data) {
-              manaBalance = Number(responseMana.data);
+            if (manaOnChainBalance != null) {
+              manaBalance = manaOnChainBalance.balance;
 
               const timeRechargeMana =
                 ((koinBalance - manaBalance) * FIVE_DAYS) / koinBalance;
@@ -447,9 +446,7 @@ export const useAccountStore = defineStore({
       });
 
       watch(data, async (updatedData) => {
-        const checkerApi = axios.create({
-          baseURL: koinerConfig[this.environment].checker,
-        });
+        const tokensStore = useTokensStore();
 
         const newConnection =
           updatedData?.tokenHolders as TokenHoldersConnection;
@@ -464,36 +461,17 @@ export const useAccountStore = defineStore({
 
         const edges: TokenHolderEdge[] = [];
 
-        // Only fetch onchain balances if last time was 10 mins ago
         if (updatedData?.tokenHolders.edges) {
-          let syncOnChain = false;
-
-          if (this.onChainSyncTime < Date.now() - 600000) {
-            syncOnChain = true;
-
-            this.$patch({
-              [this.environment]: { onChainSyncTime: Date.now() },
-            });
-          }
-
           for (let i = 0; i < updatedData?.tokenHolders.edges.length; i++) {
             edges.push(updatedData?.tokenHolders.edges[i] as TokenHolderEdge);
 
-            if (syncOnChain) {
-              console.log(
-                `ACCOUNT ONCHAIN: token/${edges[i].node.contractId}/balance/${edges[i].node.addressId}`
-              );
+            const onChainBalance = await tokensStore.balance(
+              edges[i].node.contractId,
+              edges[i].node.addressId
+            );
 
-              const response = await checkerApi.get(
-                `token/${edges[i].node.contractId}/balance/${edges[i].node.addressId}`
-              );
-
-              if (response.data) {
-                edges[i].node.balance = round(
-                  response.data * Math.pow(10, 8),
-                  8
-                ).toString();
-              }
+            if (onChainBalance != null) {
+              edges[i].node.balance = onChainBalance.balance.toString();
             }
           }
         }
