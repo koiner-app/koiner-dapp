@@ -16,6 +16,10 @@ export const koinCity: Project = {
       url: 'https://x.com/TheRealKoincity',
       icon: 'fa-brands fa-twitter',
     },
+    {
+      url: 'https://github.com/MiXiBo',
+      icon: 'fa-brands fa-github',
+    },
   ],
   maintainers: [],
   tags: ['Dex', 'dApp'],
