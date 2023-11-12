@@ -20,6 +20,7 @@ import MobileMainNavigation from '../components/mobile-main-navigation.vue';
 import { useWindowSize } from '@vueuse/core';
 import { useRoute, useRouter } from 'vue-router';
 import { useBlockProductionStore } from 'stores/block-production';
+import { useTokensStore } from 'stores/tokens';
 
 export default defineComponent({
   name: 'MainLayout',
@@ -34,6 +35,8 @@ export default defineComponent({
     const statsStore = useStatsStore();
     const bookmarkStore = useBookmarkStore();
     const onChainStore = useOnChainStore();
+    const tokensStore = useTokensStore();
+
     const { width } = useWindowSize();
     const router = useRouter();
     const route = useRoute();
@@ -44,6 +47,7 @@ export default defineComponent({
     blockProductionStore.load(koinerStore.environment);
     bookmarkStore.load(koinerStore.environment);
     onChainStore.load(koinerStore.environment);
+    tokensStore.load(koinerStore.environment);
 
     if (blockProductionStore.addressesFilter.length === 0) {
       blockProductionStore.syncAddressFilterSelection(
