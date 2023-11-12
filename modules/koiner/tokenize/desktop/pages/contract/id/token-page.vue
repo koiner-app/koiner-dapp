@@ -4,7 +4,11 @@
       <q-card-section horizontal>
         <counter-metric
           title="Total Supply"
-          :value="parseInt(tokenContract.totalSupply)"
+          :value="
+            totalSupply != null
+              ? totalSupply
+              : parseInt(tokenContract.totalSupply)
+          "
           :unit="tokenContract.symbol"
           :token-decimals="tokenContract.decimals"
           :decimals="0"
@@ -80,7 +84,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref, Ref } from 'vue';
+import { defineComponent, onMounted, PropType, ref, Ref, watch } from 'vue';
 import { useKoinerStore } from 'stores/koiner';
 import { useStatsStore } from 'stores/stats';
 import { TokenContract } from '@koiner/sdk';
@@ -88,6 +92,7 @@ import CounterMetric from '@koiner/components/metrics/counter-metric.vue';
 import TokenHoldersTable from '../../../../components/holder/search/view/token-holders-table.vue';
 import TokensOperationsTable from '../../../../components/operation/search/view/tokens-operations-table.vue';
 import TokensEventsTable from '../../../../components/event/search/view/tokens-events-table.vue';
+import { useTokensStore } from 'stores/tokens';
 
 export default defineComponent({
   name: 'TokenPage',
@@ -104,13 +109,34 @@ export default defineComponent({
     },
   },
 
-  setup() {
+  setup(props) {
     const koinerStore = useKoinerStore();
     const statsStore = useStatsStore();
+    const tokensStore = useTokensStore();
 
     const tab: Ref<string> = ref('token-operations');
 
+    const totalSupply: Ref<number | null> = ref(null);
+
+    const loadOnChainSupply = async () => {
+      const newSupply = await tokensStore.supply(props.tokenContract.id);
+
+      if (newSupply) {
+        totalSupply.value = newSupply.supply;
+      } else {
+        totalSupply.value = null;
+      }
+    };
+    watch(props.tokenContract, async () => {
+      await loadOnChainSupply();
+    });
+
+    onMounted(async () => {
+      await loadOnChainSupply();
+    });
+
     return {
+      totalSupply,
       tab,
       koinerStore,
       statsStore,
