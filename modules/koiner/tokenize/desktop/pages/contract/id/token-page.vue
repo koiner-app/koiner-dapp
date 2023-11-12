@@ -3,12 +3,9 @@
     <q-card class="stats-cards" flat bordered>
       <q-card-section horizontal>
         <counter-metric
+          :style="totalSupply == null ? 'opacity: 0;' : ''"
           title="Total Supply"
-          :value="
-            totalSupply != null
-              ? totalSupply
-              : parseInt(tokenContract.totalSupply)
-          "
+          :value="totalSupply"
           :unit="tokenContract.symbol"
           :token-decimals="tokenContract.decimals"
           :decimals="0"
