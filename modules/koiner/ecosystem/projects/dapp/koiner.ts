@@ -10,6 +10,10 @@ export const koiner: Project = {
   links: [
     { url: 'https://koiner.app', icon: 'fa-solid fa-globe' },
     {
+      url: 'https://x.com/KoinerApp',
+      icon: 'fa-brands fa-twitter',
+    },
+    {
       url: 'https://github.com/koiner-dao',
       icon: 'fa-brands fa-github',
     },
