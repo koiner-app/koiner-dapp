@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
         - name: koiner-dapp
-          image: elimbatido/koiner-dapp:v0.11.2
+          image: elimbatido/koiner-dapp:v0.12.2
           envFrom:
             - configMapRef:
                 name: dapp-config
