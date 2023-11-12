@@ -136,7 +136,7 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 [id*='#/properties/balance'] {
   opacity: 0 !important;
 }
