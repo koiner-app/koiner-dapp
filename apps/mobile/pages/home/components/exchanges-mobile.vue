@@ -63,5 +63,18 @@ export default defineComponent({
   margin-right: 0.5rem !important;
   margin-bottom: 0.5rem !important;
   border-radius: 8px !important;
+  padding: 0.125rem 0.325rem;
+
+  @media (min-width: 380px) {
+    padding: 0.125rem 0.5rem;
+  }
+
+  @media (min-width: 420px) {
+    padding: 0.125rem 0.75rem;
+  }
+
+  @media (min-width: 500px) {
+    padding: 0.125rem 1rem;
+  }
 }
 </style>
