@@ -122,10 +122,7 @@ import { useRoute } from 'vue-router';
 import { tokenAmount } from '@koiner/utils';
 import AddressMobileHistory from '@koiner/chain/address/mobile/components/address-mobile-history.vue';
 import BookmarkComponent from '@koiner/bookmarks/components/bookmark-component.vue';
-import { round } from 'lodash';
-import axios from 'axios';
-import { koinerConfig } from 'app/koiner.config';
-import { useAccountStore } from 'stores/account';
+import { useTokensStore } from 'stores/tokens';
 
 export default defineComponent({
   name: 'AddressMobilePage',
@@ -141,7 +138,7 @@ export default defineComponent({
     const route = useRoute();
     const koinerStore = useKoinerStore();
     const statsStore = useStatsStore();
-    const accountStore = useAccountStore();
+    const tokensStore = useTokensStore();
 
     const id: Ref<string | undefined> = ref();
     const tab: Ref<string> = ref('portfolio');
@@ -230,32 +227,18 @@ export default defineComponent({
       await loadBlockProducers();
     });
 
-    const checkerApi = axios.create({
-      baseURL: koinerConfig[accountStore.environment].checker,
-    });
-
-    const onChainSyncTime = ref(0);
-
     watch(
       tokenHolderSearch.connection,
       () => {
-        // Only fetch onchain balances if last time was 60 seconds ago
-        if (
-          tokenHolderSearch.connection.value?.edges &&
-          onChainSyncTime.value < Date.now() - 3600
-        ) {
-          onChainSyncTime.value = Date.now();
-
+        if (tokenHolderSearch.connection.value?.edges) {
           tokenHolderSearch.connection.value?.edges?.map(async (edge) => {
-            const response = await checkerApi.get(
-              `token/${edge.node.contractId}/balance/${edge.node.addressId}`
+            const balance = await tokensStore.balance(
+              edge.node.contractId,
+              edge.node.addressId
             );
 
-            if (response.data) {
-              edge.node.balance = round(
-                response.data * Math.pow(10, 8),
-                8
-              ).toString();
+            if (balance != null) {
+              edge.node.balance = balance.balance.toString();
             }
 
             return edge;
