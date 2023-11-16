@@ -6,6 +6,7 @@ export const ProjectTypes = [
   'Wallet',
   'NFT',
   'Social',
+  'Community',
   'Tools',
   'Code',
   'Content',

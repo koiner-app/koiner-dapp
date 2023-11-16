@@ -10,6 +10,7 @@ import { socialProjects } from '@koiner/ecosystem/projects/social';
 import { tools } from './tools';
 import { wallets } from '@koiner/ecosystem/projects/wallets';
 import { documentation } from '@koiner/ecosystem/projects/documentation';
+import { communities } from '@koiner/ecosystem/projects/communities';
 
 export * from './project';
 export * from './tags';
@@ -23,6 +24,7 @@ export const KoinosProjects = [
   ...wallets,
   ...nftProjects,
   ...socialProjects,
+  ...communities,
   ...tools,
   ...codeProjects,
   ...contentProjects,
