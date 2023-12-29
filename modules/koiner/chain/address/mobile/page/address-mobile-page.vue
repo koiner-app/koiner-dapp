@@ -8,9 +8,14 @@
             style="padding: 0 !important; min-height: 100vh"
           >
             <q-card class="stats-card" flat>
-              <q-card-section>
+              <q-card-section class="q-pt-lg">
                 <div class="text-caption">Address</div>
-                <div class="stat-title">{{ id }}</div>
+                <div class="stat-title">
+                  <copy-to-clipboard
+                    :source="id"
+                    :tooltip="'Copy address to clipboard'"
+                  />
+                </div>
 
                 <bookmark-component
                   :item="{ id, type: 'address' }"
@@ -123,10 +128,12 @@ import { tokenAmount } from '@koiner/utils';
 import AddressMobileHistory from '@koiner/chain/address/mobile/components/address-mobile-history.vue';
 import BookmarkComponent from '@koiner/bookmarks/components/bookmark-component.vue';
 import { useTokensStore } from 'stores/tokens';
+import CopyToClipboard from '@koiner/components/copy-to-clipboard.vue';
 
 export default defineComponent({
   name: 'AddressMobilePage',
   components: {
+    CopyToClipboard,
     BookmarkComponent,
     AddressMobileHistory,
     TokenHolderBalancesMetric,

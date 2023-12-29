@@ -3,7 +3,12 @@
     <q-item>
       <q-item-section class="id-section">
         <q-item-label caption>ID</q-item-label>
-        <q-item-label lines="2"> {{ block.id }} </q-item-label>
+        <q-item-label lines="2">
+          <copy-to-clipboard
+            :source="block.id"
+            :tooltip="'Copy block id to clipboard'"
+          />
+        </q-item-label>
       </q-item-section>
     </q-item>
     <q-item>
@@ -46,9 +51,11 @@ import { defineComponent, PropType } from 'vue';
 import { Block } from '@koiner/sdk';
 import { useKoinerStore } from 'stores/koiner';
 import { timeAgo } from '../../utils';
+import CopyToClipboard from '@koiner/components/copy-to-clipboard.vue';
 
 export default defineComponent({
   name: 'BlockDetailsComponent',
+  components: { CopyToClipboard },
   methods: { timeAgo },
   props: {
     block: {

@@ -8,7 +8,10 @@
       <q-item-section class="id-section">
         <q-item-label caption>ID</q-item-label>
         <q-item-label lines="2" style="word-break: break-word">
-          {{ transaction.id }}
+          <copy-to-clipboard
+            :source="transaction.id"
+            :tooltip="'Copy transaction id to clipboard'"
+          />
         </q-item-label>
       </q-item-section>
     </q-item>
@@ -92,7 +95,10 @@
       <q-item-section>
         <q-item-label caption>Mana limit (Max payer RC)</q-item-label>
         <q-item-label
-          >{{ formattedTokenAmount(Number(transaction.receipt.rcLimit), 8) }} Mana ({{
+          >{{
+            formattedTokenAmount(Number(transaction.receipt.rcLimit), 8)
+          }}
+          Mana ({{
             formattedTokenAmount(Number(transaction.receipt.maxPayerRc), 8)
           }})</q-item-label
         >
@@ -137,9 +143,11 @@ import { defineComponent, PropType } from 'vue';
 import { Transaction } from '@koiner/sdk';
 import { useKoinerStore } from 'stores/koiner';
 import { formattedTokenAmount, timeAgo } from '../../utils';
+import CopyToClipboard from '@koiner/components/copy-to-clipboard.vue';
 
 export default defineComponent({
   name: 'TransactionDetailsComponent',
+  components: { CopyToClipboard },
   methods: { formattedTokenAmount, timeAgo },
   props: {
     transaction: {
