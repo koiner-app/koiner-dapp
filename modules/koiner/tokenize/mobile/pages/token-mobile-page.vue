@@ -5,11 +5,20 @@
         <q-tab-panels v-model="tab" animated>
           <q-tab-panel name="token-details" class="tab--mobile-table">
             <q-card class="stats-card" flat>
-              <q-card-section>
+              <q-card-section class="q-pb-sm">
                 <div class="text-caption">Token</div>
                 <div class="stat-title">
                   {{ tokenContract.name
                   }}<q-chip size="xs">{{ tokenContract.symbol }}</q-chip>
+                </div>
+              </q-card-section>
+              <q-card-section class="q-py-none">
+                <div class="text-caption">ID</div>
+                <div>
+                  <copy-to-clipboard
+                    :source="tokenContract.id"
+                    :tooltip="'Copy contract id to clipboard'"
+                  />
                 </div>
               </q-card-section>
               <q-card-section>
@@ -71,10 +80,12 @@ import { useRoute } from 'vue-router';
 import TokensOperationsTable from '@koiner/tokenize/components/operation/search/view/tokens-operations-table.vue';
 import TokensEventsTable from '@koiner/tokenize/components/event/search/view/tokens-events-table.vue';
 import TokenHoldersTable from '@koiner/tokenize/components/holder/search/view/token-holders-table.vue';
+import CopyToClipboard from '@koiner/components/copy-to-clipboard.vue';
 
 export default defineComponent({
   name: 'TokenMobilePage',
   components: {
+    CopyToClipboard,
     TokenHoldersTable,
     TokensEventsTable,
     TokensOperationsTable,
