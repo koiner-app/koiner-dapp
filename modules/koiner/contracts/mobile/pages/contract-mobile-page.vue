@@ -8,7 +8,10 @@
               <q-card-section>
                 <div class="text-caption">Contract</div>
                 <div class="stat-title">
-                  {{ contract.id }}
+                  <copy-to-clipboard
+                    :source="contract.id"
+                    :tooltip="'Copy contract id to clipboard'"
+                  />
                 </div>
               </q-card-section>
               <q-card-section>
@@ -71,10 +74,12 @@ import ContractsOperationsTable from '@koiner/contracts/components/contract/sear
 import ContractsEventsTable from '@koiner/contracts/components/contract/search/view/contracts-events-table.vue';
 import VueJsonPretty from 'vue-json-pretty';
 import 'vue-json-pretty/lib/styles.css';
+import CopyToClipboard from '@koiner/components/copy-to-clipboard.vue';
 
 export default defineComponent({
   name: 'ContractMobilePage',
   components: {
+    CopyToClipboard,
     ContractsEventsTable,
     ContractsOperationsTable,
     VueJsonPretty,
