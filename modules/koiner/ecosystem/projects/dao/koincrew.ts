@@ -2,8 +2,8 @@ import { Project } from '@koiner/ecosystem';
 
 export const koinCrew: Project = {
   name: 'KoinCrew',
-  types: ['Content', 'DAO', 'Marketing'],
-  caption: 'Content',
+  types: ['DAO', 'Marketing'],
+  caption: 'DAO',
   image: '/projects/dao/koincrew.png',
   description:
     'A decentralized collective of individuals united by a common purpose: to spread the knowledge and innovation that Koinos brings',
