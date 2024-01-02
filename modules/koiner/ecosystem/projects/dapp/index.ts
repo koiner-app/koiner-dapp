@@ -9,6 +9,7 @@ import { kap } from './kap';
 import { kollection } from './kollection';
 import { koinCity } from './koin-city';
 import { koinosboxPolls } from './koinosbox-polls';
+import { koinCrewTokenTracker } from './koincrew-tokentracker';
 
 export const dappProjects = [
   kap,
@@ -20,6 +21,7 @@ export const dappProjects = [
   koinCity,
   koiner,
   koinosBlocks,
+  koinCrewTokenTracker,
   koinosboxPolls,
   atomicSwaps,
 ];
