@@ -11,7 +11,24 @@ export const koinCrew: Project = {
     name: 'KCT',
     contractId: '1BTQCpospHJRA7VAtZ4wvitdcqYCvkwBCD',
   },
-  links: [{ url: 'https://koincrew.com/', icon: 'fa-solid fa-globe' }],
+  links: [
+    {
+      url: 'https://koincrew.com/',
+      icon: 'fa-solid fa-globe',
+    },
+    {
+      url: 'https://t.me/koincrewgroup',
+      icon: 'fa-brands fa-telegram',
+    },
+    {
+      url: 'https://x.com/KoinCrew',
+      icon: 'fa-brands fa-twitter',
+    },
+    {
+      url: 'https://discord.gg/6jCVAaH7Rs',
+      icon: 'fa-brands fa-discord',
+    },
+  ],
   maintainers: [],
   tags: ['DAO', 'Marketing'],
 };
