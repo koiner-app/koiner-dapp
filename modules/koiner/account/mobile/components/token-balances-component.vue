@@ -146,20 +146,22 @@ export default defineComponent({
       tokenLogo: (symbol: string): string => {
         const logos: Record<string, string> = {
           btk: 'bitkoin.png',
-          drugs: 'dare.png',
+          drugs: 'drugs.png',
           eth: 'eth.png',
           egg: 'egg.png',
           mars: 'elonkoin.jpg',
           fr: 'frenchie.png',
           kan: 'kan.png',
+          kdbln: 'kdbln.png',
           kct: 'kct.png',
           koin: 'koin.svg',
           koindx: 'koindx.svg',
-          punksk: 'punksk.jpg',
+          'koindx-lp': 'koindx.svg',
+          punksk: 'punksk.png',
           meow: 'meow.jpg',
           mk: 'mk.png',
           noik: 'noik.jpg',
-          ogas: 'ogas.jpg',
+          ogas: 'ogas.png',
           pvhp: 'pvhp.svg',
           rad: 'rad.png',
           rwa: 'rwa.jpg',
@@ -167,7 +169,7 @@ export default defineComponent({
           up: 'up.png',
           usdt: 'usdt.png',
           vapor: 'vapor.svg',
-          vhp: 'vhp.svg',
+          vhp: 'vhp.png',
         };
 
         return logos[symbol.toLowerCase()] ?? null;
