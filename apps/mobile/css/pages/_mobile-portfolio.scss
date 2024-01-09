@@ -1,0 +1,43 @@
+/**
+ V2
+ */
+.page--mobile-account {
+  .portfolio-panel {
+    .stats-card {
+      border-radius: 0.75rem !important;
+    }
+  }
+
+  .q-list {
+    &.q-list--bordered {
+      border: 0;
+    }
+  }
+
+  .q-item {
+    margin: 0.5rem 1rem;
+    border: 0 !important;
+    border-radius: 0.75rem !important;
+
+    .q-item__section--side .q-avatar {
+      font-size: 32px;
+    }
+
+    .q-item__section {
+      .q-item__label {
+        &:first-of-type {
+          font-size: 0.875rem;
+          font-weight: bold;
+          letter-spacing: 0.025rem;
+        }
+        &:nth-of-type(2) {
+          font-size: 0.625rem;
+        }
+      }
+    }
+  }
+
+  .q-separator {
+    display: none;
+  }
+}

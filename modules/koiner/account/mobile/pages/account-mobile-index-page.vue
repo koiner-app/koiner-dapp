@@ -6,28 +6,105 @@
           <q-tab-panel
             name="portfolio"
             style="padding: 0 !important; min-height: 100vh"
+            class="portfolio-panel"
           >
-            <q-card
-              class="stats-card"
-              flat
-              v-if="accountStore.addressesFilter.length > 0"
-            >
-              <q-card-section>
-                <div class="stat-title">Virtual Koin Balance</div>
-                <div class="stat-content" style="font-size: 1.5rem">
-                  ${{ accountStore.formattedVirtualKoinValue(2) }} <br /><span
-                    :class="`stat-unit`"
-                    style="font-size: 0.875rem"
-                    >{{
-                      accountStore.virtualTotal.toLocaleString(undefined, {
-                        maximumFractionDigits: 2,
-                      })
-                    }}
-                    Virtual KOIN</span
-                  >
-                </div>
-              </q-card-section>
-            </q-card>
+            <div class="q-pa-md row items-start q-gutter-md">
+              <q-card
+                class="stats-card"
+                flat
+                v-if="accountStore.addressesFilter.length > 0"
+                style="width: calc(50% - 1rem) !important"
+              >
+                <q-card-section>
+                  <div class="stat-title">
+                    <span style="font-size: 0.675rem !important"
+                      >Virtual Koin Balance</span
+                    >
+                  </div>
+                  <div class="stat-content" style="font-size: 1.5rem">
+                    <span :class="`stat-unit`" style="font-size: 1rem"
+                      >${{ accountStore.formattedVirtualKoinValue(2) }}
+                    </span>
+                    <p
+                      :class="`stat-unit`"
+                      style="font-size: 0.675rem; margin-top: 0.5rem"
+                    >
+                      {{
+                        accountStore.virtualTotal.toLocaleString(undefined, {
+                          maximumFractionDigits: 2,
+                        })
+                      }}
+                      <span
+                        :class="`stat-unit`"
+                        style="font-size: 0.5rem; opacity: 0.8"
+                        >KOIN/VHP
+                      </span>
+                    </p>
+                  </div>
+                </q-card-section>
+              </q-card>
+
+              <q-card
+                class="stats-card"
+                flat
+                v-if="accountStore.addressesFilter.length > 0"
+                style="
+                  min-height: 125px;
+                  max-width: 100%;
+                  width: calc(50% - 1rem) !important;
+                "
+              >
+                <q-card-section>
+                  <div class="stat-title">
+                    <span style="font-size: 0.675rem !important"> Filter</span>
+                  </div>
+                  <div class="stat-content" style="font-size: 1.5rem">
+                    <span
+                      class="stat-footer-stat"
+                      style="font-size: 1rem !important"
+                      >{{ accountStore.addressesFilter.length }}
+                      <span
+                        class="stat-unit"
+                        style="font-size: 0.75rem !important"
+                        >{{
+                          `address${
+                            accountStore.addressesFilter.length > 1 ? 'es' : ''
+                          }`
+                        }}</span
+                      >
+                    </span>
+                    <q-icon
+                      name="help"
+                      color="grey"
+                      style="
+                        padding-bottom: 3px;
+                        font-size: 0.875rem;
+                        margin-top: 0.35rem;
+                      "
+                      class="q-ml-xs"
+                    />
+                    <q-tooltip
+                      anchor="bottom start"
+                      self="top left"
+                      class="bg-primary text-white shadow-4"
+                      :hide-delay="3000"
+                    >
+                      <div class="q-pa-sm q-gutter-xs">
+                        <div
+                          class="row q-gutter-xs"
+                          v-for="address in accountStore.addressesFilter"
+                          :key="address"
+                        >
+                          <div class="col" style="min-width: 220px">
+                            {{ address }}
+                          </div>
+                        </div>
+                      </div>
+                    </q-tooltip>
+                  </div></q-card-section
+                >
+              </q-card>
+            </div>
 
             <address-filter-dialog :open-dialog="openDialog" />
 
@@ -46,16 +123,17 @@
               <q-card-section>
                 <div class="stat-title">My History</div>
                 <div
-                  class="stat-footer" style="padding-top: 0.25rem !important;"
+                  class="stat-footer"
+                  style="padding-top: 0.25rem !important"
                   v-if="accountStore.addressesFilter.length > 0"
                 >
                   <span class="stat-footer-stat"
-                  >{{ accountStore.addressesFilter.length }}
+                    >{{ accountStore.addressesFilter.length }}
                     <span class="stat-unit">{{
-                        `address${
-                          accountStore.addressesFilter.length > 1 ? 'es' : ''
-                        }`
-                      }}</span>
+                      `address${
+                        accountStore.addressesFilter.length > 1 ? 'es' : ''
+                      }`
+                    }}</span>
                   </span>
                   <q-icon
                     name="help"
@@ -154,7 +232,7 @@ import TokenHolderBalancesMetric from '@koiner/tokenize/components/holder/metric
 import { useBlockProductionStore } from 'stores/block-production';
 import { TokenHolder } from '@koiner/sdk';
 import AddressMobileHistory from '@koiner/chain/address/mobile/components/address-mobile-history.vue';
-import {useRoute} from 'vue-router';
+import { useRoute } from 'vue-router';
 
 export default defineComponent({
   name: 'AccountMobileIndexPage',

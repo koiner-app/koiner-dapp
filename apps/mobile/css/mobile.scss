@@ -35,7 +35,8 @@
   }
 
   .mobile-tab-page {
-    padding-top: 2.25rem;
+    padding-top: 2rem;
+    margin-top: 0.25rem;
 
     .q-tab {
       text-transform: none;
@@ -70,3 +71,12 @@
     min-width: calc(100% - 2rem);
   }
 }
+
+/**
+ V2
+ */
+//.mobile {
+  .large-stats-cards .stats-card {
+    border-radius: 0.75rem;
+  }
+//}

@@ -25,27 +25,48 @@
 
       <q-item>
         <q-item-section top avatar class="q-pt-xs">
-          <q-avatar
-            v-if="tokenLogo(tokenBalance.contract.symbol)"
-            size="md q-pa-sm"
+          <router-link
+            :to="{
+              name: 'mobile.token',
+              params: { id: tokenBalance.contract.id },
+            }"
           >
-            <img
-              :src="`/tokens/${tokenLogo(tokenBalance.contract.symbol)}`"
-              :alt="tokenBalance.contract.symbol"
-            />
-          </q-avatar>
-          <q-avatar v-else color="primary" size="md" text-color="white">
-            <span style="font-size: 0.75rem">{{
-              tokenBalance.contract.symbol.substring(0, 3)
-            }}</span>
-          </q-avatar>
+            <q-avatar
+              v-if="tokenLogo(tokenBalance.contract.symbol)"
+              size="md q-pa-sm"
+            >
+              <img
+                :src="`/tokens/${tokenLogo(tokenBalance.contract.symbol)}`"
+                :alt="tokenBalance.contract.symbol"
+              />
+            </q-avatar>
+            <q-avatar v-else color="primary" size="md" text-color="white">
+              <span style="font-size: 0.75rem">{{
+                tokenBalance.contract.symbol.substring(0, 3)
+              }}</span>
+            </q-avatar>
+          </router-link>
         </q-item-section>
 
         <q-item-section>
-          <q-item-label>{{ tokenBalance.contract.name }}</q-item-label>
-          <q-item-label v-if="accountStore.groupBalances" caption lines="2">{{
-            tokenBalance.contract.symbol
-          }}</q-item-label>
+          <q-item-label
+            ><router-link
+              :to="{
+                name: 'mobile.token',
+                params: { id: tokenBalance.contract.id },
+              }"
+              >{{ tokenBalance.contract.symbol }}</router-link
+            ></q-item-label
+          >
+          <q-item-label v-if="accountStore.groupBalances" caption lines="2">
+            <router-link
+              :to="{
+                name: 'mobile.token',
+                params: { id: tokenBalance.contract.id },
+              }"
+              >{{ tokenBalance.contract.name }}</router-link
+            ></q-item-label
+          >
           <q-item-label v-else caption lines="2">{{
             tokenBalance.addressId
           }}</q-item-label>
@@ -152,6 +173,7 @@ export default defineComponent({
           egg: 'egg.png',
           mars: 'elonkoin.jpg',
           fr: 'frenchie.png',
+          gold: 'gold.png',
           kan: 'kan.png',
           kdbln: 'kdbln.png',
           kct: 'kct.png',

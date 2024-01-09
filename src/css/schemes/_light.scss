@@ -238,3 +238,49 @@
     }
   }
 }
+
+  /**
+   V2
+   */
+.body--light {
+  .page--mobile-account {
+    .portfolio-panel {
+      .btn-address-filter {
+        background: transparent !important;
+        color: #90a4ae !important;
+        margin-top: 2rem;
+
+        &::before {
+          display: none !important;
+        }
+      }
+    }
+
+    .stats-card.q-card--light {
+      background: #101013 linear-gradient(180deg, #0f0f13, #0f0f13 50%, #101013 51%, #101013) !important;
+      box-shadow: 0 1px 5px rgb(0 0 0 / 0%), 0 2px 2px rgba(0, 0, 0, 0.02), 0 3px 1px -2px rgba(0, 0, 0, 0.12);
+    }
+
+    .q-item {
+      background: #ffffff linear-gradient(90deg, #ffffff, #fefeff 50%, #fefeff 51%, #ffffff) !important;
+      box-shadow: 0 1px 5px rgb(0 0 0 / 0%), 0 2px 2px rgba(0, 0, 0, 0.02), 0 3px 1px -2px rgba(0, 0, 0, 0.12);
+
+      .q-item__section {
+        .q-item__label {
+          &:first-of-type {
+            font-size: 0.75rem;
+            color: #333;
+          }
+        }
+      }
+    }
+
+    .q-tab-panels {
+      background: #efeff4;
+    }
+
+    .tabs-card {
+      background: #efeff4;
+    }
+  }
+}
