@@ -8,6 +8,30 @@
               <q-card-section class="q-pb-sm">
                 <div class="text-caption">Token</div>
                 <div class="stat-title">
+                  <div
+                    class="absolute-top-right"
+                    style="margin-right: 2rem; margin-top: 1rem"
+                  >
+                    <q-avatar
+                      v-if="tokenLogo(tokenContract.symbol)"
+                      size="md q-pa-sm"
+                    >
+                      <img
+                        :src="`/tokens/${tokenLogo(tokenContract.symbol)}`"
+                        :alt="tokenContract.symbol"
+                      />
+                    </q-avatar>
+                    <q-avatar
+                      v-else
+                      color="primary"
+                      size="md"
+                      text-color="white"
+                    >
+                      <span style="font-size: 0.75rem">{{
+                        tokenContract.symbol.substring(0, 3)
+                      }}</span>
+                    </q-avatar>
+                  </div>
                   {{ tokenContract.name
                   }}<q-chip size="xs">{{ tokenContract.symbol }}</q-chip>
                 </div>
@@ -136,6 +160,41 @@ export default defineComponent({
       itemState,
       tokenContract: itemState.item,
       error: itemState.error,
+
+      tokenLogo: (symbol: string): string => {
+        const logos: Record<string, string> = {
+          btk: 'bitkoin.png',
+          drugs: 'drugs.png',
+          dgk: 'dogekoin.png',
+          eth: 'eth.png',
+          egg: 'egg.png',
+          mars: 'elonkoin.jpg',
+          fr: 'frenchie.png',
+          gold: 'gold.png',
+          kan: 'kan.png',
+          kdbln: 'kdbln.png',
+          kct: 'kct.png',
+          koin: 'koin.svg',
+          koindx: 'koindx.svg',
+          'koindx-lp': 'koindx.svg',
+          punksk: 'punksk.png',
+          meow: 'meow.jpg',
+          mk: 'mk.png',
+          noik: 'noik.jpg',
+          ogas: 'ogas.png',
+          pvhp: 'pvhp.png',
+          rad: 'rad.png',
+          rwa: 'rwa.jpg',
+          shit: 'shit.jpg',
+          tate: 'tate.png',
+          up: 'up.png',
+          usdt: 'usdt.png',
+          vapor: 'vapor.svg',
+          vhp: 'vhp.png',
+        };
+
+        return logos[symbol.toLowerCase()] ?? null;
+      },
     };
   },
 });
