@@ -98,7 +98,7 @@ export default defineComponent({
               AND: [
                 {
                   name: {
-                    excludes: 'LIQUIDITY',
+                    excludes: 'LIQUIDITY POOL',
                   },
                 },
                 {
