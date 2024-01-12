@@ -1,30 +1,6 @@
 <template>
   <q-page>
     <div class="row q-px-md full-width">
-      <h1 class="text-h5">Ecosystem</h1>
-
-      <q-space />
-
-      <q-btn
-        v-if="showAddProject"
-        class="q-mr-sm"
-        color="primary"
-        unelevated
-        @click="addProject"
-        flat
-        style="
-          height: 1rem;
-          margin-top: 1rem;
-          text-transform: none;
-          padding: 0.25rem;
-        "
-      >
-        <q-icon name="add" class="q-mr-sm" size="xs" />
-        Submit your project
-      </q-btn>
-    </div>
-
-    <div class="row q-px-md full-width">
       <q-btn
         @click="selectAllTypes"
         :class="`project-tag-button ${
