@@ -11,7 +11,6 @@
     >
       <q-item-section avatar>
         <q-icon v-if="menuItem.icon != null" :name="menuItem.icon" />
-        <q-item-label>{{ menuItem.name }}</q-item-label>
       </q-item-section>
       <q-item-section>
         {{ menuItem.name }}
@@ -19,10 +18,9 @@
     </q-item>
   </q-list>
 
-  <q-list padding class="absolute-bottom" dark>
+  <q-list padding class="absolute-bottom q-mb-xl q-pa-xl" dark>
     <q-item>
       <q-item-section>
-        <api-switcher />
         <theme-switcher :dark="true" />
       </q-item-section>
     </q-item>
@@ -33,10 +31,9 @@
 import { defineComponent, onMounted, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import ThemeSwitcher from 'components/theme-switcher.vue';
-import ApiSwitcher from '@koiner/components/api-switcher.vue';
 
 export default defineComponent({
-  components: { ApiSwitcher, ThemeSwitcher },
+  components: { ThemeSwitcher },
 
   setup() {
     const route = useRoute();

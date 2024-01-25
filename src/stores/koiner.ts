@@ -6,7 +6,7 @@ export const useKoinerStore = defineStore({
   persist: true,
   state: () => ({
     environment: 'production' as 'production' | 'test' | 'local',
-    drawer: false as boolean,
+    mobileMenu: false as boolean,
   }),
 
   getters: {
@@ -66,9 +66,12 @@ export const useKoinerStore = defineStore({
 
       window.location.replace('/');
     },
-    toggleDrawer() {
+    toggleMobileMenu() {
+      console.log({
+        close: !this.mobileMenu,
+      });
       this.$patch({
-        drawer: !this.drawer,
+        mobileMenu: !this.mobileMenu,
       });
     },
   },

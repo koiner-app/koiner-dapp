@@ -89,6 +89,10 @@
       font-weight: bold;
     }
   }
+
+  > footer.fixed-bottom {
+    z-index: 999999 !important;
+  }
 }
 
 //.mobile {
@@ -116,3 +120,20 @@
     }
   }
 }
+
+.mobile-popup-menu {
+  &.q-dialog .q-list {
+    > .q-item, .q-dialog .q-item {
+      min-height: 63px;
+      padding: 2px 16px;
+      font-size: 1.125rem;
+    }
+
+    .q-item.q-router-link--active,
+    .q-item--active {
+      font-weight: bold;
+      color: lighten($accent, 35%);
+    }
+  }
+}
+

@@ -11,7 +11,7 @@
         :icon="menuItem.icon"
       />
       <q-btn
-        @click="koinerStore.toggleDrawer"
+        @click="koinerStore.toggleMobileMenu"
         icon="more_horiz"
         label="More"
         class="lt-md q-mr-sm"
