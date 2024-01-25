@@ -251,6 +251,12 @@
         background: $primary;
       }
     }
+
+    .project-filters {
+      &.q-page-sticky {
+        background: $dark-page;
+      }
+    }
   }
 
   .btn-address-filter {
@@ -307,30 +313,17 @@
     }
   }
 
+  .project-cards .q-card,
   .stats-card.q-card--dark {
     background: #101013 linear-gradient(180deg, #0f0f13, #0f0f13 50%, #101013 51%, #101013) !important;
   }
 
+  .page--mobile-address,
   .page--mobile-account {
     .stats-card.q-card--dark {
       background: #101013 linear-gradient(180deg, #0f0f13, #0f0f13 50%, #101013 51%, #101013) !important;
     }
-  }
 
-  .q-layout__shadow {
-    display: none !important;
-  }
-
-  .large-stats-cards .stats-card.q-card--dark {
-    background: #101013 linear-gradient(180deg, #0f0f13, #0f0f13 50%, #101013 51%, #101013) !important;
-  }
-
-  .btn-address-filter {
-    margin-top: 2rem;
-    margin-right: 2rem;
-  }
-
-  .page--mobile-account {
     .q-item {
       background: #101013 linear-gradient(90deg, #0f0f13, #0f0f13 50%, #101013 51%, #0f0f13) !important;
 
@@ -345,7 +338,30 @@
     }
   }
 
+  .q-layout__shadow {
+    display: none !important;
+  }
+
+  .large-stats-cards .stats-card.q-card--dark {
+    background: #101013 linear-gradient(180deg, #0f0f13, #0f0f13 50%, #101013 51%, #101013) !important;
+  }
+
+  .btn-address-filter {
+    //margin-top: 2rem;
+    //margin-right: 2rem;
+  }
+
   .tabs-card {
     background: $dark;
+  }
+
+  .project-tag-button {
+    .q-chip {
+      color: #ffffff !important;
+    }
+    &:not(.selected) .q-chip {
+      background: #101013 linear-gradient(180deg, #0f0f13, #0f0f13 50%, #101013 51%, #101013) !important;
+      font-weight: 400;
+    }
   }
 }

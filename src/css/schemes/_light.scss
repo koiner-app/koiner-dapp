@@ -219,6 +219,12 @@
         background: $primary;
       }
     }
+
+    .project-filters {
+      &.q-page-sticky {
+        background: white;
+      }
+    }
   }
 
   .btn-address-filter {
@@ -243,6 +249,7 @@
    V2
    */
 .body--light {
+  .page--mobile-address,
   .page--mobile-account {
     .portfolio-panel {
       .btn-address-filter {

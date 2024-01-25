@@ -3,13 +3,19 @@
   @import 'pages';
   @import 'search';
 
+  .mobile-tab-page {
+    .q-page-sticky {
+      border-bottom: 0;
+    }
+  }
+
   .search-filters {
     display: none !important;
   }
 
   .koiner-logo {
     position: absolute;
-    left: 3.5rem;
+    left: 1.125rem;
     top: 0.3125rem;
   }
 
@@ -75,8 +81,38 @@
 /**
  V2
  */
+.layout--mobile {
+  .q-toolbar__title {
+    .page-title {
+      font-family: "Roboto Mono", serif !important;
+      font-size: 1.125rem;
+      font-weight: bold;
+    }
+  }
+}
+
 //.mobile {
   .large-stats-cards .stats-card {
     border-radius: 0.75rem;
   }
 //}
+
+.page--mobile-token {
+  .q-toolbar__title {
+    padding-top: 0.125rem;
+    min-width: 120px;
+    text-align: center;
+
+    .q-avatar {
+        margin-top: -0.25rem;
+    }
+    span {
+      margin-left: 0.5rem;
+      font-weight: bold;
+      font-size: 1rem;
+      line-height: 1.75;
+      height: 1.75rem;
+      display: inline-block;
+    }
+  }
+}
