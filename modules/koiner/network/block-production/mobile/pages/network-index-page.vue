@@ -1,4 +1,17 @@
 <template>
+  <q-header reveal elevated>
+    <q-toolbar>
+      <q-separator dark vertical inset class="lt-md" />
+      <q-toolbar-title>
+        <span class="page-title"> Block Production </span>
+      </q-toolbar-title>
+
+      <q-space />
+
+      <q-icon name="share" size="1rem" class="q-mr-md" />
+    </q-toolbar>
+  </q-header>
+
   <q-page class="row items-start mobile-tab-page">
     <q-card class="tabs-card" flat>
       <q-card-section class="q-pt-xs q-px-none">
