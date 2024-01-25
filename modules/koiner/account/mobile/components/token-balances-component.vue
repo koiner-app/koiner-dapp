@@ -156,6 +156,7 @@ export default defineComponent({
       },
       tokenLogo: (symbol: string): string => {
         const logos: Record<string, string> = {
+          anons: 'anons.jpg',
           btk: 'bitkoin.png',
           drugs: 'drugs.png',
           dgk: 'dogekoin.png',
@@ -163,6 +164,7 @@ export default defineComponent({
           egg: 'egg.png',
           mars: 'elonkoin.jpg',
           fr: 'frenchie.png',
+          jesus: 'jesus.jpg',
           gold: 'gold.png',
           kan: 'kan.png',
           kdbln: 'kdbln.png',
