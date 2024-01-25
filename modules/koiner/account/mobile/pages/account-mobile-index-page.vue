@@ -1,4 +1,26 @@
 <template>
+  <q-header reveal elevated>
+    <q-toolbar>
+      <q-separator dark vertical inset class="lt-md" />
+      <q-toolbar-title style="min-width: 240px">
+        <span class="page-title">
+          <q-btn
+            icon="unfold_more"
+            disable
+            class="q-pa-none"
+            size="sm"
+            style="opacity: 0.5 !important"
+          ></q-btn>
+          Main Portfolio
+        </span>
+      </q-toolbar-title>
+
+      <q-space />
+
+      <address-filter-dialog :open-dialog="openDialog" :show-chip="true" />
+    </q-toolbar>
+  </q-header>
+
   <q-page class="row items-start mobile-tab-page">
     <q-card class="tabs-card" flat>
       <q-card-section class="q-pt-xs q-px-none">
@@ -59,54 +81,11 @@
                     <span style="font-size: 0.675rem !important"> Filter</span>
                   </div>
                   <div class="stat-content" style="font-size: 1.5rem">
-                    <span
-                      class="stat-footer-stat"
-                      style="font-size: 1rem !important"
-                      >{{ accountStore.addressesFilter.length }}
-                      <span
-                        class="stat-unit"
-                        style="font-size: 0.75rem !important"
-                        >{{
-                          `address${
-                            accountStore.addressesFilter.length > 1 ? 'es' : ''
-                          }`
-                        }}</span
-                      >
-                    </span>
-                    <q-icon
-                      name="help"
-                      color="grey"
-                      style="
-                        padding-bottom: 3px;
-                        font-size: 0.875rem;
-                        margin-top: 0.35rem;
-                      "
-                      class="q-ml-xs"
-                    />
-                    <q-tooltip
-                      anchor="bottom start"
-                      self="top left"
-                      class="bg-primary text-white shadow-4"
-                      :hide-delay="3000"
-                    >
-                      <div class="q-pa-sm q-gutter-xs">
-                        <div
-                          class="row q-gutter-xs"
-                          v-for="address in accountStore.addressesFilter"
-                          :key="address"
-                        >
-                          <div class="col" style="min-width: 220px">
-                            {{ address }}
-                          </div>
-                        </div>
-                      </div>
-                    </q-tooltip>
+                    ...
                   </div></q-card-section
                 >
               </q-card>
             </div>
-
-            <address-filter-dialog :open-dialog="openDialog" />
 
             <token-balances-component
               v-if="accountStore.addressesFilter.length > 0"
@@ -191,6 +170,18 @@
               :mobile="true"
             />
           </q-tab-panel>
+
+          <q-tab-panel name="watchlists" class="tab--mobile-table">
+            <h2>Watchlists</h2>
+          </q-tab-panel>
+
+          <q-tab-panel name="nfts" class="tab--mobile-table">
+            <h2>NFTs</h2>
+          </q-tab-panel>
+
+          <q-tab-panel name="liquidity" class="tab--mobile-table">
+            <h2>Liquidity</h2>
+          </q-tab-panel>
         </q-tab-panels>
       </q-card-section>
     </q-card>
@@ -206,14 +197,15 @@
         <q-tab
           class="text-overline"
           :ripple="false"
-          label="History"
-          name="history"
+          label="Watchlists"
+          name="watchlists"
         />
+        <q-tab class="text-overline" :ripple="false" label="NFTs" name="nfts" />
         <q-tab
           class="text-overline"
           :ripple="false"
-          label="Rewards"
-          name="rewards"
+          label="Liquidity"
+          name="liquidity"
         />
       </q-tabs>
     </q-page-sticky>
