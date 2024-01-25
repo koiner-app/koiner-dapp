@@ -11,4 +11,9 @@ export const accountModuleMobileRoutes: RouteRecordRaw[] = [
       },
     ],
   },
+  {
+    name: 'mobile.history',
+    path: '/mobile/history',
+    component: () => import('./pages/history-mobile-index-page.vue'),
+  },
 ];
