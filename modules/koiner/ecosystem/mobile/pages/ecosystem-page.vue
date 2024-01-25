@@ -1,57 +1,68 @@
 <template>
-  <q-page>
-    <div class="row q-px-md full-width">
-      <q-btn
-        @click="selectAllTypes"
-        :class="`project-tag-button ${
-          selectedTypes.includes('all') ? 'selected' : ''
-        }`"
-      >
-        <q-chip>All projects</q-chip>
-      </q-btn>
-      <q-btn
-        @click="toggleType(type)"
-        v-for="type in types"
-        :key="type"
-        :class="`project-tag-button ${
-          selectedTypes.includes(type) ? 'selected' : ''
-        }`"
-      >
-        <q-chip @click="toggleType(type)" size="md">
-          {{ type }}
-        </q-chip>
-      </q-btn>
-    </div>
-    <div class="row q-px-md q-pt-none full-width hidden">
-      <q-btn
-        @click="selectAllTags"
-        :class="`project-tag-button ${
-          selectedTags.includes('all') ? 'selected' : ''
-        }`"
-      >
-        <q-chip>All tags</q-chip>
-      </q-btn>
-      <q-btn
-        @click="toggleTag(tag)"
-        v-for="tag in tags"
-        :key="tag"
-        :class="`project-tag-button ${
-          selectedTags.includes(tag) ? 'selected' : ''
-        }`"
-      >
-        <q-chip size="md">
-          {{ tag }}
-        </q-chip>
-      </q-btn>
-    </div>
+  <q-header reveal elevated>
+    <q-toolbar>
+      <q-separator dark vertical inset class="lt-md" />
+      <q-toolbar-title>
+        <span class="page-title"> Ecosystem </span>
+      </q-toolbar-title>
+    </q-toolbar>
+  </q-header>
 
-    <div class="row items-start project-cards">
+  <q-page>
+    <div class="row items-start project-cards" style="margin-top: 6rem">
       <project-card
         v-for="(project, projectIndex) in selectedProjects"
         :key="`project-${projectIndex}`"
         :project="project"
       />
     </div>
+
+    <q-page-sticky expand position="top" class="project-filters q-py-xs">
+      <div class="row q-px-md full-width">
+        <q-btn
+          @click="selectAllTypes"
+          :class="`project-tag-button ${
+            selectedTypes.includes('all') ? 'selected' : ''
+          }`"
+        >
+          <q-chip>All projects</q-chip>
+        </q-btn>
+        <q-btn
+          @click="toggleType(type)"
+          v-for="type in types"
+          :key="type"
+          :class="`project-tag-button ${
+            selectedTypes.includes(type) ? 'selected' : ''
+          }`"
+        >
+          <q-chip @click="toggleType(type)" size="md">
+            {{ type }}
+          </q-chip>
+        </q-btn>
+      </div>
+      <div class="row q-px-md q-pt-none full-width hidden">
+        <q-btn
+          @click="selectAllTags"
+          :class="`project-tag-button ${
+            selectedTags.includes('all') ? 'selected' : ''
+          }`"
+        >
+          <q-chip>All tags</q-chip>
+        </q-btn>
+        <q-btn
+          @click="toggleTag(tag)"
+          v-for="tag in tags"
+          :key="tag"
+          :class="`project-tag-button ${
+            selectedTags.includes(tag) ? 'selected' : ''
+          }`"
+        >
+          <q-chip size="md">
+            {{ tag }}
+          </q-chip>
+        </q-btn>
+      </div>
+    </q-page-sticky>
   </q-page>
 </template>
 
