@@ -1,10 +1,19 @@
 <template>
   <q-btn
     size="sm"
-    icon="fa-solid fa-filter"
     @click="dialog = true"
-    class="btn-search-dialog btn-address-filter q-px-sm q-mx-lg absolute-top-right q-mt-md"
-  />
+    class="btn-search-dialog btn-address-filter"
+  >
+    <q-chip
+      v-if="showChip && accountStore.addressesFilter.length > 0"
+      size="sm"
+      style="margin-right: -0.25rem"
+    >
+      <span class="stat-footer-stat" style="opacity: 0.5"
+        >{{ accountStore.addressesFilter.length }}x
+      </span> </q-chip
+    ><q-icon name="fa-solid fa-filter" />
+  </q-btn>
 
   <q-dialog
     v-model="dialog"
@@ -100,6 +109,10 @@ export default defineComponent({
   },
   props: {
     openDialog: {
+      required: false,
+      type: Boolean,
+    },
+    showChip: {
       required: false,
       type: Boolean,
     },
