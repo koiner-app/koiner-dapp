@@ -56,6 +56,13 @@ export const useBookmarkStore = defineStore({
           } as BookmarkList,
         ],
         [
+          'contracts',
+          {
+            name: 'Contracts watchlist',
+            bookmarks: new Map<string, Bookmark>(),
+          } as BookmarkList,
+        ],
+        [
           'tokens',
           {
             name: 'Tokens watchlist',
@@ -82,6 +89,13 @@ export const useBookmarkStore = defineStore({
           } as BookmarkList,
         ],
         [
+          'contracts',
+          {
+            name: 'Contracts watchlist',
+            bookmarks: new Map<string, Bookmark>(),
+          } as BookmarkList,
+        ],
+        [
           'tokens',
           {
             name: 'Tokens watchlist',
@@ -104,6 +118,13 @@ export const useBookmarkStore = defineStore({
           'addresses',
           {
             name: 'Address list',
+            bookmarks: new Map<string, Bookmark>(),
+          } as BookmarkList,
+        ],
+        [
+          'contracts',
+          {
+            name: 'Contracts watchlist',
             bookmarks: new Map<string, Bookmark>(),
           } as BookmarkList,
         ],
@@ -267,8 +288,31 @@ export const useBookmarkStore = defineStore({
       });
     },
 
+    addList(list: BookmarkList, listId: string) {
+      this[this.environment].lists.set(listId, list);
+    },
+
     addBookmark(bookmarkedItem: BookmarkedItem, listId?: string) {
-      const list = this.list(listId);
+      let list = this.list(listId);
+
+      // Add lists if not defined in store state
+      if (!list && listId) {
+        let listName = `${listId} watchlist`;
+
+        if (listId === 'contracts') {
+          listName = 'Contracts watchlist';
+        }
+
+        this.addList(
+          {
+            name: listName,
+            bookmarks: new Map<string, Bookmark>(),
+          } as BookmarkList,
+          listId
+        );
+
+        list = this.list(listId);
+      }
 
       if (list) {
         if (listId?.includes('addresses') && list.bookmarks.size >= 8) {
@@ -321,6 +365,13 @@ export const useBookmarkStore = defineStore({
               } as BookmarkList,
             ],
             [
+              'contracts',
+              {
+                name: 'Contracts watchlist',
+                bookmarks: new Map<string, Bookmark>(),
+              } as BookmarkList,
+            ],
+            [
               'tokens',
               {
                 name: 'Tokens watchlist',
@@ -346,6 +397,13 @@ export const useBookmarkStore = defineStore({
               } as BookmarkList,
             ],
             [
+              'contracts',
+              {
+                name: 'Contracts watchlist',
+                bookmarks: new Map<string, Bookmark>(),
+              } as BookmarkList,
+            ],
+            [
               'tokens',
               {
                 name: 'Tokens watchlist',
@@ -367,6 +425,13 @@ export const useBookmarkStore = defineStore({
               'addresses',
               {
                 name: 'Address list',
+                bookmarks: new Map<string, Bookmark>(),
+              } as BookmarkList,
+            ],
+            [
+              'contracts',
+              {
+                name: 'Contracts watchlist',
                 bookmarks: new Map<string, Bookmark>(),
               } as BookmarkList,
             ],
