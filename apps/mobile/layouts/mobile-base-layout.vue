@@ -2,6 +2,12 @@
   <q-layout view="hHh LpR lFf" class="layout--mobile">
     <router-view />
 
+    <q-drawer :width="200" v-model="koinerStore.drawer" bordered>
+      <q-scroll-area class="fit">
+        <mobile-drawer-navigation />
+      </q-scroll-area>
+    </q-drawer>
+
     <q-footer elevated>
       <mobile-main-navigation />
     </q-footer>
@@ -21,10 +27,12 @@ import { useWindowSize } from '@vueuse/core';
 import { useRoute, useRouter } from 'vue-router';
 import { useBlockProductionStore } from 'stores/block-production';
 import { useTokensStore } from 'stores/tokens';
+import MobileDrawerNavigation from '@mobile/components/mobile-drawer-navigation.vue';
 
 export default defineComponent({
   name: 'MainLayout',
   components: {
+    MobileDrawerNavigation,
     MobileMainNavigation,
   },
   setup() {
@@ -104,7 +112,7 @@ export default defineComponent({
     });
 
     return {
-      drawer: ref(false),
+      koinerStore,
       route,
     };
   },

@@ -10,6 +10,12 @@
         :label="menuItem.name"
         :icon="menuItem.icon"
       />
+      <q-btn
+        @click="koinerStore.toggleDrawer"
+        icon="more_horiz"
+        label="More"
+        class="lt-md q-mr-sm"
+      />
     </q-btn-group>
   </div>
 </template>
@@ -17,12 +23,15 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
+import { useKoinerStore } from 'stores/koiner';
 
 export default defineComponent({
   components: {},
 
   setup() {
     const route = useRoute();
+    const koinerStore = useKoinerStore();
+
     const link = ref('/');
     const isActive = (to: string) => {
       // Home
@@ -63,7 +72,13 @@ export default defineComponent({
       }
     );
 
-    const menuItems = [
+    const menuItems: {
+      name: string;
+      to: string;
+      icon: string;
+      disabled?: boolean;
+      hosts?: string[];
+    }[] = [
       {
         name: 'Dashboard',
         to: '/mobile',
@@ -80,18 +95,14 @@ export default defineComponent({
         icon: 'fa-solid fa-chart-pie',
       },
       {
-        name: 'Projects',
-        to: '/mobile/ecosystem',
-        icon: 'apps',
-      },
-      {
-        name: 'Network',
-        to: '/mobile/network',
-        icon: 'hub',
+        name: 'History',
+        to: '/mobile/history',
+        icon: 'receipt',
       },
     ];
 
     return {
+      koinerStore,
       isActive,
       menuItems: menuItems.filter(
         (menuItem) =>

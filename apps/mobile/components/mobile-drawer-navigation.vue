@@ -67,28 +67,29 @@ export default defineComponent({
       isActive,
       menuItems: [
         {
-          name: 'Home',
-          to: '/mobile',
-          icon: 'dashboard',
-          disabled: false,
+          name: 'Projects',
+          to: '/mobile/ecosystem',
+          icon: 'apps',
         },
         {
-          name: 'Chain',
-          to: '/mobile/chain',
-          icon: 'token',
-          disabled: false,
+          name: 'Network',
+          to: '/mobile/network',
+          icon: 'hub',
         },
         {
           name: 'Tokens',
           to: '/mobile/tokenize',
           icon: 'toll',
-          disabled: false,
         },
         {
           name: 'Contracts',
           to: '/mobile/contracts',
           icon: 'document_scanner',
-          disabled: false,
+        },
+        {
+          name: 'Chain',
+          to: '/mobile/chain',
+          icon: 'token',
         },
       ],
     };
