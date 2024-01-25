@@ -1,6 +1,32 @@
 <template>
-  <q-page class="row items-start mobile-tab-page">
-    <q-card class="tabs-card" flat v-if="id">
+  <q-page class="row items-start mobile-tab-page" v-if="id">
+    <q-header reveal elevated>
+      <q-toolbar>
+        <q-separator dark vertical inset class="lt-md" />
+        <q-toolbar-title>
+          <span class="page-title"> Address </span>
+        </q-toolbar-title>
+
+        <q-space />
+
+        <copy-to-clipboard
+          :source="id"
+          :show-source="false"
+          :tooltip="'Copy address to clipboard'"
+          icon-size="1rem"
+        />
+        <bookmark-component
+          :item="{ id, type: 'address' }"
+          list-id="addresses"
+          item-translation="koiner.chain.item.address"
+          class="q-px-md"
+          icon-size="1.25rem"
+        />
+        <q-icon name="share" size="1rem" class="q-mr-md" />
+      </q-toolbar>
+    </q-header>
+
+    <q-card class="tabs-card" flat>
       <q-card-section class="q-pt-xs q-px-none">
         <q-tab-panels v-model="tab" animated>
           <q-tab-panel
@@ -16,13 +42,6 @@
                     :tooltip="'Copy address to clipboard'"
                   />
                 </div>
-
-                <bookmark-component
-                  :item="{ id, type: 'address' }"
-                  list-id="addresses"
-                  item-translation="koiner.chain.item.address"
-                  class="q-px-sm q-mx-lg absolute-top-right q-mt-md"
-                />
               </q-card-section>
               <q-card-section>
                 <div class="stat-title">Virtual Koin Balance</div>
@@ -55,13 +74,6 @@
             <q-card-section>
               <div class="text-caption">Address</div>
               <div class="stat-title">{{ id }}</div>
-
-              <bookmark-component
-                :item="{ id, type: 'address' }"
-                list-id="addresses"
-                item-translation="koiner.chain.item.address"
-                class="q-px-sm q-mx-lg absolute-top-right q-mt-md"
-              />
             </q-card-section>
 
             <address-mobile-history v-if="id" :addresses="[id]" />
@@ -156,22 +168,6 @@ export default defineComponent({
     const tokenHolderSearch = useSearchManager('tokenHolders');
     const blockProducersSearch = useSearchManager('blockProducers');
 
-    onMounted(async () => {
-      id.value = route.params.id.toString();
-    });
-
-    watch(
-      () => route.params.id,
-      async (newId) => {
-        if (newId) {
-          id.value = newId.toString();
-
-          await loadTokenHolders();
-          await loadBlockProducers();
-        }
-      }
-    );
-
     const loadTokenHolders = async () => {
       const request: SearchRequestType = {
         first: 100,
@@ -222,6 +218,8 @@ export default defineComponent({
     };
 
     onMounted(async () => {
+      id.value = route.params.id.toString();
+
       if (route.query['tab']) {
         tab.value = route.query['tab'].toString();
       }
@@ -233,6 +231,18 @@ export default defineComponent({
       await loadTokenHolders();
       await loadBlockProducers();
     });
+
+    watch(
+      () => route.params.id,
+      async (newId) => {
+        if (newId) {
+          id.value = newId.toString();
+
+          await loadTokenHolders();
+          await loadBlockProducers();
+        }
+      }
+    );
 
     watch(
       tokenHolderSearch.connection,
