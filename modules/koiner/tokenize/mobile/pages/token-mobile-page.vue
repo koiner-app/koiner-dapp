@@ -57,7 +57,7 @@
           <q-tab-panel name="token-details" class="tab--mobile-table">
             <q-card class="stats-card" flat>
               <q-card-section class="q-pb-sm">
-                <div class="text-caption">Token</div>
+                <div class="text-caption">Coin</div>
                 <div class="stat-title">
                   {{ tokenContract.name }}
                 </div>

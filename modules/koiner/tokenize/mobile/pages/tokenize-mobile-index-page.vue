@@ -3,7 +3,7 @@
     <q-toolbar>
       <q-separator dark vertical inset class="lt-md" />
       <q-toolbar-title>
-        <span class="page-title"> Tokens </span>
+        <span class="page-title"> Coins </span>
       </q-toolbar-title>
     </q-toolbar>
   </q-header>
@@ -12,7 +12,7 @@
     <q-card class="tabs-card" flat>
       <q-card-section class="q-pt-xs q-px-none">
         <q-tab-panels v-model="tab" animated>
-          <q-tab-panel name="tokens" class="tab--mobile-table">
+          <q-tab-panel name="coins" class="tab--mobile-table">
             <token-contracts-table :mobile="true" :liquidity-pools="false" />
           </q-tab-panel>
           <q-tab-panel name="liquidity-pools" class="tab--mobile-table">
@@ -33,8 +33,8 @@
         <q-tab
           class="text-overline"
           :ripple="false"
-          label="Tokens"
-          name="tokens"
+          label="Coins"
+          name="coins"
         />
         <q-tab
           class="text-overline"
@@ -79,7 +79,7 @@ export default defineComponent({
   setup() {
     const route = useRoute();
 
-    const tab: Ref<string> = ref('tokens');
+    const tab: Ref<string> = ref('coins');
 
     onMounted(async () => {
       if (route.query['tab']) {
