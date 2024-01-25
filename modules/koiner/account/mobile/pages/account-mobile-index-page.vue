@@ -26,7 +26,7 @@
       <q-card-section class="q-pt-xs q-px-none">
         <q-tab-panels v-model="tab" animated>
           <q-tab-panel
-            name="portfolio"
+            name="coins"
             style="padding: 0 !important; min-height: 100vh"
             class="portfolio-panel"
           >
@@ -40,7 +40,7 @@
                 <q-card-section>
                   <div class="stat-title">
                     <span style="font-size: 0.675rem !important"
-                      >Virtual Koin Balance</span
+                      >Virtual Koin</span
                     >
                   </div>
                   <div class="stat-content" style="font-size: 1.5rem">
@@ -80,16 +80,25 @@
                   <div class="stat-title">
                     <span style="font-size: 0.675rem !important"> Filter</span>
                   </div>
-                  <div class="stat-content" style="font-size: 1.5rem">
-                    ...
-                  </div></q-card-section
-                >
+                  <div>
+                    <q-toggle
+                      v-model="
+                        accountStore[accountStore.environment].groupBalances
+                      "
+                      size="xs"
+                      checked-icon="check"
+                      color="blue-grey-4"
+                      unchecked-icon="clear"
+                      label="Grouped"
+                    /></div
+                ></q-card-section>
               </q-card>
             </div>
 
             <token-balances-component
               v-if="accountStore.addressesFilter.length > 0"
               :token-balances="accountStore.tokenBalances"
+              :show-group-balances="false"
             />
           </q-tab-panel>
 
@@ -191,8 +200,8 @@
         <q-tab
           class="text-overline"
           :ripple="false"
-          label="Portfolio"
-          name="portfolio"
+          label="Coins"
+          name="coins"
         />
         <q-tab
           class="text-overline"
@@ -243,7 +252,7 @@ export default defineComponent({
     const accountStore = useAccountStore();
     const blockProductionStore = useBlockProductionStore();
 
-    const tab: Ref<string> = ref('portfolio');
+    const tab: Ref<string> = ref('coins');
     const openDialog = ref(false);
 
     onMounted(async () => {

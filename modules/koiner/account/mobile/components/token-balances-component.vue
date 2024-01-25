@@ -1,20 +1,10 @@
 <template>
   <q-list bordered padding>
     <q-item-label header class="relative-position">
-      Assets
-
-      <q-space />
-
-      <q-toggle
-        v-if="showGroupBalances"
-        v-model="accountStore[accountStore.environment].groupBalances"
-        size="xs"
-        checked-icon="check"
-        color="blue-grey-4"
-        unchecked-icon="clear"
-        label="Grouped"
-        class="absolute-top-right q-mr-md"
-      />
+      <div class="row">
+        <div class="col-6">Asset</div>
+        <div class="col-6 text-right q-pr-sm">Holdings</div>
+      </div>
     </q-item-label>
 
     <div
