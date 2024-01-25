@@ -1,6 +1,57 @@
 <template>
-  <q-page class="row items-start mobile-tab-page">
-    <q-card class="tabs-card" flat v-if="tokenContract">
+  <q-page class="row items-start mobile-tab-page" v-if="tokenContract">
+    <q-header reveal elevated v-if="tokenContract">
+      <q-toolbar>
+        <q-btn
+          size="0.675rem"
+          icon="arrow_back_ios_new"
+          @click="$router.go(-1)"
+        />
+
+        <q-space />
+
+        <q-toolbar-title class="min-width: 150px">
+          <q-avatar v-if="tokenLogo(tokenContract.symbol)" size="1rem">
+            <img
+              :src="`/tokens/${tokenLogo(tokenContract.symbol)}`"
+              :alt="tokenContract.symbol"
+            />
+          </q-avatar>
+          <q-avatar v-else color="primary" size="xs" text-color="white">
+            <span style="font-size: 0.75rem">{{
+              tokenContract.symbol.substring(0, 3)
+            }}</span>
+          </q-avatar>
+          <span>
+            {{ tokenContract.symbol }}
+          </span>
+        </q-toolbar-title>
+
+        <q-space />
+
+        <copy-to-clipboard
+          :source="tokenContract.id"
+          :show-source="false"
+          :tooltip="'Copy address to clipboard'"
+          icon-size="1rem"
+        />
+        <bookmark-component
+          :item="{
+            id: tokenContract.id,
+            type: 'token',
+            name: tokenContract.name,
+            symbol: tokenContract.symbol,
+          }"
+          list-id="tokens"
+          item-translation="koiner.chain.item.address"
+          class="q-px-md"
+          icon-size="1.25rem"
+        />
+        <q-icon name="share" size="1rem" class="q-mr-md" />
+      </q-toolbar>
+    </q-header>
+
+    <q-card class="tabs-card" flat>
       <q-card-section class="q-pt-xs q-px-none">
         <q-tab-panels v-model="tab" animated>
           <q-tab-panel name="token-details" class="tab--mobile-table">
@@ -8,31 +59,17 @@
               <q-card-section class="q-pb-sm">
                 <div class="text-caption">Token</div>
                 <div class="stat-title">
-                  <div
-                    class="absolute-top-right"
-                    style="margin-right: 2rem; margin-top: 1rem"
-                  >
-                    <q-avatar
-                      v-if="tokenLogo(tokenContract.symbol)"
-                      size="md q-pa-sm"
-                    >
-                      <img
-                        :src="`/tokens/${tokenLogo(tokenContract.symbol)}`"
-                        :alt="tokenContract.symbol"
-                      />
-                    </q-avatar>
-                    <q-avatar
-                      v-else
-                      color="primary"
-                      size="md"
-                      text-color="white"
-                    >
-                      <span style="font-size: 0.75rem">{{
-                        tokenContract.symbol.substring(0, 3)
-                      }}</span>
-                    </q-avatar>
-                  </div>
-                  {{ tokenContract.name
+                  {{ tokenContract.name }}
+                </div>
+              </q-card-section>
+              <q-card-section class="q-pb-sm">
+                <div class="text-caption">Total Supply</div>
+                <div class="stat-title">
+                  {{
+                    tokenAmount(
+                      parseInt(tokenContract.totalSupply),
+                      tokenContract.decimals
+                    )
                   }}<q-chip size="xs">{{ tokenContract.symbol }}</q-chip>
                 </div>
               </q-card-section>
@@ -105,10 +142,14 @@ import TokensOperationsTable from '@koiner/tokenize/components/operation/search/
 import TokensEventsTable from '@koiner/tokenize/components/event/search/view/tokens-events-table.vue';
 import TokenHoldersTable from '@koiner/tokenize/components/holder/search/view/token-holders-table.vue';
 import CopyToClipboard from '@koiner/components/copy-to-clipboard.vue';
+import BookmarkComponent from '@koiner/bookmarks/components/bookmark-component.vue';
+import { tokenAmount } from '../../../utils';
 
 export default defineComponent({
   name: 'TokenMobilePage',
+  methods: { tokenAmount },
   components: {
+    BookmarkComponent,
     CopyToClipboard,
     TokenHoldersTable,
     TokensEventsTable,
