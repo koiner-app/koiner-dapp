@@ -2,7 +2,7 @@
   <span v-if="isSupported">
     <span v-if="showSource" @click="copy(source)">{{ source }}</span>
     <q-icon
-      size="0.75rem"
+      :size="iconSize"
       :name="copied ? 'done' : 'content_copy'"
       class="q-ml-xs"
       @click="copy(source)"
@@ -31,6 +31,11 @@ export default defineComponent({
     tooltip: {
       required: false,
       type: String,
+    },
+    iconSize: {
+      required: false,
+      type: String,
+      default: '0.75rem',
     },
   },
 
