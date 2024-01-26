@@ -47,7 +47,11 @@
           class="q-px-md"
           icon-size="1.25rem"
         />
-        <q-icon name="share" size="1rem" class="q-mr-md" />
+
+        <share-dialog
+          :url="`https://koiner.app/m/tokens/${tokenContract.id}`"
+          :message="`Check ${tokenContract.name} on Koiner`"
+        />
       </q-toolbar>
     </q-header>
 
@@ -144,11 +148,13 @@ import TokenHoldersTable from '@koiner/tokenize/components/holder/search/view/to
 import CopyToClipboard from '@koiner/components/copy-to-clipboard.vue';
 import BookmarkComponent from '@koiner/bookmarks/components/bookmark-component.vue';
 import { tokenAmount } from '../../../utils';
+import ShareDialog from '@koiner/components/share-dialog.vue';
 
 export default defineComponent({
   name: 'TokenMobilePage',
   methods: { tokenAmount },
   components: {
+    ShareDialog,
     BookmarkComponent,
     CopyToClipboard,
     TokenHoldersTable,

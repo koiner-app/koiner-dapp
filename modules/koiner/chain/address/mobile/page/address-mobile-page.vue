@@ -13,7 +13,7 @@
           :source="id"
           :show-source="false"
           :tooltip="'Copy address to clipboard'"
-          icon-size="1rem"
+          icon-size="xs"
         />
         <bookmark-component
           :item="{ id, type: 'address' }"
@@ -22,7 +22,10 @@
           class="q-px-md"
           icon-size="1.25rem"
         />
-        <q-icon name="share" size="1rem" class="q-mr-md" />
+        <share-dialog
+          :url="`https://koiner.app/m/addresses/${id}`"
+          :message="`Check this Koinos wallet ${id} on Koiner`"
+        />
       </q-toolbar>
     </q-header>
 
@@ -141,10 +144,12 @@ import AddressMobileHistory from '@koiner/chain/address/mobile/components/addres
 import BookmarkComponent from '@koiner/bookmarks/components/bookmark-component.vue';
 import { useTokensStore } from 'stores/tokens';
 import CopyToClipboard from '@koiner/components/copy-to-clipboard.vue';
+import ShareDialog from '@koiner/components/share-dialog.vue';
 
 export default defineComponent({
   name: 'AddressMobilePage',
   components: {
+    ShareDialog,
     CopyToClipboard,
     BookmarkComponent,
     AddressMobileHistory,

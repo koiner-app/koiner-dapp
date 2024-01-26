@@ -1,0 +1,62 @@
+.project-card {
+  .fa-brands {
+    &.fa-youtube {
+      color: #ff0001;
+    }
+
+    &.fa-telegram {
+      color: #2da1d3;
+    }
+
+    &.fa-twitter {
+      color: #1b9bf0;
+    }
+
+    &.fa-apple {
+      color: #666666;
+    }
+
+    &.fa-discord {
+      color: #5662eb;
+    }
+  }
+}
+
+.share-dialog {
+  .fa-brands {
+    color: #ffffff;
+
+    &.fa-telegram {
+      color: #2da1d3;
+      font-size: 2rem;
+    }
+  }
+
+  .q-btn {
+    border-radius: 1rem;
+  }
+
+  .btn-telegram {
+    background-color: #ffffff;
+  }
+
+  .btn-twitter {
+    background-color: #1b9bf0;
+  }
+
+  .btn-x {
+    background-color: black;
+  }
+
+  .btn-apple {
+    background-color: #666666;
+  }
+
+  .btn-discord {
+    background-color: #5662eb;
+  }
+
+  .btn-whatsapp {
+    background-color: #00c853;
+  }
+}

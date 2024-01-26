@@ -8,7 +8,10 @@
 
       <q-space />
 
-      <q-icon name="share" size="1rem" class="q-mr-md" />
+      <share-dialog
+        :url="`https://koiner.app/m/network`"
+        :message="`Check Koinos block producers on Koiner`"
+      />
     </q-toolbar>
   </q-header>
 
@@ -54,10 +57,14 @@ import BlockRewardsComponent from '../../search/view/block-rewards-table.vue';
 import BlockProducerStats from '@koiner/network/block-production/stats/mobile/block-producer-stats.vue';
 import { useStatsStore } from 'stores/stats';
 import { useRoute } from 'vue-router';
+import ShareDialog from '@koiner/components/share-dialog.vue';
+import BookmarkComponent from '@koiner/bookmarks/components/bookmark-component.vue';
 
 export default defineComponent({
   name: 'NetworkIndexPage',
   components: {
+    BookmarkComponent,
+    ShareDialog,
     BlockProducerStats,
     BlockRewardsComponent,
     BlockProducersComponent,

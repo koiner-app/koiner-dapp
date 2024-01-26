@@ -31,7 +31,10 @@
         class="q-px-md"
         icon-size="1.25rem"
       />
-      <q-icon name="share" size="1rem" class="q-mr-md" />
+      <share-dialog
+        :url="`https://koiner.app/m/contracts/${id}`"
+        :message="`Check this Koinos contract ${id} on Koiner`"
+      />
     </q-toolbar>
   </q-header>
 
@@ -112,10 +115,12 @@ import VueJsonPretty from 'vue-json-pretty';
 import 'vue-json-pretty/lib/styles.css';
 import CopyToClipboard from '@koiner/components/copy-to-clipboard.vue';
 import BookmarkComponent from '@koiner/bookmarks/components/bookmark-component.vue';
+import ShareDialog from '@koiner/components/share-dialog.vue';
 
 export default defineComponent({
   name: 'ContractMobilePage',
   components: {
+    ShareDialog,
     BookmarkComponent,
     CopyToClipboard,
     ContractsEventsTable,
