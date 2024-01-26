@@ -3,12 +3,12 @@ import { RouteRecordRaw } from 'vue-router';
 export const addressMobileRoutes: RouteRecordRaw[] = [
   {
     name: 'mobile.address',
-    path: '/mobile/addresses/:id',
+    path: '/m/addresses/:id',
     component: () => import('./page/address-mobile-page.vue'),
   },
   {
     name: 'mobile.address.history',
-    path: '/mobile/addresses/:id/history',
+    path: '/m/addresses/:id/history',
     component: () => import('./page/address-mobile-page.vue'),
   },
 ];

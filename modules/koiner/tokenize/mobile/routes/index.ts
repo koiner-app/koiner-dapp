@@ -2,7 +2,7 @@ import { RouteRecordRaw } from 'vue-router';
 
 export const tokenizeModuleMobileRoutes: RouteRecordRaw[] = [
   {
-    path: '/mobile/tokenize',
+    path: '/m/tokenize',
     children: [
       {
         name: 'mobile.tokenize',
@@ -11,7 +11,7 @@ export const tokenizeModuleMobileRoutes: RouteRecordRaw[] = [
       },
       {
         name: 'mobile.token',
-        path: '/mobile/token/:id',
+        path: '/m/tokens/:id',
         component: () => import('../pages/token-mobile-page.vue'),
       },
     ],

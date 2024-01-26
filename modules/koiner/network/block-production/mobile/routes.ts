@@ -2,7 +2,7 @@ import { RouteRecordRaw } from 'vue-router';
 
 export const networkModuleMobileRoutes: RouteRecordRaw[] = [
   {
-    path: '/mobile/network',
+    path: '/m/network',
     children: [
       {
         name: 'mobile.network',
