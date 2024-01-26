@@ -1,12 +1,9 @@
 <template>
   <span v-if="isSupported">
     <span v-if="showSource" @click="copy(source)">{{ source }}</span>
-    <q-icon
-      :size="iconSize"
-      :name="copied ? 'done' : 'content_copy'"
-      class="q-ml-xs"
-      @click="copy(source)"
-    />
+    <q-btn :flat="flat" :round="round" class="q-ml-xs" @click="copy(source)">
+      <q-icon :name="copied ? 'done' : icon" :size="iconSize" />
+    </q-btn>
     <q-tooltip>{{ tooltip }}</q-tooltip>
   </span>
   <p v-else>Your browser does not support Clipboard API</p>
@@ -20,21 +17,36 @@ export default defineComponent({
   name: 'CopyToClipboard',
   props: {
     source: {
-      required: true,
       type: String,
+      required: true,
     },
     showSource: {
-      required: false,
       type: Boolean,
+      required: false,
       default: true,
     },
     tooltip: {
-      required: false,
       type: String,
+      required: false,
+    },
+    icon: {
+      type: String,
+      required: false,
+      default: 'content_copy',
+    },
+    flat: {
+      type: Boolean,
+      required: false,
+      default: true,
+    },
+    round: {
+      type: Boolean,
+      required: false,
+      default: true,
     },
     iconSize: {
-      required: false,
       type: String,
+      required: false,
       default: '0.75rem',
     },
   },
