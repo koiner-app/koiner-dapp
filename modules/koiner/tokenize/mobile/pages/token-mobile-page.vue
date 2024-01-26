@@ -224,6 +224,7 @@ export default defineComponent({
           koin: 'koin.svg',
           koindx: 'koindx.svg',
           'koindx-lp': 'koindx.svg',
+          krok: 'krok.png',
           punksk: 'punksk.png',
           meow: 'meow.jpg',
           mk: 'mk.png',
