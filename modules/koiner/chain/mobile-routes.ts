@@ -6,7 +6,7 @@ import { transactionMobileRoutes } from '@koiner/chain/transaction/mobile/routes
 export const chainModuleMobileRoutes: RouteRecordRaw[] = [
   {
     name: 'mobile.chain',
-    path: '/mobile/chain',
+    path: '/m/chain',
     component: () => import('./chain-mobile-index-page.vue'),
   },
   ...addressMobileRoutes,
