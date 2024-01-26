@@ -35,11 +35,11 @@ export default defineComponent({
     const link = ref('/');
     const isActive = (to: string) => {
       // Home
-      if (to === '/mobile') {
+      if (to === '/m') {
         return to === link.value;
       }
 
-      if (link.value !== '/mobile' && link.value.includes(to)) {
+      if (link.value !== '/m' && link.value.includes(to)) {
         return true;
       }
 
@@ -81,22 +81,22 @@ export default defineComponent({
     }[] = [
       {
         name: 'Dashboard',
-        to: '/mobile',
+        to: '/m',
         icon: 'dashboard',
       },
       {
         name: 'Search',
-        to: '/mobile/search',
+        to: '/m/search',
         icon: 'fa-solid fa-search',
       },
       {
         name: 'Portfolio',
-        to: '/mobile/account',
+        to: '/m/account',
         icon: 'fa-solid fa-chart-pie',
       },
       {
         name: 'History',
-        to: '/mobile/history',
+        to: '/m/history',
         icon: 'receipt',
       },
     ];
