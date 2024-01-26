@@ -17,7 +17,7 @@
 
       <q-space />
 
-      <address-filter-dialog :open-dialog="openDialog" :show-chip="true" />
+      <address-filter-dialog :open-dialog="openDialog" />
     </q-toolbar>
   </q-header>
 

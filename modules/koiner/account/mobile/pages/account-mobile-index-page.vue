@@ -17,7 +17,7 @@
 
       <q-space />
 
-      <address-filter-dialog :open-dialog="openDialog" :show-chip="true" />
+      <address-filter-dialog :open-dialog="openDialog" />
     </q-toolbar>
   </q-header>
 
@@ -200,7 +200,7 @@
         <q-tab
           class="text-overline"
           :ripple="false"
-          label="Coins"
+          label="Tokens"
           name="coins"
         />
         <q-tab
