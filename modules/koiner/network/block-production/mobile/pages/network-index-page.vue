@@ -3,7 +3,7 @@
     <q-toolbar>
       <q-separator dark vertical inset class="lt-md" />
       <q-toolbar-title>
-        <span class="page-title"> Block Production </span>
+        <span class="page-title"> Network </span>
       </q-toolbar-title>
 
       <q-space />
