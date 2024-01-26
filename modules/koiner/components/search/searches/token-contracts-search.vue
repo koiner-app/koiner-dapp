@@ -74,6 +74,9 @@ export default defineComponent({
               search: {
                 iContains: props.search,
               },
+              name: {
+                excludes: 'LIQUIDITY POOL',
+              },
             },
             sort: [],
           };
