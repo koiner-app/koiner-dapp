@@ -3,7 +3,7 @@
     <q-toolbar>
       <q-separator dark vertical inset class="lt-md" />
       <q-toolbar-title>
-        <span class="page-title"> Coins </span>
+        <span class="page-title"> Tokens </span>
       </q-toolbar-title>
     </q-toolbar>
   </q-header>
@@ -33,7 +33,7 @@
         <q-tab
           class="text-overline"
           :ripple="false"
-          label="Coins"
+          label="Tokens"
           name="coins"
         />
         <q-tab
