@@ -23,6 +23,7 @@
           icon-size="1.25rem"
         />
         <share-dialog
+          :id="id"
           :url="`https://koiner.app/m/addresses/${id}`"
           :message="`Check this Koinos wallet ${id} on Koiner`"
         />

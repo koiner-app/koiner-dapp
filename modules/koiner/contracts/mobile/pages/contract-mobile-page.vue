@@ -32,6 +32,7 @@
         icon-size="1.25rem"
       />
       <share-dialog
+        :id="contract.id"
         :url="`https://koiner.app/m/contracts/${id}`"
         :message="`Check this Koinos contract ${id} on Koiner`"
       />
