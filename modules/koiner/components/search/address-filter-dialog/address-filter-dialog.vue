@@ -14,8 +14,8 @@
     full-width
     full-height
   >
-    <q-card style="width: 700px; max-width: 80vw; max-height: 80vh">
-      <q-bar class="bg-primary text-white">
+    <q-card>
+      <q-bar class="bg-primary text-white" style="min-height: 2rem">
         <span class="text-caption">Filter addresses</span>
 
         <q-space />
@@ -34,7 +34,11 @@
 
         <mobile-addresses-filter v-if="!searchActive" />
 
-        <q-separator v-if="!searchActive" class="q-mb-lg" />
+        <q-separator
+          v-if="!searchActive"
+          class="q-mb-lg"
+          style="margin-bottom: 5rem"
+        />
 
         <q-input
           v-if="searchActive || accountStore.addressesFilter.length === 0"
@@ -71,17 +75,21 @@
         "
       />
 
-      <q-card-actions class="absolute-bottom q-pb-md q-px-md">
-        <q-btn label="Close" @click="dialog = false" flat />
-        <q-space />
-        <q-btn
-          v-if="!searchActive"
-          label="Add another address"
-          @click="searchActive = true"
-          flat
-          color="primary"
-        />
-      </q-card-actions>
+      <q-separator style="margin-top: 5rem" />
+
+      <q-page-sticky expand position="bottom">
+        <q-card-actions class="absolute-bottom q-pb-md q-px-md bg-dark">
+          <q-btn label="Close" @click="dialog = false" flat />
+          <q-space />
+          <q-btn
+            v-if="!searchActive"
+            label="Add another address"
+            @click="searchActive = true"
+            flat
+            color="primary"
+          />
+        </q-card-actions>
+      </q-page-sticky>
     </q-card>
   </q-dialog>
 </template>
