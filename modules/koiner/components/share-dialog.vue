@@ -1,12 +1,13 @@
 <template>
   <q-btn size="sm" icon="share" @click="dialog = true" class="q-pl-none" />
+
   <q-dialog
     v-model="dialog"
     full-width
-    persistent
     position="bottom"
     style="z-index: 9999999 !important"
     class="share-dialog"
+    @touchmove.prevent
   >
     <q-card
       class="bg-grey-9"
@@ -26,47 +27,97 @@
         "
       />
 
-      <p class="text-h6 q-ml-xl">Share on</p>
+      <p class="text-h6 q-ml-lg q-mb-none">Share</p>
 
-      <q-card-section class="row wrap justify-center">
-        <div class="text-center">
-          <copy-to-clipboard
-            :source="url"
-            :show-source="false"
-            icon="link"
-            icon-size="md"
-            :flat="false"
-            :round="true"
-          />
-          <div>Copy Link</div>
-        </div>
+      <q-card-section class="row no-wrap">
+        <q-scroll-area style="height: 6rem; width: 100%">
+          <div class="row no-wrap">
+            <div class="text-center">
+              <copy-to-clipboard
+                v-if="url"
+                :source="url"
+                icon="link"
+                :show-source="false"
+                icon-size="1.5rem"
+                :flat="false"
+                :round="true"
+                button-class="q-ma-md btn-copy-link"
+              />
+              <div
+                style="opacity: 0.7; font-size: 0.75rem; margin-top: -0.5rem"
+              >
+                Copy Link
+              </div>
+            </div>
+
+            <div class="text-center">
+              <copy-to-clipboard
+                v-if="id"
+                :source="id"
+                :show-source="false"
+                icon-size="1.5rem"
+                :flat="false"
+                :round="true"
+                button-class="q-ma-md btn-copy-link"
+              />
+              <div
+                style="opacity: 0.7; font-size: 0.75rem; margin-top: -0.5rem"
+              >
+                Copy ID
+              </div>
+            </div>
+          </div>
+
+          <div class="row no-wrap">
+            <div class="text-center">
+              <q-btn round class="q-ml-xs" @click="copy(url)">
+                <q-icon :name="copied ? 'done' : 'link'" size="1.5rem" />
+              </q-btn>
+
+              <div
+                style="opacity: 0.7; font-size: 0.75rem; margin-top: -0.5rem"
+              >
+                Copy Link
+              </div>
+            </div>
+          </div>
+        </q-scroll-area>
       </q-card-section>
 
       <hr style="opacity: 0.1" />
 
-      <q-card-section class="row wrap justify-center">
-        <div
-          v-for="(shareOption, index) in shareOptions"
-          :key="index"
-          class="text-center"
-        >
-          <q-btn
-            @click="share(shareOption)"
-            :icon="`fa-brands fa-${shareOption.icon}`"
-            round
-            :class="`q-ma-md btn-${shareOption.icon}`"
-          />
-          <div>{{ shareOption.icon }}</div>
-        </div>
+      <q-card-section>
+        <q-scroll-area style="height: 100px; width: 100%">
+          <div class="row no-wrap">
+            <div
+              v-for="(shareOption, index) in shareOptions"
+              :key="index"
+              class="text-center"
+            >
+              <q-btn
+                @click="share(shareOption)"
+                :icon="shareOption.icon"
+                round
+                size="1rem"
+                :class="`q-ma-md btn-${shareOption.name.toLowerCase()}`"
+              />
+              <div
+                style="opacity: 0.7; font-size: 0.75rem; margin-top: -0.5rem"
+              >
+                {{ shareOption.name }}
+              </div>
+            </div>
+          </div>
+        </q-scroll-area>
       </q-card-section>
     </q-card>
   </q-dialog>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, Ref, ref } from 'vue';
+import { useClipboard, useWindowSize } from '@vueuse/core';
 import CopyToClipboard from '@koiner/components/copy-to-clipboard.vue';
-import { useWindowSize } from '@vueuse/core';
 
 export default defineComponent({
   name: 'ShareDialog',
@@ -75,6 +126,10 @@ export default defineComponent({
     url: {
       type: String,
       required: true,
+    },
+    id: {
+      type: String,
+      required: false,
     },
     message: {
       type: String,
@@ -89,6 +144,11 @@ export default defineComponent({
 
     const posY = ref(0);
     const { height } = useWindowSize();
+
+    const copyId: Ref<string> = ref('');
+    const { text, copy, copied, isSupported } = useClipboard({
+      source: props.url,
+    });
 
     const openPopup = () => {
       dialog.value = true;
@@ -137,7 +197,7 @@ export default defineComponent({
 
         case 'whatsApp':
           const messageWhatsApp = `${props.message} ${props.url}`;
-          const whatsappLink = `https://api.whatsapp.com/send?text=${encodeURIComponent(
+          const whatsappLink = `https://wa.me/?text=${encodeURIComponent(
             messageWhatsApp
           )}`;
           window.open(whatsappLink, '_blank');
@@ -152,7 +212,7 @@ export default defineComponent({
         case 'gmail':
           const subjectGmail = `${props.message}`;
           const bodyGmail = `${props.message} ${props.url}`;
-          const gmailLink = `mailto:?subject=${encodeURIComponent(
+          const gmailLink = `https://mail.google.com/mail/?view=cm&fs=1&to=&su=${encodeURIComponent(
             subjectGmail
           )}&body=${encodeURIComponent(bodyGmail)}`;
           window.location.href = gmailLink;
@@ -165,6 +225,15 @@ export default defineComponent({
             subjectOutlook
           )}&body=${encodeURIComponent(bodyOutlook)}`;
           window.location.href = outlookLink;
+          break;
+
+        case 'mail':
+          const subjectMail = `${props.message}`;
+          const bodyMail = `${props.message} ${props.url}`;
+          const mailLink = `mailto:?subject=${encodeURIComponent(
+            subjectMail
+          )}&body=${encodeURIComponent(bodyMail)}`;
+          window.location.href = mailLink;
           break;
 
         case 'sms':
@@ -200,15 +269,44 @@ export default defineComponent({
 
     return {
       shareOptions: [
-        { icon: 'telegram', action: () => shareTo('telegram') },
-        { icon: 'x', action: () => shareTo('x') },
-        { icon: 'discord', action: () => shareTo('discord') },
-        // { icon: 'signal', action: () => shareTo('Signal') },
-        { icon: 'whatsapp', action: () => shareTo('whatsapp') },
-        { icon: 'facebook', action: () => shareTo('facebook') },
-        { icon: 'gmail', action: () => shareTo('gmail') },
-        { icon: 'outlook', action: () => shareTo('outlook') },
-        { icon: 'sms', action: () => shareTo('sms') },
+        {
+          icon: 'fa-brands fa-telegram',
+          name: 'Telegram',
+          action: () => shareTo('telegram'),
+        },
+        {
+          icon: 'fa-brands fa-x-twitter',
+          name: 'X',
+          action: () => shareTo('x'),
+        },
+        {
+          icon: 'fa-brands fa-discord',
+          name: 'Discord',
+          action: () => shareTo('discord'),
+        },
+        {
+          icon: 'fa-brands fa-signal-messenger',
+          name: 'signal',
+          action: () => shareTo('Signal'),
+        },
+        {
+          icon: 'fa-brands fa-whatsapp',
+          name: 'WhatsApp',
+          action: () => shareTo('whatsapp'),
+        },
+        {
+          icon: 'fa-brands fa-facebook',
+          name: 'Facebook',
+          action: () => shareTo('facebook'),
+        },
+        {
+          icon: 'fa-brands fa-gmail',
+          name: 'Gmail',
+          action: () => shareTo('gmail'),
+        },
+        { icon: 'outlook', name: 'Outlook', action: () => shareTo('outlook') },
+        { icon: 'mail', name: 'Email', action: () => shareTo('mail') },
+        { icon: 'sms', name: 'SMS', action: () => shareTo('sms') },
       ],
 
       dialog,
@@ -222,6 +320,12 @@ export default defineComponent({
       startY,
       posY,
       dialogPosition,
+
+      // Copy link
+      text,
+      copy,
+      copied,
+      isSupported,
     };
   },
 });

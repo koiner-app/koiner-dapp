@@ -1,7 +1,13 @@
 <template>
   <span v-if="isSupported">
     <span v-if="showSource" @click="copy(source)">{{ source }}</span>
-    <q-btn :flat="flat" :round="round" class="q-ml-xs" @click="copy(source)">
+    <q-btn
+      :flat="flat"
+      :round="round"
+      :class="buttonClass"
+      @click="copy(source)"
+      size="1rem"
+    >
       <q-icon :name="copied ? 'done' : icon" :size="iconSize" />
     </q-btn>
     <q-tooltip>{{ tooltip }}</q-tooltip>
@@ -49,10 +55,14 @@ export default defineComponent({
       required: false,
       default: '0.75rem',
     },
+    buttonClass: {
+      type: String,
+      required: false,
+      default: 'q-ml-xs',
+    },
   },
 
   setup(props) {
-    const copyId: Ref<string> = ref('');
     const { text, copy, copied, isSupported } = useClipboard({
       source: props.source,
     });
