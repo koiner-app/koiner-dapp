@@ -22,11 +22,21 @@
             }"
           >
             <q-avatar
-              v-if="tokenLogo(tokenBalance.contract.symbol)"
+              v-if="
+                tokenLogo(
+                  tokenBalance.contract.id,
+                  tokenBalance.contract.symbol
+                )
+              "
               size="md q-pa-sm"
             >
               <img
-                :src="`/tokens/${tokenLogo(tokenBalance.contract.symbol)}`"
+                :src="
+                  tokenLogo(
+                    tokenBalance.contract.id,
+                    tokenBalance.contract.symbol
+                  )
+                "
                 :alt="tokenBalance.contract.symbol"
               />
             </q-avatar>
@@ -116,13 +126,14 @@
 <script lang="ts">
 import { computed, defineComponent, PropType } from 'vue';
 import { useAccountStore } from 'stores/account';
-import { localizedTokenAmount, tokenAmount } from '@koiner/utils';
+import { localizedTokenAmount, tokenAmount, tokenLogo } from '@koiner/utils';
 import { TokenHolder } from '@koiner/sdk';
 import { useStatsStore } from 'stores/stats';
 import { useKoinerStore } from 'stores/koiner';
 
 export default defineComponent({
   name: 'TokenBalancesComponent',
+  methods: { tokenLogo },
   props: {
     tokenBalances: {
       required: true,
@@ -158,42 +169,6 @@ export default defineComponent({
           koinerStore.vhpContract.id,
           koinerStore.pVhpContract.id,
         ].includes(contractId);
-      },
-      tokenLogo: (symbol: string): string => {
-        const logos: Record<string, string> = {
-          anons: 'anons.jpg',
-          btk: 'bitkoin.png',
-          drugs: 'drugs.png',
-          dgk: 'dogekoin.png',
-          eth: 'eth.png',
-          egg: 'egg.png',
-          mars: 'elonkoin.jpg',
-          fr: 'frenchie.png',
-          jesus: 'jesus.jpg',
-          gold: 'gold.png',
-          kan: 'kan.png',
-          kdbln: 'kdbln.png',
-          kct: 'kct.png',
-          koin: 'koin.svg',
-          koindx: 'koindx.svg',
-          'koindx-lp': 'koindx.svg',
-          punksk: 'punksk.png',
-          meow: 'meow.jpg',
-          mk: 'mk.png',
-          noik: 'noik.jpg',
-          ogas: 'ogas.png',
-          pvhp: 'pvhp.png',
-          rad: 'rad.png',
-          rwa: 'rwa.jpg',
-          shit: 'shit.jpg',
-          tate: 'tate.png',
-          up: 'up.png',
-          usdt: 'usdt.png',
-          vapor: 'vapor.svg',
-          vhp: 'vhp.png',
-        };
-
-        return logos[symbol.toLowerCase()] ?? null;
       },
       computedTokenBalances: computed(() => {
         const tokenBalancesMap = new Map<string, TokenHolder>([]);

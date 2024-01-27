@@ -11,9 +11,12 @@
         <q-space />
 
         <q-toolbar-title class="min-width: 150px">
-          <q-avatar v-if="tokenLogo(tokenContract.symbol)" size="1rem">
+          <q-avatar
+            v-if="tokenLogo(tokenContract.id, tokenContract.symbol)"
+            size="1rem"
+          >
             <img
-              :src="`/tokens/${tokenLogo(tokenContract.symbol)}`"
+              :src="tokenLogo(tokenContract.id, tokenContract.symbol)"
               :alt="tokenContract.symbol"
             />
           </q-avatar>
@@ -147,12 +150,12 @@ import TokensEventsTable from '@koiner/tokenize/components/event/search/view/tok
 import TokenHoldersTable from '@koiner/tokenize/components/holder/search/view/token-holders-table.vue';
 import CopyToClipboard from '@koiner/components/copy-to-clipboard.vue';
 import BookmarkComponent from '@koiner/bookmarks/components/bookmark-component.vue';
-import { tokenAmount } from '../../../utils';
+import { tokenAmount, tokenLogo } from '../../../utils';
 import ShareDialog from '@koiner/components/share-dialog.vue';
 
 export default defineComponent({
   name: 'TokenMobilePage',
-  methods: { tokenAmount },
+  methods: { tokenLogo, tokenAmount },
   components: {
     ShareDialog,
     BookmarkComponent,
@@ -207,42 +210,6 @@ export default defineComponent({
       itemState,
       tokenContract: itemState.item,
       error: itemState.error,
-
-      tokenLogo: (symbol: string): string => {
-        const logos: Record<string, string> = {
-          btk: 'bitkoin.png',
-          drugs: 'drugs.png',
-          dgk: 'dogekoin.png',
-          eth: 'eth.png',
-          egg: 'egg.png',
-          mars: 'elonkoin.jpg',
-          fr: 'frenchie.png',
-          gold: 'gold.png',
-          kan: 'kan.png',
-          kdbln: 'kdbln.png',
-          kct: 'kct.png',
-          koin: 'koin.svg',
-          koindx: 'koindx.svg',
-          'koindx-lp': 'koindx.svg',
-          krok: 'krok.png',
-          punksk: 'punksk.png',
-          meow: 'meow.jpg',
-          mk: 'mk.png',
-          noik: 'noik.jpg',
-          ogas: 'ogas.png',
-          pvhp: 'pvhp.png',
-          rad: 'rad.png',
-          rwa: 'rwa.jpg',
-          shit: 'shit.jpg',
-          tate: 'tate.png',
-          up: 'up.png',
-          usdt: 'usdt.png',
-          vapor: 'vapor.svg',
-          vhp: 'vhp.png',
-        };
-
-        return logos[symbol.toLowerCase()] ?? null;
-      },
     };
   },
 });
