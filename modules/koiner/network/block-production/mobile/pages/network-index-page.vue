@@ -58,12 +58,10 @@ import BlockProducerStats from '@koiner/network/block-production/stats/mobile/bl
 import { useStatsStore } from 'stores/stats';
 import { useRoute } from 'vue-router';
 import ShareDialog from '@koiner/components/share-dialog.vue';
-import BookmarkComponent from '@koiner/bookmarks/components/bookmark-component.vue';
 
 export default defineComponent({
   name: 'NetworkIndexPage',
   components: {
-    BookmarkComponent,
     ShareDialog,
     BlockProducerStats,
     BlockRewardsComponent,
