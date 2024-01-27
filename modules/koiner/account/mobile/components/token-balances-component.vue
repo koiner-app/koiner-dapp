@@ -133,6 +133,11 @@ export default defineComponent({
       type: Boolean,
       default: true,
     },
+    liquidityPools: {
+      required: false,
+      type: Boolean,
+      default: false,
+    },
   },
 
   setup(props) {
@@ -202,19 +207,33 @@ export default defineComponent({
               tokenBalance.contractId
             )?.balance;
 
-            tokenBalancesMap.set(tokenBalance.contractId, {
-              ...tokenBalance,
-              balance: (
-                parseInt(balance ?? '0') + parseInt(tokenBalance.balance)
-              ).toString(),
-            });
+            if (
+              (props.liquidityPools &&
+                tokenBalance.contract.name.includes('LIQUIDITY POOL')) ||
+              (!props.liquidityPools &&
+                !tokenBalance.contract.name.includes('LIQUIDITY POOL'))
+            ) {
+              tokenBalancesMap.set(tokenBalance.contractId, {
+                ...tokenBalance,
+                balance: (
+                  parseInt(balance ?? '0') + parseInt(tokenBalance.balance)
+                ).toString(),
+              });
+            }
           } else {
-            tokenBalancesMap.set(
-              accountStore.groupBalances
-                ? tokenBalance.contractId
-                : `tb-${tbIndex}`, // Make sure map key is unique if groupBalances is turned off
-              tokenBalance as TokenHolder
-            );
+            if (
+              (props.liquidityPools &&
+                tokenBalance.contract.name.includes('LIQUIDITY POOL')) ||
+              (!props.liquidityPools &&
+                !tokenBalance.contract.name.includes('LIQUIDITY POOL'))
+            ) {
+              tokenBalancesMap.set(
+                accountStore.groupBalances
+                  ? tokenBalance.contractId
+                  : `tb-${tbIndex}`, // Make sure map key is unique if groupBalances is turned off
+                tokenBalance as TokenHolder
+              );
+            }
           }
         });
 
