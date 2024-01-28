@@ -11,7 +11,7 @@
   <q-page class="row items-start mobile-tab-page">
     <q-card class="tabs-card" flat>
       <q-card-section class="q-pt-xs q-px-none">
-        <q-tab-panels v-model="tab" animated>
+        <q-tab-panels v-model="tab" animated swipeable>
           <q-tab-panel name="coins" class="tab--mobile-table">
             <token-contracts-table :mobile="true" :liquidity-pools="false" />
           </q-tab-panel>

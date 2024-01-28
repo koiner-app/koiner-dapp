@@ -2,7 +2,7 @@
   <q-page v-if="transaction" class="row items-start mobile-tab-page">
     <q-card class="tabs-card" flat>
       <q-card-section class="q-pt-xs q-px-none">
-        <q-tab-panels v-model="tab" animated>
+        <q-tab-panels v-model="tab" animated swipeable>
           <q-tab-panel
             name="details"
             style="padding: 0 !important; min-height: 100vh"
@@ -61,7 +61,11 @@
               </q-card-section>
             </q-card>
 
-            <tokens-transferred-view v-if="id" :transaction-id="id" :live="!indexed" />
+            <tokens-transferred-view
+              v-if="id"
+              :transaction-id="id"
+              :live="!indexed"
+            />
 
             <q-card flat class="details-transaction q-pt-none">
               <q-card-section>

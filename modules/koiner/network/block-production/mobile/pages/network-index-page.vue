@@ -18,7 +18,7 @@
   <q-page class="row items-start mobile-tab-page">
     <q-card class="tabs-card" flat>
       <q-card-section class="q-pt-xs q-px-none">
-        <q-tab-panels v-model="tab" animated>
+        <q-tab-panels v-model="tab" animated swipeable>
           <q-tab-panel name="producers" class="tab--mobile-network">
             <block-producer-stats />
 

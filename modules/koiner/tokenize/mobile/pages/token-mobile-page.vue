@@ -13,7 +13,7 @@
         <q-toolbar-title class="min-width: 150px">
           <q-avatar
             v-if="tokenLogo(tokenContract.id, tokenContract.symbol)"
-            size="1rem"
+            size="1.5rem"
           >
             <img
               :src="tokenLogo(tokenContract.id, tokenContract.symbol)"
@@ -61,7 +61,7 @@
 
     <q-card class="tabs-card" flat>
       <q-card-section class="q-pt-xs q-px-none">
-        <q-tab-panels v-model="tab" animated>
+        <q-tab-panels v-model="tab" animated swipeable>
           <q-tab-panel name="token-details" class="tab--mobile-table">
             <q-card class="stats-card" flat>
               <q-card-section class="q-pb-sm">

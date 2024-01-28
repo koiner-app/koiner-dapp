@@ -28,7 +28,7 @@
 
   <q-separator />
 
-  <q-tab-panels v-model="tab" animated>
+  <q-tab-panels v-model="tab" animated swipeable>
     <q-tab-panel name="token-operations">
       <tokens-operations-table :addresses="addresses" :mobile="true" />
     </q-tab-panel>

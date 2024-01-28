@@ -42,7 +42,7 @@
   <q-page class="row items-start mobile-tab-page">
     <q-card class="tabs-card" flat v-if="contract">
       <q-card-section class="q-pt-xs q-px-none">
-        <q-tab-panels v-model="tab" animated>
+        <q-tab-panels v-model="tab" animated swipeable>
           <q-tab-panel name="contract-details" class="tab--mobile-table">
             <q-card class="stats-card" flat>
               <q-card-section>
