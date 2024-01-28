@@ -77,12 +77,6 @@ export default defineComponent({
         const supplies = await tokensStore.supplies(tokenIds);
 
         data.edges.map(async (edge) => {
-          console.log({
-            id: edge.node.id,
-            supply: supplies[edge.node.id],
-            symbol: edge.node.symbol,
-          });
-
           if (supplies[edge.node.id] != null) {
             edge.node.totalSupply = supplies[edge.node.id].toString();
           }
