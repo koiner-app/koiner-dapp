@@ -137,7 +137,7 @@ import { useStatsStore } from 'stores/stats';
 import TokenBalancesComponent from '@koiner/account/mobile/components/token-balances-component.vue';
 import BlockRewardsTable from '@koiner/network/block-production/search/view/block-rewards-table.vue';
 import TokenHolderBalancesMetric from '@koiner/tokenize/components/holder/metric/token-holder-balances-metric.vue';
-import { TokenHolder } from '@koiner/sdk';
+import { TokenHolder, TokenHolderEdge } from '@koiner/sdk';
 import { SearchRequestType, useSearchManager } from '@appvise/search-manager';
 import { useRoute } from 'vue-router';
 import { tokenAmount } from '@koiner/utils';
@@ -170,6 +170,7 @@ export default defineComponent({
     const totalVhp: Ref<number | undefined> = ref();
     const virtualKoin: Ref<number | undefined> = ref();
     const virtualKoinValue: Ref<number | undefined> = ref();
+    const loadingOnChain = ref(false);
 
     const tokenHolderSearch = useSearchManager('tokenHolders');
     const blockProducersSearch = useSearchManager('blockProducers');
@@ -252,20 +253,31 @@ export default defineComponent({
 
     watch(
       tokenHolderSearch.connection,
-      () => {
+      async () => {
         if (tokenHolderSearch.connection.value?.edges) {
-          tokenHolderSearch.connection.value?.edges?.map(async (edge) => {
-            const balance = await tokensStore.balance(
-              edge.node.contractId,
-              edge.node.addressId
-            );
+          if (loadingOnChain.value) {
+            return;
+          }
 
-            if (balance != null) {
-              edge.node.balance = balance.balance.toString();
+          loadingOnChain.value = true;
+
+          const edges: TokenHolderEdge[] = tokenHolderSearch.connection.value
+            ?.edges as TokenHolderEdge[];
+          const tokenIds = edges.map((edge) => edge.node.contractId);
+          const balances = await tokensStore.addressBalances(
+            id.value!,
+            tokenIds
+          );
+
+          tokenHolderSearch.connection.value?.edges?.map(async (edge: any) => {
+            if (balances[edge.node.contractId] != null) {
+              edge.node.balance = balances[edge.node.contractId].toString();
             }
 
             return edge;
           });
+
+          loadingOnChain.value = true;
         }
 
         loadTotals();
