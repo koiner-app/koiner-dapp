@@ -53,7 +53,7 @@
 
         <share-dialog
           :id="tokenContract.id"
-          :url="`https://koiner.app/m/tokens/${tokenContract.id}`"
+          :url="`https://koiner.app/mobile/tokens/${tokenContract.id}`"
           :message="`Check ${tokenContract.name} on Koiner`"
         />
       </q-toolbar>
