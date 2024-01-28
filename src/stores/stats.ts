@@ -2,11 +2,7 @@ import { defineStore } from 'pinia';
 import { watch } from 'vue';
 import { useQuery } from '@urql/vue';
 import { useKoinerStore } from 'stores/koiner';
-import {
-  localizedTokenAmount,
-  tokenAmount,
-  tokenAmountToSatoshi,
-} from '@koiner/utils';
+import { localizedTokenAmount, tokenAmount } from '@koiner/utils';
 import axios from 'axios';
 import { koinerConfig } from 'app/koiner.config';
 
@@ -195,39 +191,29 @@ export const useStatsStore = defineStore({
         baseURL: koinerConfig[koinerStore.environment].checker,
       });
 
-      let koinTotalSupply;
-      let vhpTotalSupply;
-
-      const koinResponse = await checkerApi.get('koin/total-supply');
+      const koinResponse: {
+        data: {
+          koin: number;
+          vhp: number;
+          virtual: number;
+          inflation: number;
+          fdv: number;
+          burnedPercentage: number;
+          claimed: number;
+          claimedPercentage: number;
+          snapshot: number;
+        };
+      } = await checkerApi.get('koin/supplies-raw');
 
       if (koinResponse.data != null) {
-        koinTotalSupply = tokenAmountToSatoshi(Number(koinResponse.data), 8);
-      }
-
-      const vhpResponse = await checkerApi.get('vhp/total-supply');
-
-      if (vhpResponse.data != null) {
-        vhpTotalSupply = tokenAmountToSatoshi(parseInt(vhpResponse.data), 8);
-      }
-
-      if (koinTotalSupply != null && vhpTotalSupply != null) {
-        const virtualTotalSupply = koinTotalSupply + vhpTotalSupply;
-
         this.$patch({
           totalSupply: {
-            koinTotalSupply: koinTotalSupply.toString(),
-            vhpTotalSupply: vhpTotalSupply.toString(),
-            virtualTotalSupply: virtualTotalSupply.toString(),
-            fullyDilutedSupply:
-              9973874402587864 + (this.blockProduction.rewarded ?? 0),
-            burned:
-              virtualTotalSupply && vhpTotalSupply
-                ? (vhpTotalSupply / virtualTotalSupply) * 100
-                : 0,
-            claimed:
-              ((virtualTotalSupply - (this.blockProduction.rewarded ?? 0)) /
-                9973874402587864) *
-              100,
+            koinTotalSupply: koinResponse.data.koin.toString(),
+            vhpTotalSupply: koinResponse.data.vhp.toString(),
+            virtualTotalSupply: koinResponse.data.virtual.toString(),
+            fullyDilutedSupply: koinResponse.data.fdv,
+            burned: koinResponse.data.burnedPercentage,
+            claimed: koinResponse.data.claimedPercentage,
           },
         });
       }
