@@ -214,7 +214,8 @@ export const useTokensStore = defineStore({
     balances: (state) => {
       return async (
         tokenId: string,
-        addresses: string[]
+        addresses: string[],
+        reset?: boolean
       ): Promise<Record<string, number>> => {
         const result: Record<string, number> = {};
         const addressesToLoad: string[] = [];
@@ -224,6 +225,7 @@ export const useTokensStore = defineStore({
           const key = `${tokenId}-${address}`;
 
           if (
+            reset ||
             !state[state.environment].balances.has(key) ||
             state[state.environment].balances.get(key)!.lastUpdated <
               Date.now() - 60000
@@ -242,7 +244,9 @@ export const useTokensStore = defineStore({
           });
 
           const response = await checkerApi.get(
-            `token/${tokenId}/balances-raw?${addressesToLoad
+            `${
+              ['koin', 'mana', 'vhp'].includes(tokenId) ? '' : 'token/'
+            }${tokenId}/balances?useDecimals=false&${addressesToLoad
               .map((address) => `addresses[]=${address}&`)
               .join('&')}`
           );
@@ -257,6 +261,62 @@ export const useTokensStore = defineStore({
               });
 
               result[address] = balance as any;
+            }
+          }
+        }
+
+        return result;
+      };
+    },
+    addressBalances: (state) => {
+      return async (
+        address: string,
+        tokenIds: string[],
+        reset?: boolean
+      ): Promise<Record<string, number>> => {
+        const result: Record<string, number> = {};
+        const tokenIdsToLoad: string[] = [];
+
+        // Only fetch on-chain balance if not fetched or if last time was 1 min ago
+        tokenIds.forEach((tokenId) => {
+          const key = `${tokenId}-${address}`;
+
+          if (
+            reset ||
+            !state[state.environment].balances.has(key) ||
+            state[state.environment].balances.get(key)!.lastUpdated <
+              Date.now() - 60000
+          ) {
+            console.log('not in state');
+            tokenIdsToLoad.push(tokenId);
+          } else {
+            // Load from state
+            result[tokenId] =
+              state[state.environment].balances.get(key)!.balance;
+          }
+        });
+
+        if (tokenIdsToLoad.length > 0) {
+          const checkerApi = axios.create({
+            baseURL: 'https://checker.koiner.app',
+          });
+
+          const response = await checkerApi.get(
+            `address/${address}/balances?useDecimals=false&${tokenIdsToLoad
+              .map((tokenId) => `tokenIds[]=${tokenId}&`)
+              .join('&')}`
+          );
+
+          if (response.data != null) {
+            for (const [tokenId, balance] of Object.entries(response.data)) {
+              state[state.environment].balances.set(`${address}-${tokenId}`, {
+                tokenId,
+                address,
+                balance: Number(balance),
+                lastUpdated: Date.now(),
+              });
+
+              result[tokenId] = balance as any;
             }
           }
         }

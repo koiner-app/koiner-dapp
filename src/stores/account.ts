@@ -37,6 +37,7 @@ export const useAccountStore = defineStore({
     anonymousId: uuidv4().toString() as string,
     theme: 'auto' as KoinerThemeType,
     production: {
+      loading: false as boolean,
       name: 'Mystery Koiner',
       addresses: [] as string[],
       addressesFilter: [] as string[],
@@ -52,6 +53,7 @@ export const useAccountStore = defineStore({
       burned: 0.0 as number,
     },
     test: {
+      loading: false as boolean,
       name: 'Mystery Test Koiner',
       addresses: [] as string[],
       addressesFilter: [] as string[],
@@ -67,6 +69,7 @@ export const useAccountStore = defineStore({
       burned: 0.0 as number,
     },
     local: {
+      loading: false as boolean,
       name: 'Mystery Local Koiner',
       addresses: [] as string[],
       addressesFilter: [] as string[],
@@ -326,43 +329,45 @@ export const useAccountStore = defineStore({
       try {
         const onChainBalances: OnChainBalance[] = [];
 
-        for (const address of this[this.environment].addressesFilter) {
+        const addresses: string[] = this[this.environment].addressesFilter;
+
+        if (addresses.length > 0) {
           let manaBalance: number;
           let koinBalance: number;
 
-          const koinOnChainBalance = await tokensStore.balance(
+          const koinOnChainBalances = await tokensStore.balances(
             'koin',
-            address,
+            addresses,
             reset
           );
 
-          if (koinOnChainBalance != null) {
-            koinBalance = koinOnChainBalance.balance;
+          const manaOnChainBalances = await tokensStore.balances(
+            'mana',
+            addresses,
+            reset
+          );
 
-            const manaOnChainBalance = await tokensStore.balance(
-              'mana',
-              address,
-              reset
-            );
+          for (const [address, balance] of Object.entries(
+            koinOnChainBalances
+          )) {
+            koinBalance = balance;
+            manaBalance = manaOnChainBalances[address];
 
-            // Fetch mana balance when we retrieved koin balance
-            if (manaOnChainBalance != null) {
-              manaBalance = manaOnChainBalance.balance;
+            const timeRechargeMana =
+              ((koinBalance - manaBalance) * FIVE_DAYS) / koinBalance;
 
-              const timeRechargeMana =
-                ((koinBalance - manaBalance) * FIVE_DAYS) / koinBalance;
-
-              onChainBalances.push({
-                addressId: address,
-                balance: koinBalance,
-                mana: manaBalance,
-                charged: (manaBalance / koinBalance) * 100,
-                manaRechargeTime: timeRechargeMana,
-                manaRechargeFormatted: deltaTimeToString(timeRechargeMana),
-                lastUpdated: Date.now(),
-              });
-            }
+            onChainBalances.push({
+              addressId: address,
+              balance: koinBalance,
+              mana: manaBalance,
+              charged: (manaBalance / koinBalance) * 100,
+              manaRechargeTime: timeRechargeMana,
+              manaRechargeFormatted: deltaTimeToString(timeRechargeMana),
+              lastUpdated: Date.now(),
+            });
           }
+
+          console.log({ onChainBalances });
 
           this.$patch({
             [this.environment]: {
@@ -446,6 +451,18 @@ export const useAccountStore = defineStore({
       });
 
       watch(data, async (updatedData) => {
+        if (this[this.environment].loading) {
+          console.log('ALREAD LOAYING!');
+
+          return;
+        }
+
+        this.$patch({
+          [this.environment]: {
+            loading: true,
+          },
+        });
+
         const tokensStore = useTokensStore();
 
         const newConnection =
@@ -460,24 +477,44 @@ export const useAccountStore = defineStore({
         queryState.connection.value = newConnection;
 
         const edges: TokenHolderEdge[] = [];
+        const combos: Record<string, Record<string, number>> = {};
 
-        if (updatedData?.tokenHolders.edges) {
-          for (let i = 0; i < updatedData?.tokenHolders.edges.length; i++) {
-            edges.push(updatedData?.tokenHolders.edges[i] as TokenHolderEdge);
+        // Get all address - token combinations
+        updatedData?.tokenHolders.edges?.forEach((edge) => {
+          edges.push(edge as TokenHolderEdge);
 
-            const onChainBalance = await tokensStore.balance(
-              edges[i].node.contractId,
-              edges[i].node.addressId
-            );
+          if (!combos[edge.node.addressId]) {
+            combos[edge.node.addressId] = {};
+          }
 
-            if (onChainBalance != null) {
-              edges[i].node.balance = onChainBalance.balance.toString();
-            }
+          combos[edge.node.addressId][edge.node.contractId] = 0;
+        });
+
+        // Get token balances for each address
+        for (const [address, tokenBalances] of Object.entries(combos)) {
+          const balances = await tokensStore.addressBalances(
+            address,
+            Object.keys(tokenBalances)
+          );
+
+          for (const [tokenId, balance] of Object.entries(balances)) {
+            combos[address][tokenId] = balance;
           }
         }
 
+        // Map on-chain balances to results
+        edges.map(async (edge) => {
+          if (combos[edge.node.addressId][edge.node.contractId] != null) {
+            edge.node.balance =
+              combos[edge.node.addressId][edge.node.contractId].toString();
+          }
+
+          return edge;
+        });
+
         this.$patch({
           [this.environment]: {
+            loading: false,
             tokenBalances: edges.map((edge) => edge.node),
           },
         });
