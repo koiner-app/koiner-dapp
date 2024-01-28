@@ -21,6 +21,17 @@ export const useKoinerStore = defineStore({
 
       return koinerConfig.production.api;
     },
+    checkerUrl: (state): string => {
+      if (state.environment === 'local') {
+        return koinerConfig.test.checker;
+      }
+
+      if (state.environment === 'test') {
+        return koinerConfig.test.checker;
+      }
+
+      return koinerConfig.production.checker;
+    },
     isProd: (state): boolean => {
       return state.environment === 'production';
     },

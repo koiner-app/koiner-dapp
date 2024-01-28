@@ -5,6 +5,7 @@ import { tokenAmountToSatoshi } from '@koiner/utils';
 import { TokenContract } from '@koiner/sdk';
 import { useQuery } from '@urql/vue';
 import { watch } from 'vue';
+import { useKoinerStore } from 'stores/koiner';
 
 export interface OnChainBalance {
   address: string;
@@ -188,8 +189,10 @@ export const useTokensStore = defineStore({
             Date.now() - 60000 ||
           refresh
         ) {
+          const koinerStore = useKoinerStore();
+
           const checkerApi = axios.create({
-            baseURL: 'https://checker.koiner.app',
+            baseURL: koinerStore.checkerUrl,
           });
 
           const response = await checkerApi.get(
@@ -239,8 +242,10 @@ export const useTokensStore = defineStore({
         });
 
         if (addressesToLoad.length > 0) {
+          const koinerStore = useKoinerStore();
+
           const checkerApi = axios.create({
-            baseURL: 'https://checker.koiner.app',
+            baseURL: koinerStore.checkerUrl,
           });
 
           const response = await checkerApi.get(
@@ -296,8 +301,10 @@ export const useTokensStore = defineStore({
         });
 
         if (tokenIdsToLoad.length > 0) {
+          const koinerStore = useKoinerStore();
+
           const checkerApi = axios.create({
-            baseURL: 'https://checker.koiner.app',
+            baseURL: koinerStore.checkerUrl,
           });
 
           const response = await checkerApi.get(
@@ -331,8 +338,10 @@ export const useTokensStore = defineStore({
           state[state.environment].supplies.get(tokenId)!.lastUpdated <
             Date.now() - 60000
         ) {
+          const koinerStore = useKoinerStore();
+
           const checkerApi = axios.create({
-            baseURL: 'https://checker.koiner.app',
+            baseURL: koinerStore.checkerUrl,
           });
 
           const response = await checkerApi.get(
@@ -372,8 +381,10 @@ export const useTokensStore = defineStore({
         });
 
         if (suppliesToLoad.length > 0) {
+          const koinerStore = useKoinerStore();
+
           const checkerApi = axios.create({
-            baseURL: 'https://checker.koiner.app',
+            baseURL: koinerStore.checkerUrl,
           });
 
           const response = await checkerApi.get(
