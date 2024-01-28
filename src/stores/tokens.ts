@@ -287,7 +287,6 @@ export const useTokensStore = defineStore({
             state[state.environment].balances.get(key)!.lastUpdated <
               Date.now() - 60000
           ) {
-            console.log('not in state');
             tokenIdsToLoad.push(tokenId);
           } else {
             // Load from state
@@ -337,22 +336,66 @@ export const useTokensStore = defineStore({
           });
 
           const response = await checkerApi.get(
-            `token/${tokenId}/total-supply`
+            `token/${tokenId}/total-supply?useDecimals=false`
           );
 
           if (response.data != null) {
             state[state.environment].supplies.set(tokenId, {
               tokenId,
-              supply: tokenAmountToSatoshi(
-                Number(response.data),
-                state[state.environment].decimals.get(tokenId) ?? 8
-              ),
+              supply: Number(response.data),
               lastUpdated: Date.now(),
             });
           }
         }
 
         return state[state.environment].supplies.get(tokenId);
+      };
+    },
+    supplies: (state) => {
+      return async (tokenIds: string[]): Promise<Record<string, number>> => {
+        const result: Record<string, number> = {};
+        const suppliesToLoad: string[] = [];
+
+        // Only fetch on-chain balance if not fetched or if last time was 1 min ago
+        tokenIds.forEach((tokenId) => {
+          if (
+            !state[state.environment].supplies.has(tokenId) ||
+            state[state.environment].supplies.get(tokenId)!.lastUpdated <
+              Date.now() - 60000
+          ) {
+            suppliesToLoad.push(tokenId);
+          } else {
+            // Load from state
+            result[tokenId] =
+              state[state.environment].supplies.get(tokenId)!.supply;
+          }
+        });
+
+        if (suppliesToLoad.length > 0) {
+          const checkerApi = axios.create({
+            baseURL: 'https://checker.koiner.app',
+          });
+
+          const response = await checkerApi.get(
+            `token/total-supplies?useDecimals=false&${suppliesToLoad
+              .map((tokenId) => `ids[]=${tokenId}&`)
+              .join('&')}`
+          );
+
+          if (response.data != null) {
+            for (const [tokenId, supply] of Object.entries(response.data)) {
+              state[state.environment].supplies.set(tokenId, {
+                tokenId,
+                supply: Number(supply),
+                lastUpdated: Date.now(),
+              });
+
+              result[tokenId] = supply as any;
+            }
+          }
+        }
+
+        return result;
       };
     },
     getDecimals: (state) => {

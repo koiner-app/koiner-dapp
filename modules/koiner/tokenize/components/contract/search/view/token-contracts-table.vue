@@ -24,7 +24,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, ref } from 'vue';
 import { useSearchStore } from 'stores/search';
 import { KoinerRenderers } from '@koiner/renderers';
 import SearchFilters from '@appvise/search-manager/search-filters.vue';
@@ -59,22 +59,38 @@ export default defineComponent({
   setup(props, { emit }) {
     const searchStore = useSearchStore();
     const tokensStore = useTokensStore();
+    const loadingOnChain = ref(false);
 
     const onScroll = (newScrollPosition: number) => {
       searchStore.tokenContracts.position = newScrollPosition;
     };
 
-    const onChange = (data: TokenContractsConnection) => {
+    const onChange = async (data: TokenContractsConnection) => {
       if (data.edges) {
-        data.edges?.map(async (edge) => {
-          const supply = await tokensStore.supply(edge.node.id);
+        if (loadingOnChain.value) {
+          return;
+        }
 
-          if (supply != null) {
-            edge.node.totalSupply = supply.supply.toString();
+        loadingOnChain.value = true;
+
+        const tokenIds = data.edges.map((edge) => edge.node.id);
+        const supplies = await tokensStore.supplies(tokenIds);
+
+        data.edges.map(async (edge) => {
+          console.log({
+            id: edge.node.id,
+            supply: supplies[edge.node.id],
+            symbol: edge.node.symbol,
+          });
+
+          if (supplies[edge.node.id] != null) {
+            edge.node.totalSupply = supplies[edge.node.id].toString();
           }
 
           return edge;
         });
+
+        loadingOnChain.value = false;
       }
 
       emit('contractCountUpdated', data?.edges ? data.edges.length : 0);
@@ -103,12 +119,29 @@ export default defineComponent({
                 },
                 {
                   name: {
+                    excludes: 'Token',
+                  },
+                },
+                {
+                  name: {
                     excludes: 'Test',
                   },
                 },
                 {
                   name: {
                     excludes: 'test',
+                  },
+                },
+                {
+                  id: {
+                    // Bitcoin
+                    excludes: '1BzymN6NwNyQszkEPkmSjnCLxpLpxHF4p7',
+                  },
+                },
+                {
+                  id: {
+                    // Test Ethereum
+                    excludes: '1HZEzcttxD2HKVXdAHJwipLzix4NENMVjK',
                   },
                 },
                 {
