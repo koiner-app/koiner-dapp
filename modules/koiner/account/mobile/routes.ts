@@ -2,7 +2,7 @@ import { RouteRecordRaw } from 'vue-router';
 
 export const accountModuleMobileRoutes: RouteRecordRaw[] = [
   {
-    path: '/m/account',
+    path: '/mobile/account',
     children: [
       {
         name: 'mobile.account',
@@ -13,7 +13,7 @@ export const accountModuleMobileRoutes: RouteRecordRaw[] = [
   },
   {
     name: 'mobile.history',
-    path: '/m/history',
+    path: '/mobile/history',
     component: () => import('./pages/history-mobile-index-page.vue'),
   },
 ];

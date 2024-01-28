@@ -33,7 +33,7 @@
       />
       <share-dialog
         :id="contract.id"
-        :url="`https://koiner.app/m/contracts/${id}`"
+        :url="`https://koiner.app/mobile/contracts/${id}`"
         :message="`Check this Koinos contract ${id} on Koiner`"
       />
     </q-toolbar>

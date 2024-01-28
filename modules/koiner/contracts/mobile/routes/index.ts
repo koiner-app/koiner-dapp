@@ -2,7 +2,7 @@ import { RouteRecordRaw } from 'vue-router';
 
 export const contractsModuleMobileRoutes: RouteRecordRaw[] = [
   {
-    path: '/m/contracts',
+    path: '/mobile/contracts',
     children: [
       {
         name: 'mobile.contracts',
@@ -11,7 +11,7 @@ export const contractsModuleMobileRoutes: RouteRecordRaw[] = [
       },
       {
         name: 'mobile.contract',
-        path: '/m/contracts/:id',
+        path: '/mobile/contracts/:id',
         component: () => import('../pages/contract-mobile-page.vue'),
       },
     ],

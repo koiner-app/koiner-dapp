@@ -9,11 +9,11 @@ import { tokenizeModuleMobileRoutes } from '@koiner/tokenize/mobile/routes';
 
 export const mobileRoutes: RouteRecordRaw[] = [
   {
-    path: '/m',
+    path: '/mobile',
     component: () => import('../layouts/mobile-base-layout.vue'),
     children: [
       {
-        path: '/m',
+        path: '/mobile',
         component: () => import('../layouts/mobile-home-layout.vue'),
         children: [
           // Root pages
@@ -30,13 +30,13 @@ export const mobileRoutes: RouteRecordRaw[] = [
       },
 
       {
-        path: '/m/chain',
+        path: '/mobile/chain',
         component: () => import('../layouts/mobile-clean-layout.vue'),
         children: [...chainModuleMobileRoutes],
       },
 
       {
-        path: '/m/search',
+        path: '/mobile/search',
         component: () => import('../layouts/mobile-clean-layout.vue'),
         children: [
           {
@@ -48,19 +48,19 @@ export const mobileRoutes: RouteRecordRaw[] = [
       },
 
       {
-        path: '/m/account',
+        path: '/mobile/account',
         component: () => import('../layouts/mobile-clean-layout.vue'),
         children: [...accountModuleMobileRoutes],
       },
 
       {
-        path: '/m/ecosystem',
+        path: '/mobile/ecosystem',
         component: () => import('../layouts/mobile-clean-layout.vue'),
         children: [...ecosystemModuleMobileRoutes],
       },
 
       {
-        path: '/m/network',
+        path: '/mobile/network',
         component: () => import('../layouts/mobile-clean-layout.vue'),
         children: [...networkModuleMobileRoutes],
       },
@@ -70,7 +70,7 @@ export const mobileRoutes: RouteRecordRaw[] = [
   // Always leave this as last one,
   // but you can also remove it
   {
-    path: '/m/:catchAll(.*)*',
+    path: '/mobile/:catchAll(.*)*',
     component: () => import('../pages/error-not-found.vue'),
   },
 ];

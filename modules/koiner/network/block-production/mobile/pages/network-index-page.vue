@@ -9,7 +9,7 @@
       <q-space />
 
       <share-dialog
-        :url="`https://koiner.app/m/network`"
+        :url="`https://koiner.app/mobile/network`"
         :message="`Check Koinos block producers on Koiner`"
       />
     </q-toolbar>

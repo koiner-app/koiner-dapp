@@ -24,7 +24,7 @@
         />
         <share-dialog
           :id="id"
-          :url="`https://koiner.app/m/addresses/${id}`"
+          :url="`https://koiner.app/mobile/addresses/${id}`"
           :message="`Check this Koinos wallet ${id} on Koiner`"
         />
       </q-toolbar>
