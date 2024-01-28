@@ -37,7 +37,7 @@ export const useAccountStore = defineStore({
     anonymousId: uuidv4().toString() as string,
     theme: 'auto' as KoinerThemeType,
     production: {
-      loading: false as boolean,
+      loadingOnChain: false as boolean,
       name: 'Mystery Koiner',
       addresses: [] as string[],
       addressesFilter: [] as string[],
@@ -53,7 +53,7 @@ export const useAccountStore = defineStore({
       burned: 0.0 as number,
     },
     test: {
-      loading: false as boolean,
+      loadingOnChain: false as boolean,
       name: 'Mystery Test Koiner',
       addresses: [] as string[],
       addressesFilter: [] as string[],
@@ -69,7 +69,7 @@ export const useAccountStore = defineStore({
       burned: 0.0 as number,
     },
     local: {
-      loading: false as boolean,
+      loadingOnChain: false as boolean,
       name: 'Mystery Local Koiner',
       addresses: [] as string[],
       addressesFilter: [] as string[],
@@ -451,13 +451,13 @@ export const useAccountStore = defineStore({
       });
 
       watch(data, async (updatedData) => {
-        if (this[this.environment].loading) {
+        if (this[this.environment].loadingOnChain) {
           return;
         }
 
         this.$patch({
           [this.environment]: {
-            loading: true,
+            loadingOnChain: true,
           },
         });
 
@@ -512,7 +512,7 @@ export const useAccountStore = defineStore({
 
         this.$patch({
           [this.environment]: {
-            loading: false,
+            loadingOnChain: false,
             tokenBalances: edges.map((edge) => edge.node),
           },
         });
