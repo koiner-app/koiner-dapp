@@ -203,7 +203,7 @@ export const useStatsStore = defineStore({
           claimedPercentage: number;
           snapshot: number;
         };
-      } = await checkerApi.get('koin/supplies-raw');
+      } = await checkerApi.get('koin/supplies?useDecimals=false');
 
       if (koinResponse.data != null) {
         this.$patch({
