@@ -33,6 +33,14 @@
             />
           </q-tab-panel>
 
+          <q-tab-panel name="token-operations" class="tab--mobile-table">
+            <tokens-operations-table
+              v-if="accountStore.addressesFilter.length > 0"
+              :addresses="accountStore.addressesFilter"
+              :mobile="true"
+            />
+          </q-tab-panel>
+
           <q-tab-panel name="rewards" class="tab--mobile-table">
             <token-holder-balances-metric
               v-if="
@@ -48,14 +56,6 @@
             <block-rewards-table
               v-if="accountStore.addressesFilter.length > 0"
               :producer-ids="accountStore.addressesFilter"
-              :mobile="true"
-            />
-          </q-tab-panel>
-
-          <q-tab-panel name="token-operations" class="tab--mobile-table">
-            <tokens-operations-table
-              v-if="accountStore.addressesFilter.length > 0"
-              :addresses="accountStore.addressesFilter"
               :mobile="true"
             />
           </q-tab-panel>
@@ -90,14 +90,14 @@
         <q-tab
           class="text-overline"
           :ripple="false"
-          label="Rewards"
-          name="rewards"
+          label="Transfers"
+          name="token-operations"
         />
         <q-tab
           class="text-overline"
           :ripple="false"
-          label="Token Ops"
-          name="token-operations"
+          label="Rewards"
+          name="rewards"
         />
         <q-tab
           class="text-overline"
