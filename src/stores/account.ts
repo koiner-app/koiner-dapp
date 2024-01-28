@@ -452,8 +452,6 @@ export const useAccountStore = defineStore({
 
       watch(data, async (updatedData) => {
         if (this[this.environment].loading) {
-          console.log('ALREAD LOAYING!');
-
           return;
         }
 
