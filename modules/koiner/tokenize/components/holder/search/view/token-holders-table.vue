@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, Ref, ref } from 'vue';
 import { KoinerRenderers } from '@koiner/renderers';
 import SearchFilters from '@appvise/search-manager/search-filters.vue';
 import QJsonSearch from '@appvise/q-json-forms/QJsonSearch.vue';
@@ -49,6 +49,7 @@ export default defineComponent({
 
   setup(props) {
     const tokensStore = useTokensStore();
+    const handled: Ref<string[]> = ref([]);
 
     return {
       schema,
@@ -58,16 +59,34 @@ export default defineComponent({
           contractId: { equals: props.contractId },
         },
       },
-      onChange: (data: TokenHoldersConnection) => {
+      onChange: async (data: TokenHoldersConnection) => {
         if (data.edges) {
-          data.edges?.map(async (edge) => {
-            const balance = await tokensStore.balance(
-              edge.node.contractId,
-              edge.node.addressId
-            );
+          const onChainBalances: Record<string, number> = {};
 
-            if (balance != null) {
-              edge.node.balance = balance.balance.toString();
+          data.edges?.forEach((edge) => {
+            if (!handled.value.includes(edge.node.addressId)) {
+              onChainBalances[edge.node.addressId] = 0;
+
+              // Prevent double handling
+              handled.value.push(edge.node.addressId);
+            }
+          });
+
+          // Fetch on chain balances for all onChainBalances at once
+          const balances = await tokensStore.balances(
+            props.contractId,
+            Object.keys(onChainBalances)
+          );
+
+          for (const [address, balance] of Object.entries(balances)) {
+            onChainBalances[address] = balance;
+          }
+
+          data.edges?.map(async (edge) => {
+            // Map on chain balances to results
+            if (onChainBalances[edge.node.addressId] != null) {
+              edge.node.balance =
+                onChainBalances[edge.node.addressId].toString();
             }
 
             return edge;

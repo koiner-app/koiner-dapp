@@ -211,6 +211,59 @@ export const useTokensStore = defineStore({
         return state[state.environment].balances.get(key);
       };
     },
+    balances: (state) => {
+      return async (
+        tokenId: string,
+        addresses: string[]
+      ): Promise<Record<string, number>> => {
+        const result: Record<string, number> = {};
+        const addressesToLoad: string[] = [];
+
+        // Only fetch on-chain balance if not fetched or if last time was 1 min ago
+        addresses.forEach((address) => {
+          const key = `${tokenId}-${address}`;
+
+          if (
+            !state[state.environment].balances.has(key) ||
+            state[state.environment].balances.get(key)!.lastUpdated <
+              Date.now() - 60000
+          ) {
+            addressesToLoad.push(address);
+          } else {
+            // Load from state
+            result[address] =
+              state[state.environment].balances.get(key)!.balance;
+          }
+        });
+
+        if (addressesToLoad.length > 0) {
+          const checkerApi = axios.create({
+            baseURL: 'https://checker.koiner.app',
+          });
+
+          const response = await checkerApi.get(
+            `token/${tokenId}/balances-raw?${addressesToLoad
+              .map((address) => `addresses[]=${address}&`)
+              .join('&')}`
+          );
+
+          if (response.data != null) {
+            for (const [address, balance] of Object.entries(response.data)) {
+              state[state.environment].balances.set(`${tokenId}-${address}`, {
+                address,
+                tokenId,
+                balance: Number(balance),
+                lastUpdated: Date.now(),
+              });
+
+              result[address] = balance as any;
+            }
+          }
+        }
+
+        return result;
+      };
+    },
     supply: (state) => {
       return async (tokenId: string) => {
         // Only fetch onchain supply if not fetched or if last time was 1 min ago
