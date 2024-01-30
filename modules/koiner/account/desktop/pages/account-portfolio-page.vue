@@ -6,22 +6,22 @@
     <q-card class="stats-cards" flat bordered>
       <q-card-section horizontal>
         <token-holder-balances-metric
-          v-if="tokenHolders && tokenHolders.length > 0"
-          :token-holders="tokenHolders"
+          v-if="accountStore.addressesFilter.length > 0"
+          :token-holders="accountStore.tokenBalances"
           :contract="koinerStore.koinContract"
         />
         <q-separator vertical />
         <token-holder-balances-metric
-          v-if="tokenHolders && tokenHolders.length > 0"
-          :token-holders="tokenHolders"
+          v-if="accountStore.addressesFilter.length > 0"
+          :token-holders="accountStore.tokenBalances"
           :contract="koinerStore.vhpContract"
           @calculated="updateTotalVhp"
         />
         <q-separator vertical />
         <token-holder-balances-metric
-          v-if="tokenHolders && tokenHolders.length > 0"
+          v-if="accountStore.addressesFilter.length > 0"
           title="Virtual total"
-          :token-holders="tokenHolders"
+          :token-holders="accountStore.tokenBalances"
           :contract="koinerStore.koinContract"
           :contract-ids="[
             koinerStore.koinContract.id,
@@ -49,10 +49,10 @@
 
         <q-tab-panels v-model="tab" animated>
           <q-tab-panel name="balances">
-            <token-balances-table
+            <token-balances-component
               v-if="accountStore.addressesFilter.length > 0"
-              :addresses="accountStore.addressesFilter"
-              @change="updateTokenHolders"
+              :token-balances="accountStore.tokenBalances"
+              :show-group-balances="false"
             />
           </q-tab-panel>
         </q-tab-panels>
@@ -74,42 +74,32 @@
 <script lang="ts">
 import { computed, defineComponent, ref, Ref } from 'vue';
 import AccountAddressesFilter from '@koiner/chain/address/account-addresses-filter.vue';
-import TokenBalancesTable from '@koiner/tokenize/components/holder/search/view/token-balances-table.vue';
 import TokenHolderBalancesMetric from '@koiner/tokenize/components/holder/metric/token-holder-balances-metric.vue';
-import { TokenHolder, TokenHoldersConnection } from '@koiner/sdk';
 import CounterMetric from '@koiner/components/metrics/counter-metric.vue';
 import { useAccountStore } from 'stores/account';
 import { useKoinerStore } from 'stores/koiner';
+import TokenBalancesComponent from '@koiner/account/mobile/components/token-balances-component.vue';
 
 export default defineComponent({
   name: 'AccountPortfolioPage',
   components: {
+    TokenBalancesComponent,
     CounterMetric,
     AccountAddressesFilter,
-    TokenBalancesTable,
     TokenHolderBalancesMetric,
   },
 
   setup() {
     const accountStore = useAccountStore();
     const koinerStore = useKoinerStore();
-    const tokenHolders: Ref<TokenHolder[]> = ref([]);
     const totalVhp: Ref<number | undefined> = ref();
     const totalVirtualKoin: Ref<number | undefined> = ref();
     const tab: Ref<string> = ref('balances');
-
-    const updateTokenHolders = (newConnection: TokenHoldersConnection) => {
-      if (newConnection?.edges) {
-        tokenHolders.value = newConnection.edges.map((edge) => edge.node);
-      }
-    };
 
     return {
       tab,
       accountStore,
       koinerStore,
-      updateTokenHolders,
-      tokenHolders,
 
       totalVhp,
       totalVirtualKoin,
