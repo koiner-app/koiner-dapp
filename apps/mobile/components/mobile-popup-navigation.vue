@@ -17,24 +17,13 @@
       </q-item-section>
     </q-item>
   </q-list>
-
-  <q-list padding class="absolute-bottom q-mb-xl q-pa-xl" dark>
-    <q-item>
-      <q-item-section>
-        <theme-switcher :dark="true" />
-      </q-item-section>
-    </q-item>
-  </q-list>
 </template>
 
 <script lang="ts">
 import { defineComponent, onMounted, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
-import ThemeSwitcher from 'components/theme-switcher.vue';
 
 export default defineComponent({
-  components: { ThemeSwitcher },
-
   setup() {
     const route = useRoute();
     const link = ref('/mobile');
