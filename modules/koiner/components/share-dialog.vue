@@ -253,12 +253,17 @@ export default defineComponent({
 
     const onTouchMove = (event: { touches: { clientY: number }[] }) => {
       const deltaY = event.touches[0].clientY - startY.value;
-      dialogPosition.value = Math.max(0, deltaY);
-      posY.value = event.touches[0].clientY;
+
+      // Only update if not swiping in bottom of dialog (social icons)
+      if (height.value - startY.value > 160) {
+        dialogPosition.value = Math.max(0, deltaY);
+        posY.value = event.touches[0].clientY;
+      }
     };
 
     const onTouchEnd = () => {
-      if (posY.value > height.value - 80) {
+      // 80px from bottom and at least dragged 60px down
+      if (posY.value > height.value - 80 && posY.value - startY.value > 60) {
         closePopup();
       } else {
         dialogPosition.value = 0;
@@ -279,32 +284,32 @@ export default defineComponent({
           name: 'X',
           action: () => shareTo('x'),
         },
-        {
-          icon: 'fa-brands fa-discord',
-          name: 'Discord',
-          action: () => shareTo('discord'),
-        },
-        {
-          icon: 'fa-brands fa-signal-messenger',
-          name: 'signal',
-          action: () => shareTo('Signal'),
-        },
-        {
-          icon: 'fa-brands fa-whatsapp',
-          name: 'WhatsApp',
-          action: () => shareTo('whatsapp'),
-        },
-        {
-          icon: 'fa-brands fa-facebook',
-          name: 'Facebook',
-          action: () => shareTo('facebook'),
-        },
-        {
-          icon: 'fa-brands fa-gmail',
-          name: 'Gmail',
-          action: () => shareTo('gmail'),
-        },
-        { icon: 'outlook', name: 'Outlook', action: () => shareTo('outlook') },
+        // {
+        //   icon: 'fa-brands fa-discord',
+        //   name: 'Discord',
+        //   action: () => shareTo('discord'),
+        // },
+        // {
+        //   icon: 'fa-brands fa-signal-messenger',
+        //   name: 'signal',
+        //   action: () => shareTo('Signal'),
+        // },
+        // {
+        //   icon: 'fa-brands fa-whatsapp',
+        //   name: 'WhatsApp',
+        //   action: () => shareTo('whatsapp'),
+        // },
+        // {
+        //   icon: 'fa-brands fa-facebook',
+        //   name: 'Facebook',
+        //   action: () => shareTo('facebook'),
+        // },
+        // {
+        //   icon: 'fa-brands fa-gmail',
+        //   name: 'Gmail',
+        //   action: () => shareTo('gmail'),
+        // },
+        // { icon: 'outlook', name: 'Outlook', action: () => shareTo('outlook') },
         { icon: 'mail', name: 'Email', action: () => shareTo('mail') },
         { icon: 'sms', name: 'SMS', action: () => shareTo('sms') },
       ],
