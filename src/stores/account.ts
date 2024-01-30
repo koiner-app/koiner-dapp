@@ -37,7 +37,6 @@ export const useAccountStore = defineStore({
     anonymousId: uuidv4().toString() as string,
     theme: 'auto' as KoinerThemeType,
     production: {
-      loadingOnChain: false as boolean,
       name: 'Mystery Koiner',
       addresses: [] as string[],
       addressesFilter: [] as string[],
@@ -53,7 +52,6 @@ export const useAccountStore = defineStore({
       burned: 0.0 as number,
     },
     test: {
-      loadingOnChain: false as boolean,
       name: 'Mystery Test Koiner',
       addresses: [] as string[],
       addressesFilter: [] as string[],
@@ -69,7 +67,6 @@ export const useAccountStore = defineStore({
       burned: 0.0 as number,
     },
     local: {
-      loadingOnChain: false as boolean,
       name: 'Mystery Local Koiner',
       addresses: [] as string[],
       addressesFilter: [] as string[],
@@ -450,19 +447,7 @@ export const useAccountStore = defineStore({
         },
       });
 
-      watch(data, async (updatedData) => {
-        if (this[this.environment].loadingOnChain) {
-          return;
-        }
-
-        this.$patch({
-          [this.environment]: {
-            loadingOnChain: true,
-          },
-        });
-
-        const tokensStore = useTokensStore();
-
+      watch(data, (updatedData) => {
         const newConnection =
           updatedData?.tokenHolders as TokenHoldersConnection;
 
@@ -474,50 +459,15 @@ export const useAccountStore = defineStore({
 
         queryState.connection.value = newConnection;
 
-        const edges: TokenHolderEdge[] = [];
-        const combos: Record<string, Record<string, number>> = {};
-
-        // Get all address - token combinations
-        updatedData?.tokenHolders.edges?.forEach((edge) => {
-          edges.push(edge as TokenHolderEdge);
-
-          if (!combos[edge.node.addressId]) {
-            combos[edge.node.addressId] = {};
-          }
-
-          combos[edge.node.addressId][edge.node.contractId] = 0;
-        });
-
-        // Get token balances for each address
-        for (const [address, tokenBalances] of Object.entries(combos)) {
-          const balances = await tokensStore.addressBalances(
-            address,
-            Object.keys(tokenBalances)
-          );
-
-          for (const [tokenId, balance] of Object.entries(balances)) {
-            combos[address][tokenId] = balance;
-          }
-        }
-
-        // Map on-chain balances to results
-        edges.map(async (edge) => {
-          if (combos[edge.node.addressId][edge.node.contractId] != null) {
-            edge.node.balance =
-              combos[edge.node.addressId][edge.node.contractId].toString();
-          }
-
-          return edge;
-        });
-
         this.$patch({
           [this.environment]: {
-            loadingOnChain: false,
-            tokenBalances: edges.map((edge) => edge.node),
+            tokenBalances: updatedData?.tokenHolders.edges.map(
+              (edge) => edge.node
+            ),
           },
         });
 
-        await this.loadOnChainBalances();
+        this.loadOnChainBalances();
       });
 
       queryState.error = error;
