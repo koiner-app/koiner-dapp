@@ -25,6 +25,7 @@
         icon-size="1rem"
       />
       <bookmark-component
+        v-if="contract.id === 'disabled'"
         :item="{ id: contract.id, type: 'contract' }"
         list-id="contracts"
         item-translation="koiner.contracts.item.contract"

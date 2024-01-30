@@ -39,6 +39,7 @@
           icon-size="1rem"
         />
         <bookmark-component
+          v-if="tokenContract.name === 'disabled'"
           :item="{
             id: tokenContract.id,
             type: 'token',
