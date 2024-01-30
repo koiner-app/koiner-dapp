@@ -4,7 +4,6 @@
       <back-button />
 
       <q-space />
-      <q-separator dark vertical inset class="lt-md" />
 
       <q-toolbar-title class="min-width: 150px">
         <span>

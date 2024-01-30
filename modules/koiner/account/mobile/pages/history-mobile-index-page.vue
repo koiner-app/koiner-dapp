@@ -1,7 +1,6 @@
 <template>
   <q-header reveal elevated>
     <q-toolbar>
-      <q-separator dark vertical inset class="lt-md" />
       <q-toolbar-title style="min-width: 240px">
         <span class="page-title">
           <portfolio-switcher />

@@ -1,7 +1,6 @@
 <template>
   <q-header reveal elevated>
     <q-toolbar>
-      <q-separator dark vertical inset class="lt-md" />
       <q-toolbar-title style="min-width: 240px">
         <span class="page-title">
           <portfolio-switcher />
@@ -96,9 +95,9 @@
             />
           </q-tab-panel>
 
-          <q-tab-panel name="watchlists" class="tab--mobile-table">
-            <h2>Watchlists</h2>
-          </q-tab-panel>
+          <!--          <q-tab-panel name="watchlists" class="tab&#45;&#45;mobile-table">-->
+          <!--            <h2>Watchlists</h2>-->
+          <!--          </q-tab-panel>-->
 
           <q-tab-panel name="nfts" class="tab--mobile-table">
             <q-card class="stats-card" flat>

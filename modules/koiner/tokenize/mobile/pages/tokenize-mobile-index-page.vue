@@ -1,7 +1,6 @@
 <template>
   <q-header reveal elevated>
     <q-toolbar>
-      <q-separator dark vertical inset class="lt-md" />
       <q-toolbar-title>
         <span class="page-title"> Tokens </span>
       </q-toolbar-title>
