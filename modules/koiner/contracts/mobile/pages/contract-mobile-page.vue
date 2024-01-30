@@ -1,11 +1,7 @@
 <template>
   <q-header reveal elevated v-if="contract">
     <q-toolbar>
-      <q-btn
-        size="0.675rem"
-        icon="arrow_back_ios_new"
-        @click="$router.go(-1)"
-      />
+      <back-button />
 
       <q-space />
       <q-separator dark vertical inset class="lt-md" />
@@ -37,6 +33,7 @@
         :url="`https://koiner.app/mobile/contracts/${id}`"
         :message="`Check this Koinos contract ${id} on Koiner`"
       />
+      <account-menu-mobile />
     </q-toolbar>
   </q-header>
 
@@ -118,10 +115,14 @@ import 'vue-json-pretty/lib/styles.css';
 import CopyToClipboard from '@koiner/components/copy-to-clipboard.vue';
 import BookmarkComponent from '@koiner/bookmarks/components/bookmark-component.vue';
 import ShareDialog from '@koiner/components/share-dialog.vue';
+import AccountMenuMobile from '@koiner/components/account-menu-mobile.vue';
+import BackButton from '@koiner/components/back-button.vue';
 
 export default defineComponent({
   name: 'ContractMobilePage',
   components: {
+    BackButton,
+    AccountMenuMobile,
     ShareDialog,
     BookmarkComponent,
     CopyToClipboard,

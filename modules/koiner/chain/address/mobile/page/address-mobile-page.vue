@@ -2,7 +2,8 @@
   <q-page class="row items-start mobile-tab-page" v-if="id">
     <q-header reveal elevated>
       <q-toolbar>
-        <q-separator dark vertical inset class="lt-md" />
+        <back-button />
+
         <q-toolbar-title>
           <span class="page-title"> Address </span>
         </q-toolbar-title>
@@ -27,6 +28,7 @@
           :url="`https://koiner.app/mobile/addresses/${id}`"
           :message="`Check this Koinos wallet ${id} on Koiner`"
         />
+        <account-menu-mobile />
       </q-toolbar>
     </q-header>
 
@@ -146,10 +148,14 @@ import BookmarkComponent from '@koiner/bookmarks/components/bookmark-component.v
 import { useTokensStore } from 'stores/tokens';
 import CopyToClipboard from '@koiner/components/copy-to-clipboard.vue';
 import ShareDialog from '@koiner/components/share-dialog.vue';
+import AccountMenuMobile from '@koiner/components/account-menu-mobile.vue';
+import BackButton from '@koiner/components/back-button.vue';
 
 export default defineComponent({
   name: 'AddressMobilePage',
   components: {
+    BackButton,
+    AccountMenuMobile,
     ShareDialog,
     CopyToClipboard,
     BookmarkComponent,

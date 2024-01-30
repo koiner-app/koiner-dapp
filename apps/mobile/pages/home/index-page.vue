@@ -5,6 +5,10 @@
       <q-toolbar-title>
         <koiner-logo />
       </q-toolbar-title>
+
+      <q-space />
+
+      <account-menu-mobile />
     </q-toolbar>
   </q-header>
 
@@ -18,10 +22,12 @@ import { defineComponent } from 'vue';
 import KoinosHomeStatsComponent from './components/koin-home-stats-component.vue';
 import { useAccountStore } from 'stores/account';
 import KoinerLogo from 'components/koiner-logo.vue';
+import AccountMenuMobile from '@koiner/components/account-menu-mobile.vue';
 
 export default defineComponent({
   name: 'MobileHomePage',
   components: {
+    AccountMenuMobile,
     KoinerLogo,
     KoinosHomeStatsComponent,
   },

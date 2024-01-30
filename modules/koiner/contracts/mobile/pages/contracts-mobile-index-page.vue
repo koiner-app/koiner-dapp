@@ -5,6 +5,10 @@
       <q-toolbar-title>
         <span class="page-title"> Smart Contracts </span>
       </q-toolbar-title>
+
+      <q-space />
+
+      <account-menu-mobile />
     </q-toolbar>
   </q-header>
 
@@ -55,10 +59,12 @@ import { defineComponent, Ref, ref } from 'vue';
 import ContractsTable from '@koiner/contracts/components/contract/search/view/contracts-table.vue';
 import ContractEventsTable from '@koiner/contracts/components/contract/search/view/contracts-events-table.vue';
 import ContractOperationsTable from '@koiner/contracts/components/contract/search/view/contracts-operations-table.vue';
+import AccountMenuMobile from '@koiner/components/account-menu-mobile.vue';
 
 export default defineComponent({
   name: 'ChainMobileIndexPage',
   components: {
+    AccountMenuMobile,
     ContractsTable,
     ContractEventsTable,
     ContractOperationsTable,

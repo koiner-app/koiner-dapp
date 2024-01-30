@@ -12,6 +12,7 @@
         :url="`https://koiner.app/mobile/network`"
         :message="`Check Koinos block producers on Koiner`"
       />
+      <account-menu-mobile />
     </q-toolbar>
   </q-header>
 
@@ -58,10 +59,12 @@ import BlockProducerStats from '@koiner/network/block-production/stats/mobile/bl
 import { useStatsStore } from 'stores/stats';
 import { useRoute } from 'vue-router';
 import ShareDialog from '@koiner/components/share-dialog.vue';
+import AccountMenuMobile from '@koiner/components/account-menu-mobile.vue';
 
 export default defineComponent({
   name: 'NetworkIndexPage',
   components: {
+    AccountMenuMobile,
     ShareDialog,
     BlockProducerStats,
     BlockRewardsComponent,

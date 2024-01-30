@@ -5,6 +5,10 @@
       <q-toolbar-title>
         <span class="page-title"> Tokens </span>
       </q-toolbar-title>
+
+      <q-space />
+
+      <account-menu-mobile />
     </q-toolbar>
   </q-header>
 
@@ -67,10 +71,12 @@ import TokenContractsTable from '@koiner/tokenize/components/contract/search/vie
 import TokensOperationsTable from '@koiner/tokenize/components/operation/search/view/tokens-operations-table.vue';
 import TokensEventsTable from '@koiner/tokenize/components/event/search/view/tokens-events-table.vue';
 import { useRoute } from 'vue-router';
+import AccountMenuMobile from '@koiner/components/account-menu-mobile.vue';
 
 export default defineComponent({
   name: 'ChainMobileIndexPage',
   components: {
+    AccountMenuMobile,
     TokensEventsTable,
     TokensOperationsTable,
     TokenContractsTable,

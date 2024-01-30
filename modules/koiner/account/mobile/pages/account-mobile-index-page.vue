@@ -18,6 +18,7 @@
       <q-space />
 
       <address-filter-dialog :open-dialog="openDialog" />
+      <account-menu-mobile />
     </q-toolbar>
   </q-header>
 
@@ -162,10 +163,12 @@ import TokenBalancesComponent from '@koiner/account/mobile/components/token-bala
 import { useBlockProductionStore } from 'stores/block-production';
 import { TokenHolder } from '@koiner/sdk';
 import { useRoute } from 'vue-router';
+import AccountMenuMobile from '@koiner/components/account-menu-mobile.vue';
 
 export default defineComponent({
   name: 'AccountMobileIndexPage',
   components: {
+    AccountMenuMobile,
     TokenBalancesComponent,
     AddressFilterDialog,
   },

@@ -5,6 +5,10 @@
       <q-toolbar-title>
         <span class="page-title"> Ecosystem </span>
       </q-toolbar-title>
+
+      <q-space />
+
+      <account-menu-mobile />
     </q-toolbar>
   </q-header>
 
@@ -74,10 +78,11 @@ import { Project } from '../..';
 import { ProjectTags, ProjectTypes } from '../../projects';
 import AddProjectForm from '@koiner/ecosystem/components/form/add-project/add-project-form.vue';
 import ProjectCard from '@koiner/ecosystem/components/project-card.vue';
+import AccountMenuMobile from '@koiner/components/account-menu-mobile.vue';
 
 export default defineComponent({
   name: 'EcosystemPage',
-  components: { ProjectCard },
+  components: { AccountMenuMobile, ProjectCard },
 
   setup() {
     const $q = useQuasar();

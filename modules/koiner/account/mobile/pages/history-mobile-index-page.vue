@@ -18,6 +18,7 @@
       <q-space />
 
       <address-filter-dialog :open-dialog="openDialog" />
+      <account-menu-mobile />
     </q-toolbar>
   </q-header>
 
@@ -131,10 +132,12 @@ import TokensOperationsTable from '@koiner/tokenize/components/operation/search/
 import TokensEventsTable from '@koiner/tokenize/components/event/search/view/tokens-events-table.vue';
 import ContractEventsTable from '@koiner/contracts/components/contract/search/view/contracts-events-table.vue';
 import TransactionsTable from '@koiner/chain/transaction/search/view/transactions-table.vue';
+import AccountMenuMobile from '@koiner/components/account-menu-mobile.vue';
 
 export default defineComponent({
   name: 'AccountMobileIndexPage',
   components: {
+    AccountMenuMobile,
     TransactionsTable,
     ContractEventsTable,
     TokensEventsTable,
