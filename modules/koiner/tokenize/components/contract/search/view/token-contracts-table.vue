@@ -33,7 +33,6 @@ import schema from '../token-contracts-search.schema.json';
 import mobileUiSchema from './token-contracts-table.mobile-ui-schema.json';
 import desktopUiSchema from './token-contracts-table.ui-schema.json';
 import { TokenContractsConnection } from '@koiner/sdk';
-import { useTokensStore } from 'stores/tokens';
 
 export default defineComponent({
   name: 'TokenContractsTable',
@@ -58,35 +57,12 @@ export default defineComponent({
 
   setup(props, { emit }) {
     const searchStore = useSearchStore();
-    const tokensStore = useTokensStore();
-    const loadingOnChain = ref(false);
 
     const onScroll = (newScrollPosition: number) => {
       searchStore.tokenContracts.position = newScrollPosition;
     };
 
     const onChange = async (data: TokenContractsConnection) => {
-      if (data.edges) {
-        if (loadingOnChain.value) {
-          return;
-        }
-
-        loadingOnChain.value = true;
-
-        const tokenIds = data.edges.map((edge) => edge.node.id);
-        const supplies = await tokensStore.supplies(tokenIds);
-
-        data.edges.map(async (edge) => {
-          if (supplies[edge.node.id] != null) {
-            edge.node.totalSupply = supplies[edge.node.id].toString();
-          }
-
-          return edge;
-        });
-
-        loadingOnChain.value = false;
-      }
-
       emit('contractCountUpdated', data?.edges ? data.edges.length : 0);
     };
 
