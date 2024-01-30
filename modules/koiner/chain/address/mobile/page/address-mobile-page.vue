@@ -254,32 +254,6 @@ export default defineComponent({
     watch(
       tokenHolderSearch.connection,
       async () => {
-        if (tokenHolderSearch.connection.value?.edges) {
-          if (loadingOnChain.value) {
-            return;
-          }
-
-          loadingOnChain.value = true;
-
-          const edges: TokenHolderEdge[] = tokenHolderSearch.connection.value
-            ?.edges as TokenHolderEdge[];
-          const tokenIds = edges.map((edge) => edge.node.contractId);
-          const balances = await tokensStore.addressBalances(
-            id.value!,
-            tokenIds
-          );
-
-          tokenHolderSearch.connection.value?.edges?.map(async (edge: any) => {
-            if (balances[edge.node.contractId] != null) {
-              edge.node.balance = balances[edge.node.contractId].toString();
-            }
-
-            return edge;
-          });
-
-          loadingOnChain.value = true;
-        }
-
         loadTotals();
       },
       { deep: true }
