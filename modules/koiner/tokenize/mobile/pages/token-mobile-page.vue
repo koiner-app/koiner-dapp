@@ -6,7 +6,7 @@
 
         <q-space />
 
-        <q-toolbar-title class="min-width: 150px">
+        <q-toolbar-title>
           <q-avatar
             v-if="tokenLogo(tokenContract.id, tokenContract.symbol)"
             size="1.5rem"
