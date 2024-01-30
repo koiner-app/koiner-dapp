@@ -134,12 +134,12 @@
           label="Tokens"
           name="coins"
         />
-        <q-tab
-          class="text-overline"
-          :ripple="false"
-          label="Watchlists"
-          name="watchlists"
-        />
+        <!--        <q-tab-->
+        <!--          class="text-overline"-->
+        <!--          :ripple="false"-->
+        <!--          label="Watchlists"-->
+        <!--          name="watchlists"-->
+        <!--        />-->
         <q-tab class="text-overline" :ripple="false" label="NFTs" name="nfts" />
         <q-tab
           class="text-overline"
