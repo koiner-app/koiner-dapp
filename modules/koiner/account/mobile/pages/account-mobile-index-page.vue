@@ -4,14 +4,7 @@
       <q-separator dark vertical inset class="lt-md" />
       <q-toolbar-title style="min-width: 240px">
         <span class="page-title">
-          <q-btn
-            icon="unfold_more"
-            disable
-            class="q-pa-none"
-            size="sm"
-            style="opacity: 0.5 !important"
-          ></q-btn>
-          Main Portfolio
+          <portfolio-switcher />
         </span>
       </q-toolbar-title>
 
@@ -164,10 +157,12 @@ import { useBlockProductionStore } from 'stores/block-production';
 import { TokenHolder } from '@koiner/sdk';
 import { useRoute } from 'vue-router';
 import AccountMenuMobile from '@koiner/components/account-menu-mobile.vue';
+import PortfolioSwitcher from '@koiner/components/portfolio-switcher.vue';
 
 export default defineComponent({
   name: 'AccountMobileIndexPage',
   components: {
+    PortfolioSwitcher,
     AccountMenuMobile,
     TokenBalancesComponent,
     AddressFilterDialog,

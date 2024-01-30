@@ -4,14 +4,7 @@
       <q-separator dark vertical inset class="lt-md" />
       <q-toolbar-title style="min-width: 240px">
         <span class="page-title">
-          <q-btn
-            icon="unfold_more"
-            disable
-            class="q-pa-none"
-            size="sm"
-            style="opacity: 0.5 !important"
-          ></q-btn>
-          Main Portfolio
+          <portfolio-switcher />
         </span>
       </q-toolbar-title>
 
@@ -133,10 +126,12 @@ import TokensEventsTable from '@koiner/tokenize/components/event/search/view/tok
 import ContractEventsTable from '@koiner/contracts/components/contract/search/view/contracts-events-table.vue';
 import TransactionsTable from '@koiner/chain/transaction/search/view/transactions-table.vue';
 import AccountMenuMobile from '@koiner/components/account-menu-mobile.vue';
+import PortfolioSwitcher from '@koiner/components/portfolio-switcher.vue';
 
 export default defineComponent({
   name: 'AccountMobileIndexPage',
   components: {
+    PortfolioSwitcher,
     AccountMenuMobile,
     TransactionsTable,
     ContractEventsTable,
