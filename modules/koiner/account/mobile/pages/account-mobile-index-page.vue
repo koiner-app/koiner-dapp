@@ -108,6 +108,25 @@
             </q-card>
           </q-tab-panel>
 
+          <q-tab-panel name="mining" class="tab--mobile-table">
+            <token-holder-balances-metric
+              v-if="
+                accountStore.addressesFilter.length > 0 &&
+                blockProductionStore.blockProducers &&
+                blockProductionStore.blockProducers.length > 0
+              "
+              title="Total Rewards"
+              :token-holders="blockProducers"
+              :tooltip-hide-delay="3000"
+            />
+
+            <block-rewards-table
+              v-if="accountStore.addressesFilter.length > 0"
+              :producer-ids="accountStore.addressesFilter"
+              :mobile="true"
+            />
+          </q-tab-panel>
+
           <q-tab-panel name="liquidity" class="tab--mobile-table">
             <token-balances-component
               v-if="accountStore.addressesFilter.length > 0"
@@ -138,6 +157,12 @@
         <q-tab
           class="text-overline"
           :ripple="false"
+          label="Mining"
+          name="mining"
+        />
+        <q-tab
+          class="text-overline"
+          :ripple="false"
           label="Liquidity"
           name="liquidity"
         />
@@ -158,10 +183,14 @@ import { TokenHolder } from '@koiner/sdk';
 import { useRoute } from 'vue-router';
 import AccountMenuMobile from '@koiner/components/account-menu-mobile.vue';
 import PortfolioSwitcher from '@koiner/components/portfolio-switcher.vue';
+import BlockRewardsTable from '@koiner/network/block-production/search/view/block-rewards-table.vue';
+import TokenHolderBalancesMetric from '@koiner/tokenize/components/holder/metric/token-holder-balances-metric.vue';
 
 export default defineComponent({
   name: 'AccountMobileIndexPage',
   components: {
+    TokenHolderBalancesMetric,
+    BlockRewardsTable,
     PortfolioSwitcher,
     AccountMenuMobile,
     TokenBalancesComponent,

@@ -35,25 +35,6 @@
             />
           </q-tab-panel>
 
-          <q-tab-panel name="rewards" class="tab--mobile-table">
-            <token-holder-balances-metric
-              v-if="
-                accountStore.addressesFilter.length > 0 &&
-                blockProductionStore.blockProducers &&
-                blockProductionStore.blockProducers.length > 0
-              "
-              title="Total Rewards"
-              :token-holders="blockProducers"
-              :tooltip-hide-delay="3000"
-            />
-
-            <block-rewards-table
-              v-if="accountStore.addressesFilter.length > 0"
-              :producer-ids="accountStore.addressesFilter"
-              :mobile="true"
-            />
-          </q-tab-panel>
-
           <q-tab-panel name="contract-events" class="tab--mobile-table">
             <contract-events-table
               v-if="accountStore.addressesFilter.length > 0"
@@ -90,12 +71,6 @@
         <q-tab
           class="text-overline"
           :ripple="false"
-          label="Rewards"
-          name="rewards"
-        />
-        <q-tab
-          class="text-overline"
-          :ripple="false"
           label="Contract Events"
           name="contract-events"
         />
@@ -116,8 +91,6 @@ import { useKoinerStore } from 'stores/koiner';
 import { useStatsStore } from 'stores/stats';
 import { useAccountStore } from 'stores/account';
 import AddressFilterDialog from '@koiner/components/search/address-filter-dialog/address-filter-dialog.vue';
-import BlockRewardsTable from '@koiner/network/block-production/search/view/block-rewards-table.vue';
-import TokenHolderBalancesMetric from '@koiner/tokenize/components/holder/metric/token-holder-balances-metric.vue';
 import { useBlockProductionStore } from 'stores/block-production';
 import { TokenHolder } from '@koiner/sdk';
 import { useRoute } from 'vue-router';
@@ -137,8 +110,6 @@ export default defineComponent({
     ContractEventsTable,
     TokensEventsTable,
     TokensOperationsTable,
-    TokenHolderBalancesMetric,
-    BlockRewardsTable,
     AddressFilterDialog,
   },
 
