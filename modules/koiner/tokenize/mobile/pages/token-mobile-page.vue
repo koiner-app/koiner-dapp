@@ -153,7 +153,6 @@ import CopyToClipboard from '@koiner/components/copy-to-clipboard.vue';
 import BookmarkComponent from '@koiner/bookmarks/components/bookmark-component.vue';
 import { tokenAmount, tokenLogo } from '../../../utils';
 import ShareDialog from '@koiner/components/share-dialog.vue';
-import { useTokensStore } from 'stores/tokens';
 
 export default defineComponent({
   name: 'TokenMobilePage',
@@ -169,7 +168,6 @@ export default defineComponent({
 
   setup() {
     const route = useRoute();
-    const tokensStore = useTokensStore();
 
     const tab: Ref<string> = ref('token-details');
     const itemState = ItemState.create<TokenContract>();
@@ -182,12 +180,6 @@ export default defineComponent({
 
       watch(data, async (updatedData) => {
         itemState.item.value = updatedData?.tokenContract as TokenContract;
-
-        const totalSupply = await tokensStore.supply(variables.value.id);
-
-        if (totalSupply && itemState.item.value) {
-          itemState.item.value.totalSupply = totalSupply.supply.toString();
-        }
       });
 
       watch(error, (updatedError) => {
