@@ -1,5 +1,5 @@
 <template>
-  <q-btn size="sm" icon="share" @click="dialog = true" class="q-pl-none" />
+  <q-btn size="sm" icon="share" @click="dialog = true" />
 
   <q-dialog
     v-model="dialog"

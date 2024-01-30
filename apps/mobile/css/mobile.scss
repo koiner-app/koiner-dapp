@@ -82,6 +82,17 @@
  V2
  */
 .layout--mobile {
+  .q-toolbar {
+    .q-btn {
+      padding: 0;
+      margin: 0;
+      width: 2.5rem;
+      height: 2.5rem;
+      min-width: 2.5rem;
+      min-height: 2.5rem;
+    }
+  }
+
   .q-toolbar__title {
     .page-title {
       font-family: "Roboto Mono", serif !important;
