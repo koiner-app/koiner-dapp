@@ -1,6 +1,4 @@
 <template>
-  <q-separator class="q-mb-lg" />
-
   <div class="text-overline">Details</div>
 
   <q-list v-if="transaction">
@@ -36,6 +34,23 @@
           {{ timeAgo(transaction.timestamp) }}
           <span class="timestamp"
             >({{ new Date(transaction.timestamp).toLocaleString() }})</span
+          >
+        </q-item-label>
+      </q-item-section>
+    </q-item>
+    <q-item>
+      <q-item-section>
+        <q-item-label>
+          <q-item-label caption>Stats</q-item-label>
+          <span
+            >{{ transaction.operationCount }} operation<span
+              v-if="transaction.operationCount !== 1"
+              >s</span
+            >
+            + {{ transaction.receipt.eventCount }} event<span
+              v-if="transaction.receipt.eventCount !== 1"
+              >s</span
+            ></span
           >
         </q-item-label>
       </q-item-section>
