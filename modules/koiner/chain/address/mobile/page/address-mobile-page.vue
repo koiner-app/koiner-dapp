@@ -28,7 +28,6 @@
           :url="`https://koiner.app/mobile/addresses/${id}`"
           :message="`Check this Koinos wallet ${id} on Koiner`"
         />
-        <account-menu-mobile />
       </q-toolbar>
     </q-header>
 
@@ -148,14 +147,12 @@ import BookmarkComponent from '@koiner/bookmarks/components/bookmark-component.v
 import { useTokensStore } from 'stores/tokens';
 import CopyToClipboard from '@koiner/components/copy-to-clipboard.vue';
 import ShareDialog from '@koiner/components/share-dialog.vue';
-import AccountMenuMobile from '@koiner/components/account-menu-mobile.vue';
 import BackButton from '@koiner/components/back-button.vue';
 
 export default defineComponent({
   name: 'AddressMobilePage',
   components: {
     BackButton,
-    AccountMenuMobile,
     ShareDialog,
     CopyToClipboard,
     BookmarkComponent,
