@@ -50,9 +50,8 @@
               </div>
             </div>
 
-            <div class="text-center">
+            <div class="text-center" v-if="id">
               <copy-to-clipboard
-                v-if="id"
                 :source="id"
                 :show-source="false"
                 icon-size="1.5rem"
