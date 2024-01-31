@@ -8,8 +8,8 @@
       <q-space />
 
       <share-dialog
-        :url="`https://koiner.app/mobile/network`"
-        :message="`Check Koinos block producers on Koiner`"
+        :url="'https://koiner.app/mobile/network'"
+        :message="'Check Koinos block producers on Koiner'"
       />
       <account-menu-mobile />
     </q-toolbar>

@@ -7,6 +7,10 @@
 
       <q-space />
 
+      <share-dialog
+        :url="'https://koiner.app/mobile/tokenize'"
+        :message="'Check Koinos Tokens on Koiner'"
+      />
       <account-menu-mobile />
     </q-toolbar>
   </q-header>
@@ -71,10 +75,12 @@ import TokensOperationsTable from '@koiner/tokenize/components/operation/search/
 import TokensEventsTable from '@koiner/tokenize/components/event/search/view/tokens-events-table.vue';
 import { useRoute } from 'vue-router';
 import AccountMenuMobile from '@koiner/components/account-menu-mobile.vue';
+import ShareDialog from '@koiner/components/share-dialog.vue';
 
 export default defineComponent({
   name: 'ChainMobileIndexPage',
   components: {
+    ShareDialog,
     AccountMenuMobile,
     TokensEventsTable,
     TokensOperationsTable,
