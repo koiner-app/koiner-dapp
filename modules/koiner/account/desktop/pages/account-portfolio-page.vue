@@ -43,17 +43,51 @@
             label="Balances"
             name="balances"
           />
+          <q-tab
+            class="text-overline lt-lg"
+            :ripple="false"
+            label="Addresses"
+            name="addresses"
+          />
         </q-tabs>
 
         <q-separator />
 
         <q-tab-panels v-model="tab" animated>
-          <q-tab-panel name="balances">
-            <token-balances-component
-              v-if="accountStore.addressesFilter.length > 0"
-              :token-balances="accountStore.tokenBalances"
-              :show-group-balances="false"
-            />
+          <q-tab-panel name="balances" class="portfolio--token-balances">
+            <q-scroll-area style="height: calc(100vh - 500px)" :visible="true">
+              <token-balances-component
+                v-if="accountStore.addressesFilter.length > 0"
+                :token-balances="accountStore.tokenBalances"
+                :show-group-balances="false"
+              />
+            </q-scroll-area>
+          </q-tab-panel>
+          <q-tab-panel name="addresses">
+            <div style="height: calc(100vh - 500px)">
+              <div class="text-overline">Addresses</div>
+
+              <div class="search-card-content">
+                <account-addresses-filter />
+              </div>
+
+              <div class="search-card-content q-my-lg">
+                <div class="text-overline">Group balances</div>
+
+                <div>
+                  <q-toggle
+                    v-model="
+                      accountStore[accountStore.environment].groupBalances
+                    "
+                    size="xs"
+                    checked-icon="check"
+                    color="blue-grey-4"
+                    unchecked-icon="clear"
+                    label="Grouped"
+                  />
+                </div>
+              </div>
+            </div>
           </q-tab-panel>
         </q-tab-panels>
       </q-card-section>
@@ -66,19 +100,35 @@
         <div class="search-card-content">
           <account-addresses-filter />
         </div>
+
+        <div class="search-card-content q-my-lg">
+          <div class="text-overline">Group balances</div>
+
+          <div>
+            <q-toggle
+              v-model="accountStore[accountStore.environment].groupBalances"
+              size="xs"
+              checked-icon="check"
+              color="blue-grey-4"
+              unchecked-icon="clear"
+              label="Grouped"
+            />
+          </div>
+        </div>
       </q-card-section>
     </q-card>
   </q-page>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, ref, Ref } from 'vue';
+import { computed, defineComponent, ref, Ref, watch } from 'vue';
 import AccountAddressesFilter from '@koiner/chain/address/account-addresses-filter.vue';
 import TokenHolderBalancesMetric from '@koiner/tokenize/components/holder/metric/token-holder-balances-metric.vue';
 import CounterMetric from '@koiner/components/metrics/counter-metric.vue';
 import { useAccountStore } from 'stores/account';
 import { useKoinerStore } from 'stores/koiner';
 import TokenBalancesComponent from '@koiner/account/mobile/components/token-balances-component.vue';
+import { useWindowSize } from '@vueuse/core';
 
 export default defineComponent({
   name: 'AccountPortfolioPage',
@@ -95,6 +145,15 @@ export default defineComponent({
     const totalVhp: Ref<number | undefined> = ref();
     const totalVirtualKoin: Ref<number | undefined> = ref();
     const tab: Ref<string> = ref('balances');
+    const listOffsetTop = ref(100);
+    const { width } = useWindowSize();
+
+    watch(width, () => {
+      // Make sure addresses tab doesn't stay visible when resizing window to larger width
+      if (width.value > 1439) {
+        tab.value = 'balances';
+      }
+    });
 
     return {
       tab,
@@ -114,6 +173,7 @@ export default defineComponent({
           ? (totalVhp.value / totalVirtualKoin.value) * 100
           : 0;
       }),
+      listOffsetTop,
     };
   },
 });
