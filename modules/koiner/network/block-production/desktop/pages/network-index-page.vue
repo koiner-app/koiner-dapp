@@ -33,7 +33,7 @@
 
         <counter-metric
           title="Block Producers"
-          :value="statsStore.blockProduction.blockProducerCount"
+          :value="blockProducers?.edges ? blockProducers.edges.length : ''"
         />
       </q-card-section>
     </q-card>
@@ -42,7 +42,7 @@
       <q-card-section class="q-pt-xs">
         <q-tabs v-model="tab" dense align="left" style="width: 100%">
           <q-tab
-            class="text-overline lt-lg"
+            class="text-overline"
             :ripple="false"
             label="Producers"
             name="producers"
@@ -58,8 +58,8 @@
         <q-separator />
 
         <q-tab-panels v-model="tab" animated>
-          <q-tab-panel name="producers">
-            <block-producers-component />
+          <q-tab-panel name="producers" class="tab--mobile-network">
+            <block-producers-component @change="blockProducersUpdated" />
           </q-tab-panel>
           <q-tab-panel name="rewards">
             <block-rewards-component />
@@ -73,7 +73,10 @@
         <div class="text-overline">Producers</div>
 
         <div class="search-card-content">
-          <block-producers-component />
+          <block-producers-chart
+            v-if="blockProducers?.edges"
+            :connection="blockProducers"
+          />
         </div>
       </q-card-section>
     </q-card>
@@ -81,18 +84,19 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref, Ref, watch } from 'vue';
+import { defineComponent, ref, Ref } from 'vue';
 import BlockProducersComponent from '../../search/view/block-producers-table.vue';
 import BlockRewardsComponent from '../../search/view/block-rewards-table.vue';
 import { useKoinerStore } from 'stores/koiner';
 import { useStatsStore } from 'stores/stats';
 import CounterMetric from '@koiner/components/metrics/counter-metric.vue';
-import { useWindowSize } from '@vueuse/core';
-import { useRouter } from 'vue-router';
+import { BlockProducersConnection } from '@koiner/sdk';
+import BlockProducersChart from '../../components/block-producers-chart.vue';
 
 export default defineComponent({
   name: 'NetworkIndexPage',
   components: {
+    BlockProducersChart,
     CounterMetric,
     BlockRewardsComponent,
     BlockProducersComponent,
@@ -101,32 +105,28 @@ export default defineComponent({
   setup() {
     const koinerStore = useKoinerStore();
     const statsStore = useStatsStore();
-    const router = useRouter();
+    const tab: Ref<string> = ref('producers');
+    const blockProducers: Ref<BlockProducersConnection | null> = ref(null);
+    const blockProducersPie: Ref<
+      Record<string, { percentage: number; vhp: number }>
+    > = ref({});
 
-    const { width } = useWindowSize();
-
-    const tab: Ref<string> = ref(width.value < 1440 ? 'producers' : 'rewards');
-
-    watch(width, () => {
-      if (width.value > 1439.99 && tab.value === 'producers') {
-        tab.value = 'rewards';
-      }
-
-      if (width.value < 1024) {
-        router.push({ name: 'network.block-producers' });
-      }
-    });
-
-    onMounted(() => {
-      if (width.value < 1024) {
-        router.push({ name: 'network.block-producers' });
-      }
-    });
+    const blockProducersUpdated = (connection: BlockProducersConnection) => {
+      blockProducers.value = connection;
+    };
 
     return {
       koinerStore,
       statsStore,
       tab,
+
+      blockProducers,
+      blockProducersUpdated,
+      blockProducersPie,
+
+      chartOptions: {
+        responsive: true,
+      },
     };
   },
 });

@@ -5,14 +5,33 @@
   @import 'search/table';
 
   @import '../../mobile/css/includes/tab--mobile-table';
+  @import '../../mobile/css/search/network-tables';
+  @import '../../mobile/css/pages/mobile-network';
 
-  .tab--mobile-table {
+  .tab--mobile-table,
+  .tab--mobile-network {
     .q-table--dark .q-table__bottom,
     .q-table--dark thead,
     .q-table--dark tr, .q-table--dark th, .q-table--dark td {
       border-color: rgba(255, 255, 255, 0.12) !important;
     }
     min-height: auto !important;
+  }
+
+  .tab--mobile-network {
+    .search-view-table {
+      .attribute-wrapper--address {
+        span {
+          height: 1.125rem;
+          inline-size: auto !important;
+        }
+      }
+    }
+  }
+
+  .q-table--dark .q-table__bottom, .q-table--dark thead,
+  .q-table--dark tr, .q-table--dark th, .q-table--dark td {
+    border-color: rgba(255, 255, 255, 0.12) !important;
   }
 
   .koiner-logo {

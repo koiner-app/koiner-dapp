@@ -10,37 +10,103 @@
       },
       "elements": [
         {
-          "type": "Attribute",
+          "type": "AttributeGroup",
           "label": "#",
-          "scope": "#/properties/id",
+          "scope": "#/properties/idGroup",
           "options": {
-            "format": "index"
-          }
+            "class": "attribute-wrapper--rewards-group"
+          },
+          "elements": [
+            {
+              "type": "Attribute",
+              "label": "#",
+              "scope": "#/properties/id",
+              "options": {
+                "format": "index",
+                "class": "attribute--producer-index"
+              }
+            },
+            {
+              "type": "Attribute",
+              "scope": "#/properties/updatedAt",
+              "options": {
+                "format": "producerStatus",
+                "mappings": {
+                  "addressId": "addressId",
+                  "lastProducedBlock": "lastProducedBlock",
+                  "updatedAt": "updatedAt",
+                  "koinBalance": "koinBalance.balance",
+                  "vhpBalance": "vhpBalance.balance"
+                },
+                "class": "attribute--producer-status"
+              }
+            }
+          ]
         },
         {
-          "type": "Attribute",
-          "label": "Address",
-          "scope": "#/properties/addressId",
+          "type": "AttributeGroup",
+          "label": "Producer",
+          "scope": "#/properties/rewardsGroup",
           "options": {
-            "format": "address",
-            "route": "address.rewards",
-            "class": "attribute-wrapper--address"
-          }
+            "class": "attribute-wrapper--rewards-group"
+          },
+          "elements": [
+            {
+              "type": "Attribute",
+              "label": "Address",
+              "scope": "#/properties/addressId",
+              "options": {
+                "format": "producerName",
+                "route": "address",
+                "mapping": "addressId",
+                "class": "attribute-wrapper--address"
+              }
+            },
+            {
+              "type": "Attribute",
+              "label": "VHP",
+              "scope": "#/properties/vhpBalance",
+              "options": {
+                "format": "producerVhp",
+                "mappings": {
+                  "vhpBalance": "vhpBalance.balance"
+                },
+                "class": "attribute-wrapper--vhp-balance"
+              }
+            }
+          ]
         },
         {
-          "type": "Attribute",
+          "type": "AttributeGroup",
           "label": "Total rewards",
-          "scope": "#/properties/balance",
+          "scope": "#/properties/totalRewardsGroup",
           "options": {
-            "format": "koinTokenAmount",
-            "mapping": "balance",
-            "decimals": 8
-          }
-        },
-        {
-          "type": "Attribute",
-          "label": "Blocks",
-          "scope": "#/properties/blocksProduced"
+            "class": "attribute-wrapper--rewards-group"
+          },
+          "elements": [
+            {
+              "type": "Attribute",
+              "label": "Total rewards",
+              "scope": "#/properties/balanceShort",
+              "options": {
+                "format": "koinTokenAmount",
+                "mapping": "balance",
+                "decimals": 2,
+                "mobile": true,
+                "class": "attribute--total-rewards"
+              }
+            },
+            {
+              "type": "Attribute",
+              "label": "Blocks produced",
+              "scope": "#/properties/blocksProduced",
+              "options": {
+                "mapping": "blocksProduced",
+                "after": " blocks",
+                "class": "attribute--blocks-produced"
+              }
+            }
+          ]
         }
       ]
     }

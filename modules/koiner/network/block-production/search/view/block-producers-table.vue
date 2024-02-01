@@ -9,6 +9,7 @@
     :request="request"
     :data="{}"
     :additional-renderers="renderers"
+    @change="connectionUpdated"
   />
 </template>
 
@@ -19,7 +20,7 @@ import QJsonSearch from '@appvise/q-json-forms/QJsonSearch.vue';
 import blockProducersSearchSchema from '../block-producers-search.schema.json';
 import desktopUiSchema from './block-producers-table.ui-schema.json';
 import mobileUiSchema from './block-producers-table.mobile-ui-schema.json';
-import { QueryBlockProducersArgs } from '@koiner/sdk';
+import { BlockProducersConnection, QueryBlockProducersArgs } from '@koiner/sdk';
 
 export default defineComponent({
   name: 'BlockProducersComponent',
@@ -41,11 +42,12 @@ export default defineComponent({
       required: false,
       type: Boolean,
       default: false,
-    }
+    },
   },
+  emits: ['change'],
 
-  setup(props) {
-    let request: Ref<QueryBlockProducersArgs> = ref({ filter: {} });
+  setup(props, { emit }) {
+    let request: Ref<QueryBlockProducersArgs> = ref({ first: 250, filter: {} });
     let contractIdsFilter: any;
     let addressFilter: any;
 
@@ -79,11 +81,16 @@ export default defineComponent({
       request.value.filter.AND?.push(addressFilter);
     }
 
+    const connectionUpdated = (connection: BlockProducersConnection) => {
+      emit('change', connection);
+    };
+
     return {
       schema: blockProducersSearchSchema,
       uiSchema: props.mobile ? mobileUiSchema : desktopUiSchema,
       request: request,
       renderers: KoinerRenderers,
+      connectionUpdated,
     };
   },
 });
