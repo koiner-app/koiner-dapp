@@ -4,7 +4,7 @@
       <q-card-section horizontal>
         <counter-metric
           title="Total Supply"
-          :value="tokenContract.totalSupply"
+          :value="Number(tokenContract.totalSupply)"
           :unit="tokenContract.symbol"
           :token-decimals="tokenContract.decimals"
           :decimals="0"
