@@ -4,6 +4,17 @@
   @import 'includes/stats-card';
   @import 'search/table';
 
+  @import '../../mobile/css/includes/tab--mobile-table';
+
+  .tab--mobile-table {
+    .q-table--dark .q-table__bottom,
+    .q-table--dark thead,
+    .q-table--dark tr, .q-table--dark th, .q-table--dark td {
+      border-color: rgba(255, 255, 255, 0.12) !important;
+    }
+    min-height: auto !important;
+  }
+
   .koiner-logo {
     position: absolute;
     left: 0.75rem;
@@ -90,6 +101,21 @@
       font-weight: 500;
       padding: 0.125rem 1rem 0;
       margin-bottom: 7px;
+    }
+  }
+
+  .portfolio--token-balances {
+    .q-item__label--header {
+      display: none;
+    }
+
+    .q-list {
+      border: none;
+    }
+
+    .q-scrollarea__thumb--v,
+    ::-webkit-scrollbar-thumb {
+      opacity: 0.35 !important;
     }
   }
 }
