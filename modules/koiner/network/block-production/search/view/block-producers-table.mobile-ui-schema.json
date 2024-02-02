@@ -56,7 +56,7 @@
               "label": "Address",
               "scope": "#/properties/addressId",
               "options": {
-                "format": "address",
+                "format": "producerName",
                 "route": "mobile.address",
                 "mapping": "addressId",
                 "class": "attribute-wrapper--address"
@@ -72,6 +72,27 @@
                   "vhpBalance": "vhpBalance.balance"
                 },
                 "class": "attribute-wrapper--vhp-balance"
+              }
+            }
+          ]
+        },
+        {
+          "type": "AttributeGroup",
+          "label": "Burn Pool",
+          "scope": "#/properties/burnPoolGroup",
+          "options": {
+            "class": "attribute-wrapper--rewards-group",
+            "screenSize": "gt-smd"
+          },
+          "elements": [
+            {
+              "type": "Attribute",
+              "label": "Address",
+              "scope": "#/properties/addressId",
+              "options": {
+                "format": "producerBurnPool",
+                "mapping": "addressId",
+                "class": "attribute-wrapper--address"
               }
             }
           ]

@@ -106,32 +106,29 @@ export default defineComponent({
         },
       },
       spacing: 100,
-      plugins: props.showLabels
-        ? {
-            datalabels: {
-              color: isDarkmode
-                ? 'rgba(255,255,255,0.76)'
-                : 'rgba(255,255,255,1)',
-              anchor: 'center',
-              align: 'center',
-              textAlign: 'center',
-              offset: 0,
-              font: {},
-              formatter: (value, context) => {
-                // Customize label formatting if needed
-                return value > 5
-                  ? `${context.chart.data.labels[context.dataIndex].substring(
-                      0,
-                      12
-                    )}
+      plugins: {
+        datalabels: {
+          display: props.showLabels,
+          color: isDarkmode ? 'rgba(255,255,255,0.76)' : 'rgba(255,255,255,1)',
+          anchor: 'center',
+          align: 'center',
+          textAlign: 'center',
+          offset: 0,
+          font: {},
+          formatter: (value, context) => {
+            // Customize label formatting if needed
+            return value > 5
+              ? `${context.chart.data.labels[context.dataIndex].substring(
+                  0,
+                  12
+                )}
 ${value.toLocaleString(undefined, {
   maximumFractionDigits: 1,
 })}%`
-                  : '';
-              },
-            },
-          }
-        : {},
+              : '';
+          },
+        },
+      },
     };
 
     return {

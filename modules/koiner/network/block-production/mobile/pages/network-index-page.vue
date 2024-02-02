@@ -20,9 +20,15 @@
       <q-card-section class="q-pt-xs q-px-none">
         <q-tab-panels v-model="tab" animated swipeable>
           <q-tab-panel name="producers" class="tab--mobile-network">
-            <block-producer-stats />
+            <block-producer-stats
+              v-if="blockProducers"
+              :block-producers="blockProducers"
+            />
 
-            <block-producers-component :mobile="true" />
+            <block-producers-component
+              :mobile="true"
+              @change="blockProducersUpdated"
+            />
           </q-tab-panel>
           <q-tab-panel name="rewards" class="tab--mobile-table">
             <block-rewards-component :mobile="true" />
@@ -59,6 +65,7 @@ import { useStatsStore } from 'stores/stats';
 import { useRoute } from 'vue-router';
 import ShareDialog from '@koiner/components/share-dialog.vue';
 import AccountMenuMobile from '@koiner/components/account-menu-mobile.vue';
+import { BlockProducersConnection } from '@koiner/sdk';
 
 export default defineComponent({
   name: 'NetworkIndexPage',
@@ -75,6 +82,12 @@ export default defineComponent({
     const statsStore = useStatsStore();
     const tab: Ref<string> = ref('producers');
 
+    const blockProducers: Ref<BlockProducersConnection | null> = ref(null);
+
+    const blockProducersUpdated = (connection: BlockProducersConnection) => {
+      blockProducers.value = connection;
+    };
+
     onMounted(() => {
       if (route.query['tab']) {
         tab.value = route.query['tab'].toString();
@@ -86,6 +99,9 @@ export default defineComponent({
 
     return {
       tab,
+
+      blockProducers,
+      blockProducersUpdated,
     };
   },
 });
