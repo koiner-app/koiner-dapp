@@ -8,6 +8,7 @@ import {
 import ProducerStatusAttributeRenderer from './producer-status-attribute-renderer.vue';
 import ProducerVhpAttributeRenderer from './producer-vhp-attribute-renderer.vue';
 import ProducerNameAttributeRenderer from './producer-name-attribute-renderer.vue';
+import ProducerBurnPoolAttributeRenderer from './producer-burn-pool-attribute-renderer.vue';
 import {
   isNumericAttributeControl,
   isStringAttributeControl,
@@ -37,10 +38,19 @@ const producerNameAttributeRendererEntry: JsonFormsRendererRegistryEntry = {
   ),
 };
 
+const producerBurnPoolAttributeRendererEntry: JsonFormsRendererRegistryEntry = {
+  renderer: ProducerBurnPoolAttributeRenderer,
+  tester: rankWith(
+    2,
+    and(isStringAttributeControl, optionIs('format', 'producerBurnPool'))
+  ),
+};
+
 export { ProducerStatusAttributeRenderer, ProducerVhpAttributeRenderer };
 
 export const blockProductionAttributeRenderers = [
   producerStatusAttributeRendererEntry,
   producerVhpAttributeRendererEntry,
   producerNameAttributeRendererEntry,
+  producerBurnPoolAttributeRendererEntry,
 ];

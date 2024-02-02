@@ -78,6 +78,26 @@
         },
         {
           "type": "AttributeGroup",
+          "label": "Burn Pool",
+          "scope": "#/properties/burnPoolGroup",
+          "options": {
+            "class": "attribute-wrapper--rewards-group"
+          },
+          "elements": [
+            {
+              "type": "Attribute",
+              "label": "Address",
+              "scope": "#/properties/addressId",
+              "options": {
+                "format": "producerBurnPool",
+                "mapping": "addressId",
+                "class": "attribute-wrapper--address"
+              }
+            }
+          ]
+        },
+        {
+          "type": "AttributeGroup",
           "label": "Total rewards",
           "scope": "#/properties/totalRewardsGroup",
           "options": {

@@ -1,4 +1,8 @@
 .body--light {
+  .dark-logo {
+    display: none !important;
+  }
+
   /* Handle */
   .q-scrollarea__thumb--v,
   ::-webkit-scrollbar-thumb {
