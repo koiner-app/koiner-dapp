@@ -3,6 +3,12 @@
     display: none !important;
   }
 
+  .q-list {
+    .q-item {
+      background: $dark-page-2;
+    }
+  }
+
   /* Handle */
   .q-scrollarea__thumb--v,
   ::-webkit-scrollbar-thumb {
