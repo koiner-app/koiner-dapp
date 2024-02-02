@@ -78,9 +78,6 @@ export const useKoinerStore = defineStore({
       window.location.replace('/');
     },
     toggleMobileMenu() {
-      console.log({
-        close: !this.mobileMenu,
-      });
       this.$patch({
         mobileMenu: !this.mobileMenu,
       });
