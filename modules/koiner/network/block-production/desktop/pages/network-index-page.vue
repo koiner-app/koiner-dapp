@@ -53,6 +53,12 @@
             label="Rewards"
             name="rewards"
           />
+          <q-tab
+            class="lt-lg text-overline"
+            :ripple="false"
+            label="Chart"
+            name="chart"
+          />
         </q-tabs>
 
         <q-separator />
@@ -64,18 +70,26 @@
           <q-tab-panel name="rewards">
             <block-rewards-component />
           </q-tab-panel>
+          <q-tab-panel name="chart">
+            <div style="max-width: 80%">
+              <block-producers-chart
+                v-if="blockProducers?.edges"
+                :block-producers="blockProducers"
+              />
+            </div>
+          </q-tab-panel>
         </q-tab-panels>
       </q-card-section>
     </q-card>
 
     <q-card class="search-card gt-md" flat bordered>
       <q-card-section>
-        <div class="text-overline">Producers</div>
+        <div class="text-overline">Producers Shares</div>
 
         <div class="search-card-content">
           <block-producers-chart
             v-if="blockProducers?.edges"
-            :connection="blockProducers"
+            :block-producers="blockProducers"
           />
         </div>
       </q-card-section>
@@ -84,7 +98,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, Ref } from 'vue';
+import { defineComponent, ref, Ref, watch } from 'vue';
 import BlockProducersComponent from '../../search/view/block-producers-table.vue';
 import BlockRewardsComponent from '../../search/view/block-rewards-table.vue';
 import { useKoinerStore } from 'stores/koiner';
@@ -92,6 +106,7 @@ import { useStatsStore } from 'stores/stats';
 import CounterMetric from '@koiner/components/metrics/counter-metric.vue';
 import { BlockProducersConnection } from '@koiner/sdk';
 import BlockProducersChart from '../../components/block-producers-chart.vue';
+import { useWindowSize } from '@vueuse/core';
 
 export default defineComponent({
   name: 'NetworkIndexPage',
@@ -107,13 +122,18 @@ export default defineComponent({
     const statsStore = useStatsStore();
     const tab: Ref<string> = ref('producers');
     const blockProducers: Ref<BlockProducersConnection | null> = ref(null);
-    const blockProducersPie: Ref<
-      Record<string, { percentage: number; vhp: number }>
-    > = ref({});
+    const { width } = useWindowSize();
 
     const blockProducersUpdated = (connection: BlockProducersConnection) => {
       blockProducers.value = connection;
     };
+
+    watch(width, () => {
+      // Make sure addresses tab doesn't stay visible when resizing window to larger width
+      if (width.value > 1439 && tab.value === 'chart') {
+        tab.value = 'producers';
+      }
+    });
 
     return {
       koinerStore,
@@ -122,11 +142,6 @@ export default defineComponent({
 
       blockProducers,
       blockProducersUpdated,
-      blockProducersPie,
-
-      chartOptions: {
-        responsive: true,
-      },
     };
   },
 });
