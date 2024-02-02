@@ -5,11 +5,12 @@
 <script lang="ts">
 import { computed, defineComponent, PropType, ref, Ref } from 'vue';
 import { BlockProducersConnection } from '@koiner/sdk';
-import { Chart as ChartJS, ArcElement, Tooltip } from 'chart.js';
+import { Chart as ChartJS, ArcElement, Tooltip, ChartOptions } from 'chart.js';
 import { Doughnut } from 'vue-chartjs';
 import { useStatsStore } from 'stores/stats';
 import { blockProducersMap } from '@koiner/network/block-producers-map';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
+import { useAccountStore } from 'stores/account';
 
 ChartJS.register(ArcElement, Tooltip, ChartDataLabels);
 
@@ -19,41 +20,38 @@ export default defineComponent({
     Doughnut,
   },
   props: {
-    connection: {
+    blockProducers: {
       required: true,
       type: Object as PropType<BlockProducersConnection>,
+    },
+    showLabels: {
+      required: false,
+      type: Boolean,
+      default: true,
     },
   },
 
   setup(props) {
+    const accountStore = useAccountStore();
+    const isDarkmode = accountStore.theme === 'dark';
+
     const statsStore = useStatsStore();
 
-    const blockProducers: Ref<BlockProducersConnection | null> = ref(null);
-    const blockProducersPie: Ref<
-      Record<string, { percentage: number; vhp: number }>
-    > = ref({});
-
     const colors = [
-      '#41B883',
-      '#E46651',
-      '#00D8FF',
-      '#DD1B16',
-      '#41B883',
-      '#E46651',
-      '#00D8FF',
-      '#DD1B16',
-      '#41B883',
-      '#E46651',
-      '#00D8FF',
-      '#DD1B16',
-      '#41B883',
-      '#E46651',
-      '#00D8FF',
-      '#DD1B16',
-      '#41B883',
-      '#E46651',
-      '#00D8FF',
-      '#DD1B16',
+      '#6f00f6',
+      '#8000ff',
+      '#9100ff',
+      '#a200ff',
+      '#b300ff',
+      '#c400ff',
+      '#d500ff',
+      '#e600ff',
+      '#f700ff',
+      '#ff00f6',
+      '#ff00e5',
+      '#ff00d4',
+      '#ff00c3',
+      '#ff00b2',
     ];
 
     const chartData = computed(() => {
@@ -70,15 +68,14 @@ export default defineComponent({
         ],
       };
 
-      if (props.connection.edges) {
+      if (props.blockProducers.edges) {
         let subTotal = 0;
-        props.connection.edges.forEach((edge, index) => {
-          if (colors[index]) {
-            const vhpSize =
-              (parseInt(edge.node.vhpBalance.balance) /
-                parseInt(statsStore.totalSupply.vhpTotalSupply)) *
-              100;
-
+        props.blockProducers.edges.forEach((edge, index) => {
+          const vhpSize =
+            (parseInt(edge.node.vhpBalance.balance) /
+              parseInt(statsStore.totalSupply.vhpTotalSupply)) *
+            100;
+          if (vhpSize > 1) {
             subTotal += vhpSize;
 
             values.labels.push(
@@ -90,51 +87,56 @@ export default defineComponent({
         });
 
         values.labels.push('Others');
-        values.datasets[0].backgroundColor.push('yellow');
+        values.datasets[0].backgroundColor.push('#ff00a1');
         values.datasets[0].data.push(100 - subTotal);
       }
 
-      return {
-        ...values,
-        plugins: {
-          datalabels: {
-            color: 'white',
-            anchor: 'center',
-            align: 'center',
-            offset: 0,
-            font: {
-              weight: 'bold',
-            },
-            formatter: (value, context) => {
-              // Customize label formatting if needed
-              return `${
-                context.chart.data.labels[context.dataIndex]
-              }: ${value.toLocaleString(undefined, {
-                maximumFractionDigits: 1,
-              })}%`;
-            },
-          },
-        },
-      };
+      return values;
     });
 
-    return {
-      blockProducers,
-      blockProducersPie,
+    const chartOptions: ChartOptions<'doughnut'> = {
+      responsive: true,
+      elements: {
+        arc: {
+          spacing: 10,
+          borderWidth: 2,
+          borderColor: isDarkmode ? '#000000' : '#ffffff',
+          hoverBorderWidth: 8,
+          borderRadius: 6,
+        },
+      },
+      spacing: 100,
+      plugins: props.showLabels
+        ? {
+            datalabels: {
+              color: isDarkmode
+                ? 'rgba(255,255,255,0.76)'
+                : 'rgba(255,255,255,1)',
+              anchor: 'center',
+              align: 'center',
+              textAlign: 'center',
+              offset: 0,
+              font: {},
+              formatter: (value, context) => {
+                // Customize label formatting if needed
+                return value > 5
+                  ? `${context.chart.data.labels[context.dataIndex].substring(
+                      0,
+                      12
+                    )}
+${value.toLocaleString(undefined, {
+  maximumFractionDigits: 1,
+})}%`
+                  : '';
+              },
+            },
+          }
+        : {},
+    };
 
+    return {
       chartData,
-      chartData2: {
-        labels: ['VueJs', 'EmberJs', 'ReactJs', 'AngularJs'],
-        datasets: [
-          {
-            backgroundColor: ['#41B883', '#E46651', '#00D8FF', '#DD1B16'],
-            data: [40, 20, 80, 10],
-          },
-        ],
-      },
-      chartOptions: {
-        responsive: true,
-      },
+      chartOptions,
     };
   },
 });
