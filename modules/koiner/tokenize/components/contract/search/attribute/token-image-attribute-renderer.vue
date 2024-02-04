@@ -5,16 +5,13 @@
     :styles="styles"
     :applied-options="appliedOptions"
   >
-    <q-avatar
-      v-if="tokenLogo(result.node.id, result.node.symbol)"
-      size="2.5rem"
-    >
+    <q-avatar v-if="tokenLogo(result.node.id, result.node.symbol)">
       <img
         :src="tokenLogo(result.node.id, result.node.symbol)"
         :alt="result.node.symbol"
       />
     </q-avatar>
-    <q-avatar v-else color="primary" text-color="white" size="2.5rem">
+    <q-avatar v-else color="primary" text-color="white">
       <span style="font-size: 0.75rem">{{
         result.node.symbol.substring(0, 3)
       }}</span>
