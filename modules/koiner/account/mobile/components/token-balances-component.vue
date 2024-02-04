@@ -1,5 +1,14 @@
 <template>
-  <q-list bordered padding>
+  <q-list bordered padding v-if="!computedTokenBalances.length">
+    <q-item-label header class="relative-position">
+      <div class="row">
+        <div class="col-12" v-if="liquidityPools">No liquidity provided</div>
+        <div class="col-12" v-else>No assets</div>
+      </div>
+    </q-item-label>
+  </q-list>
+
+  <q-list bordered padding v-else>
     <q-item-label header class="relative-position">
       <div class="row">
         <div class="col-6">Asset</div>
@@ -8,7 +17,7 @@
     </q-item-label>
 
     <div
-      v-for="(tokenBalance, tbIndex) in computedTokenBalances"
+      v-for="(tokenBalance, tbIndex) in computedTokenBalances.values"
       :key="tbIndex"
     >
       <q-separator spaced />
@@ -124,7 +133,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType } from 'vue';
+import { computed, ComputedRef, defineComponent, PropType } from 'vue';
 import { useAccountStore } from 'stores/account';
 import { localizedTokenAmount, tokenAmount, tokenLogo } from '@koiner/utils';
 import { TokenHolder } from '@koiner/sdk';
@@ -156,6 +165,54 @@ export default defineComponent({
     const koinerStore = useKoinerStore();
     const statsStore = useStatsStore();
 
+    const computedTokenBalances = computed(() => {
+      const tokenBalancesMap = new Map<string, TokenHolder>([]);
+
+      props.tokenBalances.forEach((tokenBalance, tbIndex) => {
+        if (
+          accountStore.groupBalances &&
+          tokenBalancesMap.has(tokenBalance.contractId)
+        ) {
+          const balance = tokenBalancesMap.get(
+            tokenBalance.contractId
+          )?.balance;
+
+          if (
+            (props.liquidityPools &&
+              tokenBalance.contract.name.includes('LIQUIDITY POOL')) ||
+            (!props.liquidityPools &&
+              !tokenBalance.contract.name.includes('LIQUIDITY POOL'))
+          ) {
+            tokenBalancesMap.set(tokenBalance.contractId, {
+              ...tokenBalance,
+              balance: (
+                parseInt(balance ?? '0') + parseInt(tokenBalance.balance)
+              ).toString(),
+            });
+          }
+        } else {
+          if (
+            (props.liquidityPools &&
+              tokenBalance.contract.name.includes('LIQUIDITY POOL')) ||
+            (!props.liquidityPools &&
+              !tokenBalance.contract.name.includes('LIQUIDITY POOL'))
+          ) {
+            tokenBalancesMap.set(
+              accountStore.groupBalances
+                ? tokenBalance.contractId
+                : `tb-${tbIndex}`, // Make sure map key is unique if groupBalances is turned off
+              tokenBalance as TokenHolder
+            );
+          }
+        }
+      });
+
+      return {
+        values: tokenBalancesMap.values(),
+        length: tokenBalancesMap.size,
+      };
+    });
+
     return {
       accountStore,
       koinerStore,
@@ -170,50 +227,7 @@ export default defineComponent({
           koinerStore.pVhpContract.id,
         ].includes(contractId);
       },
-      computedTokenBalances: computed(() => {
-        const tokenBalancesMap = new Map<string, TokenHolder>([]);
-
-        props.tokenBalances.forEach((tokenBalance, tbIndex) => {
-          if (
-            accountStore.groupBalances &&
-            tokenBalancesMap.has(tokenBalance.contractId)
-          ) {
-            const balance = tokenBalancesMap.get(
-              tokenBalance.contractId
-            )?.balance;
-
-            if (
-              (props.liquidityPools &&
-                tokenBalance.contract.name.includes('LIQUIDITY POOL')) ||
-              (!props.liquidityPools &&
-                !tokenBalance.contract.name.includes('LIQUIDITY POOL'))
-            ) {
-              tokenBalancesMap.set(tokenBalance.contractId, {
-                ...tokenBalance,
-                balance: (
-                  parseInt(balance ?? '0') + parseInt(tokenBalance.balance)
-                ).toString(),
-              });
-            }
-          } else {
-            if (
-              (props.liquidityPools &&
-                tokenBalance.contract.name.includes('LIQUIDITY POOL')) ||
-              (!props.liquidityPools &&
-                !tokenBalance.contract.name.includes('LIQUIDITY POOL'))
-            ) {
-              tokenBalancesMap.set(
-                accountStore.groupBalances
-                  ? tokenBalance.contractId
-                  : `tb-${tbIndex}`, // Make sure map key is unique if groupBalances is turned off
-                tokenBalance as TokenHolder
-              );
-            }
-          }
-        });
-
-        return tokenBalancesMap.values();
-      }),
+      computedTokenBalances,
     };
   },
 });
