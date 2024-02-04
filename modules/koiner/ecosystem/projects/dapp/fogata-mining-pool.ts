@@ -4,7 +4,7 @@ export const fogataMiningPool: Project = {
   name: 'Fogata Mining Pool',
   types: ['dApp'],
   caption: 'Mining pool',
-  image: '/projects/dapp/fogata.png',
+  image: '/projects/dapp/fogata2.png',
   description:
     'Fogata easily turns your Koinos node into a mining pool, which will help pay for the node.',
   links: [

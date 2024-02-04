@@ -1,8 +1,20 @@
 <template>
+  <q-header reveal elevated>
+    <q-toolbar>
+      <q-toolbar-title>
+        <span class="page-title"> Smart Contracts </span>
+      </q-toolbar-title>
+
+      <q-space />
+
+      <account-menu-mobile />
+    </q-toolbar>
+  </q-header>
+
   <q-page class="row items-start mobile-tab-page">
     <q-card class="tabs-card" flat>
       <q-card-section class="q-pa-none">
-        <q-tab-panels v-model="tab" animated>
+        <q-tab-panels v-model="tab" animated swipeable>
           <q-tab-panel name="contracts" class="tab--mobile-table">
             <contracts-table :mobile="true" />
           </q-tab-panel>
@@ -46,10 +58,12 @@ import { defineComponent, Ref, ref } from 'vue';
 import ContractsTable from '@koiner/contracts/components/contract/search/view/contracts-table.vue';
 import ContractEventsTable from '@koiner/contracts/components/contract/search/view/contracts-events-table.vue';
 import ContractOperationsTable from '@koiner/contracts/components/contract/search/view/contracts-operations-table.vue';
+import AccountMenuMobile from '@koiner/components/account-menu-mobile.vue';
 
 export default defineComponent({
   name: 'ChainMobileIndexPage',
   components: {
+    AccountMenuMobile,
     ContractsTable,
     ContractEventsTable,
     ContractOperationsTable,

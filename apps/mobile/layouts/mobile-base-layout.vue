@@ -2,6 +2,21 @@
   <q-layout view="hHh LpR lFf" class="layout--mobile">
     <router-view />
 
+    <q-dialog
+      v-model="koinerStore.mobileMenu"
+      :maximized="true"
+      transition-show="slide-up"
+      transition-hide="slide-down"
+      style="padding-bottom: 2rem !important"
+      class="mobile-popup-menu"
+    >
+      <q-card class="bg-primary text-white">
+        <q-card-section class="q-pa-xl full-height">
+          <mobile-popup-navigation />
+        </q-card-section>
+      </q-card>
+    </q-dialog>
+
     <q-footer elevated>
       <mobile-main-navigation />
     </q-footer>
@@ -9,7 +24,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref, watch } from 'vue';
+import { defineComponent, onMounted, watch } from 'vue';
 import { useAccountStore } from 'stores/account';
 import { useKoinosStore } from 'stores/koinos';
 import { useKoinerStore } from 'stores/koiner';
@@ -21,10 +36,12 @@ import { useWindowSize } from '@vueuse/core';
 import { useRoute, useRouter } from 'vue-router';
 import { useBlockProductionStore } from 'stores/block-production';
 import { useTokensStore } from 'stores/tokens';
+import MobilePopupNavigation from '@mobile/components/mobile-popup-navigation.vue';
 
 export default defineComponent({
   name: 'MainLayout',
   components: {
+    MobilePopupNavigation,
     MobileMainNavigation,
   },
   setup() {
@@ -104,7 +121,7 @@ export default defineComponent({
     });
 
     return {
-      drawer: ref(false),
+      koinerStore,
       route,
     };
   },

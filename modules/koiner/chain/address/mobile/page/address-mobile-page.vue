@@ -1,48 +1,117 @@
 <template>
-  <q-page class="row items-start mobile-tab-page">
-    <q-card class="tabs-card" flat v-if="id">
+  <q-page class="row items-start mobile-tab-page" v-if="id">
+    <q-header reveal elevated>
+      <q-toolbar>
+        <back-button />
+
+        <q-toolbar-title>
+          <span class="page-title"> Address </span>
+        </q-toolbar-title>
+
+        <q-space />
+
+        <copy-to-clipboard
+          :source="id"
+          :show-source="false"
+          :tooltip="'Copy address to clipboard'"
+          icon-size="xs"
+        />
+        <bookmark-component
+          :item="{ id, type: 'address' }"
+          list-id="addresses"
+          item-translation="koiner.chain.item.address"
+          class="q-px-md"
+          icon-size="1.25rem"
+        />
+        <share-dialog
+          :id="id"
+          :url="`https://koiner.app/mobile/addresses/${id}`"
+          :message="`Check this Koinos wallet ${id} on Koiner`"
+        />
+      </q-toolbar>
+    </q-header>
+
+    <q-card class="tabs-card" flat>
       <q-card-section class="q-pt-xs q-px-none">
-        <q-tab-panels v-model="tab" animated>
+        <q-tab-panels v-model="tab" animated swipeable>
           <q-tab-panel
-            name="portfolio"
+            name="tokens"
             style="padding: 0 !important; min-height: 100vh"
           >
-            <q-card class="stats-card" flat>
-              <q-card-section class="q-pt-lg">
+            <q-card class="stats-card" flat style="margin: 0.5rem 1rem 0">
+              <q-card-section>
                 <div class="text-caption">Address</div>
-                <div class="stat-title">
+                <div class="stat-title q-pb-none">
                   <copy-to-clipboard
                     :source="id"
                     :tooltip="'Copy address to clipboard'"
                   />
                 </div>
-
-                <bookmark-component
-                  :item="{ id, type: 'address' }"
-                  list-id="addresses"
-                  item-translation="koiner.chain.item.address"
-                  class="q-px-sm q-mx-lg absolute-top-right q-mt-md"
-                />
-              </q-card-section>
-              <q-card-section>
-                <div class="stat-title">Virtual Koin Balance</div>
-                <div class="stat-content" style="font-size: 1.5rem">
-                  ${{
-                    virtualKoinValue?.toLocaleString(undefined, {
-                      maximumFractionDigits: 2,
-                    })
-                  }}
-                  <br /><span :class="`stat-unit`" style="font-size: 0.875rem"
-                    >{{
-                      virtualKoin?.toLocaleString(undefined, {
-                        maximumFractionDigits: 2,
-                      })
-                    }}
-                    Virtual KOIN</span
-                  >
-                </div>
               </q-card-section>
             </q-card>
+
+            <div class="q-pa-md row items-start q-gutter-md">
+              <q-card
+                class="stats-card"
+                flat
+                style="width: calc(50% - 1rem) !important"
+              >
+                <q-card-section>
+                  <div class="stat-title">
+                    <span style="font-size: 0.675rem !important"
+                      >Virtual Koin</span
+                    >
+                  </div>
+                  <div class="stat-content" style="font-size: 1.5rem">
+                    <span :class="`stat-unit`" style="font-size: 1rem"
+                      >${{
+                        virtualKoinValue?.toLocaleString(undefined, {
+                          maximumFractionDigits: 2,
+                        })
+                      }}
+                    </span>
+                    <p
+                      :class="`stat-unit`"
+                      style="font-size: 0.675rem; margin-top: 0.5rem"
+                    >
+                      {{
+                        virtualKoin?.toLocaleString(undefined, {
+                          maximumFractionDigits: 2,
+                        })
+                      }}
+                      <span
+                        :class="`stat-unit`"
+                        style="font-size: 0.5rem; opacity: 0.8"
+                        >KOIN/VHP
+                      </span>
+                    </p>
+                  </div>
+                </q-card-section>
+              </q-card>
+
+              <q-card
+                class="stats-card"
+                flat
+                style="width: calc(50% - 1rem) !important"
+              >
+                <q-card-section>
+                  <div class="stat-title">
+                    <span style="font-size: 0.675rem !important">Assets</span>
+                  </div>
+                  <div class="stat-content" style="font-size: 1.5rem">
+                    <span :class="`stat-unit`" style="font-size: 1rem"
+                      >{{ tokenHolders?.length }}x tokens
+                    </span>
+                    <p
+                      :class="`stat-unit`"
+                      style="font-size: 0.675rem; margin-top: 0.5rem"
+                    >
+                      &nbsp;
+                    </p>
+                  </div>
+                </q-card-section>
+              </q-card>
+            </div>
 
             <token-balances-component
               v-if="tokenHolders"
@@ -52,38 +121,118 @@
           </q-tab-panel>
 
           <q-tab-panel name="history" class="tab--mobile-table">
-            <q-card-section>
-              <div class="text-caption">Address</div>
-              <div class="stat-title">{{ id }}</div>
-
-              <bookmark-component
-                :item="{ id, type: 'address' }"
-                list-id="addresses"
-                item-translation="koiner.chain.item.address"
-                class="q-px-sm q-mx-lg absolute-top-right q-mt-md"
-              />
-            </q-card-section>
+            <q-card class="stats-card" flat style="margin: 0.5rem 1rem 1rem">
+              <q-card-section>
+                <div class="text-caption">Address</div>
+                <div class="stat-title q-pb-none">
+                  <copy-to-clipboard
+                    :source="id"
+                    :tooltip="'Copy address to clipboard'"
+                  />
+                </div>
+              </q-card-section>
+            </q-card>
 
             <address-mobile-history v-if="id" :addresses="[id]" />
           </q-tab-panel>
 
-          <q-tab-panel name="rewards" class="tab--mobile-table">
-            <token-holder-balances-metric
-              v-if="blockProducers && blockProducers.length > 0"
-              title="Total Rewards"
-              :token-holders="blockProducers"
-              :tooltip-hide-delay="3000"
-            />
+          <q-tab-panel name="nfts" class="tab--mobile-table">
+            <q-card class="stats-card" flat>
+              <q-card-section>
+                <div class="text-center text-h6 text-bold">Coming soon</div>
+              </q-card-section>
+            </q-card>
+          </q-tab-panel>
 
-            <block-rewards-table
-              v-if="blockProducers && blockProducers.length > 0"
-              :producer-ids="[id]"
-              :mobile="true"
-            />
+          <q-tab-panel
+            name="mining"
+            class="tab--mobile-table tab--address-mining"
+            v-if="blockProducers && blockProducers.length > 0"
+          >
+            <div class="q-pa-md row items-start q-gutter-md">
+              <token-holder-balances-metric
+                title="Total Rewards"
+                :token-holders="blockProducers"
+                :tooltip-hide-delay="3000"
+                style="width: calc(50% - 1rem) !important"
+              />
 
-            <div v-if="!blockProducers || blockProducers.length === 0">
-              <div class="q-pa-md text-body1">Not a producer</div>
+              <q-card
+                class="stats-card"
+                flat
+                v-if="blockProducersMap[blockProducers[0].addressId]"
+                style="width: calc(50% - 1rem) !important"
+              >
+                <q-card-section>
+                  <div class="stat-title">Burn Pool</div>
+                  <div class="stat-content">
+                    {{ blockProducersMap[blockProducers[0].addressId] }}
+                  </div>
+                  <div class="stat-footer">
+                    <a
+                      v-if="
+                        !blockProducersMap[
+                          blockProducers[0].addressId
+                        ].includes('BurnKoin')
+                      "
+                      :href="`https://fogata.io/pools/${blockProducers[0].addressId}`"
+                      target="_blank"
+                    >
+                      <img
+                        src="/projects/dapp/fogata2.png"
+                        alt="Fogata Burn Pool"
+                        style="max-width: 1rem"
+                      />
+                    </a>
+                    <a
+                      v-if="
+                        blockProducersMap[blockProducers[0].addressId] &&
+                        blockProducersMap[blockProducers[0].addressId].includes(
+                          'BurnKoin'
+                        )
+                      "
+                      :href="`https://burnkoin.com`"
+                      target="_blank"
+                    >
+                      <img
+                        class="dark-logo"
+                        src="/projects/dapp/burnkoin-dark.jpg"
+                        alt="BurnKoin"
+                        style="max-width: 1rem"
+                      />
+                    </a>
+                    <a
+                      v-if="
+                        blockProducersMap[blockProducers[0].addressId] &&
+                        blockProducersMap[blockProducers[0].addressId].includes(
+                          'BurnKoin'
+                        )
+                      "
+                      :href="`https://burnkoin.com`"
+                      target="_blank"
+                    >
+                      <img
+                        class="light-logo"
+                        src="/projects/dapp/burnkoin.svg"
+                        alt="BurnKoin"
+                        style="max-width: 1rem"
+                      />
+                    </a>
+                  </div>
+                </q-card-section>
+              </q-card>
             </div>
+
+            <block-rewards-table :producer-ids="[id]" :mobile="true" />
+          </q-tab-panel>
+
+          <q-tab-panel name="liquidity" class="tab--mobile-table">
+            <token-balances-component
+              v-if="tokenHolders.length > 0"
+              :token-balances="tokenHolders"
+              :show-group-balances="false"
+              :liquidity-pools="true"
+            />
           </q-tab-panel>
         </q-tab-panels>
       </q-card-section>
@@ -94,8 +243,8 @@
         <q-tab
           class="text-overline"
           :ripple="false"
-          label="Portfolio"
-          name="portfolio"
+          label="Tokens"
+          name="tokens"
         />
         <q-tab
           class="text-overline"
@@ -103,11 +252,19 @@
           label="History"
           name="history"
         />
+        <q-tab class="text-overline" :ripple="false" label="NFTs" name="nfts" />
+        <q-tab
+          v-if="blockProducers && blockProducers.length > 0"
+          class="text-overline"
+          :ripple="false"
+          label="Mining"
+          name="mining"
+        />
         <q-tab
           class="text-overline"
           :ripple="false"
-          label="Rewards"
-          name="rewards"
+          label="Liquidity"
+          name="liquidity"
         />
       </q-tabs>
     </q-page-sticky>
@@ -124,15 +281,25 @@ import TokenHolderBalancesMetric from '@koiner/tokenize/components/holder/metric
 import { TokenHolder } from '@koiner/sdk';
 import { SearchRequestType, useSearchManager } from '@appvise/search-manager';
 import { useRoute } from 'vue-router';
-import { tokenAmount } from '@koiner/utils';
+import { timeAgo, tokenAmount } from '@koiner/utils';
 import AddressMobileHistory from '@koiner/chain/address/mobile/components/address-mobile-history.vue';
 import BookmarkComponent from '@koiner/bookmarks/components/bookmark-component.vue';
-import { useTokensStore } from 'stores/tokens';
 import CopyToClipboard from '@koiner/components/copy-to-clipboard.vue';
+import ShareDialog from '@koiner/components/share-dialog.vue';
+import BackButton from '@koiner/components/back-button.vue';
+import { blockProducersMap } from '@koiner/network/block-producers-map';
 
 export default defineComponent({
   name: 'AddressMobilePage',
+  computed: {
+    blockProducersMap() {
+      return blockProducersMap;
+    },
+  },
+  methods: { timeAgo },
   components: {
+    BackButton,
+    ShareDialog,
     CopyToClipboard,
     BookmarkComponent,
     AddressMobileHistory,
@@ -145,32 +312,15 @@ export default defineComponent({
     const route = useRoute();
     const koinerStore = useKoinerStore();
     const statsStore = useStatsStore();
-    const tokensStore = useTokensStore();
 
     const id: Ref<string | undefined> = ref();
-    const tab: Ref<string> = ref('portfolio');
+    const tab: Ref<string> = ref('tokens');
     const totalVhp: Ref<number | undefined> = ref();
     const virtualKoin: Ref<number | undefined> = ref();
     const virtualKoinValue: Ref<number | undefined> = ref();
 
     const tokenHolderSearch = useSearchManager('tokenHolders');
     const blockProducersSearch = useSearchManager('blockProducers');
-
-    onMounted(async () => {
-      id.value = route.params.id.toString();
-    });
-
-    watch(
-      () => route.params.id,
-      async (newId) => {
-        if (newId) {
-          id.value = newId.toString();
-
-          await loadTokenHolders();
-          await loadBlockProducers();
-        }
-      }
-    );
 
     const loadTokenHolders = async () => {
       const request: SearchRequestType = {
@@ -222,6 +372,8 @@ export default defineComponent({
     };
 
     onMounted(async () => {
+      id.value = route.params.id.toString();
+
       if (route.query['tab']) {
         tab.value = route.query['tab'].toString();
       }
@@ -235,23 +387,20 @@ export default defineComponent({
     });
 
     watch(
-      tokenHolderSearch.connection,
-      () => {
-        if (tokenHolderSearch.connection.value?.edges) {
-          tokenHolderSearch.connection.value?.edges?.map(async (edge) => {
-            const balance = await tokensStore.balance(
-              edge.node.contractId,
-              edge.node.addressId
-            );
+      () => route.params.id,
+      async (newId) => {
+        if (newId) {
+          id.value = newId.toString();
 
-            if (balance != null) {
-              edge.node.balance = balance.balance.toString();
-            }
-
-            return edge;
-          });
+          await loadTokenHolders();
+          await loadBlockProducers();
         }
+      }
+    );
 
+    watch(
+      tokenHolderSearch.connection,
+      async () => {
         loadTotals();
       },
       { deep: true }

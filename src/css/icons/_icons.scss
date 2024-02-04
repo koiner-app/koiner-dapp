@@ -1,0 +1,113 @@
+.project-card {
+  .fa-brands {
+    &.fa-youtube {
+      color: #ff0001;
+    }
+
+    &.fa-telegram {
+      color: #2da1d3;
+    }
+
+    &.fa-twitter {
+      color: #1b9bf0;
+    }
+
+    &.fa-apple {
+      color: #666666;
+    }
+
+    &.fa-discord {
+      color: #5662eb;
+    }
+  }
+}
+
+.share-dialog {
+  .fa-brands {
+    color: #ffffff;
+    font-size: 1.5rem;
+
+    &.fa-telegram {
+      color: #2da1d3;
+      font-size: 2.5rem;
+    }
+  }
+
+  .q-btn {
+    border-radius: 1rem;
+  }
+
+  .btn-telegram {
+    background-color: #ffffff;
+  }
+
+  .btn-twitter {
+    background-color: #1b9bf0;
+  }
+
+  .btn-facebook {
+    .q-icon {
+      color: #ffffff;
+      font-size: 2rem;
+    }
+    background-color: #0078D7;
+  }
+
+  .btn-x {
+    background-color: black;
+  }
+
+  .btn-apple {
+    background-color: #666666;
+  }
+
+  .btn-discord {
+    background-color: #5662eb;
+  }
+
+  .btn-whatsapp {
+    background-color: #00c853;
+
+    .q-icon {
+      font-size: 2rem
+    }
+  }
+
+  .btn-signal {
+    background-color: #4C83F2;
+
+    .q-icon {
+      font-size: 2rem;
+      background: url('icons/signal.png');
+      background-size: contain !important
+    }
+  }
+
+  .btn-sms {
+    background-color: #1588F6;
+  }
+
+  .btn-email {
+    background-color: #DD3A33;
+  }
+
+  .btn-gmail {
+    background: #ffffff;
+
+    .q-icon {
+      font-size: 2rem;
+      background: url('icons/gmail.png');
+      background-size: contain !important
+    }
+  }
+
+  .btn-outlook {
+    background: #ffffff;
+
+    .q-icon {
+      font-size: 2rem;
+      background: url('icons/outlook.png');
+      background-size: contain !important
+    }
+  }
+}

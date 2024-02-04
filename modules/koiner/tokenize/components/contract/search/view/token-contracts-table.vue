@@ -1,15 +1,15 @@
 <template>
-  <div class="row no-wrap items-center">
-    <div v-if="title" class="text-h6">{{ title }}</div>
+  <!--  <div class="row no-wrap items-center">-->
+  <!--    <div v-if="title" class="text-h6">{{ title }}</div>-->
 
-    <q-space />
+  <!--    <q-space />-->
 
-    <search-filters
-      class="token-contracts-filters"
-      :request="request"
-      search-info="Search token name, symbol or contract id"
-    />
-  </div>
+  <!--    <search-filters-->
+  <!--      class="token-contracts-filters"-->
+  <!--      :request="request"-->
+  <!--      search-info="Search token name, symbol or contract id"-->
+  <!--    />-->
+  <!--  </div>-->
 
   <q-json-search
     :schema="schema"
@@ -17,27 +17,23 @@
     :request="request"
     :data="{}"
     @change="onChange"
-    @on-scroll="onScroll"
-    :scroll-position="position"
     :additional-renderers="renderers"
   />
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { useSearchStore } from 'stores/search';
 import { KoinerRenderers } from '@koiner/renderers';
-import SearchFilters from '@appvise/search-manager/search-filters.vue';
 import QJsonSearch from '@appvise/q-json-forms/QJsonSearch.vue';
 import schema from '../token-contracts-search.schema.json';
 import mobileUiSchema from './token-contracts-table.mobile-ui-schema.json';
 import desktopUiSchema from './token-contracts-table.ui-schema.json';
 import { TokenContractsConnection } from '@koiner/sdk';
-import { useTokensStore } from 'stores/tokens';
+import { koinerConfig } from 'app/koiner.config';
 
 export default defineComponent({
   name: 'TokenContractsTable',
-  components: { SearchFilters, QJsonSearch },
+  components: { QJsonSearch },
   props: {
     title: {
       required: false,
@@ -57,48 +53,44 @@ export default defineComponent({
   emits: ['contractCountUpdated'],
 
   setup(props, { emit }) {
-    const searchStore = useSearchStore();
-    const tokensStore = useTokensStore();
-
-    const onScroll = (newScrollPosition: number) => {
-      searchStore.tokenContracts.position = newScrollPosition;
-    };
-
-    const onChange = (data: TokenContractsConnection) => {
-      if (data.edges) {
-        data.edges?.map(async (edge) => {
-          const supply = await tokensStore.supply(edge.node.id);
-
-          if (supply != null) {
-            edge.node.totalSupply = supply.supply.toString();
-          }
-
-          return edge;
-        });
-      }
-
+    const onChange = async (data: TokenContractsConnection) => {
       emit('contractCountUpdated', data?.edges ? data.edges.length : 0);
     };
 
     return {
-      onScroll,
       onChange,
       schema,
       uiSchema: props.mobile ? mobileUiSchema : desktopUiSchema,
       request: props.liquidityPools
         ? {
+            first: 250,
             filter: {
-              name: {
-                iContains: 'LIQUIDITY',
-              },
+              AND: [
+                {
+                  name: {
+                    iContains: 'LIQUIDITY',
+                  },
+                },
+                {
+                  id: {
+                    excludes: '17t977jJZ7DYKPQsjqtStbpvmde1DditXW',
+                  },
+                },
+              ],
             },
           }
         : {
+            first: 250,
             filter: {
               AND: [
                 {
                   name: {
                     excludes: 'LIQUIDITY POOL',
+                  },
+                },
+                {
+                  name: {
+                    excludes: 'Token',
                   },
                 },
                 {
@@ -109,6 +101,18 @@ export default defineComponent({
                 {
                   name: {
                     excludes: 'test',
+                  },
+                },
+                {
+                  id: {
+                    // Bitcoin
+                    excludes: '1BzymN6NwNyQszkEPkmSjnCLxpLpxHF4p7',
+                  },
+                },
+                {
+                  id: {
+                    // Test Ethereum
+                    excludes: '1HZEzcttxD2HKVXdAHJwipLzix4NENMVjK',
                   },
                 },
                 {
@@ -131,10 +135,14 @@ export default defineComponent({
                     excludes: '16QqxFiift3FhBBaNCJiGoZUivx44Seqxe',
                   },
                 },
+                {
+                  id: {
+                    excludes: koinerConfig.production.contracts.oldVhp.id,
+                  },
+                },
               ],
             },
           },
-      position: searchStore.tokenContracts.position,
       renderers: KoinerRenderers,
     };
   },

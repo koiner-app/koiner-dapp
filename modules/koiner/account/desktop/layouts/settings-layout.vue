@@ -9,16 +9,16 @@
       <q-tabs dense align="left" style="width: 100%">
         <q-route-tab
           :ripple="false"
-          label="Portfolio"
+          label="General"
           :to="{ name: 'account.settings' }"
           exact
         />
-        <q-route-tab
-          :ripple="false"
-          label="Bookmarks"
-          :to="{ name: 'account.bookmarks' }"
-          exact
-        />
+        <!--        <q-route-tab-->
+        <!--          :ripple="false"-->
+        <!--          label="Bookmarks"-->
+        <!--          :to="{ name: 'account.bookmarks' }"-->
+        <!--          exact-->
+        <!--        />-->
       </q-tabs>
     </div>
   </div>

@@ -2,7 +2,7 @@
   <q-page v-if="block" class="row items-start mobile-tab-page">
     <q-card class="tabs-card" flat>
       <q-card-section class="q-pt-xs q-px-none">
-        <q-tab-panels v-model="tab" animated>
+        <q-tab-panels v-model="tab" animated swipeable>
           <q-tab-panel
             name="details"
             style="padding: 0 !important; min-height: 100vh"

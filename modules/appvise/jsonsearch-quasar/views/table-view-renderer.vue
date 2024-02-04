@@ -240,6 +240,7 @@ export default defineComponent({
             (column.visible &&
               (!column.screenSize ||
                 (column.screenSize === 'lt-smd' && width.value < 600) ||
+                (column.screenSize === 'gt-smd' && width.value > 600) ||
                 (column.screenSize === 'gt-sm' && width.value >= 1024) ||
                 (column.screenSize === 'lt-md' && width.value < 1024) ||
                 (column.screenSize === 'gt-md' && width.value >= 1440) ||

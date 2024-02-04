@@ -33,7 +33,7 @@
 
         <counter-metric
           title="Block Producers"
-          :value="statsStore.blockProduction.blockProducerCount"
+          :value="blockProducers?.edges ? blockProducers.edges.length : ''"
         />
       </q-card-section>
     </q-card>
@@ -42,7 +42,7 @@
       <q-card-section class="q-pt-xs">
         <q-tabs v-model="tab" dense align="left" style="width: 100%">
           <q-tab
-            class="text-overline lt-lg"
+            class="text-overline"
             :ripple="false"
             label="Producers"
             name="producers"
@@ -53,16 +53,30 @@
             label="Rewards"
             name="rewards"
           />
+          <q-tab
+            class="lt-lg text-overline"
+            :ripple="false"
+            label="Chart"
+            name="chart"
+          />
         </q-tabs>
 
         <q-separator />
 
         <q-tab-panels v-model="tab" animated>
-          <q-tab-panel name="producers">
-            <block-producers-component />
+          <q-tab-panel name="producers" class="tab--mobile-network">
+            <block-producers-component @change="blockProducersUpdated" />
           </q-tab-panel>
           <q-tab-panel name="rewards">
             <block-rewards-component />
+          </q-tab-panel>
+          <q-tab-panel name="chart">
+            <div style="max-width: 80%; max-height: calc(100vh - 500px)">
+              <block-producers-chart
+                v-if="blockProducers?.edges"
+                :block-producers="blockProducers"
+              />
+            </div>
           </q-tab-panel>
         </q-tab-panels>
       </q-card-section>
@@ -70,10 +84,16 @@
 
     <q-card class="search-card gt-md" flat bordered>
       <q-card-section>
-        <div class="text-overline">Producers</div>
+        <div class="text-overline">Producers Shares</div>
 
-        <div class="search-card-content">
-          <block-producers-component />
+        <div
+          class="search-card-content"
+          style="max-height: calc(100vh - 400px)"
+        >
+          <block-producers-chart
+            v-if="blockProducers?.edges"
+            :block-producers="blockProducers"
+          />
         </div>
       </q-card-section>
     </q-card>
@@ -81,18 +101,20 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref, Ref, watch } from 'vue';
+import { defineComponent, ref, Ref, watch } from 'vue';
 import BlockProducersComponent from '../../search/view/block-producers-table.vue';
 import BlockRewardsComponent from '../../search/view/block-rewards-table.vue';
 import { useKoinerStore } from 'stores/koiner';
 import { useStatsStore } from 'stores/stats';
 import CounterMetric from '@koiner/components/metrics/counter-metric.vue';
+import { BlockProducersConnection } from '@koiner/sdk';
+import BlockProducersChart from '../../components/block-producers-chart.vue';
 import { useWindowSize } from '@vueuse/core';
-import { useRouter } from 'vue-router';
 
 export default defineComponent({
   name: 'NetworkIndexPage',
   components: {
+    BlockProducersChart,
     CounterMetric,
     BlockRewardsComponent,
     BlockProducersComponent,
@@ -101,25 +123,18 @@ export default defineComponent({
   setup() {
     const koinerStore = useKoinerStore();
     const statsStore = useStatsStore();
-    const router = useRouter();
-
+    const tab: Ref<string> = ref('producers');
+    const blockProducers: Ref<BlockProducersConnection | null> = ref(null);
     const { width } = useWindowSize();
 
-    const tab: Ref<string> = ref(width.value < 1440 ? 'producers' : 'rewards');
+    const blockProducersUpdated = (connection: BlockProducersConnection) => {
+      blockProducers.value = connection;
+    };
 
     watch(width, () => {
-      if (width.value > 1439.99 && tab.value === 'producers') {
-        tab.value = 'rewards';
-      }
-
-      if (width.value < 1024) {
-        router.push({ name: 'network.block-producers' });
-      }
-    });
-
-    onMounted(() => {
-      if (width.value < 1024) {
-        router.push({ name: 'network.block-producers' });
+      // Make sure addresses tab doesn't stay visible when resizing window to larger width
+      if (width.value > 1439 && tab.value === 'chart') {
+        tab.value = 'producers';
       }
     });
 
@@ -127,6 +142,9 @@ export default defineComponent({
       koinerStore,
       statsStore,
       tab,
+
+      blockProducers,
+      blockProducersUpdated,
     };
   },
 });

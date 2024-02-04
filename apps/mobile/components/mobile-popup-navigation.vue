@@ -5,25 +5,19 @@
       v-for="menuItem in menuItems"
       :key="menuItem.name"
       :active="isActive(menuItem.to)"
-      :to="menuItem.to"
+      @click="
+        isActive(menuItem.to)
+          ? koinerStore.toggleMobileMenu()
+          : $router.push(menuItem.to)
+      "
       clickable
       :disable="menuItem.disabled"
     >
       <q-item-section avatar>
         <q-icon v-if="menuItem.icon != null" :name="menuItem.icon" />
-        <q-item-label>{{ menuItem.name }}</q-item-label>
       </q-item-section>
       <q-item-section>
         {{ menuItem.name }}
-      </q-item-section>
-    </q-item>
-  </q-list>
-
-  <q-list padding class="absolute-bottom" dark>
-    <q-item>
-      <q-item-section>
-        <api-switcher />
-        <theme-switcher :dark="true" />
       </q-item-section>
     </q-item>
   </q-list>
@@ -32,13 +26,11 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
-import ThemeSwitcher from 'components/theme-switcher.vue';
-import ApiSwitcher from '@koiner/components/api-switcher.vue';
+import { useKoinerStore } from 'stores/koiner';
 
 export default defineComponent({
-  components: { ApiSwitcher, ThemeSwitcher },
-
   setup() {
+    const koinerStore = useKoinerStore();
     const route = useRoute();
     const link = ref('/mobile');
     const isActive = (to: string) => {
@@ -65,30 +57,37 @@ export default defineComponent({
 
     return {
       isActive,
+      koinerStore,
       menuItems: [
         {
-          name: 'Home',
-          to: '/mobile',
-          icon: 'dashboard',
-          disabled: false,
-        },
-        {
-          name: 'Chain',
-          to: '/mobile/chain',
-          icon: 'token',
-          disabled: false,
+          name: 'Projects',
+          to: '/mobile/ecosystem',
+          icon: 'apps',
         },
         {
           name: 'Tokens',
           to: '/mobile/tokenize',
           icon: 'toll',
-          disabled: false,
+        },
+        {
+          name: 'Network',
+          to: '/mobile/network',
+          icon: 'hub',
         },
         {
           name: 'Contracts',
           to: '/mobile/contracts',
           icon: 'document_scanner',
-          disabled: false,
+        },
+        {
+          name: 'Transactions',
+          to: '/mobile/transactions',
+          icon: 'receipt',
+        },
+        {
+          name: 'Addresses',
+          to: '/mobile/addresses',
+          icon: 'wallet',
         },
       ],
     };

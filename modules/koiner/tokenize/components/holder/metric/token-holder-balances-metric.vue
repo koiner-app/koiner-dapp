@@ -3,7 +3,9 @@
     <q-card-section>
       <div class="stat-title">{{ computedTitle }}</div>
       <div class="stat-content">
-        {{ value.toFixed(decimals) }}
+        {{
+          value.toLocaleString(undefined, { maximumFractionDigits: decimals })
+        }}
         <span class="stat-unit">{{ computedCaption }}</span>
       </div>
       <div class="stat-footer" v-if="showAddressCount && addressCount > 0">
@@ -36,7 +38,7 @@
               </div>
               <div class="col">
                 {{
-                  formattedTokenAmount(
+                  localizedTokenAmount(
                     contractTokenHolder.balance,
                     contractTokenHolder.contract.decimals
                   )
@@ -57,10 +59,11 @@
 import { computed, defineComponent, PropType } from 'vue';
 import { TokenHolder } from '@koiner/sdk';
 import { useKoinerStore } from 'stores/koiner';
-import { formattedTokenAmount, tokenAmount } from '@koiner/utils';
+import { localizedTokenAmount, tokenAmount } from '@koiner/utils';
 
 export default defineComponent({
   name: 'TokenHolderBalancesMetric',
+  methods: { localizedTokenAmount },
   props: {
     tokenHolders: {
       required: true,
@@ -122,7 +125,6 @@ export default defineComponent({
 
     return {
       contractTokenHolders,
-      formattedTokenAmount,
       value: computed(() => {
         const decimals = contract.decimals;
         const balances = contractTokenHolders.value.map(

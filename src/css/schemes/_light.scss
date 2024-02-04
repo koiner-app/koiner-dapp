@@ -1,4 +1,8 @@
 .body--light {
+  .dark-logo {
+    display: none !important;
+  }
+
   /* Handle */
   .q-scrollarea__thumb--v,
   ::-webkit-scrollbar-thumb {
@@ -69,7 +73,7 @@
     }
 
     .q-drawer__content {
-      background-color: darken(#28283f, 10%);
+      //background-color: darken(#28283f, 10%);
 
       a {
         color: #848e9c;
@@ -219,10 +223,16 @@
         background: $primary;
       }
     }
+
+    .project-filters {
+      &.q-page-sticky {
+        background: white;
+      }
+    }
   }
 
   .btn-address-filter {
-    background: #90a4ae !important;
+    //background: #90a4ae !important;
     color: #ffffff;
   }
 
@@ -243,6 +253,7 @@
    V2
    */
 .body--light {
+  .page--mobile-address,
   .page--mobile-account {
     .portfolio-panel {
       .btn-address-filter {

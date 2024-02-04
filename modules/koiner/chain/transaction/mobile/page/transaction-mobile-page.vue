@@ -1,8 +1,20 @@
 <template>
+  <q-header reveal elevated>
+    <q-toolbar>
+      <q-toolbar-title style="min-width: 240px">
+        <span class="page-title"> Transaction </span>
+      </q-toolbar-title>
+
+      <q-space />
+
+      <account-menu-mobile />
+    </q-toolbar>
+  </q-header>
+
   <q-page v-if="transaction" class="row items-start mobile-tab-page">
     <q-card class="tabs-card" flat>
       <q-card-section class="q-pt-xs q-px-none">
-        <q-tab-panels v-model="tab" animated>
+        <q-tab-panels v-model="tab" animated swipeable>
           <q-tab-panel
             name="details"
             style="padding: 0 !important; min-height: 100vh"
@@ -32,36 +44,14 @@
                     >
                   </span>
                 </q-banner>
-
-                <div class="stat-title">Transaction</div>
-                <div class="stat-content" style="font-size: 1.5rem">
-                  <span
-                    style="
-                      inline-size: 340px;
-                      overflow: hidden;
-                      white-space: nowrap;
-                      text-overflow: ellipsis;
-                      display: inline-block;
-                    "
-                    >{{ transaction.id }}</span
-                  >
-                  <br /><span :class="`stat-unit`" style="font-size: 0.875rem">
-                    <span
-                      >{{ transaction.operationCount }} operation<span
-                        v-if="transaction.operationCount !== 1"
-                        >s</span
-                      >
-                      + {{ transaction.receipt.eventCount }} event<span
-                        v-if="transaction.receipt.eventCount !== 1"
-                        >s</span
-                      ></span
-                    ></span
-                  >
-                </div>
               </q-card-section>
             </q-card>
 
-            <tokens-transferred-view v-if="id" :transaction-id="id" :live="!indexed" />
+            <tokens-transferred-view
+              v-if="id"
+              :transaction-id="id"
+              :live="!indexed"
+            />
 
             <q-card flat class="details-transaction q-pt-none">
               <q-card-section>
@@ -171,6 +161,7 @@ import { useOnChainStore } from '@koiner/onchain';
 import { ContractsWithAbiSearchProvider } from '@koiner/contracts/components/contract/search/contracts-with-abi-search-provider';
 import { TokenContractsSearchProvider } from '@koiner/tokenize/components/contract/search/token-contract-search-provider';
 import TokensTransferredView from '@koiner/chain/transaction/mobile/view/tokens-transferred-view.vue';
+import AccountMenuMobile from '@koiner/components/account-menu-mobile.vue';
 
 export default defineComponent({
   methods: {
@@ -179,6 +170,7 @@ export default defineComponent({
   },
   name: 'TransactionMobilePage',
   components: {
+    AccountMenuMobile,
     TokensTransferredView,
     ErrorView,
     ContractEventsTable,

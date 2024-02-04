@@ -1,9 +1,25 @@
 <template>
+  <q-header reveal elevated>
+    <q-toolbar>
+      <q-toolbar-title>
+        <span class="page-title"> Tokens </span>
+      </q-toolbar-title>
+
+      <q-space />
+
+      <share-dialog
+        :url="'https://koiner.app/mobile/tokenize'"
+        :message="'Check Koinos Tokens on Koiner'"
+      />
+      <account-menu-mobile />
+    </q-toolbar>
+  </q-header>
+
   <q-page class="row items-start mobile-tab-page">
     <q-card class="tabs-card" flat>
       <q-card-section class="q-pt-xs q-px-none">
-        <q-tab-panels v-model="tab" animated>
-          <q-tab-panel name="tokens" class="tab--mobile-table">
+        <q-tab-panels v-model="tab" animated swipeable>
+          <q-tab-panel name="coins" class="tab--mobile-table">
             <token-contracts-table :mobile="true" :liquidity-pools="false" />
           </q-tab-panel>
           <q-tab-panel name="liquidity-pools" class="tab--mobile-table">
@@ -25,7 +41,7 @@
           class="text-overline"
           :ripple="false"
           label="Tokens"
-          name="tokens"
+          name="coins"
         />
         <q-tab
           class="text-overline"
@@ -58,10 +74,14 @@ import TokenContractsTable from '@koiner/tokenize/components/contract/search/vie
 import TokensOperationsTable from '@koiner/tokenize/components/operation/search/view/tokens-operations-table.vue';
 import TokensEventsTable from '@koiner/tokenize/components/event/search/view/tokens-events-table.vue';
 import { useRoute } from 'vue-router';
+import AccountMenuMobile from '@koiner/components/account-menu-mobile.vue';
+import ShareDialog from '@koiner/components/share-dialog.vue';
 
 export default defineComponent({
   name: 'ChainMobileIndexPage',
   components: {
+    ShareDialog,
+    AccountMenuMobile,
     TokensEventsTable,
     TokensOperationsTable,
     TokenContractsTable,
@@ -70,7 +90,7 @@ export default defineComponent({
   setup() {
     const route = useRoute();
 
-    const tab: Ref<string> = ref('tokens');
+    const tab: Ref<string> = ref('coins');
 
     onMounted(async () => {
       if (route.query['tab']) {

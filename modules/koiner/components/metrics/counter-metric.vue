@@ -27,7 +27,9 @@
       <div class="stat-footer" v-if="footer">
         {{ footer.title }}
         <span class="stat-footer-stat"
-          >{{ footer.value }}
+          >{{
+            footer.value.toLocaleString(undefined, { maximumFractionDigits: 0 })
+          }}
           <span
             v-if="footer.unit"
             :class="`stat-unit ${footer.unitClass ?? ''}`"
@@ -63,7 +65,11 @@
                   tooltipItemWidth ? `min-width: ${tooltipItemWidth}px` : ''
                 "
               >
-                {{ footerTooltip.value }}
+                {{
+                  footerTooltip.value.toLocaleString(undefined, {
+                    maximumFractionDigits: 0,
+                  })
+                }}
                 &nbsp;
                 <span
                   v-if="footerTooltip.unit"
@@ -75,6 +81,27 @@
             </div>
           </div>
         </q-tooltip>
+      </div>
+      <div class="stat-footer stat-footer2" v-if="footer2">
+        {{ footer2.title }}
+        <span class="stat-footer-stat">
+          <span
+            v-if="footer2.unitPrefix && footer2.unitPrefix"
+            :class="`stat-unit ${footer2.unitClass ?? ''}`"
+            >{{ footer2.unitPrefix }}</span
+          >
+          {{
+            footer2.value.toLocaleString(undefined, {
+              maximumFractionDigits: 2,
+              minimumFractionDigits: 2,
+            })
+          }}
+          <span
+            v-if="footer2.unit"
+            :class="`stat-unit ${footer2.unitClass ?? ''}`"
+            >{{ footer2.unit }}</span
+          >
+        </span>
       </div>
       <slot name="footer" />
     </q-card-section>
@@ -90,6 +117,7 @@ interface StatItem {
   title: string;
   value: number;
   unit?: string;
+  unitPrefix?: string;
   unitClass?: string;
 }
 
@@ -145,6 +173,10 @@ export default defineComponent({
     tooltipItemWidth: {
       required: false,
       type: Number,
+    },
+    footer2: {
+      required: false,
+      type: Object as PropType<StatItem>,
     },
   },
 

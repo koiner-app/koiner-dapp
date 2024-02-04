@@ -1,10 +1,25 @@
 <template>
+  <q-header reveal elevated>
+    <q-toolbar>
+      <q-toolbar-title style="min-width: 240px">
+        <span class="page-title">
+          <portfolio-switcher />
+        </span>
+      </q-toolbar-title>
+
+      <q-space />
+
+      <address-filter-dialog :open-dialog="openDialog" />
+      <account-menu-mobile />
+    </q-toolbar>
+  </q-header>
+
   <q-page class="row items-start mobile-tab-page">
     <q-card class="tabs-card" flat>
       <q-card-section class="q-pt-xs q-px-none">
-        <q-tab-panels v-model="tab" animated>
+        <q-tab-panels v-model="tab" animated swipeable>
           <q-tab-panel
-            name="portfolio"
+            name="tokens"
             style="padding: 0 !important; min-height: 100vh"
             class="portfolio-panel"
           >
@@ -18,7 +33,7 @@
                 <q-card-section>
                   <div class="stat-title">
                     <span style="font-size: 0.675rem !important"
-                      >Virtual Koin Balance</span
+                      >Virtual Koin</span
                     >
                   </div>
                   <div class="stat-content" style="font-size: 1.5rem">
@@ -58,137 +73,79 @@
                   <div class="stat-title">
                     <span style="font-size: 0.675rem !important"> Filter</span>
                   </div>
-                  <div class="stat-content" style="font-size: 1.5rem">
-                    <span
-                      class="stat-footer-stat"
-                      style="font-size: 1rem !important"
-                      >{{ accountStore.addressesFilter.length }}
-                      <span
-                        class="stat-unit"
-                        style="font-size: 0.75rem !important"
-                        >{{
-                          `address${
-                            accountStore.addressesFilter.length > 1 ? 'es' : ''
-                          }`
-                        }}</span
-                      >
-                    </span>
-                    <q-icon
-                      name="help"
-                      color="grey"
-                      style="
-                        padding-bottom: 3px;
-                        font-size: 0.875rem;
-                        margin-top: 0.35rem;
+                  <div>
+                    <q-toggle
+                      v-model="
+                        accountStore[accountStore.environment].groupBalances
                       "
-                      class="q-ml-xs"
-                    />
-                    <q-tooltip
-                      anchor="bottom start"
-                      self="top left"
-                      class="bg-primary text-white shadow-4"
-                      :hide-delay="3000"
-                    >
-                      <div class="q-pa-sm q-gutter-xs">
-                        <div
-                          class="row q-gutter-xs"
-                          v-for="address in accountStore.addressesFilter"
-                          :key="address"
-                        >
-                          <div class="col" style="min-width: 220px">
-                            {{ address }}
-                          </div>
-                        </div>
-                      </div>
-                    </q-tooltip>
-                  </div></q-card-section
-                >
+                      size="xs"
+                      checked-icon="check"
+                      color="blue-grey-4"
+                      unchecked-icon="clear"
+                      label="Grouped"
+                    /></div
+                ></q-card-section>
               </q-card>
             </div>
-
-            <address-filter-dialog :open-dialog="openDialog" />
 
             <token-balances-component
               v-if="accountStore.addressesFilter.length > 0"
               :token-balances="accountStore.tokenBalances"
+              :show-group-balances="false"
             />
           </q-tab-panel>
 
-          <q-tab-panel name="history" class="tab--mobile-table">
-            <q-card
-              class="stats-card"
-              flat
-              v-if="accountStore.addressesFilter.length > 0"
-            >
+          <!--          <q-tab-panel name="watchlists" class="tab&#45;&#45;mobile-table">-->
+          <!--            <h2>Watchlists</h2>-->
+          <!--          </q-tab-panel>-->
+
+          <q-tab-panel name="nfts" class="tab--mobile-table">
+            <q-card class="stats-card" flat>
               <q-card-section>
-                <div class="stat-title">My History</div>
-                <div
-                  class="stat-footer"
-                  style="padding-top: 0.25rem !important"
-                  v-if="accountStore.addressesFilter.length > 0"
-                >
-                  <span class="stat-footer-stat"
-                    >{{ accountStore.addressesFilter.length }}
-                    <span class="stat-unit">{{
-                      `address${
-                        accountStore.addressesFilter.length > 1 ? 'es' : ''
-                      }`
-                    }}</span>
-                  </span>
-                  <q-icon
-                    name="help"
-                    color="grey"
-                    style="padding-bottom: 3px"
-                    class="q-ml-xs"
-                  />
-                  <q-tooltip
-                    anchor="bottom start"
-                    self="top left"
-                    class="bg-primary text-white shadow-4"
-                    :hide-delay="3000"
-                  >
-                    <div class="q-pa-sm q-gutter-xs">
-                      <div
-                        class="row q-gutter-xs"
-                        v-for="address in accountStore.addressesFilter"
-                        :key="address"
-                      >
-                        <div class="col" style="min-width: 220px">
-                          {{ address }}
-                        </div>
-                      </div>
-                    </div>
-                  </q-tooltip>
-                </div>
+                <div class="text-center text-h6 text-bold">Coming soon</div>
               </q-card-section>
             </q-card>
-
-            <address-filter-dialog :open-dialog="openDialog" />
-
-            <address-mobile-history
-              v-if="accountStore.addressesFilter.length > 0"
-              :addresses="accountStore.addressesFilter"
-            />
           </q-tab-panel>
 
-          <q-tab-panel name="rewards" class="tab--mobile-table">
-            <token-holder-balances-metric
+          <q-tab-panel name="mining" class="tab--mobile-table">
+            <div
               v-if="
                 accountStore.addressesFilter.length > 0 &&
                 blockProductionStore.blockProducers &&
                 blockProductionStore.blockProducers.length > 0
               "
-              title="Total Rewards"
-              :token-holders="blockProducers"
-              :tooltip-hide-delay="3000"
-            />
+            >
+              <div class="q-pa-md row items-start q-gutter-md">
+                <token-holder-balances-metric
+                  title="Total Rewards"
+                  :token-holders="blockProducers"
+                  :tooltip-hide-delay="3000"
+                  class="col-6"
+                />
+              </div>
 
-            <address-filter-dialog :open-dialog="openDialog" />
+              <block-rewards-table
+                v-if="accountStore.addressesFilter.length > 0"
+                :producer-ids="accountStore.addressesFilter"
+                :mobile="true"
+              />
+            </div>
 
-            <block-rewards-table
+            <q-list bordered padding v-else>
+              <q-item-label header class="relative-position">
+                <div class="row">
+                  <div class="col-12">Not a Block Producer</div>
+                </div>
+              </q-item-label>
+            </q-list>
+          </q-tab-panel>
+
+          <q-tab-panel name="liquidity" class="tab--mobile-table">
+            <token-balances-component
               v-if="accountStore.addressesFilter.length > 0"
-              :producer-ids="accountStore.addressesFilter"
-              :mobile="true"
+              :token-balances="accountStore.tokenBalances"
+              :show-group-balances="false"
+              :liquidity-pools="true"
             />
           </q-tab-panel>
         </q-tab-panels>
@@ -200,20 +157,27 @@
         <q-tab
           class="text-overline"
           :ripple="false"
-          label="Portfolio"
-          name="portfolio"
+          label="Tokens"
+          name="tokens"
+        />
+        <!--        <q-tab-->
+        <!--          class="text-overline"-->
+        <!--          :ripple="false"-->
+        <!--          label="Watchlists"-->
+        <!--          name="watchlists"-->
+        <!--        />-->
+        <q-tab class="text-overline" :ripple="false" label="NFTs" name="nfts" />
+        <q-tab
+          class="text-overline"
+          :ripple="false"
+          label="Mining"
+          name="mining"
         />
         <q-tab
           class="text-overline"
           :ripple="false"
-          label="History"
-          name="history"
-        />
-        <q-tab
-          class="text-overline"
-          :ripple="false"
-          label="Rewards"
-          name="rewards"
+          label="Liquidity"
+          name="liquidity"
         />
       </q-tabs>
     </q-page-sticky>
@@ -227,19 +191,21 @@ import { useStatsStore } from 'stores/stats';
 import { useAccountStore } from 'stores/account';
 import AddressFilterDialog from '@koiner/components/search/address-filter-dialog/address-filter-dialog.vue';
 import TokenBalancesComponent from '@koiner/account/mobile/components/token-balances-component.vue';
-import BlockRewardsTable from '@koiner/network/block-production/search/view/block-rewards-table.vue';
-import TokenHolderBalancesMetric from '@koiner/tokenize/components/holder/metric/token-holder-balances-metric.vue';
 import { useBlockProductionStore } from 'stores/block-production';
 import { TokenHolder } from '@koiner/sdk';
-import AddressMobileHistory from '@koiner/chain/address/mobile/components/address-mobile-history.vue';
 import { useRoute } from 'vue-router';
+import AccountMenuMobile from '@koiner/components/account-menu-mobile.vue';
+import PortfolioSwitcher from '@koiner/components/portfolio-switcher.vue';
+import BlockRewardsTable from '@koiner/network/block-production/search/view/block-rewards-table.vue';
+import TokenHolderBalancesMetric from '@koiner/tokenize/components/holder/metric/token-holder-balances-metric.vue';
 
 export default defineComponent({
   name: 'AccountMobileIndexPage',
   components: {
-    AddressMobileHistory,
     TokenHolderBalancesMetric,
     BlockRewardsTable,
+    PortfolioSwitcher,
+    AccountMenuMobile,
     TokenBalancesComponent,
     AddressFilterDialog,
   },
@@ -251,7 +217,7 @@ export default defineComponent({
     const accountStore = useAccountStore();
     const blockProductionStore = useBlockProductionStore();
 
-    const tab: Ref<string> = ref('portfolio');
+    const tab: Ref<string> = ref('tokens');
     const openDialog = ref(false);
 
     onMounted(async () => {

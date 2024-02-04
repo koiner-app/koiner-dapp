@@ -12,21 +12,18 @@
     :uischema="uiSchema"
     :request="request"
     :data="{}"
-    @change="onChange"
     :additional-renderers="renderers"
   />
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent, Ref, ref } from 'vue';
 import { KoinerRenderers } from '@koiner/renderers';
 import SearchFilters from '@appvise/search-manager/search-filters.vue';
 import QJsonSearch from '@appvise/q-json-forms/QJsonSearch.vue';
 import schema from '../token-holders-search.schema.json';
 import mobileUiSchema from './token-holders-table.mobile-ui-schema.json';
 import desktopUiSchema from './token-holders-table.ui-schema.json';
-import { TokenHoldersConnection } from '@koiner/sdk';
-import { useTokensStore } from 'stores/tokens';
 
 export default defineComponent({
   name: 'TokenHoldersTable',
@@ -48,8 +45,6 @@ export default defineComponent({
   },
 
   setup(props) {
-    const tokensStore = useTokensStore();
-
     return {
       schema,
       uiSchema: props.mobile ? mobileUiSchema : desktopUiSchema,
@@ -57,22 +52,6 @@ export default defineComponent({
         filter: {
           contractId: { equals: props.contractId },
         },
-      },
-      onChange: (data: TokenHoldersConnection) => {
-        if (data.edges) {
-          data.edges?.map(async (edge) => {
-            const balance = await tokensStore.balance(
-              edge.node.contractId,
-              edge.node.addressId
-            );
-
-            if (balance != null) {
-              edge.node.balance = balance.balance.toString();
-            }
-
-            return edge;
-          });
-        }
       },
       renderers: KoinerRenderers,
     };

@@ -4,6 +4,36 @@
   @import 'includes/stats-card';
   @import 'search/table';
 
+  @import '../../mobile/css/includes/tab--mobile-table';
+  @import '../../mobile/css/search/network-tables';
+  @import '../../mobile/css/pages/mobile-network';
+
+  .tab--mobile-table,
+  .tab--mobile-network {
+    .q-table--dark .q-table__bottom,
+    .q-table--dark thead,
+    .q-table--dark tr, .q-table--dark th, .q-table--dark td {
+      border-color: rgba(255, 255, 255, 0.12) !important;
+    }
+    min-height: auto !important;
+  }
+
+  .tab--mobile-network {
+    .search-view-table {
+      .attribute-wrapper--address {
+        span {
+          height: 1.125rem;
+          inline-size: auto !important;
+        }
+      }
+    }
+  }
+
+  .q-table--dark .q-table__bottom, .q-table--dark thead,
+  .q-table--dark tr, .q-table--dark th, .q-table--dark td {
+    border-color: rgba(255, 255, 255, 0.12) !important;
+  }
+
   .koiner-logo {
     position: absolute;
     left: 0.75rem;
@@ -92,4 +122,29 @@
       margin-bottom: 7px;
     }
   }
+
+  .portfolio--token-balances {
+    .q-item__label--header {
+      display: none;
+    }
+
+    .q-list {
+      border: none;
+    }
+
+    .q-scrollarea__thumb--v,
+    ::-webkit-scrollbar-thumb {
+      opacity: 0.35 !important;
+    }
+  }
+
+  .attribute-wrapper--token-image {
+    .q-avatar {
+      font-size: 2.5rem !important;
+    }
+  }
+}
+
+.desktop.body--light .q-drawer .q-drawer__content {
+  background-color: #141420;
 }

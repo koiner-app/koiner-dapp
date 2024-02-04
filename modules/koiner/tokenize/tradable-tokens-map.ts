@@ -1,0 +1,15 @@
+export const tradableTokens: string[] = [
+  '15VPnHQgm9yTWGuxCmfsPABJYnDNFymkTM',
+  '19WrWze3XAoMa3Mwqys4rJMP6emZX2wfpH',
+  '1NHReq2apWsQ6UPBjNqcV3ABsj88Ncimiy',
+  '1Noy4JD7F6ByUwMmbKPo1o2JVko9CzB6Eu',
+  '1LeWGhDVD8g5rGCL4aDegEf9fKyTL1KhsS',
+  '1F81UPvBW4g2jFLU5VuBvoPeZFFHL5fPqQ',
+  '1BTQCpospHJRA7VAtZ4wvitdcqYCvkwBCD',
+  '1A7ix1dr77wUVD3XtCwbthbysT5LeB1CeG',
+  '17t977jJZ7DYKPQsjqtStbpvmde1DditXW',
+  '1Q9o3uTa6L9XMFeUM5yfZyYuyGxn1ai2gx',
+  '143CLkKmfqa6trCbjxDMKojjeLq2q4RGD8',
+  '1AFMFjbSzpnK58xbwt6cyAnhLF77qm5FeC',
+  '1KU6cUY3TwYQzTRHakUcviiYmxNepRKkhQ',
+];

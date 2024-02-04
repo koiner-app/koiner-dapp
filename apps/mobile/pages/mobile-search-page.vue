@@ -1,4 +1,12 @@
 <template>
+  <q-header reveal elevated>
+    <q-toolbar>
+      <q-toolbar-title>
+        <span class="page-title"> Search </span>
+      </q-toolbar-title>
+    </q-toolbar>
+  </q-header>
+
   <q-page class="row items-start">
     <q-card style="width: 100%; min-height: 100vh">
       <q-card-section class="q-pt-lg">

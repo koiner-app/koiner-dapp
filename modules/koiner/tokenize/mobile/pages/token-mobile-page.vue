@@ -1,38 +1,103 @@
 <template>
-  <q-page class="row items-start mobile-tab-page">
-    <q-card class="tabs-card" flat v-if="tokenContract">
+  <q-page class="row items-start mobile-tab-page" v-if="tokenContract">
+    <q-header reveal elevated v-if="tokenContract">
+      <q-toolbar>
+        <back-button />
+
+        <q-space />
+
+        <q-toolbar-title>
+          <q-avatar
+            v-if="tokenLogo(tokenContract.id, tokenContract.symbol)"
+            size="1.5rem"
+          >
+            <img
+              :src="tokenLogo(tokenContract.id, tokenContract.symbol)"
+              :alt="tokenContract.symbol"
+            />
+          </q-avatar>
+          <q-avatar v-else color="primary" size="xs" text-color="white">
+            <span style="font-size: 0.75rem">{{
+              tokenContract.symbol.substring(0, 3)
+            }}</span>
+          </q-avatar>
+          <span>
+            {{ tokenContract.symbol }}
+          </span>
+        </q-toolbar-title>
+
+        <q-space />
+
+        <copy-to-clipboard
+          :source="tokenContract.id"
+          :show-source="false"
+          :tooltip="'Copy address to clipboard'"
+          icon-size="1rem"
+        />
+        <bookmark-component
+          v-if="tokenContract.name === 'disabled'"
+          :item="{
+            id: tokenContract.id,
+            type: 'token',
+            name: tokenContract.name,
+            symbol: tokenContract.symbol,
+          }"
+          list-id="tokens"
+          item-translation="koiner.chain.item.address"
+          class="q-px-md"
+          icon-size="1.25rem"
+        />
+
+        <share-dialog
+          :id="tokenContract.id"
+          :url="`https://koiner.app/mobile/tokens/${tokenContract.id}`"
+          :message="`Check ${tokenContract.name} on Koiner`"
+        />
+        <account-menu-mobile />
+      </q-toolbar>
+    </q-header>
+
+    <q-card class="tabs-card" flat>
       <q-card-section class="q-pt-xs q-px-none">
-        <q-tab-panels v-model="tab" animated>
+        <q-tab-panels v-model="tab" animated swipeable>
           <q-tab-panel name="token-details" class="tab--mobile-table">
             <q-card class="stats-card" flat>
               <q-card-section class="q-pb-sm">
                 <div class="text-caption">Token</div>
                 <div class="stat-title">
-                  <div
-                    class="absolute-top-right"
-                    style="margin-right: 2rem; margin-top: 1rem"
+                  {{ tokenContract.name }}
+                </div>
+
+                <div
+                  v-if="tradableTokens().includes(tokenContract.id)"
+                  class="trade-token absolute-right q-mr-xl q-mt-md"
+                >
+                  <div class="text-caption">Trade</div>
+
+                  <q-btn
+                    :href="`https://app.koindx.com/swap?output=${tokenContract.id}`"
+                    target="_blank"
+                    color="primary"
+                    style="
+                      padding: 0.025rem 0.25rem !important;
+                      min-height: 1rem;
+                      font-size: 0.75rem;
+                    "
                   >
-                    <q-avatar
-                      v-if="tokenLogo(tokenContract.symbol)"
-                      size="md q-pa-sm"
-                    >
-                      <img
-                        :src="`/tokens/${tokenLogo(tokenContract.symbol)}`"
-                        :alt="tokenContract.symbol"
-                      />
-                    </q-avatar>
-                    <q-avatar
-                      v-else
-                      color="primary"
-                      size="md"
-                      text-color="white"
-                    >
-                      <span style="font-size: 0.75rem">{{
-                        tokenContract.symbol.substring(0, 3)
-                      }}</span>
-                    </q-avatar>
-                  </div>
-                  {{ tokenContract.name
+                    @KoinDX
+                  </q-btn>
+                </div>
+              </q-card-section>
+              <q-card-section class="q-pb-sm">
+                <div class="text-caption">Total Supply</div>
+                <div class="stat-title">
+                  {{
+                    tokenAmount(
+                      parseInt(tokenContract.totalSupply),
+                      tokenContract.decimals
+                    ).toLocaleString(undefined, {
+                      maximumFractionDigits: tokenContract.decimals,
+                    })
                   }}<q-chip size="xs">{{ tokenContract.symbol }}</q-chip>
                 </div>
               </q-card-section>
@@ -42,6 +107,7 @@
                   <copy-to-clipboard
                     :source="tokenContract.id"
                     :tooltip="'Copy contract id to clipboard'"
+                    button-class=""
                   />
                 </div>
               </q-card-section>
@@ -105,10 +171,27 @@ import TokensOperationsTable from '@koiner/tokenize/components/operation/search/
 import TokensEventsTable from '@koiner/tokenize/components/event/search/view/tokens-events-table.vue';
 import TokenHoldersTable from '@koiner/tokenize/components/holder/search/view/token-holders-table.vue';
 import CopyToClipboard from '@koiner/components/copy-to-clipboard.vue';
+import BookmarkComponent from '@koiner/bookmarks/components/bookmark-component.vue';
+import { tokenAmount, tokenLogo } from '../../../utils';
+import ShareDialog from '@koiner/components/share-dialog.vue';
+import AccountMenuMobile from '@koiner/components/account-menu-mobile.vue';
+import BackButton from '@koiner/components/back-button.vue';
+import { tradableTokens } from '@koiner/tokenize/tradable-tokens-map';
 
 export default defineComponent({
   name: 'TokenMobilePage',
+  methods: {
+    tradableTokens() {
+      return tradableTokens;
+    },
+    tokenLogo,
+    tokenAmount,
+  },
   components: {
+    BackButton,
+    AccountMenuMobile,
+    ShareDialog,
+    BookmarkComponent,
     CopyToClipboard,
     TokenHoldersTable,
     TokensEventsTable,
@@ -127,7 +210,7 @@ export default defineComponent({
         variables,
       });
 
-      watch(data, (updatedData) => {
+      watch(data, async (updatedData) => {
         itemState.item.value = updatedData?.tokenContract as TokenContract;
       });
 
@@ -160,41 +243,6 @@ export default defineComponent({
       itemState,
       tokenContract: itemState.item,
       error: itemState.error,
-
-      tokenLogo: (symbol: string): string => {
-        const logos: Record<string, string> = {
-          btk: 'bitkoin.png',
-          drugs: 'drugs.png',
-          dgk: 'dogekoin.png',
-          eth: 'eth.png',
-          egg: 'egg.png',
-          mars: 'elonkoin.jpg',
-          fr: 'frenchie.png',
-          gold: 'gold.png',
-          kan: 'kan.png',
-          kdbln: 'kdbln.png',
-          kct: 'kct.png',
-          koin: 'koin.svg',
-          koindx: 'koindx.svg',
-          'koindx-lp': 'koindx.svg',
-          punksk: 'punksk.png',
-          meow: 'meow.jpg',
-          mk: 'mk.png',
-          noik: 'noik.jpg',
-          ogas: 'ogas.png',
-          pvhp: 'pvhp.png',
-          rad: 'rad.png',
-          rwa: 'rwa.jpg',
-          shit: 'shit.jpg',
-          tate: 'tate.png',
-          up: 'up.png',
-          usdt: 'usdt.png',
-          vapor: 'vapor.svg',
-          vhp: 'vhp.png',
-        };
-
-        return logos[symbol.toLowerCase()] ?? null;
-      },
     };
   },
 });

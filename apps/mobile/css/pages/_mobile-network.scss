@@ -60,10 +60,46 @@
       font-size: 0.75rem;
     }
   }
+
+  .stats-card {
+    .stat-title {
+      padding-bottom: 0.25rem !important;
+      font-weight: 400;
+    }
+
+    .stat-content {
+      font-size: 1.5rem !important;
+    }
+
+    .stat-footer {
+      opacity: 0.7 !important;
+      padding-top: 0.25rem !important;
+    }
+  }
+}
+
+.page--mobile-network {
+  .stat-title {
+    font-size: 0.675rem !important;
+  }
+
+  .stat-content > span {
+    font-size: 1rem !important;
+  }
+
+  .stat-footer {
+    font-size: 0.675rem !important;
+    opacity: 0.7 !important;
+    padding-top: 0 !important;
+  }
 }
 
 .body--dark {
   .page--mobile-network {
+    .stat-title {
+      color: rgba(255, 255, 255, 0.8) !important;
+    }
+
     .search-view-table {
       .attribute--total-rewards {
         color: #ffffff !important;
@@ -83,3 +119,4 @@
     }
   }
 }
+

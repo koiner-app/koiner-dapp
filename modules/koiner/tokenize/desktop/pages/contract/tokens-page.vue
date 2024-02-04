@@ -37,9 +37,10 @@
         <q-separator />
 
         <q-tab-panels v-model="tab" animated>
-          <q-tab-panel name="tokens">
+          <q-tab-panel name="tokens" class="tab--mobile-table">
             <token-contracts-table
               :liquidity-pools="false"
+              :mobile="true"
               @contract-count-updated="(newCount: number) => tokenContractsCount = newCount"
             />
 
@@ -57,7 +58,10 @@
               />
             </div>
           </q-tab-panel>
-          <q-tab-panel name="liquidity-pools" class="token-transfers">
+          <q-tab-panel
+            name="liquidity-pools"
+            class="tab--mobile-table liquidity-pools"
+          >
             <token-contracts-table
               :liquidity-pools="true"
               @contract-count-updated="(newCount: number) => liquidityPoolsCount = newCount"
@@ -90,10 +94,6 @@ export default defineComponent({
     const statsStore = useStatsStore();
     const searchStore = useSearchStore();
 
-    const onScroll = (newScrollPosition: number) => {
-      searchStore.tokenContracts.position = newScrollPosition;
-    };
-
     const tab: Ref<string> = ref('tokens');
 
     const tokenContractsCount = ref(0);
@@ -104,7 +104,6 @@ export default defineComponent({
       statsStore,
       tokenContractsCount,
       liquidityPoolsCount,
-      onScroll,
       schema,
       uiSchema,
       request: searchStore.tokenContracts.request,

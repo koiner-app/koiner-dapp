@@ -1,8 +1,45 @@
 <template>
+  <q-header reveal elevated v-if="contract">
+    <q-toolbar>
+      <back-button />
+
+      <q-space />
+
+      <q-toolbar-title class="min-width: 150px">
+        <span>
+          {{ id }}
+        </span>
+      </q-toolbar-title>
+
+      <q-space />
+
+      <copy-to-clipboard
+        :source="contract.id"
+        :show-source="false"
+        :tooltip="'Copy address to clipboard'"
+        icon-size="1rem"
+      />
+      <bookmark-component
+        v-if="contract.id === 'disabled'"
+        :item="{ id: contract.id, type: 'contract' }"
+        list-id="contracts"
+        item-translation="koiner.contracts.item.contract"
+        class="q-px-md"
+        icon-size="1.25rem"
+      />
+      <share-dialog
+        :id="contract.id"
+        :url="`https://koiner.app/mobile/contracts/${id}`"
+        :message="`Check this Koinos contract ${id} on Koiner`"
+      />
+      <account-menu-mobile />
+    </q-toolbar>
+  </q-header>
+
   <q-page class="row items-start mobile-tab-page">
     <q-card class="tabs-card" flat v-if="contract">
       <q-card-section class="q-pt-xs q-px-none">
-        <q-tab-panels v-model="tab" animated>
+        <q-tab-panels v-model="tab" animated swipeable>
           <q-tab-panel name="contract-details" class="tab--mobile-table">
             <q-card class="stats-card" flat>
               <q-card-section>
@@ -75,10 +112,18 @@ import ContractsEventsTable from '@koiner/contracts/components/contract/search/v
 import VueJsonPretty from 'vue-json-pretty';
 import 'vue-json-pretty/lib/styles.css';
 import CopyToClipboard from '@koiner/components/copy-to-clipboard.vue';
+import BookmarkComponent from '@koiner/bookmarks/components/bookmark-component.vue';
+import ShareDialog from '@koiner/components/share-dialog.vue';
+import AccountMenuMobile from '@koiner/components/account-menu-mobile.vue';
+import BackButton from '@koiner/components/back-button.vue';
 
 export default defineComponent({
   name: 'ContractMobilePage',
   components: {
+    BackButton,
+    AccountMenuMobile,
+    ShareDialog,
+    BookmarkComponent,
     CopyToClipboard,
     ContractsEventsTable,
     ContractsOperationsTable,
@@ -90,9 +135,26 @@ export default defineComponent({
     const statsStore = useStatsStore();
     const route = useRoute();
 
+    const id: Ref<string | undefined> = ref();
     const tab: Ref<string> = ref('contract-details');
     const itemState = ItemState.create<Contract>();
     const variables: Ref<{ id: string }> = ref({ id: '' });
+
+    onMounted(async () => {
+      id.value = route.params.id.toString();
+      variables.value.id = route.params.id.toString();
+      executeQuery();
+    });
+
+    watch(
+      () => route.params.id,
+      async (newId) => {
+        if (newId) {
+          id.value = newId.toString();
+          variables.value.id = newId ? newId.toString() : '';
+        }
+      }
+    );
 
     const executeQuery = () => {
       const { data, fetching, error, isPaused } = useContractMobilePageQuery({
@@ -111,19 +173,8 @@ export default defineComponent({
       itemState.isPaused = isPaused;
     };
 
-    onMounted(async () => {
-      variables.value.id = route.params.id.toString();
-      executeQuery();
-    });
-
-    watch(
-      () => route.params.id,
-      async (newId) => {
-        variables.value.id = newId ? newId.toString() : '';
-      }
-    );
-
     return {
+      id,
       itemState,
       contract: itemState.item,
       error: itemState.error,

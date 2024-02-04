@@ -30,8 +30,27 @@ export class BlockProducersSearchProvider
     });
 
     watch(data, (updatedData) => {
-      this._state.connection.value =
+      const sortedConnection =
         updatedData?.blockProducers as BlockProducersConnection;
+
+      sortedConnection.edges = sortedConnection.edges
+        .filter((edge) => Number(edge.node.vhpBalance.balance) > 10000000000)
+        .sort((a, b) => {
+          const balanceA = Number(a.node.vhpBalance.balance);
+          const balanceB = Number(b.node.vhpBalance.balance);
+
+          if (balanceA > balanceB) {
+            return -1;
+          }
+
+          if (balanceA < balanceB) {
+            return 1;
+          }
+
+          return 0;
+        });
+
+      this._state.connection.value = sortedConnection;
     });
 
     this._state.error = error;

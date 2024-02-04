@@ -1,81 +1,71 @@
 <template>
-  <q-page>
-    <div class="row q-px-md full-width">
-      <h1 class="text-h5">Ecosystem</h1>
+  <q-header reveal elevated>
+    <q-toolbar>
+      <q-toolbar-title>
+        <span class="page-title"> Ecosystem </span>
+      </q-toolbar-title>
 
       <q-space />
 
-      <q-btn
-        v-if="showAddProject"
-        class="q-mr-sm"
-        color="primary"
-        unelevated
-        @click="addProject"
-        flat
-        style="
-          height: 1rem;
-          margin-top: 1rem;
-          text-transform: none;
-          padding: 0.25rem;
-        "
-      >
-        <q-icon name="add" class="q-mr-sm" size="xs" />
-        Submit your project
-      </q-btn>
-    </div>
+      <account-menu-mobile />
+    </q-toolbar>
+  </q-header>
 
-    <div class="row q-px-md full-width">
-      <q-btn
-        @click="selectAllTypes"
-        :class="`project-tag-button ${
-          selectedTypes.includes('all') ? 'selected' : ''
-        }`"
-      >
-        <q-chip>All projects</q-chip>
-      </q-btn>
-      <q-btn
-        @click="toggleType(type)"
-        v-for="type in types"
-        :key="type"
-        :class="`project-tag-button ${
-          selectedTypes.includes(type) ? 'selected' : ''
-        }`"
-      >
-        <q-chip @click="toggleType(type)" size="md">
-          {{ type }}
-        </q-chip>
-      </q-btn>
-    </div>
-    <div class="row q-px-md q-pt-none full-width hidden">
-      <q-btn
-        @click="selectAllTags"
-        :class="`project-tag-button ${
-          selectedTags.includes('all') ? 'selected' : ''
-        }`"
-      >
-        <q-chip>All tags</q-chip>
-      </q-btn>
-      <q-btn
-        @click="toggleTag(tag)"
-        v-for="tag in tags"
-        :key="tag"
-        :class="`project-tag-button ${
-          selectedTags.includes(tag) ? 'selected' : ''
-        }`"
-      >
-        <q-chip size="md">
-          {{ tag }}
-        </q-chip>
-      </q-btn>
-    </div>
-
-    <div class="row items-start project-cards">
+  <q-page>
+    <div class="row items-start project-cards" style="margin-top: 6rem">
       <project-card
         v-for="(project, projectIndex) in selectedProjects"
         :key="`project-${projectIndex}`"
         :project="project"
       />
     </div>
+
+    <q-page-sticky expand position="top" class="project-filters q-py-xs">
+      <div class="row q-px-md full-width">
+        <q-btn
+          @click="selectAllTypes"
+          :class="`project-tag-button ${
+            selectedTypes.includes('all') ? 'selected' : ''
+          }`"
+        >
+          <q-chip>All projects</q-chip>
+        </q-btn>
+        <q-btn
+          @click="toggleType(type)"
+          v-for="type in types"
+          :key="type"
+          :class="`project-tag-button ${
+            selectedTypes.includes(type) ? 'selected' : ''
+          }`"
+        >
+          <q-chip @click="toggleType(type)" size="md">
+            {{ type }}
+          </q-chip>
+        </q-btn>
+      </div>
+      <div class="row q-px-md q-pt-none full-width hidden">
+        <q-btn
+          @click="selectAllTags"
+          :class="`project-tag-button ${
+            selectedTags.includes('all') ? 'selected' : ''
+          }`"
+        >
+          <q-chip>All tags</q-chip>
+        </q-btn>
+        <q-btn
+          @click="toggleTag(tag)"
+          v-for="tag in tags"
+          :key="tag"
+          :class="`project-tag-button ${
+            selectedTags.includes(tag) ? 'selected' : ''
+          }`"
+        >
+          <q-chip size="md">
+            {{ tag }}
+          </q-chip>
+        </q-btn>
+      </div>
+    </q-page-sticky>
   </q-page>
 </template>
 
@@ -87,10 +77,11 @@ import { Project } from '../..';
 import { ProjectTags, ProjectTypes } from '../../projects';
 import AddProjectForm from '@koiner/ecosystem/components/form/add-project/add-project-form.vue';
 import ProjectCard from '@koiner/ecosystem/components/project-card.vue';
+import AccountMenuMobile from '@koiner/components/account-menu-mobile.vue';
 
 export default defineComponent({
   name: 'EcosystemPage',
-  components: { ProjectCard },
+  components: { AccountMenuMobile, ProjectCard },
 
   setup() {
     const $q = useQuasar();

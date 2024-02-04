@@ -5,6 +5,7 @@
       @click.capture.stop="removeBookmark(item.id, listId)"
       :name="iconDelete"
       class="delete-icon"
+      :size="iconSize"
     >
       <q-tooltip class="bg-primary" :offset="[0, 0]"
         >Remove {{ itemTranslation ? t(itemTranslation) : 'item' }} from
@@ -15,6 +16,7 @@
       v-else
       @click.capture.stop="addBookmark(item, listId)"
       :name="iconAdd"
+      :size="iconSize"
     >
       <q-tooltip class="bg-primary" :offset="[0, 0]"
         >Bookmark this
@@ -54,6 +56,10 @@ export default defineComponent({
       required: false,
       type: String,
       default: 'star',
+    },
+    iconSize: {
+      required: false,
+      type: String,
     },
   },
   setup() {

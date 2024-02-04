@@ -10,8 +10,17 @@
       },
       "elements": [
         {
+          "type": "Attribute",
+          "label": "Token",
+          "scope": "#/properties/id",
+          "options": {
+            "format": "tokenImage",
+            "class": "attribute-wrapper--token-image vertical-middle"
+          }
+        },
+        {
           "type": "AttributeGroup",
-          "label": "Name / Age",
+          "label": "",
           "scope": "#/properties/group1",
           "options": {
             "class": "attribute-wrapper--group-1"
@@ -45,7 +54,7 @@
         },
         {
           "type": "AttributeGroup",
-          "label": "Total Supply - Holders - Transfers",
+          "label": "Supply - Holders - Transfers",
           "scope": "#/properties/group2",
           "options": {
             "class": "attribute-wrapper--group-2"

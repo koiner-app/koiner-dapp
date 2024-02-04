@@ -3,13 +3,19 @@
   @import 'pages';
   @import 'search';
 
+  .mobile-tab-page {
+    .q-page-sticky {
+      border-bottom: 0;
+    }
+  }
+
   .search-filters {
     display: none !important;
   }
 
   .koiner-logo {
     position: absolute;
-    left: 3.5rem;
+    left: 1.125rem;
     top: 0.3125rem;
   }
 
@@ -56,6 +62,12 @@
     border-right: 0;
     border-left: 0;
   }
+
+  .attribute-wrapper--token-image {
+    .q-avatar {
+      font-size: 2rem !important;
+    }
+  }
 }
 
 @media (max-width: 599.98px) {
@@ -75,8 +87,111 @@
 /**
  V2
  */
+.layout--mobile {
+  .q-toolbar {
+    .q-btn {
+      padding: 0;
+      margin: 0;
+      width: 2.25rem;
+      height: 2.25rem;
+      min-width: 2.25rem;
+      min-height: 2.25rem;
+    }
+  }
+
+  .q-toolbar__title {
+    min-width: 150px;
+
+    .page-title {
+      font-family: "Roboto Mono", serif !important;
+      font-size: 1.125rem;
+      font-weight: bold;
+    }
+  }
+
+  > footer.fixed-bottom {
+    z-index: 999999 !important;
+  }
+}
+
 //.mobile {
   .large-stats-cards .stats-card {
     border-radius: 0.75rem;
   }
 //}
+
+.page--mobile-token {
+  .q-toolbar__title {
+    padding-top: 0.125rem;
+    text-align: center;
+
+    .q-avatar {
+        margin-top: -0.25rem;
+    }
+    span {
+      margin-left: 0.5rem;
+      font-weight: bold;
+      font-size: 1rem;
+      line-height: 1.75;
+      height: 1.75rem;
+      display: inline-block;
+    }
+  }
+}
+
+.mobile-popup-menu {
+  &.q-dialog .q-list {
+    > .q-item, .q-dialog .q-item {
+      min-height: 63px;
+      padding: 2px 16px;
+      font-size: 1.125rem;
+    }
+
+    .q-item.q-router-link--active,
+    .q-item--active {
+      font-weight: bold;
+      color: lighten($accent, 35%);
+    }
+  }
+}
+
+.body--light {
+  .page--mobile-network {
+    .q-tab-panels {
+      background: #f0f2f8 !important;
+    }
+  }
+
+  .share-dialog {
+    .q-card {
+      background: #f0f2f8 !important;
+    }
+
+    hr.section-divider {
+      opacity: 0.5;
+    }
+  }
+}
+
+.body--dark {
+  .share-dialog {
+    .q-card {
+      background: #424242 !important;
+    }
+
+    hr.section-divider {
+      opacity: 0.1;
+    }
+  }
+}
+
+.btn-copy-link {
+  min-width: 3rem !important;
+  min-height: 3rem !important;
+}
+
+.tab--address-mining {
+  .stat-title {
+    font-size: 0.675rem !important;
+  }
+}

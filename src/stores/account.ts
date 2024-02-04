@@ -326,43 +326,45 @@ export const useAccountStore = defineStore({
       try {
         const onChainBalances: OnChainBalance[] = [];
 
-        for (const address of this[this.environment].addressesFilter) {
+        const addresses: string[] = this[this.environment].addressesFilter;
+
+        if (addresses.length > 0) {
           let manaBalance: number;
           let koinBalance: number;
 
-          const koinOnChainBalance = await tokensStore.balance(
+          const koinOnChainBalances = await tokensStore.balances(
             'koin',
-            address,
+            addresses,
             reset
           );
 
-          if (koinOnChainBalance != null) {
-            koinBalance = koinOnChainBalance.balance;
+          const manaOnChainBalances = await tokensStore.balances(
+            'mana',
+            addresses,
+            reset
+          );
 
-            const manaOnChainBalance = await tokensStore.balance(
-              'mana',
-              address,
-              reset
-            );
+          for (const [address, balance] of Object.entries(
+            koinOnChainBalances
+          )) {
+            koinBalance = balance;
+            manaBalance = manaOnChainBalances[address];
 
-            // Fetch mana balance when we retrieved koin balance
-            if (manaOnChainBalance != null) {
-              manaBalance = manaOnChainBalance.balance;
+            const timeRechargeMana =
+              ((koinBalance - manaBalance) * FIVE_DAYS) / koinBalance;
 
-              const timeRechargeMana =
-                ((koinBalance - manaBalance) * FIVE_DAYS) / koinBalance;
-
-              onChainBalances.push({
-                addressId: address,
-                balance: koinBalance,
-                mana: manaBalance,
-                charged: (manaBalance / koinBalance) * 100,
-                manaRechargeTime: timeRechargeMana,
-                manaRechargeFormatted: deltaTimeToString(timeRechargeMana),
-                lastUpdated: Date.now(),
-              });
-            }
+            onChainBalances.push({
+              addressId: address,
+              balance: koinBalance,
+              mana: manaBalance,
+              charged: (manaBalance / koinBalance) * 100,
+              manaRechargeTime: timeRechargeMana,
+              manaRechargeFormatted: deltaTimeToString(timeRechargeMana),
+              lastUpdated: Date.now(),
+            });
           }
+
+          console.log({ onChainBalances });
 
           this.$patch({
             [this.environment]: {
@@ -445,9 +447,7 @@ export const useAccountStore = defineStore({
         },
       });
 
-      watch(data, async (updatedData) => {
-        const tokensStore = useTokensStore();
-
+      watch(data, (updatedData) => {
         const newConnection =
           updatedData?.tokenHolders as TokenHoldersConnection;
 
@@ -459,30 +459,15 @@ export const useAccountStore = defineStore({
 
         queryState.connection.value = newConnection;
 
-        const edges: TokenHolderEdge[] = [];
-
-        if (updatedData?.tokenHolders.edges) {
-          for (let i = 0; i < updatedData?.tokenHolders.edges.length; i++) {
-            edges.push(updatedData?.tokenHolders.edges[i] as TokenHolderEdge);
-
-            const onChainBalance = await tokensStore.balance(
-              edges[i].node.contractId,
-              edges[i].node.addressId
-            );
-
-            if (onChainBalance != null) {
-              edges[i].node.balance = onChainBalance.balance.toString();
-            }
-          }
-        }
-
         this.$patch({
           [this.environment]: {
-            tokenBalances: edges.map((edge) => edge.node),
+            tokenBalances: updatedData?.tokenHolders.edges.map(
+              (edge) => edge.node
+            ),
           },
         });
 
-        await this.loadOnChainBalances();
+        this.loadOnChainBalances();
       });
 
       queryState.error = error;

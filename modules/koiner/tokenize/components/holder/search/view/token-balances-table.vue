@@ -12,7 +12,6 @@
     :data="{}"
     :additional-renderers="renderers"
     @change="onChange"
-    :class="onchainLoaded ? 'onchain-loaded' : ''"
   />
 </template>
 
@@ -56,7 +55,6 @@ export default defineComponent({
     let request: Ref<QueryTokenHoldersArgs> = ref({ filter: {} });
     let contractIdsFilter: any;
     let addressFilter: any;
-    const onchainLoaded = ref(false);
 
     const updateFilters = () => {
       request.value.filter = { AND: [] };
@@ -110,37 +108,10 @@ export default defineComponent({
         : tokenBalancesSearchUiSchema,
       request: request,
       renderers: KoinerRenderers,
-      onchainLoaded,
-      onChange: (data: TokenHoldersConnection) => {
-        if (data.edges) {
-          data.edges?.map(async (edge) => {
-            const balance = await tokensStore.balance(
-              edge.node.contractId,
-              edge.node.addressId
-            );
-
-            if (balance != null) {
-              edge.node.balance = balance.balance.toString();
-            }
-
-            return edge;
-          });
-        }
-
+      onChange: async (data: TokenHoldersConnection) => {
         emit('change', data);
-
-        onchainLoaded.value = true;
       },
     };
   },
 });
 </script>
-
-<style lang="scss" scoped>
-[id*='#/properties/balance'] {
-  opacity: 0 !important;
-}
-.onchain-loaded [id*='#/properties/balance'] {
-  opacity: 1 !important;
-}
-</style>

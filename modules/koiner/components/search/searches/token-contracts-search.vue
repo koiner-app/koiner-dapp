@@ -74,6 +74,12 @@ export default defineComponent({
               search: {
                 iContains: props.search,
               },
+              id: {
+                excludes: '1Gov26MjgHcRP95p8WaqVNBRLVmZSThkxP', // VHP Governance contract
+              },
+              name: {
+                excludes: 'LIQUIDITY POOL',
+              },
             },
             sort: [],
           };
