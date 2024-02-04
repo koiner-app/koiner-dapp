@@ -69,6 +69,39 @@ a {
   }
 }
 
+.layout--mobile .page--mobile-tokenize,
+.layout--desktop .page--tokens {
+  .tab--mobile-table .search-view-table {
+    th:nth-of-type(3),
+    td:nth-of-type(3) {
+      text-align: left;
+    }
+  }
+}
+
+.search-dialog-results {
+  .q-chip {
+    color: #000000;
+    font-size: 0.75rem !important;
+  }
+}
+
+.page--mobile-tokenize,
+.page--tokens {
+  .q-table td:first-of-type {
+    vertical-align: middle !important;
+  }
+}
+
+.page--tokens {
+  .liquidity-pools {
+    th:last-of-type,
+    td:last-of-type{
+      display: none;
+    }
+  }
+}
+
 // Color schemes
 @import 'schemes/light';
 @import 'schemes/dark';

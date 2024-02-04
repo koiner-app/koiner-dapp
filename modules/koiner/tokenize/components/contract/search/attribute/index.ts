@@ -10,6 +10,8 @@ import TokenAmountAttributeRenderer from './token-amount-attribute-renderer.vue'
 import KoinTokenAmountAttributeRenderer from './koin-token-amount-attribute-renderer.vue';
 import ManaTokenAmountAttributeRenderer from './mana-token-amount-attribute-renderer.vue';
 import VhpTokenAmountAttributeRenderer from './vhp-token-amount-attribute-renderer.vue';
+import TokenImageAttributeRenderer from './token-image-attribute-renderer.vue';
+import TradeTokenAttributeRenderer from './trade-token-attribute-renderer.vue';
 import {
   isNumericAttributeControl,
   isStringAttributeControl,
@@ -55,12 +57,29 @@ const vhpTokenAmountAttributeRendererEntry: JsonFormsRendererRegistryEntry = {
   ),
 };
 
+const tokenImageAttributeRendererEntry: JsonFormsRendererRegistryEntry = {
+  renderer: TokenImageAttributeRenderer,
+  tester: rankWith(
+    2,
+    and(isStringAttributeControl, optionIs('format', 'tokenImage'))
+  ),
+};
+
+const tradeTokenAttributeRendererEntry: JsonFormsRendererRegistryEntry = {
+  renderer: TradeTokenAttributeRenderer,
+  tester: rankWith(
+    2,
+    and(isStringAttributeControl, optionIs('format', 'tradeToken'))
+  ),
+};
+
 export {
   TokenAttributeRenderer,
   TokenAmountAttributeRenderer,
   KoinTokenAmountAttributeRenderer,
   ManaTokenAmountAttributeRenderer,
   VhpTokenAmountAttributeRenderer,
+  TokenImageAttributeRenderer,
 };
 
 export const contractAttributeRenderers = [
@@ -69,4 +88,6 @@ export const contractAttributeRenderers = [
   koinTokenAmountAttributeRendererEntry,
   manaTokenAmountAttributeRendererEntry,
   vhpTokenAmountAttributeRendererEntry,
+  tokenImageAttributeRendererEntry,
+  tradeTokenAttributeRendererEntry,
 ];

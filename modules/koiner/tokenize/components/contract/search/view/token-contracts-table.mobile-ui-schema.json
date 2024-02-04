@@ -10,6 +10,15 @@
       },
       "elements": [
         {
+          "type": "Attribute",
+          "label": "",
+          "scope": "#/properties/id",
+          "options": {
+            "format": "tokenImage",
+            "class": "attribute-wrapper--token-image vertical-middle"
+          }
+        },
+        {
           "type": "AttributeGroup",
           "label": "Name / Age",
           "scope": "#/properties/group1",
@@ -81,6 +90,23 @@
               "options": {
                 "after": "x",
                 "mapping": "transferCount"
+              }
+            }
+          ]
+        },
+        {
+          "type": "AttributeGroup",
+          "label": "Trade",
+          "scope": "#/properties/group3",
+          "options": {
+            "class": "attribute-wrapper--group-3"
+          },
+          "elements": [
+            {
+              "type": "Attribute",
+              "scope": "#/properties/trade",
+              "options": {
+                "format": "tradeToken"
               }
             }
           ]

@@ -37,9 +37,10 @@
         <q-separator />
 
         <q-tab-panels v-model="tab" animated>
-          <q-tab-panel name="tokens">
+          <q-tab-panel name="tokens" class="tab--mobile-table">
             <token-contracts-table
               :liquidity-pools="false"
+              :mobile="true"
               @contract-count-updated="(newCount: number) => tokenContractsCount = newCount"
             />
 
@@ -53,13 +54,18 @@
             >
               <token-contracts-table
                 :liquidity-pools="true"
+                :mobile="true"
                 @contract-count-updated="(newCount: number) => liquidityPoolsCount = newCount"
               />
             </div>
           </q-tab-panel>
-          <q-tab-panel name="liquidity-pools" class="token-transfers">
+          <q-tab-panel
+            name="liquidity-pools"
+            class="tab--mobile-table liquidity-pools"
+          >
             <token-contracts-table
               :liquidity-pools="true"
+              :mobile="true"
               @contract-count-updated="(newCount: number) => liquidityPoolsCount = newCount"
             />
           </q-tab-panel>

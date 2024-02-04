@@ -24,7 +24,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue';
+import { defineComponent } from 'vue';
 import { useSearchStore } from 'stores/search';
 import { KoinerRenderers } from '@koiner/renderers';
 import SearchFilters from '@appvise/search-manager/search-filters.vue';
@@ -74,9 +74,18 @@ export default defineComponent({
       request: props.liquidityPools
         ? {
             filter: {
-              name: {
-                iContains: 'LIQUIDITY',
-              },
+              AND: [
+                {
+                  name: {
+                    iContains: 'LIQUIDITY',
+                  },
+                },
+                {
+                  id: {
+                    excludes: '17t977jJZ7DYKPQsjqtStbpvmde1DditXW',
+                  },
+                },
+              ],
             },
           }
         : {
