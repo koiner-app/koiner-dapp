@@ -146,7 +146,7 @@
 
           <q-tab-panel
             name="mining"
-            class="tab--mobile-table"
+            class="tab--mobile-table tab--address-mining"
             v-if="blockProducers && blockProducers.length > 0"
           >
             <div class="q-pa-md row items-start q-gutter-md">
@@ -154,8 +154,73 @@
                 title="Total Rewards"
                 :token-holders="blockProducers"
                 :tooltip-hide-delay="3000"
-                class="col-6"
+                style="width: calc(50% - 1rem) !important"
               />
+
+              <q-card
+                class="stats-card"
+                flat
+                v-if="blockProducersMap[blockProducers[0].addressId]"
+                style="width: calc(50% - 1rem) !important"
+              >
+                <q-card-section>
+                  <div class="stat-title">Burn Pool</div>
+                  <div class="stat-content">
+                    {{ blockProducersMap[blockProducers[0].addressId] }}
+                  </div>
+                  <div class="stat-footer">
+                    <a
+                      v-if="
+                        !blockProducersMap[
+                          blockProducers[0].addressId
+                        ].includes('BurnKoin')
+                      "
+                      :href="`https://fogata.io/pools/${blockProducers[0].addressId}`"
+                      target="_blank"
+                    >
+                      <img
+                        src="/projects/dapp/fogata2.png"
+                        alt="Fogata Burn Pool"
+                        style="max-width: 1rem"
+                      />
+                    </a>
+                    <a
+                      v-if="
+                        blockProducersMap[blockProducers[0].addressId] &&
+                        blockProducersMap[blockProducers[0].addressId].includes(
+                          'BurnKoin'
+                        )
+                      "
+                      :href="`https://burnkoin.com`"
+                      target="_blank"
+                    >
+                      <img
+                        class="dark-logo"
+                        src="/projects/dapp/burnkoin-dark.jpg"
+                        alt="BurnKoin"
+                        style="max-width: 1rem"
+                      />
+                    </a>
+                    <a
+                      v-if="
+                        blockProducersMap[blockProducers[0].addressId] &&
+                        blockProducersMap[blockProducers[0].addressId].includes(
+                          'BurnKoin'
+                        )
+                      "
+                      :href="`https://burnkoin.com`"
+                      target="_blank"
+                    >
+                      <img
+                        class="light-logo"
+                        src="/projects/dapp/burnkoin.svg"
+                        alt="BurnKoin"
+                        style="max-width: 1rem"
+                      />
+                    </a>
+                  </div>
+                </q-card-section>
+              </q-card>
             </div>
 
             <block-rewards-table :producer-ids="[id]" :mobile="true" />
@@ -222,9 +287,15 @@ import BookmarkComponent from '@koiner/bookmarks/components/bookmark-component.v
 import CopyToClipboard from '@koiner/components/copy-to-clipboard.vue';
 import ShareDialog from '@koiner/components/share-dialog.vue';
 import BackButton from '@koiner/components/back-button.vue';
+import { blockProducersMap } from '@koiner/network/block-producers-map';
 
 export default defineComponent({
   name: 'AddressMobilePage',
+  computed: {
+    blockProducersMap() {
+      return blockProducersMap;
+    },
+  },
   methods: { timeAgo },
   components: {
     BackButton,
