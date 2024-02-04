@@ -6,44 +6,43 @@
           <block-producers-chart
             v-if="blockProducers?.edges"
             :block-producers="blockProducers"
+            :label-max-length="8"
           />
         </div>
       </div>
     </div>
-    <div class="row q-pb-lg">
-      <div class="col-6 text-center">
-        <counter-metric
-          class="col"
-          title="Total Rewarded"
-          :value="statsStore.blockProduction.rewarded"
-          :unit="koinerStore.koinContract.symbol"
-          :token-decimals="koinerStore.koinContract.decimals"
-          :decimals="0"
-          :footer="{
-            title: 'APY',
-            value: parseFloat(
-              statsStore.blockProductionApy.toLocaleString(undefined, {
-                maximumFractionDigits: 2,
-              })
-            ),
-            unit: '%',
-          }"
-        />
-      </div>
-      <div class="col-6 text-center">
-        <counter-metric
-          class="col"
-          title="VHP Burned"
-          :value="statsStore.blockProduction.burned"
-          :unit="koinerStore.vhpContract.symbol"
-          :token-decimals="koinerStore.vhpContract.decimals"
-          :decimals="0"
-          :footer="{
-            title: 'Producers',
-            value: blockProducers?.edges ? blockProducers.edges.length : 0,
-          }"
-        />
-      </div>
+    <div class="q-pa-md row items-start q-gutter-md">
+      <counter-metric
+        class="stats-card"
+        title="Total Rewarded"
+        :value="statsStore.blockProduction.rewarded"
+        :unit="koinerStore.koinContract.symbol"
+        :token-decimals="koinerStore.koinContract.decimals"
+        :decimals="0"
+        :footer="{
+          title: 'APY',
+          value: parseFloat(
+            statsStore.blockProductionApy.toLocaleString(undefined, {
+              maximumFractionDigits: 2,
+            })
+          ),
+          unit: '%',
+        }"
+        style="width: calc(50% - 1rem) !important"
+      />
+      <counter-metric
+        class="stats-card"
+        title="VHP Burned"
+        :value="statsStore.blockProduction.burned"
+        :unit="koinerStore.vhpContract.symbol"
+        :token-decimals="koinerStore.vhpContract.decimals"
+        :decimals="0"
+        :footer="{
+          title: 'Producers',
+          value: blockProducers?.edges ? blockProducers.edges.length : 0,
+        }"
+        style="width: calc(50% - 1rem) !important"
+      />
     </div>
   </div>
 </template>
