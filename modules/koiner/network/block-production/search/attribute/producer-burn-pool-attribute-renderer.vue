@@ -14,7 +14,7 @@
       :class="`${styles.attribute.link} address-attribute`"
     >
       <img
-        src="/projects/dapp/fogata.png"
+        src="/projects/dapp/fogata2.png"
         alt="Fogata Burn Pool"
         style="max-width: 2.5rem"
       />
