@@ -17,9 +17,15 @@
         <q-item-section>
           <q-item-label
             >{{ edge.node.id
-            }}<q-chip dense square size="md" color="white" class="q-ml-sm">{{
-              edge.node.contractStandardType
-            }}</q-chip></q-item-label
+            }}<q-chip
+              v-if="edge.node.contractStandardType"
+              dense
+              square
+              size="md"
+              color="white"
+              class="q-ml-sm"
+              >{{ edge.node.contractStandardType }}</q-chip
+            ></q-item-label
           >
         </q-item-section>
         <q-item-section side>
@@ -52,7 +58,7 @@ export default defineComponent({
     mobile: {
       required: false,
       type: Boolean,
-    }
+    },
   },
 
   setup(props) {
