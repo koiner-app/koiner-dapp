@@ -5,7 +5,11 @@
       v-for="menuItem in menuItems"
       :key="menuItem.name"
       :active="isActive(menuItem.to)"
-      :to="menuItem.to"
+      @click="
+        isActive(menuItem.to)
+          ? koinerStore.toggleMobileMenu()
+          : $router.push(menuItem.to)
+      "
       clickable
       :disable="menuItem.disabled"
     >
@@ -22,9 +26,11 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
+import { useKoinerStore } from 'stores/koiner';
 
 export default defineComponent({
   setup() {
+    const koinerStore = useKoinerStore();
     const route = useRoute();
     const link = ref('/mobile');
     const isActive = (to: string) => {
@@ -51,6 +57,7 @@ export default defineComponent({
 
     return {
       isActive,
+      koinerStore,
       menuItems: [
         {
           name: 'Projects',
