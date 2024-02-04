@@ -1,5 +1,5 @@
 <template>
-  <div class="column no-wrap q-py-sm">
+  <div class="column no-wrap">
     <div class="row">
       <div class="col">
         <div style="max-width: 100%">

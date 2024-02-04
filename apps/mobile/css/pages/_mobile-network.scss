@@ -64,7 +64,6 @@
   .stats-card {
     .stat-title {
       padding-bottom: 0.25rem !important;
-      color: rgba(255, 255, 255, 0.8) !important;
       font-weight: 400;
     }
 
@@ -80,6 +79,10 @@
 }
 
 .page--mobile-network {
+  .q-tab-panels {
+    background: #f0f2f8;
+  }
+
   .stat-title {
     font-size: 0.675rem !important;
   }
@@ -97,6 +100,10 @@
 
 .body--dark {
   .page--mobile-network {
+    .stat-title {
+      color: rgba(255, 255, 255, 0.8) !important;
+    }
+
     .search-view-table {
       .attribute--total-rewards {
         color: #ffffff !important;
@@ -116,3 +123,4 @@
     }
   }
 }
+
