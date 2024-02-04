@@ -110,7 +110,7 @@
 
     .q-tab {
       .q-tab__label {
-        color: #555555;
+        color: darken(#ffffff, 15%);
       }
 
       .q-tab__indicator {
@@ -124,7 +124,7 @@
 
     .q-tab--active {
       .q-tab__label {
-        //color: $primary;
+        color: #ffffff;
       }
     }
 
