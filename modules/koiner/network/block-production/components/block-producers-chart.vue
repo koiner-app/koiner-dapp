@@ -1,5 +1,4 @@
 <template>
-  [{{ isDarkmode }}]
   <Doughnut
     id="block-producers-chart"
     :options="chartOptions"
@@ -44,6 +43,7 @@ export default defineComponent({
   setup(props) {
     const $q = useQuasar();
     const isDarkmode = $q.dark.isActive;
+    const isMobile = $q.screen.width < 1024;
 
     const statsStore = useStatsStore();
 
@@ -110,8 +110,17 @@ export default defineComponent({
         arc: {
           spacing: 10,
           borderWidth: 2,
-          borderColor: isDarkmode ? '#000000' : '#ffffff',
+          borderColor: isDarkmode
+            ? '#000000'
+            : isMobile
+            ? '#F0F2F8'
+            : '#ffffff',
           hoverBorderWidth: 8,
+          hoverBorderColor: isDarkmode
+            ? '#000000'
+            : isMobile
+            ? '#F0F2F8'
+            : '#ffffff',
           borderRadius: 6,
         },
       },
