@@ -1,5 +1,9 @@
 <template>
-  <Doughnut id="my-chart-id" :options="chartOptions" :data="chartData" />
+  <Doughnut
+    id="block-producers-chart"
+    :options="chartOptions"
+    :data="chartData"
+  />
 </template>
 
 <script lang="ts">
@@ -28,6 +32,11 @@ export default defineComponent({
       required: false,
       type: Boolean,
       default: true,
+    },
+    labelMaxLength: {
+      required: false,
+      type: Number,
+      default: 12,
     },
   },
 
@@ -120,7 +129,7 @@ export default defineComponent({
             return value > 5
               ? `${context.chart.data.labels[context.dataIndex].substring(
                   0,
-                  12
+                  props.labelMaxLength
                 )}
 ${value.toLocaleString(undefined, {
   maximumFractionDigits: 1,
