@@ -15,7 +15,7 @@
     transition-hide="fade-out"
   >
     <q-card
-      class="bg-primary text-white"
+      class="bg-primary text-white search-dialog-results"
       style="width: 700px; max-width: 80vw; max-height: 80vh"
     >
       <q-bar>
