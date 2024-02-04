@@ -1,15 +1,15 @@
 <template>
-  <div class="row no-wrap items-center">
-    <div v-if="title" class="text-h6">{{ title }}</div>
+  <!--  <div class="row no-wrap items-center">-->
+  <!--    <div v-if="title" class="text-h6">{{ title }}</div>-->
 
-    <q-space />
+  <!--    <q-space />-->
 
-    <search-filters
-      class="token-contracts-filters"
-      :request="request"
-      search-info="Search token name, symbol or contract id"
-    />
-  </div>
+  <!--    <search-filters-->
+  <!--      class="token-contracts-filters"-->
+  <!--      :request="request"-->
+  <!--      search-info="Search token name, symbol or contract id"-->
+  <!--    />-->
+  <!--  </div>-->
 
   <q-json-search
     :schema="schema"
@@ -27,7 +27,6 @@
 import { defineComponent } from 'vue';
 import { useSearchStore } from 'stores/search';
 import { KoinerRenderers } from '@koiner/renderers';
-import SearchFilters from '@appvise/search-manager/search-filters.vue';
 import QJsonSearch from '@appvise/q-json-forms/QJsonSearch.vue';
 import schema from '../token-contracts-search.schema.json';
 import mobileUiSchema from './token-contracts-table.mobile-ui-schema.json';
@@ -36,7 +35,7 @@ import { TokenContractsConnection } from '@koiner/sdk';
 
 export default defineComponent({
   name: 'TokenContractsTable',
-  components: { SearchFilters, QJsonSearch },
+  components: { QJsonSearch },
   props: {
     title: {
       required: false,
