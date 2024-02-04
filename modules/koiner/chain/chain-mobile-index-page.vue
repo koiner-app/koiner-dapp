@@ -3,14 +3,14 @@
     <q-card class="tabs-card" flat>
       <q-card-section class="q-pt-xs q-px-none">
         <q-tab-panels v-model="tab" animated>
-          <q-tab-panel name="blocks" class="tab--mobile-table">
-            <blocks-table :mobile="true" />
-          </q-tab-panel>
           <q-tab-panel name="transactions" class="tab--mobile-table">
             <transactions-table :mobile="true" />
           </q-tab-panel>
           <q-tab-panel name="addresses" class="tab--mobile-table">
             <addresses-table :mobile="true" />
+          </q-tab-panel>
+          <q-tab-panel name="blocks" class="tab--mobile-table">
+            <blocks-table :mobile="true" />
           </q-tab-panel>
           <q-tab-panel name="operations" class="tab--mobile-table">
             <operations-table :mobile="true" />
@@ -27,12 +27,6 @@
         <q-tab
           class="text-overline"
           :ripple="false"
-          label="Blocks"
-          name="blocks"
-        />
-        <q-tab
-          class="text-overline"
-          :ripple="false"
           label="Transactions"
           name="transactions"
         />
@@ -41,6 +35,12 @@
           :ripple="false"
           label="Addresses"
           name="addresses"
+        />
+        <q-tab
+          class="text-overline"
+          :ripple="false"
+          label="Blocks"
+          name="blocks"
         />
         <q-tab
           class="text-overline"
@@ -60,7 +60,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, Ref, ref } from 'vue';
+import { defineComponent, onMounted, Ref, ref, watch } from 'vue';
 import TransactionsTable from './transaction/search/view/transactions-table.vue';
 import BlocksTable from './block/search/view/blocks-table.vue';
 import OperationsTable from './operation/search/view/operations-table.vue';
@@ -82,11 +82,34 @@ export default defineComponent({
     const route = useRoute();
     const tab: Ref<string> = ref('blocks');
 
+    const loadTab = () => {
+      switch (route.name) {
+        case 'mobile.blocks':
+          tab.value = 'blocks';
+          break;
+        case 'mobile.addresses':
+          tab.value = 'addresses';
+          break;
+        case 'mobile.transactions':
+          tab.value = 'transactions';
+          break;
+        default:
+        //
+      }
+    };
+
     onMounted(() => {
       if (route.query['tab']) {
         tab.value = route.query['tab'].toString();
       }
     });
+
+    watch(
+      () => route.path,
+      () => {
+        loadTab();
+      }
+    );
 
     return {
       tab,
