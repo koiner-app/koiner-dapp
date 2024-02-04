@@ -7,6 +7,7 @@
       :class="buttonClass"
       @click="copy(source)"
       size="1rem"
+      style="min-width: 2rem; min-height: 2rem"
     >
       <q-icon :name="copied ? 'done' : icon" :size="iconSize" />
     </q-btn>
@@ -17,7 +18,7 @@
 
 <script lang="ts">
 import { useClipboard } from '@vueuse/core';
-import { defineComponent, PropType, ref, Ref } from 'vue';
+import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'CopyToClipboard',

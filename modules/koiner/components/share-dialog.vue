@@ -83,7 +83,7 @@
         </q-scroll-area>
       </q-card-section>
 
-      <hr style="opacity: 0.1" />
+      <hr class="section-divider" />
 
       <q-card-section>
         <q-scroll-area style="height: 100px; width: 100%">

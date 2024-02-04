@@ -161,4 +161,32 @@
       background: #f0f2f8 !important;
     }
   }
+
+  .share-dialog {
+    .q-card {
+      background: #f0f2f8 !important;
+    }
+
+    hr.section-divider {
+      opacity: 0.5;
+    }
+  }
 }
+
+.body--dark {
+  .share-dialog {
+    .q-card {
+      background: #424242 !important;
+    }
+
+    hr.section-divider {
+      opacity: 0.1;
+    }
+  }
+}
+
+.btn-copy-link {
+  min-width: 3rem !important;
+  min-height: 3rem !important;
+}
+
