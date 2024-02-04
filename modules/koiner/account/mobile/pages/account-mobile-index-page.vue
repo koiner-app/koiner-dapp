@@ -19,7 +19,7 @@
       <q-card-section class="q-pt-xs q-px-none">
         <q-tab-panels v-model="tab" animated swipeable>
           <q-tab-panel
-            name="coins"
+            name="tokens"
             style="padding: 0 !important; min-height: 100vh"
             class="portfolio-panel"
           >
@@ -115,11 +115,14 @@
                 blockProductionStore.blockProducers.length > 0
               "
             >
-              <token-holder-balances-metric
-                title="Total Rewards"
-                :token-holders="blockProducers"
-                :tooltip-hide-delay="3000"
-              />
+              <div class="q-pa-md row items-start q-gutter-md">
+                <token-holder-balances-metric
+                  title="Total Rewards"
+                  :token-holders="blockProducers"
+                  :tooltip-hide-delay="3000"
+                  class="col-6"
+                />
+              </div>
 
               <block-rewards-table
                 v-if="accountStore.addressesFilter.length > 0"
@@ -131,7 +134,7 @@
             <q-list bordered padding v-else>
               <q-item-label header class="relative-position">
                 <div class="row">
-                  <div class="col-12">Not a block producer</div>
+                  <div class="col-12">Not a Block Producer</div>
                 </div>
               </q-item-label>
             </q-list>
@@ -155,7 +158,7 @@
           class="text-overline"
           :ripple="false"
           label="Tokens"
-          name="coins"
+          name="tokens"
         />
         <!--        <q-tab-->
         <!--          class="text-overline"-->
@@ -214,7 +217,7 @@ export default defineComponent({
     const accountStore = useAccountStore();
     const blockProductionStore = useBlockProductionStore();
 
-    const tab: Ref<string> = ref('coins');
+    const tab: Ref<string> = ref('tokens');
     const openDialog = ref(false);
 
     onMounted(async () => {

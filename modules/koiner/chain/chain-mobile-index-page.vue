@@ -102,6 +102,8 @@ export default defineComponent({
       if (route.query['tab']) {
         tab.value = route.query['tab'].toString();
       }
+
+      loadTab();
     });
 
     watch(
