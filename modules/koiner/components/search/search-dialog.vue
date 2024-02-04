@@ -51,11 +51,11 @@
 
       <pages-search :search="trimmedSearch" :mobile="mobile" />
       <token-contracts-search :search="trimmedSearch" :mobile="mobile" />
+      <projects-search :search="trimmedSearch" />
       <addresses-search :search="trimmedSearch" :mobile="mobile" />
       <contracts-search :search="trimmedSearch" :mobile="mobile" />
       <blocks-search :search="trimmedSearch" :mobile="mobile" />
       <transactions-search :search="trimmedSearch" :mobile="mobile" />
-      <projects-search :search="trimmedSearch" />
     </q-card>
   </q-dialog>
 </template>
