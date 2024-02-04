@@ -1,4 +1,5 @@
 <template>
+  [{{ isDarkmode }}]
   <Doughnut
     id="block-producers-chart"
     :options="chartOptions"
@@ -7,14 +8,14 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, ref, Ref } from 'vue';
+import { computed, defineComponent, PropType } from 'vue';
 import { BlockProducersConnection } from '@koiner/sdk';
 import { Chart as ChartJS, ArcElement, Tooltip, ChartOptions } from 'chart.js';
 import { Doughnut } from 'vue-chartjs';
 import { useStatsStore } from 'stores/stats';
 import { blockProducersMap } from '@koiner/network/block-producers-map';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-import { useAccountStore } from 'stores/account';
+import { useQuasar } from 'quasar';
 
 ChartJS.register(ArcElement, Tooltip, ChartDataLabels);
 
@@ -41,8 +42,8 @@ export default defineComponent({
   },
 
   setup(props) {
-    const accountStore = useAccountStore();
-    const isDarkmode = accountStore.theme === 'dark';
+    const $q = useQuasar();
+    const isDarkmode = $q.dark.isActive;
 
     const statsStore = useStatsStore();
 
@@ -143,6 +144,7 @@ ${value.toLocaleString(undefined, {
     return {
       chartData,
       chartOptions,
+      isDarkmode,
     };
   },
 });
