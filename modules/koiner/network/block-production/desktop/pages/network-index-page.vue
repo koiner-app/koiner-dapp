@@ -71,7 +71,7 @@
             <block-rewards-component />
           </q-tab-panel>
           <q-tab-panel name="chart">
-            <div style="max-width: 80%">
+            <div style="max-width: 80%; max-height: calc(100vh - 500px)">
               <block-producers-chart
                 v-if="blockProducers?.edges"
                 :block-producers="blockProducers"
@@ -86,7 +86,10 @@
       <q-card-section>
         <div class="text-overline">Producers Shares</div>
 
-        <div class="search-card-content">
+        <div
+          class="search-card-content"
+          style="max-height: calc(100vh - 400px)"
+        >
           <block-producers-chart
             v-if="blockProducers?.edges"
             :block-producers="blockProducers"
