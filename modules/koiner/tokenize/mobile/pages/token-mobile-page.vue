@@ -67,6 +67,26 @@
                 <div class="stat-title">
                   {{ tokenContract.name }}
                 </div>
+
+                <div
+                  v-if="tradableTokens().includes(tokenContract.id)"
+                  class="trade-token absolute-right q-mr-xl q-mt-md"
+                >
+                  <div class="text-caption">Trade</div>
+
+                  <q-btn
+                    :href="`https://app.koindx.com/swap?output=${tokenContract.id}`"
+                    target="_blank"
+                    color="primary"
+                    style="
+                      padding: 0.025rem 0.25rem !important;
+                      min-height: 1rem;
+                      font-size: 0.75rem;
+                    "
+                  >
+                    @KoinDX
+                  </q-btn>
+                </div>
               </q-card-section>
               <q-card-section class="q-pb-sm">
                 <div class="text-caption">Total Supply</div>
@@ -75,7 +95,9 @@
                     tokenAmount(
                       parseInt(tokenContract.totalSupply),
                       tokenContract.decimals
-                    )
+                    ).toLocaleString(undefined, {
+                      maximumFractionDigits: tokenContract.decimals,
+                    })
                   }}<q-chip size="xs">{{ tokenContract.symbol }}</q-chip>
                 </div>
               </q-card-section>
@@ -85,6 +107,7 @@
                   <copy-to-clipboard
                     :source="tokenContract.id"
                     :tooltip="'Copy contract id to clipboard'"
+                    button-class=""
                   />
                 </div>
               </q-card-section>
@@ -153,10 +176,17 @@ import { tokenAmount, tokenLogo } from '../../../utils';
 import ShareDialog from '@koiner/components/share-dialog.vue';
 import AccountMenuMobile from '@koiner/components/account-menu-mobile.vue';
 import BackButton from '@koiner/components/back-button.vue';
+import { tradableTokens } from '@koiner/tokenize/tradable-tokens-map';
 
 export default defineComponent({
   name: 'TokenMobilePage',
-  methods: { tokenLogo, tokenAmount },
+  methods: {
+    tradableTokens() {
+      return tradableTokens;
+    },
+    tokenLogo,
+    tokenAmount,
+  },
   components: {
     BackButton,
     AccountMenuMobile,

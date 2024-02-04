@@ -11,7 +11,7 @@
       "elements": [
         {
           "type": "Attribute",
-          "label": "",
+          "label": "Token",
           "scope": "#/properties/id",
           "options": {
             "format": "tokenImage",
@@ -20,7 +20,7 @@
         },
         {
           "type": "AttributeGroup",
-          "label": "Name / Age",
+          "label": "",
           "scope": "#/properties/group1",
           "options": {
             "class": "attribute-wrapper--group-1"
@@ -54,7 +54,7 @@
         },
         {
           "type": "AttributeGroup",
-          "label": "Total Supply - Holders - Transfers",
+          "label": "Supply - Holders - Transfers",
           "scope": "#/properties/group2",
           "options": {
             "class": "attribute-wrapper--group-2"
@@ -90,23 +90,6 @@
               "options": {
                 "after": "x",
                 "mapping": "transferCount"
-              }
-            }
-          ]
-        },
-        {
-          "type": "AttributeGroup",
-          "label": "Trade",
-          "scope": "#/properties/group3",
-          "options": {
-            "class": "attribute-wrapper--group-3"
-          },
-          "elements": [
-            {
-              "type": "Attribute",
-              "scope": "#/properties/trade",
-              "options": {
-                "format": "tradeToken"
               }
             }
           ]

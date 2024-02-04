@@ -54,7 +54,6 @@
             >
               <token-contracts-table
                 :liquidity-pools="true"
-                :mobile="true"
                 @contract-count-updated="(newCount: number) => liquidityPoolsCount = newCount"
               />
             </div>
@@ -65,7 +64,6 @@
           >
             <token-contracts-table
               :liquidity-pools="true"
-              :mobile="true"
               @contract-count-updated="(newCount: number) => liquidityPoolsCount = newCount"
             />
           </q-tab-panel>

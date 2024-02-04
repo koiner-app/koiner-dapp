@@ -58,7 +58,7 @@ export default defineComponent({
     buttonClass: {
       type: String,
       required: false,
-      default: 'q-ml-xs',
+      default: '',
     },
   },
 

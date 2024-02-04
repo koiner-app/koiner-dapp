@@ -11,23 +11,27 @@
       "elements": [
         {
           "type": "Attribute",
-          "label": "Image",
+          "label": "",
           "scope": "#/properties/id",
           "options": {
-            "format": "tokenImage"
+            "format": "tokenImage",
+            "class": "attribute-wrapper--token-image vertical-middle"
           }
         },
         {
           "type": "AttributeGroup",
-          "label": "Token",
-          "scope": "#/properties/nameGroup",
+          "label": "Name / Age",
+          "scope": "#/properties/group1",
+          "options": {
+            "class": "attribute-wrapper--group-1"
+          },
           "elements": [
             {
               "type": "Attribute",
               "label": "ID",
               "scope": "#/properties/id",
               "options": {
-                "route": "token",
+                "route": "mobile.token",
                 "format": "link",
                 "linkParams": ["id"],
                 "mapping": "name",
@@ -38,29 +42,74 @@
             },
             {
               "type": "Attribute",
-              "scope": "#/properties/symbol",
-              "mapping": "symbol"
+              "label": "Age",
+              "scope": "#/properties/timestamp",
+              "options": {
+                "format": "age",
+                "mapping": "timestamp",
+                "class": "attribute-wrapper--age"
+              }
             }
           ]
         },
         {
-          "type": "Attribute",
-          "label": "Symbol",
-          "scope": "#/properties/symbol"
+          "type": "AttributeGroup",
+          "label": "Total Supply - Holders - Transfers",
+          "scope": "#/properties/group2",
+          "options": {
+            "class": "attribute-wrapper--group-2"
+          },
+          "elements": [
+            {
+              "type": "Attribute",
+              "label": "Total supply",
+              "scope": "#/properties/totalSupply",
+              "options": {
+                "format": "tokenAmount",
+                "mapping": "totalSupply",
+                "mappings": {
+                  "contract.id": "id",
+                  "contract.name": "name",
+                  "contract.symbol": "symbol",
+                  "contract.decimals": "decimals"
+                },
+                "route": "mobile.token"
+              }
+            },
+            {
+              "type": "Attribute",
+              "scope": "#/properties/holderCount",
+              "options": {
+                "mapping": "holders.totalCount",
+                "after": " holders -"
+              }
+            },
+            {
+              "type": "Attribute",
+              "scope": "#/properties/transferCount",
+              "options": {
+                "after": "x",
+                "mapping": "transferCount"
+              }
+            }
+          ]
         },
         {
-          "type": "Attribute",
-          "label": "Total supply",
-          "scope": "#/properties/totalSupply",
+          "type": "AttributeGroup",
+          "label": "Trade",
+          "scope": "#/properties/group3",
           "options": {
-            "format": "tokenAmount",
-            "mappings": {
-              "contract.id": "id",
-              "contract.name": "name",
-              "contract.symbol": "symbol",
-              "contract.decimals": "decimals"
+            "class": "attribute-wrapper--group-3"
+          },
+          "elements": [
+            {
+              "type": "Attribute",
+              "scope": "#/properties/trade",
+              "options": {
+                "format": "tradeToken"
+              }
             }
-          }
+          ]
         }
       ]
     }
