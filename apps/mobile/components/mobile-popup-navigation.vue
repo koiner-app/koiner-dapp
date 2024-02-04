@@ -80,9 +80,14 @@ export default defineComponent({
           icon: 'document_scanner',
         },
         {
-          name: 'Chain',
-          to: '/mobile/chain',
-          icon: 'token',
+          name: 'Transactions',
+          to: '/mobile/transactions',
+          icon: 'receipt',
+        },
+        {
+          name: 'Addresses',
+          to: '/mobile/addresses',
+          icon: 'wallet',
         },
       ],
     };
