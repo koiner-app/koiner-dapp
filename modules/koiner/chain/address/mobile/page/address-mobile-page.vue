@@ -117,6 +117,7 @@
               v-if="tokenHolders"
               :token-balances="tokenHolders"
               :show-group-balances="false"
+              :is-mobile="true"
             />
           </q-tab-panel>
 

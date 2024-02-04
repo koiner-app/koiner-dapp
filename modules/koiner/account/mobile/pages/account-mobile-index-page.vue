@@ -92,6 +92,7 @@
               v-if="accountStore.addressesFilter.length > 0"
               :token-balances="accountStore.tokenBalances"
               :show-group-balances="false"
+              :is-mobile="true"
             />
           </q-tab-panel>
 

@@ -81,7 +81,7 @@
           }}</q-item-label>
         </q-item-section>
 
-        <q-item-section side top>
+        <q-item-section :side="isMobile" top>
           <q-item-label
             ><span v-if="showPrice(tokenBalance.contract.id)"
               >${{
@@ -154,6 +154,11 @@ export default defineComponent({
       default: true,
     },
     liquidityPools: {
+      required: false,
+      type: Boolean,
+      default: false,
+    },
+    isMobile: {
       required: false,
       type: Boolean,
       default: false,
