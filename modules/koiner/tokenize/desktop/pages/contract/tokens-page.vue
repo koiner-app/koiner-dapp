@@ -96,10 +96,6 @@ export default defineComponent({
     const statsStore = useStatsStore();
     const searchStore = useSearchStore();
 
-    const onScroll = (newScrollPosition: number) => {
-      searchStore.tokenContracts.position = newScrollPosition;
-    };
-
     const tab: Ref<string> = ref('tokens');
 
     const tokenContractsCount = ref(0);
@@ -110,7 +106,6 @@ export default defineComponent({
       statsStore,
       tokenContractsCount,
       liquidityPoolsCount,
-      onScroll,
       schema,
       uiSchema,
       request: searchStore.tokenContracts.request,

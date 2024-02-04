@@ -17,21 +17,19 @@
     :request="request"
     :data="{}"
     @change="onChange"
-    @on-scroll="onScroll"
-    :scroll-position="position"
     :additional-renderers="renderers"
   />
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { useSearchStore } from 'stores/search';
 import { KoinerRenderers } from '@koiner/renderers';
 import QJsonSearch from '@appvise/q-json-forms/QJsonSearch.vue';
 import schema from '../token-contracts-search.schema.json';
 import mobileUiSchema from './token-contracts-table.mobile-ui-schema.json';
 import desktopUiSchema from './token-contracts-table.ui-schema.json';
 import { TokenContractsConnection } from '@koiner/sdk';
+import { koinerConfig } from 'app/koiner.config';
 
 export default defineComponent({
   name: 'TokenContractsTable',
@@ -55,23 +53,17 @@ export default defineComponent({
   emits: ['contractCountUpdated'],
 
   setup(props, { emit }) {
-    const searchStore = useSearchStore();
-
-    const onScroll = (newScrollPosition: number) => {
-      searchStore.tokenContracts.position = newScrollPosition;
-    };
-
     const onChange = async (data: TokenContractsConnection) => {
       emit('contractCountUpdated', data?.edges ? data.edges.length : 0);
     };
 
     return {
-      onScroll,
       onChange,
       schema,
       uiSchema: props.mobile ? mobileUiSchema : desktopUiSchema,
       request: props.liquidityPools
         ? {
+            first: 250,
             filter: {
               AND: [
                 {
@@ -88,6 +80,7 @@ export default defineComponent({
             },
           }
         : {
+            first: 250,
             filter: {
               AND: [
                 {
@@ -142,10 +135,14 @@ export default defineComponent({
                     excludes: '16QqxFiift3FhBBaNCJiGoZUivx44Seqxe',
                   },
                 },
+                {
+                  id: {
+                    excludes: koinerConfig.production.contracts.oldVhp.id,
+                  },
+                },
               ],
             },
           },
-      position: searchStore.tokenContracts.position,
       renderers: KoinerRenderers,
     };
   },
