@@ -236,9 +236,6 @@ export default defineComponent({
       tableView,
       columns: computed(() => {
         return columns.filter((column) => {
-          console.log({
-            screensize: column.screenSize,
-          });
           return (
             (column.visible &&
               (!column.screenSize ||
