@@ -6,7 +6,7 @@
         title="KOIN Price"
         :value="statsStore.formattedKoinPrice"
         :footer="{
-          title: 'Transactions:',
+          title: 'Transactions:&nbsp;',
           value: statsStore.chainStats.transactionCount,
         }"
         :footer-tooltips="[
@@ -17,6 +17,11 @@
         ]"
         :tooltip-title-width="125"
         :tooltip-item-width="250"
+        :footer2="{
+          title: 'Gas Fees Paid:',
+          value: 0,
+          unitPrefix: '$ ',
+        }"
       />
 
       <q-separator vertical />

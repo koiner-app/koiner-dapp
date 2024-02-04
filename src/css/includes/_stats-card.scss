@@ -45,6 +45,16 @@
   }
 
   &.token-price {
+    .stat-footer {
+      padding-top: 0.125rem;
+
+      &.stat-footer2 {
+        padding-top: 0;
+      }
+    }
+  }
+
+  &.token-price {
     .stat-content::first-letter {
       font-size: 1.5rem;
       line-height: 1;
