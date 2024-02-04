@@ -3,12 +3,6 @@
     display: none !important;
   }
 
-  .q-list {
-    .q-item {
-      background: $dark-page-2;
-    }
-  }
-
   /* Handle */
   .q-scrollarea__thumb--v,
   ::-webkit-scrollbar-thumb {
@@ -325,19 +319,27 @@
     }
   }
 
+  .layout--desktop {
+    .project-cards .q-card,
+    .stats-card.q-card--dark,
+    .stats-cards {
+      background: #000000 !important;
+    }
+  }
+
   .project-cards .q-card,
   .stats-card.q-card--dark {
-    //background: #101013 linear-gradient(180deg, #0f0f13, #0f0f13 50%, #101013 51%, #101013) !important;
+    background: #101013 linear-gradient(180deg, #0f0f13, #0f0f13 50%, #101013 51%, #101013) !important;
   }
 
   .page--mobile-address,
   .page--mobile-account {
     .stats-card.q-card--dark {
-      //background: #101013 linear-gradient(180deg, #0f0f13, #0f0f13 50%, #101013 51%, #101013) !important;
+      background: #101013 linear-gradient(180deg, #0f0f13, #0f0f13 50%, #101013 51%, #101013) !important;
     }
 
     .q-item {
-      //background: #101013 linear-gradient(90deg, #0f0f13, #0f0f13 50%, #101013 51%, #0f0f13) !important;
+      background: #101013 linear-gradient(90deg, #0f0f13, #0f0f13 50%, #101013 51%, #0f0f13) !important;
 
       .q-item__section {
         .q-item__label {
@@ -360,8 +362,6 @@
       //box-shadow: 0 0 1px 1px rgb(255 255 255 / 10%), 0 0px 10px rgba(255, 255, 255, 0.24) !important;
     }
   }
-
-
   .large-stats-cards .stats-card.q-card--dark {
     background: #101013 linear-gradient(180deg, #0f0f13, #0f0f13 50%, #101013 51%, #101013) !important;
   }
