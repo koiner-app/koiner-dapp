@@ -3,7 +3,9 @@
     <q-card-section>
       <div class="stat-title">{{ computedTitle }}</div>
       <div class="stat-content">
-        {{ value.toFixed(decimals) }}
+        {{
+          value.toLocaleString(undefined, { maximumFractionDigits: decimals })
+        }}
         <span class="stat-unit">{{ computedCaption }}</span>
       </div>
       <div class="stat-footer" v-if="showAddressCount && addressCount > 0">

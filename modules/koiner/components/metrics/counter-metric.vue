@@ -27,7 +27,9 @@
       <div class="stat-footer" v-if="footer">
         {{ footer.title }}
         <span class="stat-footer-stat"
-          >{{ footer.value }}
+          >{{
+            footer.value.toLocaleString(undefined, { maximumFractionDigits: 0 })
+          }}
           <span
             v-if="footer.unit"
             :class="`stat-unit ${footer.unitClass ?? ''}`"
@@ -63,7 +65,11 @@
                   tooltipItemWidth ? `min-width: ${tooltipItemWidth}px` : ''
                 "
               >
-                {{ footerTooltip.value }}
+                {{
+                  footerTooltip.value.toLocaleString(undefined, {
+                    maximumFractionDigits: 0,
+                  })
+                }}
                 &nbsp;
                 <span
                   v-if="footerTooltip.unit"
