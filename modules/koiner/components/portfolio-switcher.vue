@@ -1,7 +1,12 @@
 <template>
-  <q-btn icon="unfold_more" class="q-pa-none" size="sm" @click="dialog = true">
-  </q-btn>
-  <span @click="dialog = true">Main Portfolio</span>
+  <q-btn
+    icon="unfold_more"
+    class="q-pa-none"
+    size="sm"
+    @click="dialog = true"
+    disable
+  />
+  <span>Main Portfolio</span>
 
   <q-dialog
     v-model="dialog"
@@ -9,11 +14,11 @@
     transition-hide="fade-out"
   >
     <q-card
-      class="bg-primary text-white"
-      style="width: 700px; max-width: 80vw; max-height: 80vh"
+      class="bg-primary text-white relative-position"
+      style="width: 700px; max-width: 80vw; max-height: 80vh; min-height: 50vh"
     >
       <q-bar>
-        <span class="text-caption">Switch portfolios</span>
+        <span class="text-caption">Switch portfolio</span>
 
         <q-space />
 
@@ -33,7 +38,10 @@
           >
             <q-item-section>Main Portfolio</q-item-section>
           </q-item>
-
+        </q-list>
+      </q-card-section>
+      <q-card-actions>
+        <q-list>
           <q-item
             clickable
             v-ripple
@@ -44,7 +52,7 @@
             <q-item-section avatar class="text-caption"> Soon </q-item-section>
           </q-item>
         </q-list>
-      </q-card-section>
+      </q-card-actions>
     </q-card>
   </q-dialog>
 </template>
