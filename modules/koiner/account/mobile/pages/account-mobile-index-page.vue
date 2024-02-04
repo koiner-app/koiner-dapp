@@ -108,22 +108,33 @@
           </q-tab-panel>
 
           <q-tab-panel name="mining" class="tab--mobile-table">
-            <token-holder-balances-metric
+            <div
               v-if="
                 accountStore.addressesFilter.length > 0 &&
                 blockProductionStore.blockProducers &&
                 blockProductionStore.blockProducers.length > 0
               "
-              title="Total Rewards"
-              :token-holders="blockProducers"
-              :tooltip-hide-delay="3000"
-            />
+            >
+              <token-holder-balances-metric
+                title="Total Rewards"
+                :token-holders="blockProducers"
+                :tooltip-hide-delay="3000"
+              />
 
-            <block-rewards-table
-              v-if="accountStore.addressesFilter.length > 0"
-              :producer-ids="accountStore.addressesFilter"
-              :mobile="true"
-            />
+              <block-rewards-table
+                v-if="accountStore.addressesFilter.length > 0"
+                :producer-ids="accountStore.addressesFilter"
+                :mobile="true"
+              />
+            </div>
+
+            <q-list bordered padding v-else>
+              <q-item-label header class="relative-position">
+                <div class="row">
+                  <div class="col-12">Not a block producer</div>
+                </div>
+              </q-item-label>
+            </q-list>
           </q-tab-panel>
 
           <q-tab-panel name="liquidity" class="tab--mobile-table">
