@@ -40,7 +40,6 @@
           <q-tab-panel name="tokens" class="tab--mobile-table">
             <token-contracts-table
               :liquidity-pools="false"
-              :mobile="true"
               @contract-count-updated="(newCount: number) => tokenContractsCount = newCount"
             />
 

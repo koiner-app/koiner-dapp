@@ -10,6 +10,7 @@ import { kollection } from './kollection';
 import { koinCity } from './koin-city';
 import { koinosboxPolls } from './koinosbox-polls';
 import { koinCrewTokenTracker } from './koincrew-tokentracker';
+import { koinosSocial } from './koinos-social';
 
 export const dappProjects = [
   kap,
@@ -19,6 +20,7 @@ export const dappProjects = [
   fogataMiningPool,
   burnKoin,
   koinCity,
+  koinosSocial,
   koiner,
   koinosBlocks,
   koinCrewTokenTracker,

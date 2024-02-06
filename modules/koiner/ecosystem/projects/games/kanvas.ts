@@ -21,6 +21,10 @@ export const kanvas: Project = {
       icon: 'fa-brands fa-telegram',
     },
     {
+      url: 'https://t.me/KanvasAnnouncements',
+      icon: 'fa-brands fa-telegram',
+    },
+    {
       url: 'https://x.com/KanvasOfficial',
       icon: 'fa-brands fa-twitter',
     },

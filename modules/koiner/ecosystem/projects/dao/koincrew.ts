@@ -2,7 +2,7 @@ import { Project } from '@koiner/ecosystem';
 
 export const koinCrew: Project = {
   name: 'KoinCrew',
-  types: ['DAO', 'Marketing'],
+  types: ['DAO', 'Community', 'Marketing'],
   caption: 'DAO',
   image: '/projects/dao/koincrew.png',
   description:
@@ -30,5 +30,5 @@ export const koinCrew: Project = {
     },
   ],
   maintainers: [],
-  tags: ['DAO', 'Marketing'],
+  tags: ['DAO', 'Community', 'Marketing'],
 };

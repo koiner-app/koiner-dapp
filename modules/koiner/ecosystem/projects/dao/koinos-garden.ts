@@ -2,7 +2,7 @@ import { Project } from '@koiner/ecosystem';
 
 export const koinosGarden: Project = {
   name: 'Koinos Garden',
-  types: ['DAO'],
+  types: ['DAO', 'Community'],
   caption: 'Investment DAO',
   image: '/projects/dao/koinos-garden.jpg',
   description:
@@ -26,5 +26,5 @@ export const koinosGarden: Project = {
     },
   ],
   maintainers: [],
-  tags: ['DAO'],
+  tags: ['DAO', 'Community'],
 };
