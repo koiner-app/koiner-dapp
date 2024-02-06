@@ -12,10 +12,6 @@ export const koinosSocial: Project = {
       url: 'https://koinos-social.vercel.app',
       icon: 'fa-solid fa-globe',
     },
-    {
-      url: 'https://github.com/lukemwillis/koinos-burn-pool',
-      icon: 'fa-brands fa-github',
-    },
   ],
   maintainers: [],
   tags: ['dApp'],
