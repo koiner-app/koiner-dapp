@@ -11,6 +11,7 @@ export const ProjectTypes = [
   'Code',
   'Content',
   'Marketing',
+  'Other',
 ];
 
 export const ProjectTags = [
@@ -22,4 +23,5 @@ export const ProjectTags = [
   'YouTube',
   'JavaScript',
   'Node',
+  'Other',
 ];

@@ -1,16 +1,17 @@
-import { codeProjects } from '@koiner/ecosystem/projects/code';
+import { codeProjects } from './code';
 import { contentProjects } from './content';
 import { nftProjects } from './nft';
 import { dappProjects } from './dapp';
 import { daos } from './dao';
 import { games } from './games';
 import { koinosOfficial } from './koinos-official';
-import { marketingProjects } from '@koiner/ecosystem/projects/marketing';
-import { socialProjects } from '@koiner/ecosystem/projects/social';
+import { marketingProjects } from './marketing';
+import { socialProjects } from './social';
 import { tools } from './tools';
-import { wallets } from '@koiner/ecosystem/projects/wallets';
-import { documentation } from '@koiner/ecosystem/projects/documentation';
-import { communities } from '@koiner/ecosystem/projects/communities';
+import { wallets } from './wallets';
+import { documentation } from './documentation';
+import { communities } from './communities';
+import { otherProjects } from './other';
 
 export * from './project';
 export * from './tags';
@@ -29,4 +30,5 @@ export const KoinosProjects = [
   ...codeProjects,
   ...contentProjects,
   ...marketingProjects,
+  ...otherProjects,
 ];
