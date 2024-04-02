@@ -34,6 +34,14 @@ export function tokenLogo(id: string, symbol: string): string | undefined {
       '19WrWze3XAoMa3Mwqys4rJMP6emZX2wfpH',
       '143CLkKmfqa6trCbjxDMKojjeLq2q4RGD8',
       '189TkvhzpeRg56EnhysLa5YP9ufvaXTcWn',
+      '19bbwAGVQLsTmTSoWanmrQ4w4VfyB8cwwK',
+      '1GNkfsZp9ySg314QFVZAAew1VDbjGNZrZP',
+      '13LSVn3ieYBrKntQbir45hyEXQDSDPPHrQ',
+      '1Bq1bNY3AzoNZucxwEb45cmRCBWYgZbS8N',
+      '1HpuQRLCaastcS4UDgbK6obwDyqxnrdsn',
+      '1KRnT95gSFLox2arT5bAu5GaL5waQBWT4W',
+      '156h8x3tqjzsXQX6XXf7h6AuXQifMkC6Em',
+      '1EPvYm5K73xVGFh9qwwHQqYt94HGCJj8bc',
     ].includes(id)
   ) {
     return;
