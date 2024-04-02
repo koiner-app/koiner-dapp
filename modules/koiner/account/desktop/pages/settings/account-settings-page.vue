@@ -12,6 +12,9 @@
               label="Realtime updates (stats)"
             />
 
+            <br />
+            <display-date-button :show-toggle="true" />
+
             <theme-switcher />
           </div>
         </div>
@@ -24,10 +27,11 @@
 import { defineComponent, ref, watch } from 'vue';
 import { useStatsStore } from 'stores/stats';
 import ThemeSwitcher from 'components/theme-switcher.vue';
+import DisplayDateButton from '@koiner/components/display-date-button.vue';
 
 export default defineComponent({
   name: 'AccountBookmarksPage',
-  components: { ThemeSwitcher },
+  components: { DisplayDateButton, ThemeSwitcher },
 
   setup() {
     const statsStore = useStatsStore();

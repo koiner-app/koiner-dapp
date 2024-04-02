@@ -4,6 +4,12 @@
 
     <q-space />
 
+    <div class="search-filters">
+      <display-date-button />
+    </div>
+
+    <q-separator vertical class="q-ml-md q-mr-lg" />
+
     <search-filters
       :request="request"
       search-info="Search by transaction id or payer"
@@ -30,10 +36,11 @@ import QJsonSearch from '@appvise/q-json-forms/QJsonSearch.vue';
 import schema from '@koiner/chain/transaction/search/transactions-search.schema.json';
 import mobileUiSchema from './transactions-table.mobile-ui-schema.json';
 import desktopUiSchema from './transactions-table.ui-schema.json';
+import DisplayDateButton from '@koiner/components/display-date-button.vue';
 
 export default defineComponent({
   name: 'TransactionsTable',
-  components: { SearchFilters, QJsonSearch },
+  components: { DisplayDateButton, SearchFilters, QJsonSearch },
   props: {
     title: {
       required: false,

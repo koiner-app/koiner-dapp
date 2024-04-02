@@ -1,7 +1,15 @@
 <template>
   <div class="row no-wrap items-center">
     <div v-if="title" class="text-h6">{{ title }}</div>
+
     <q-space />
+
+    <div class="search-filters">
+      <display-date-button />
+    </div>
+
+    <q-separator vertical class="q-ml-md q-mr-lg" />
+
     <search-filters
       :request="request"
       search-info="Search by event name, id or contract id"
@@ -28,10 +36,11 @@ import schema from '../contract-events-search.schema.json';
 import mobileUiSchema from './contract-events-table.mobile-ui-schema.json';
 import desktopUiSchema from './contract-events-table.ui-schema.json';
 import { useSearchStore } from 'stores/search';
+import DisplayDateButton from '@koiner/components/display-date-button.vue';
 
 export default defineComponent({
   name: 'ContractEventsTable',
-  components: { SearchFilters, QJsonSearch },
+  components: { DisplayDateButton, SearchFilters, QJsonSearch },
   props: {
     title: {
       required: false,

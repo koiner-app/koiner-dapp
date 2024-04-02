@@ -36,6 +36,7 @@ export const useAccountStore = defineStore({
     environment: 'production' as 'production' | 'test' | 'local',
     anonymousId: uuidv4().toString() as string,
     theme: 'auto' as KoinerThemeType,
+    displayDate: false as boolean,
     production: {
       name: 'Mystery Koiner',
       addresses: [] as string[],

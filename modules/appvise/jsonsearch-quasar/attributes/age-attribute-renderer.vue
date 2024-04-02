@@ -4,7 +4,10 @@
     :styles="styles"
     :applied-options="appliedOptions"
   >
-    <span :class="`${styles.attribute.age}`">
+    <span :class="`${styles.attribute.age}`" v-if="accountStore.displayDate">
+      {{ date.formatDate(rawValue(result.node), 'YYYY-MM-DD HH:mm:ss.SSSZ') }}
+    </span>
+    <span :class="`${styles.attribute.age}`" v-else>
       {{ timeAgo(rawValue(result.node)) }} <span class="ago">ago</span>
       <q-tooltip>
         {{ date.formatDate(rawValue(result.node), 'YYYY-MM-DD HH:mm:ss.SSSZ') }}
@@ -24,6 +27,7 @@ import {
 } from '@appvise/jsonsearch-quasar';
 import { timeAgo } from '../util';
 import { date } from 'quasar';
+import { useAccountStore } from 'stores/account';
 
 export default defineComponent({
   name: 'AgeAttributeRenderer',
@@ -40,9 +44,12 @@ export default defineComponent({
     },
   },
   setup(props: RendererProps<AttributeElement>) {
+    const accountStore = useAccountStore();
+
     return {
       ...useQuasarAttribute(useJsonAttribute(props)),
 
+      accountStore,
       timeAgo,
       date,
     };

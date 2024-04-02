@@ -5,6 +5,12 @@
     <q-space />
 
     <div class="search-filters">
+      <display-date-button />
+    </div>
+
+    <q-separator vertical class="q-ml-md q-mr-lg" />
+
+    <div class="search-filters">
       <q-btn
         @click="burn = !burn"
         :push="!burn"
@@ -79,10 +85,11 @@ import SearchFilters from '@appvise/search-manager/search-filters.vue';
 import schema from '../token-events-search.schema.json';
 import mobileUiSchema from './token-events-table.mobile-ui-schema.json';
 import desktopUiSchema from './token-events-table.ui-schema.json';
+import DisplayDateButton from '@koiner/components/display-date-button.vue';
 
 export default defineComponent({
   name: 'TokensEventsTable',
-  components: { QJsonSearch, SearchFilters },
+  components: { DisplayDateButton, QJsonSearch, SearchFilters },
   props: {
     title: {
       required: false,
