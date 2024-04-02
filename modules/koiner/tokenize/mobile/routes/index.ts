@@ -6,7 +6,12 @@ export const tokenizeModuleMobileRoutes: RouteRecordRaw[] = [
     children: [
       {
         name: 'mobile.tokenize',
-        path: '',
+        path: '/mobile/tokenize',
+        component: () => import('../pages/tokenize-mobile-index-page.vue'),
+      },
+      {
+        name: 'mobile.tokens',
+        path: '/mobile/tokens',
         component: () => import('../pages/tokenize-mobile-index-page.vue'),
       },
       {
