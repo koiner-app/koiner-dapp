@@ -118,7 +118,7 @@ export default defineComponent({
         'contract.events': 'mobile.contract',
         'contract.operations': 'mobile.contract',
         contracts: 'mobile.contracts',
-        tokens: 'mobile.tokenize',
+        tokens: 'mobile.tokens',
         token: 'mobile.token',
         'token.balances': 'mobile.token',
         'token.events': 'mobile.token',

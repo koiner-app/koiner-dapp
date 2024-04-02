@@ -7,7 +7,7 @@ export const tokenContractRoutes: RouteRecordRaw[] = [
     children: [
       {
         name: 'token',
-        path: '',
+        path: '/tokens/:id',
         component: () => import('../pages/contract/id/token-page.vue'),
       },
       {

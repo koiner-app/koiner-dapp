@@ -6,11 +6,6 @@ export const tokensContractRoutes: RouteRecordRaw[] = [
     component: () => import('../layouts/tokens-desktop-layout.vue'),
     children: [
       {
-        name: 'tokenize',
-        path: '/tokenize',
-        component: () => import('../pages/tokenize-index-page.vue'),
-      },
-      {
         name: 'tokens',
         path: '/tokens',
         component: () => import('../pages/contract/tokens-page.vue'),
