@@ -89,8 +89,9 @@ export default defineComponent({
                   },
                 },
                 {
-                  name: {
-                    excludes: 'Token',
+                  id: {
+                    // Token
+                    excludes: '18fboAsEEhjiSyMhPpDSmx96mi9RfEYJKj',
                   },
                 },
                 {
