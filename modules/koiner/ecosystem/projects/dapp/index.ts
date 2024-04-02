@@ -13,13 +13,13 @@ import { koinCrewTokenTracker } from './koincrew-tokentracker';
 import { koinosSocial } from './koinos-social';
 
 export const dappProjects = [
-  kap,
   kollection,
   koinDx,
-  koinClaimApp,
+  koinCity,
+  kap,
   fogataMiningPool,
   burnKoin,
-  koinCity,
+  koinClaimApp,
   koinosSocial,
   koiner,
   koinosBlocks,
