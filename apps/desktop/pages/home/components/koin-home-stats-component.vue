@@ -36,8 +36,8 @@
         unit="%"
         :decimals="2"
         :footer="{
-          title: 'Virtual Supply:',
-          value: statsStore.formattedVirtualTotalSupply(),
+          title: 'Circulating Supply:',
+          value: statsStore.formattedKoinTotalSupply(),
           unit: koinerStore.koinContract.symbol,
         }"
         :footer-tooltips="[
@@ -47,14 +47,9 @@
             unit: koinerStore.koinContract.symbol,
           },
           {
-            title: 'VHP Total Supply',
+            title: 'VHP Supply',
             value: statsStore.formattedVhpTotalSupply(),
             unit: koinerStore.vhpContract.symbol,
-          },
-          {
-            title: 'Virtual Supply (KOIN + VHP)',
-            value: statsStore.formattedVirtualTotalSupply(),
-            unit: koinerStore.koinContract.symbol,
           },
           {
             title: 'Rewarded Koin (inflation)',
@@ -62,8 +57,8 @@
             unit: koinerStore.koinContract.symbol,
           },
           {
-            title: 'Fully Diluted Total Supply',
-            value: statsStore.formattedFullyDilutedTotalSupply(),
+            title: 'Virtual Supply (KOIN + VHP)',
+            value: statsStore.formattedVirtualTotalSupply(),
             unit: koinerStore.koinContract.symbol,
           },
         ]"

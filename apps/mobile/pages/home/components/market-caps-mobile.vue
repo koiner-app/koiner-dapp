@@ -1,18 +1,12 @@
 <template>
   <q-card class="stats-card" flat>
     <q-card-section>
+      <div class="stat-title">Market Cap</div>
+
       <div style="font-size: 0.75rem">
         <div class="q-pa-none q-gutter-xs">
           <div class="row">
-            <div class="mc-title">
-              Circulating MC
-              <span class="stat-unit mc-description mc-description-short">
-                (KOIN)
-              </span>
-              <span class="stat-unit mc-description mc-description-full">
-                (Claimed KOIN)
-              </span>
-            </div>
+            <div class="mc-title">Circulating MC</div>
             <div class="mc-amount">
               {{ statsStore.formattedMarketCap }}
             </div>
@@ -21,15 +15,6 @@
             <div class="mc-title">
               Virtual MC
               <span class="stat-unit mc-description"> (KOIN + VHP) </span>
-            </div>
-            <div class="mc-amount">
-              {{ statsStore.formattedVirtualMarketCap }}
-            </div>
-          </div>
-          <div class="row">
-            <div class="mc-title">
-              FDV MC
-              <span class="stat-unit mc-description"> (100% claimed) </span>
             </div>
             <div class="mc-amount">
               {{ statsStore.formattedFDVMarketCap }}

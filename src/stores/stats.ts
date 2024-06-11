@@ -200,6 +200,7 @@ export const useStatsStore = defineStore({
           fdv: number;
           burnedPercentage: number;
           claimed: number;
+          unclaimed: number;
           claimedPercentage: number;
           snapshot: number;
         };
