@@ -114,7 +114,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref } from 'vue';
+import { defineComponent, onMounted, ref, watch } from 'vue';
 import { formattedTokenAmount, timeAgo } from '@koiner/utils';
 import { useKoinerStore } from 'stores/koiner';
 import { useStatsStore } from 'stores/stats';
@@ -174,7 +174,7 @@ export default defineComponent({
       const producerVhpSize = vhpSizeNumber(props.vhpBalance);
       const blockHeight = statsStore.chainStats.height - 60;
 
-      ratioOptimal.value = producerVhpSize ? (100 / producerVhpSize) : 0;
+      ratioOptimal.value = producerVhpSize ? 100 / producerVhpSize : 0;
       ratioGreen.value = ratioOptimal.value * 2;
       ratioYellow.value = ratioGreen.value * 5;
       lastInterval.value = blockHeight - props.lastProducedBlock;
@@ -194,6 +194,13 @@ export default defineComponent({
     onMounted(() => {
       load();
     });
+
+    watch(
+      () => props.lastProducedBlock,
+      () => {
+        load();
+      }
+    );
 
     return {
       koinerStore,
