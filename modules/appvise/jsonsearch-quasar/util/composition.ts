@@ -47,11 +47,16 @@ export const useQuasarSearchView = <
     input.handleChange(input.control.value.path, value);
   };
 
+  const emitEvent = (name: string, data: Record<any, any>) => {
+    input.handleChange('events', { [name]: data });
+  };
+
   return {
     ...input,
     styles: useStyles(input.control.value.uischema),
     appliedOptions,
     onChange,
+    emitEvent,
   };
 };
 

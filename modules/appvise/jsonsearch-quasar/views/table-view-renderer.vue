@@ -181,6 +181,7 @@ export default defineComponent({
     const tableView = ref();
 
     const onRequest = async () => {
+      console.log({ request: request.value });
       await searchManager.search(request.value);
 
       if (searchView.scrollPosition) {
@@ -222,13 +223,16 @@ export default defineComponent({
       }
     });
 
+    watch(searchManager.totalCount, () => {
+      searchView.emitEvent('totalCountUpdated', {
+        count: searchManager.totalCount.value,
+      });
+    });
+
     onMounted(async () => {
       // Workaround because urql pagination doesn't work right away after page reload
       if (!searchStore.loaded) {
-        console.log('NOT LOADED!!!');
         await wait(1000);
-      } else {
-        console.log('LOADED!!!');
       }
 
       // Get 1st page from server ()
