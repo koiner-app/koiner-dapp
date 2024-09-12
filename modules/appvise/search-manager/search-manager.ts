@@ -1,4 +1,4 @@
-import { Ref } from 'vue';
+import { ref, Ref } from 'vue';
 import { Subscription } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import {
@@ -6,6 +6,7 @@ import {
   Edge,
   Node,
   SearchProvider,
+  CountableSearchProvider,
   SearchRequestType,
   SearchState,
 } from '.';
@@ -34,13 +35,21 @@ export class SearchManager<
     return this.searchProvider.state.connection;
   }
 
+  /**
+   * Returns totalCount if it's a countable search provider
+   * Otherwise ref(undefined) is returned
+   */
+  get totalCount(): Ref<number | undefined> {
+    return (
+      (this.searchProvider as CountableSearchProvider<any, any, any, any>)
+        .totalCount ?? ref(undefined)
+    );
+  }
+
   constructor(
-    protected searchProvider: SearchProvider<
-      TRequest,
-      TNode,
-      TEdge,
-      TConnection
-    >
+    protected searchProvider:
+      | SearchProvider<TRequest, TNode, TEdge, TConnection>
+      | CountableSearchProvider<TRequest, TNode, TEdge, TConnection>
   ) {}
 
   async search(request: TRequest): Promise<void> {
@@ -83,7 +92,7 @@ export class SearchManager<
   }
 
   reset(): void {
-    this.state.reset();
+    this.searchProvider.reset();
 
     if (this.subscription) {
       console.log('Go reset SearchManager subscription');
