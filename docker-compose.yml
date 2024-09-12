@@ -2,15 +2,18 @@ version: '3.4'
 
 services:
   app:
-    image: ${DOCKER_REGISTRY-}spa-app
+    image: elimbatido/koiner-dapp
     build:
-      context: ./app
-      dockerfile: .Dockerfile
+      context: ./
+      dockerfile: Dockerfile
       target: production-stage-spa
     volumes:
       - app:/app
     ports:
-      - "3001:80"
+      - "9000:80"
 
 volumes:
   app:
+
+networks:
+  default:
