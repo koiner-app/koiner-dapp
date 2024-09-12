@@ -40,7 +40,10 @@ import {
   Layout,
 } from '@jsonforms/core/src/models/uischema';
 import { ErrorObject } from 'ajv';
+import _ from 'lodash';
+import { useQuasar } from 'quasar';
 
+// TODO: Load project default renderers from config?
 const renderers = [...quasarRenderers, ...searchManagerRenderers];
 
 /**
@@ -66,7 +69,6 @@ export default defineComponent({
     validationMode: {
       required: false,
       type: String as PropType<ValidationMode>,
-      default: 'ValidateAndHide',
     },
     // Same as original
     data: {
@@ -110,8 +112,42 @@ export default defineComponent({
       type: Array as PropType<ErrorObject[]>,
       default: () => [],
     },
+    dynamicOptions: {
+      required: false,
+      type: Object as PropType<object>,
+      default: () => {
+        return {};
+      },
+    },
+    autoSave: {
+      type: Boolean,
+      required: false,
+      default: false,
+    },
+    autoSaveDelay: {
+      type: Number,
+      required: false,
+      default: 1000,
+    },
+    submitting: {
+      required: false,
+      type: Boolean,
+    },
+    submit: {
+      type: Function,
+      required: false,
+    },
   },
-  emits: ['change', 'submit', 'cancel', 'custom', 'validationModeChanged'],
+  emits: [
+    'change',
+    'submit',
+    'cancel',
+    'previousStep',
+    'nextStep',
+    'custom',
+    'validationModeChanged',
+    'errors',
+  ],
 
   setup(
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -121,12 +157,22 @@ export default defineComponent({
     // @ts-ignore
     { emit }: any
   ) {
-    const validationMode: Ref<'ValidateAndHide' | 'ValidateAndShow'> =
-      ref('ValidateAndHide');
-    const submitting = ref(false);
+    const $q = useQuasar();
+
+    const validationMode: Ref<
+      'ValidateAndHide' | 'ValidateAndShow' | 'NoValidation'
+    > = ref('ValidateAndHide');
+    const isSubmitting = ref(false);
+    const loaded = ref(false);
 
     // Allowed button events. Other button events will be triggered with the 'custom' event
-    const allowedButtonEvents = ['submit', 'cancel'];
+    const allowedButtonEvents = [
+      'submit',
+      'cancel',
+      'previousStep',
+      'nextStep',
+      'skipSteps',
+    ];
 
     const errors: Ref<any[]> = ref([]); // ErrorObject[]
 
@@ -193,6 +239,7 @@ export default defineComponent({
     });
 
     const valid = computed((): boolean => {
+      console.log(errors);
       return errors.value.length === 0;
     });
 
@@ -213,10 +260,45 @@ export default defineComponent({
       return keys;
     };
 
+    const submit = async (event: JsonFormsChangeEvent) => {
+      // Make sure validation errors are shown
+
+      validationMode.value = props.validationMode ?? 'ValidateAndShow';
+
+      // Only trigger submit if validation succeeded
+      if (valid.value) {
+        isSubmitting.value = true;
+
+        if (props.submit) {
+          // Execute callback
+          console.log('Execute submit callback');
+
+          try {
+            await props.submit();
+          } catch (error: any) {
+            $q.notify({
+              message: t(error),
+              type: 'negative',
+            });
+          }
+        } else {
+          console.log('Trigger submit event');
+
+          // Trigger event if no callback is provided
+          await emit('submit', event.data);
+        }
+
+        isSubmitting.value = false;
+      } else {
+        // Reset value for field to enable another click
+        delete props.data['submit'];
+      }
+    };
+
     /**
      * Emit actions for clicked buttons
      */
-    const emitButtons = (): void => {
+    const emitButtons = (event: JsonFormsChangeEvent): void => {
       for (let i = 0; i < computedButtonKeys.value.length; i++) {
         const fieldName = computedButtonKeys.value[i];
 
@@ -226,19 +308,24 @@ export default defineComponent({
 
           // // Only trigger allowed button events directly
           if (allowedButtonEvents.includes(fieldName)) {
-            if (fieldName === 'submit') {
-              // Make sure validation errors are shown
-              validationMode.value = 'ValidateAndShow';
+            if (fieldName === 'previousStep') {
+              event.data.activeStep -= 1;
+            }
 
-              // Only trigger submit if validation succeeded
-              if (valid.value) {
-                emit(fieldName);
-
-                submitting.value = true;
-              } else {
-                // Reset value for field to enable another click
-                delete props.data[fieldName];
+            if (fieldName === 'nextStep') {
+              if (event.data.activeStep) {
+                event.data.activeStep += 1;
               }
+            }
+
+            if (fieldName === 'skipSteps') {
+              if (event.data.stepCount) {
+                event.data.activeStep = event.data.stepCount;
+              }
+            }
+
+            if (fieldName === 'submit') {
+              submit(event.data);
             } else {
               emit(fieldName);
             }
@@ -254,16 +341,34 @@ export default defineComponent({
       emit('validationModeChanged', newValue);
     });
 
+    const debouncedSubmit = _.debounce((submit: any, args: any) => {
+      submit(args);
+    }, props.autoSaveDelay);
+
     const onChange = (event: JsonFormsChangeEvent) => {
       errors.value = event.errors ?? [];
+      emit('errors', errors.value);
 
-      emitButtons();
+      emitButtons(event);
 
       // Propagate event
       emit('change', event);
+
+      if (loaded.value && props.autoSave) {
+        // Prevent submitting on load by checking loaded
+        debouncedSubmit(submit, event);
+      }
+
+      // Prevent double submitting when parent form syncs data from onChange event
+      loaded.value = false;
+
+      setTimeout(() => {
+        loaded.value = true;
+      }, 1000);
     };
 
     return {
+      isSubmitting,
       ajv,
       i18n,
 
@@ -277,11 +382,26 @@ export default defineComponent({
 
         // Can be used to check state of form
         // Used by ButtonControlRenderer with type=submit
-        uischema.options.submitting = submitting.value;
+        uischema.options.submitting = isSubmitting;
+
+        if (props.submitting) {
+          uischema.options.submitting = isSubmitting.value;
+        }
+
+        // Allow parent component to supply dynamic properties to be used by renderer components
+        uischema.options.dynamicOptions = props.dynamicOptions;
 
         return uischema;
       }),
     };
+  },
+  watch: {
+    submitting: {
+      immediate: true,
+      handler(newValue) {
+        this.isSubmitting = newValue;
+      },
+    },
   },
 });
 </script>

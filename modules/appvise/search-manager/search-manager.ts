@@ -63,11 +63,6 @@ export class SearchManager<
       after: undefined,
     } as TRequest);
 
-    // Workaround to reactivate urql to resume on a re-entering of page
-    // TODO: Find out why this is necessary
-    this.state.isPaused.value = true;
-    this.state.isPaused.value = false;
-
     await this.subscribeToNewResults();
   }
 

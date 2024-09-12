@@ -1,6 +1,6 @@
 import { cloneDeep, merge } from 'lodash';
 import { useStyles } from '../styles';
-import { computed, ComputedRef } from 'vue';
+import { computed, ComputedRef, unref } from 'vue';
 import { computeLabel } from '@jsonforms/core';
 
 const useAttributeAppliedOptions = <I extends { control: any }>(input: I) => {
@@ -21,7 +21,8 @@ const useComputedValue = <I extends { control: any }>(
     return computeLabel(
       input.control.value.label,
       input.control.value.required,
-      !!appliedOptions.value?.hideRequiredAsterisk
+      !!appliedOptions.value?.hideRequiredAsterisk ||
+        !input.control.value.required
     );
   });
 };
@@ -30,25 +31,25 @@ const useComputedValue = <I extends { control: any }>(
  * Adds styles and appliedOptions
  */
 export const useQuasarSearchView = <
-  I extends { searchView: any; handleChange: any }
+  I extends { control: any; handleChange: any }
 >(
   input: I
 ) => {
   const appliedOptions = computed(() =>
     merge(
       {},
-      cloneDeep(input.searchView.value.config),
-      cloneDeep(input.searchView.value.uischema.options)
+      cloneDeep(input.control.value.config),
+      cloneDeep(input.control.value.uischema.options)
     )
   );
 
   const onChange = (value: any) => {
-    input.handleChange(input.searchView.value.path, value);
+    input.handleChange(input.control.value.path, value);
   };
 
   return {
     ...input,
-    styles: useStyles(input.searchView.value.uischema),
+    styles: useStyles(input.control.value.uischema),
     appliedOptions,
     onChange,
   };
@@ -57,7 +58,11 @@ export const useQuasarSearchView = <
 /**
  * Adds styles, isFocused, appliedOptions and onChange
  */
-export const useQuasarAttribute = <I extends { control: any }>(input: I) => {
+export const useQuasarAttribute = <
+  I extends { control: any; handleChange: any }
+>(
+  input: I
+) => {
   const appliedOptions = useAttributeAppliedOptions(input);
 
   const computedValue = useComputedValue(input, appliedOptions);
@@ -122,6 +127,15 @@ export const useQuasarAttribute = <I extends { control: any }>(input: I) => {
       // Split mapping subfields, so we can find them 1 by 1
       const mappingFields = mappingKey.split('.');
 
+      // Prefix mapping with edge to access properties on the root of the result
+      if (mappingFields[0] === 'edge') {
+        // Result === edge so remove from selection
+        mappingFields.shift();
+      } else {
+        // Use node as default base if mapping is not set to edge
+        mappingFields.unshift('node');
+      }
+
       let field: any = data;
 
       for (let i = 0; i < mappingFields.length; i++) {
@@ -131,8 +145,9 @@ export const useQuasarAttribute = <I extends { control: any }>(input: I) => {
           // Mapped subfield found
           field = field[mappingField];
         } else {
-          // Return normal path if custom mapping fails
-          return data[input.control.value.path];
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          return data['node'][input.control.value.path];
         }
       }
 
@@ -140,28 +155,51 @@ export const useQuasarAttribute = <I extends { control: any }>(input: I) => {
       return field;
     }
 
-    return data[input.control.value.path];
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    return data['node'][input.control.value.path];
   };
 
   const mappedValue = (
     data: Record<string, unknown>,
-    mappingKey: string
+    mappingKey: string,
+    fallback = true
   ): any => {
     if (
       appliedOptions.value.mappings &&
       appliedOptions.value.mappings[mappingKey]
     ) {
-      const mappingFields =
-        appliedOptions.value.mappings[mappingKey].split('.');
+      const mapping = appliedOptions.value.mappings[mappingKey];
+
+      // Map to a hardcoded value by providing `value:XXX` as mapping
+      if (mapping.includes('value:')) {
+        return mapping.substring(mapping.indexOf('value:') + 6);
+      }
+
+      const mappingFields: string[] = mapping.split('.');
+
+      // Prefix mapping with edge to access properties on the root of the result
+      if (mappingFields[0] === 'edge') {
+        // Result === edge so remove from selection
+        mappingFields.shift();
+      } else {
+        // Use node as default base if mapping is not set to edge
+        mappingFields.unshift('node');
+      }
 
       let field: any = data;
 
       for (let i = 0; i < mappingFields.length; i++) {
-        if (field[mappingFields[i]]) {
+        if (field[mappingFields[i]] != null) {
           field = field[mappingFields[i]];
         } else {
-          // Return normal path if custom mapping fails
-          return data[input.control.value.path];
+          if (fallback) {
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            return data['node'][input.control.value.path];
+          }
+
+          return null;
         }
       }
 
@@ -169,17 +207,27 @@ export const useQuasarAttribute = <I extends { control: any }>(input: I) => {
       return field;
     }
 
-    return data[input.control.value.path];
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    return data['node'][input.control.value.path];
   };
 
-  const routerLink = (data: Record<string, unknown>) => {
+  const routerLink = (result: Record<string, unknown>) => {
     if (appliedOptions.value.route) {
       const params: Record<string, string | number> = {};
+      const query: Record<string, string> = {};
 
       if (appliedOptions.value.linkParams) {
         const linkParams: string[] = appliedOptions.value.linkParams;
         for (const linkParam of linkParams) {
-          params[linkParam] = mappedValue(data, linkParam);
+          params[linkParam] = mappedValue(result, linkParam);
+        }
+      }
+
+      if (appliedOptions.value.linkQuery) {
+        const linkQueryItems: string[] = appliedOptions.value.linkQuery;
+        for (const linkQueryItem of linkQueryItems) {
+          query[linkQueryItem] = mappedValue(result, linkQueryItem);
         }
       }
 
@@ -187,11 +235,28 @@ export const useQuasarAttribute = <I extends { control: any }>(input: I) => {
       return {
         name: appliedOptions.value.route,
         params,
+        query,
       };
     }
 
     // Use raw data as link
-    return data;
+    return result;
+  };
+
+  const emitEvent = (name: string, data: Record<any, any>) => {
+    input.handleChange('events', { [name]: data });
+  };
+
+  const filterValue = (request: any): string | undefined => {
+    const id =
+      appliedOptions.value.path ??
+      unref(input.control).path.replace('filters.', ''); // Remove property parent (filters)
+
+    return request?.filter &&
+      request?.filter[id] &&
+      request?.filter[id].iContains
+      ? request?.filter[id].iContains
+      : undefined;
   };
 
   return {
@@ -204,5 +269,7 @@ export const useQuasarAttribute = <I extends { control: any }>(input: I) => {
     rawValue,
     mappedValue,
     routerLink,
+    emitEvent,
+    filterValue,
   };
 };

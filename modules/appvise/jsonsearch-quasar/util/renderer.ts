@@ -68,7 +68,7 @@ export const mapStateToSearchViewProps = (
   const rootSchema = getSchema(state);
   const resolvedSchema = Resolve.schema(
     ownProps.schema || rootSchema,
-    searchViewElement.scope,
+    searchViewElement.scope!,
     rootSchema
   );
 

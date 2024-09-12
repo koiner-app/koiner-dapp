@@ -7,7 +7,7 @@ import { SearchProvider } from '@appvise/search-manager';
 import { LabelDescription } from '@jsonforms/core/src/models/uischema';
 
 /**
- * Represents a table element which can render its attributes
+ * Represents a search view element which can render its attributes
  * in a specific way.
  */
 export interface SearchViewElement
@@ -17,17 +17,47 @@ export interface SearchViewElement
   /**
    * The child elements of this layout.
    */
+  filters: UISchemaElement[];
   elements: UISchemaElement[];
   provider: SearchProvider<any, any, any, any>;
   scrollPosition?: number;
+
+  /**
+   * The parent data to be used for displaying in the SearchView
+   * when using the RawDataProvider
+   */
+  result?: string | boolean | number | Record<string, unknown>;
+}
+
+export interface ExpansionPanelElement extends SearchViewElement {
+  type: 'ExpansionPanel';
+}
+
+export interface ListElement extends SearchViewElement {
+  type: 'List';
+}
+
+export interface TableViewElement extends SearchViewElement {
+  type: 'Table';
 }
 
 /**
- * Represents a table element which can render its attributes
- * in a specific way.
+ * A attribute element. The scope property of the attribute determines
+ * to which part of the schema the attribute should be bound.
  */
-export interface TableViewElement extends SearchViewElement {
-  type: 'Table';
+export interface FilterElement
+  extends UISchemaElement,
+    Scopable,
+    Internationalizable {
+  type: 'Filter';
+  /**
+   * An optional label that will be associated with the control
+   */
+  label?: string | boolean | LabelDescription;
+  /**
+   * The parent data to be used for displaying in the attribute
+   */
+  result: string | boolean | number | Record<string, unknown>;
 }
 
 /**
@@ -48,14 +78,3 @@ export interface AttributeElement
    */
   result: string | boolean | number | Record<string, unknown>;
 }
-
-export const isSearchView = (
-  uischema: UISchemaElement
-): uischema is SearchViewElement =>
-  (uischema as SearchViewElement).elements !== undefined;
-
-export const isTable = (
-  uischema: UISchemaElement
-): uischema is TableViewElement =>
-  uischema.type === 'TableView' &&
-  (uischema as TableViewElement).elements !== undefined;

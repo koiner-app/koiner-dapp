@@ -4,12 +4,31 @@ import { mapStateToSearchViewProps } from './renderer';
 import { unref } from 'vue';
 import {
   ControlElement,
+  CoreActions,
+  Dispatch,
+  JsonFormsState,
   mapDispatchToControlProps,
   mapStateToControlProps,
 } from '@jsonforms/core';
+import { Required } from '@jsonforms/vue/src/jsonFormsCompositions';
 
 export interface SearchViewRendererProps extends RendererProps {
   uischema: SearchViewElement;
+  result?: Record<string, any>;
+}
+
+/**
+ * Add result prop to control
+ * @param props
+ * @param stateMap
+ * @param dispatchMap
+ */
+export function useControlWithResult<R, D, P extends Record<any, any>>(
+  props: P,
+  stateMap: (state: JsonFormsState, props: P) => R,
+  dispatchMap: (dispatch: Dispatch<CoreActions>) => D
+): { control: Required<R> & { result?: any } } & D {
+  return useControl(props, stateMap, dispatchMap);
 }
 
 /**
@@ -18,20 +37,21 @@ export interface SearchViewRendererProps extends RendererProps {
  * Access bindings via the provided reactive 'searchView' object.
  */
 export const useJsonFormsSearchView = (props: SearchViewRendererProps) => {
-  const { control, ...other } = useControl(
+  const { control, ...other } = useControlWithResult(
     props,
     mapStateToSearchViewProps,
     mapDispatchToControlProps
   );
+
   const rawControl = unref(control);
-  const request = rawControl.data.request ?? {};
-  const scrollPosition = rawControl.data.scrollPosition;
 
   return {
-    searchView: control,
+    control,
     ...other,
-    request,
-    scrollPosition,
+    request: rawControl.data.request ?? {},
+    scrollPosition: rawControl.data.scrollPosition,
+    additionalData: rawControl.data.additionalData,
+    connection: rawControl.data.connection,
   };
 };
 
@@ -46,5 +66,5 @@ export interface AttributeProps extends RendererProps {
  * Access bindings via the provided reactive `attribute` object.
  */
 export const useJsonAttribute = (props: AttributeProps) => {
-  return useControl(props, mapStateToControlProps);
+  return useControl(props, mapStateToControlProps, mapDispatchToControlProps);
 };

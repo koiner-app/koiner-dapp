@@ -1,15 +1,16 @@
 <template>
   <q-table
-    v-if="searchView.visible"
+    v-if="control.visible && results"
     ref="tableView"
-    :class="`pa-0 ${styles.tableView.root} ${appliedOptions.class ?? ''} ${
-      appliedOptions.rowHeights ?? 'regular-rows'
-    }`"
+    :class="cssClass"
     :rows-per-page-options="[0]"
-    :row-key="rowKeyName"
-    :rows="rows"
-    :columns="columns"
+    row-key="rowIndex"
+    :rows="results"
+    :columns="attributes"
     :loading="fetching"
+    :wrap-cells="
+      appliedOptions.wrapCells != null ? appliedOptions.wrapCells : true
+    "
     virtual-scroll
     flat
     :style="fullHeightCss"
@@ -19,50 +20,119 @@
       (firstRowIndex, endRowIndex, totalRowsNumber) =>
         `${totalRowsNumber} items`
     "
+    :selected-rows-label="
+      (numberOfRows) => t('appvise.jsonSearch.view.selected', [numberOfRows])
+    "
+    :selection="appliedOptions.selection"
+    v-model:selected="selectedItems"
   >
     <template
-      v-for="(column, index) in columns"
-      :key="`${searchView.path}-${index}`"
+      v-for="(column, index) in attributes"
+      :key="`${control.path}-${index}`"
       #[`body-cell-${column.name}`]="props"
     >
       <q-td :props="props">
         <slot :name="[`${column.name}`]" :props="props" :result="props.row">
           <dispatch-renderer
-            :schema="searchView.schema"
-            :uischema="searchView.uischema.elements[column.elementIndex]"
-            :path="searchView.path"
-            :enabled="searchView.enabled"
-            :renderers="searchView.renderers"
-            :cells="searchView.cells"
+            :schema="control.schema"
+            :uischema="uischema.elements[column.elementIndex]"
+            :path="control.path"
+            :enabled="control.enabled"
+            :renderers="control.renderers"
+            :cells="control.cells"
             :result="props.row"
             :index="props.row.rowIndex"
           />
         </slot>
       </q-td>
     </template>
+
+    <template v-slot:loading>
+      <q-markup-table class="no-shadow" v-if="!initialized">
+        <thead>
+          <tr>
+            <th class="text-left" style="width: 150px">
+              <q-skeleton animation="blink" type="text" />
+            </th>
+            <th class="text-right">
+              <q-skeleton animation="blink" type="text" />
+            </th>
+            <th class="text-right">
+              <q-skeleton animation="blink" type="text" />
+            </th>
+            <th class="text-right">
+              <q-skeleton animation="blink" type="text" />
+            </th>
+            <th class="text-right">
+              <q-skeleton animation="blink" type="text" />
+            </th>
+            <th class="text-right">
+              <q-skeleton animation="blink" type="text" />
+            </th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr v-for="n in 10" :key="n">
+            <td class="text-left">
+              <q-skeleton animation="blink" type="text" width="85px" />
+            </td>
+            <td class="text-right">
+              <q-skeleton animation="blink" type="text" width="50px" />
+            </td>
+            <td class="text-right">
+              <q-skeleton animation="blink" type="text" width="35px" />
+            </td>
+            <td class="text-right">
+              <q-skeleton animation="blink" type="text" width="65px" />
+            </td>
+            <td class="text-right">
+              <q-skeleton animation="blink" type="text" width="25px" />
+            </td>
+            <td class="text-right">
+              <q-skeleton animation="blink" type="text" width="85px" />
+            </td>
+          </tr>
+        </tbody>
+      </q-markup-table>
+    </template>
+
+    <template v-slot:no-data>
+      <div
+        v-if="!fetching"
+        class="full-width row flex-center text-accent q-gutter-sm text-center"
+      >
+        <img
+          class="no-data--image"
+          v-if="viewOptions.noData.image"
+          :src="viewOptions.noData.image"
+          :alt="viewOptions.noData.title"
+        />
+        <div class="full-width">
+          <div class="no-data--title">{{ viewOptions.noData.title }}</div>
+          <div class="no-data--subtitle">{{ viewOptions.noData.subTitle }}</div>
+        </div>
+      </div>
+    </template>
   </q-table>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, watch } from 'vue';
+import {
+  computed,
+  defineComponent,
+  onMounted,
+  PropType,
+  ref,
+  watch,
+} from 'vue';
 import { DispatchRenderer, rendererProps, RendererProps } from '@jsonforms/vue';
 import { useI18n } from 'vue-i18n';
-import { onMounted, ref, unref } from 'vue';
-import { SearchRequestType, useSearchManager } from '@appvise/search-manager';
-import { ControlElement } from '@jsonforms/core';
 import { dom } from 'quasar';
-import offset = dom.offset;
-import {
-  SearchViewElement,
-  useJsonFormsSearchView,
-  useQuasarSearchView,
-} from '../index';
-import {
-  SearchOptions,
-  SearchOptionsDefaults,
-  UISchemaSearchOptions,
-} from '@appvise/jsonforms-search-manager';
+import { SearchViewElement } from '../index';
 import { useWindowScroll, useWindowSize } from '@vueuse/core';
+import offset = dom.offset;
+import useSearchView from '@appvise/jsonsearch-quasar/views/use-search-view';
 
 export default defineComponent({
   name: 'TableViewRenderer',
@@ -71,63 +141,47 @@ export default defineComponent({
   },
   props: {
     ...rendererProps<SearchViewElement>(),
+
+    result: {
+      type: Object as PropType<any>,
+      required: false,
+      default: null,
+    },
   },
-  setup(props: RendererProps<SearchViewElement>) {
-    const quasarSearchView = useQuasarSearchView(useJsonFormsSearchView(props));
-    // TODO: Fix123
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    const childElements = unref(quasarSearchView.searchView).uischema.elements;
-    const columns: {
-      elementIndex: number;
-      name: string;
-      label: string;
-      field: string;
-      visible: boolean;
-      screenSize?: string;
-    }[] = childElements.map((childElement: ControlElement, index: number) => {
-      // TODO: Integrate uischema options
-      return {
-        elementIndex: index,
-        name: childElement.scope.replace('#/properties/', ''),
-        label: childElement.label,
-        field: childElement.scope.replace('#/properties/', ''),
-        align: 'left',
-        visible: childElement.options?.visible ?? true,
-        screenSize: childElement.options?.screenSize,
-      };
-    });
+  setup(props: RendererProps<SearchViewElement> & { result: any }) {
+    const { t } = useI18n();
+    const {
+      // Schema
+      uischema,
+
+      // Search View
+      searchView,
+      viewOptions,
+      attributes,
+      selectedItems,
+      initialized,
+
+      // Search Manager
+      searchManager,
+      searchOptions,
+      request,
+      results,
+    } = useSearchView(props, props.result);
 
     const { width } = useWindowSize();
     const { y } = useWindowScroll();
-
-    const uischema = unref(quasarSearchView.searchView).uischema;
 
     if (!uischema?.options?.search?.provider) {
       throw new Error('No search provider defined');
     }
 
-    const searchOptions: SearchOptions = Object.assign(
-      SearchOptionsDefaults,
-      uischema.options.search as UISchemaSearchOptions
-    );
-    const searchManager = useSearchManager(searchOptions.provider);
-
-    const request: SearchRequestType = quasarSearchView.request ?? {
-      first: searchOptions.itemsPerPage,
-    };
-
-    const rowKeyName = 'id'; // TODO: Integrate uischema options
     const tableView = ref();
 
     const onRequest = async () => {
-      await searchManager.search(request);
+      await searchManager.search(request.value);
 
-      if (quasarSearchView.scrollPosition) {
-        tableView.value.scrollTo(
-          quasarSearchView.scrollPosition,
-          'start-force'
-        );
+      if (searchView.scrollPosition) {
+        tableView.value.scrollTo(searchView.scrollPosition, 'start-force');
       }
     };
 
@@ -197,70 +251,19 @@ export default defineComponent({
         offset(tableView.value.$el).top + fullHeightMargin.value;
     });
 
-    watch(
-      () => request.filter,
-      async () => {
-        await searchManager.search(request);
-      },
-      {
-        deep: true,
-      }
-    );
-
-    watch(
-      () => request.sort,
-      async () => {
-        await searchManager.search(request);
-      },
-      {
-        deep: true,
-      }
-    );
-
-    const { t } = useI18n();
-
-    watch(
-      searchManager.connection,
-      (newValue) => {
-        quasarSearchView.onChange(newValue);
-      },
-      { deep: true }
-    );
-
     return {
-      // Search
-      connection: searchManager.connection,
-      fetching: searchManager.fetching,
-
-      // Table
       tableView,
-      columns: computed(() => {
-        return columns.filter((column) => {
-          return (
-            (column.visible &&
-              (!column.screenSize ||
-                (column.screenSize === 'lt-smd' && width.value < 600) ||
-                (column.screenSize === 'gt-smd' && width.value > 600) ||
-                (column.screenSize === 'gt-sm' && width.value >= 1024) ||
-                (column.screenSize === 'lt-md' && width.value < 1024) ||
-                (column.screenSize === 'gt-md' && width.value >= 1440) ||
-                (column.screenSize === 'lt-lg' && width.value < 1440))) ||
-            (column.screenSize === 'gt-lg' && width.value >= 1920)
-          );
-        });
-      }),
-      rows: computed(() => {
-        return searchManager.connection.value?.edges?.map((edge, index) => {
-          return {
-            rowIndex: index,
-            ...edge,
-          };
-        });
-      }),
       onScroll,
       onRequest,
-      rowKeyName,
-      searchOptions,
+
+      cssClass: computed(() => {
+        return `pa-0 ${
+          results.value?.length === 0 ? 'no-results ' : ' has-results'
+        } ${searchView.styles.tableView.root} ${
+          searchView.appliedOptions.value.class ?? ''
+        } ${searchView.appliedOptions.value.rowHeights ?? 'regular-rows'}
+        ${initialized.value ? ' initialized' : ''}`;
+      }),
       fullHeightCss: computed(() => {
         if (fullHeight.value) {
           return `height: calc(100vh - ${tableOffsetTop.value}px);`;
@@ -269,9 +272,26 @@ export default defineComponent({
         return '';
       }),
 
-      // View
-      ...quasarSearchView,
       t,
+
+      // Search
+      fetching: searchManager.fetching,
+
+      // Schema
+      uischema,
+
+      // Search View
+      ...searchView,
+      viewOptions,
+      attributes,
+      selectedItems,
+      initialized,
+
+      // Search Manager
+      searchManager,
+      searchOptions,
+      request,
+      results,
     };
   },
 });
