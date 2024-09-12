@@ -72,7 +72,7 @@ export const koinerConfig = {
   local: {
     api: process.env.GRAPHQL_URI_TEST ?? 'http://api.local/graphql',
     rpc: process.env.JSON_RPC_URL ?? 'https://api.koinos.io',
-    checker: 'http://checker.local',
+    checker: 'https://checker.test.koiner.app',
     chainId: 'QmeehjqATVaC4ReXxwbw4DQLbEdEAo8SmTBVzZz8s5ZV5F',
     chainName: 'mainnet',
     koinerAddress: '14mLxvouwdmV6vUoeBZMWsxejPKAPLy7yb',
