@@ -109,8 +109,7 @@ export default defineComponent({
           items: [
             {
               title: 'Burned',
-              tooltip:
-                '% of KOIN supply burned for block production',
+              tooltip: '% of KOIN supply burned for block production',
               value: `${statsStore.totalSupply.burned.toLocaleString(
                 undefined,
                 {
@@ -138,8 +137,7 @@ export default defineComponent({
           items: [
             {
               title: 'Producers',
-              tooltip:
-                'Total addresses that have produced blocks',
+              tooltip: 'Total addresses that have produced blocks',
               value:
                 statsStore.blockProduction.blockProducerCount.toLocaleString(
                   undefined,
@@ -155,15 +153,15 @@ export default defineComponent({
                 0
               )} ${koinerStore.koinContract.symbol}`,
             },
-            {
-              title: 'APY',
-              tooltip: 'Estimated APY for producing blocks',
-              progress: `${statsStore.blockProductionApy.toLocaleString(
-                undefined,
-                { maximumFractionDigits: 2 }
-              )}%`,
-              progressClass: 'green--text',
-            },
+            // {
+            //   title: 'APY',
+            //   tooltip: 'Estimated APY for producing blocks',
+            //   progress: `${statsStore.blockProductionApy.toLocaleString(
+            //     undefined,
+            //     { maximumFractionDigits: 2 }
+            //   )}%`,
+            //   progressClass: 'green--text',
+            // },
           ],
         },
         {

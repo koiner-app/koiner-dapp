@@ -17,8 +17,8 @@
           :contract="koinerStore.vhpContract"
         />
         <q-separator vertical />
-        <counter-metric title="ROI" :value="apy" :decimals="2" unit="%" />
-        <q-separator vertical />
+        <!--        <counter-metric title="ROI" :value="apy" :decimals="2" unit="%" />-->
+        <!--        <q-separator vertical />-->
         <counter-metric
           v-if="blockProducersSearch.connection.value"
           title="Blocks Produced"

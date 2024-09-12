@@ -22,12 +22,12 @@
 
         <q-separator vertical />
 
-        <counter-metric
-          title="APY"
-          :value="statsStore.blockProductionApy"
-          unit="%"
-          :decimals="2"
-        />
+        <!--        <counter-metric-->
+        <!--          title="APY"-->
+        <!--          :value="statsStore.blockProductionApy"-->
+        <!--          unit="%"-->
+        <!--          :decimals="2"-->
+        <!--        />-->
 
         <q-separator vertical />
 

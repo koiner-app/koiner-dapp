@@ -17,14 +17,14 @@
           :token-holders="vhpBurners"
           :contract="koinerStore.vhpContract"
         />
-        <q-separator vertical />
-        <counter-metric
-          v-if="blockProducers && blockProducers.length > 0"
-          title="ROI"
-          :value="apy"
-          :decimals="2"
-          unit="%"
-        />
+        <!--        <q-separator vertical />-->
+        <!--        <counter-metric-->
+        <!--          v-if="blockProducers && blockProducers.length > 0"-->
+        <!--          title="ROI"-->
+        <!--          :value="apy"-->
+        <!--          :decimals="2"-->
+        <!--          unit="%"-->
+        <!--        />-->
         <q-separator vertical />
         <counter-metric
           v-if="blockProductionStore.blockProducers.length > 0"
@@ -62,7 +62,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, } from 'vue';
+import { computed, defineComponent } from 'vue';
 import BlockRewardsTable from '@koiner/network/block-production/search/view/block-rewards-table.vue';
 import AccountAddressesFilter from '@koiner/chain/address/account-addresses-filter.vue';
 import { TokenHolder } from '@koiner/sdk';

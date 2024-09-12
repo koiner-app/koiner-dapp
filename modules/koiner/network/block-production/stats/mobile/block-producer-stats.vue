@@ -19,17 +19,17 @@
         :unit="koinerStore.koinContract.symbol"
         :token-decimals="koinerStore.koinContract.decimals"
         :decimals="0"
-        :footer="{
-          title: 'APY',
-          value: parseFloat(
-            statsStore.blockProductionApy.toLocaleString(undefined, {
-              maximumFractionDigits: 2,
-            })
-          ),
-          unit: '%',
-        }"
         style="width: calc(50% - 1rem) !important"
       />
+      <!--        :footer="{-->
+      <!--          title: 'APY',-->
+      <!--          value: parseFloat(-->
+      <!--            statsStore.blockProductionApy.toLocaleString(undefined, {-->
+      <!--              maximumFractionDigits: 2,-->
+      <!--            })-->
+      <!--          ),-->
+      <!--          unit: '%',-->
+      <!--        }"-->
       <counter-metric
         class="stats-card"
         title="VHP Burned"
