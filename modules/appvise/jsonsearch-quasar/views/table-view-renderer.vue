@@ -133,6 +133,8 @@ import { SearchViewElement } from '../index';
 import { useWindowScroll, useWindowSize } from '@vueuse/core';
 import offset = dom.offset;
 import useSearchView from '@appvise/jsonsearch-quasar/views/use-search-view';
+import { wait } from '@koiner/utils';
+import { useSearchStore } from 'stores/search';
 
 export default defineComponent({
   name: 'TableViewRenderer',
@@ -170,6 +172,7 @@ export default defineComponent({
 
     const { width } = useWindowSize();
     const { y } = useWindowScroll();
+    const searchStore = useSearchStore();
 
     if (!uischema?.options?.search?.provider) {
       throw new Error('No search provider defined');
@@ -219,9 +222,17 @@ export default defineComponent({
       }
     });
 
-    onMounted(() => {
+    onMounted(async () => {
+      // Workaround because urql pagination doesn't work right away after page reload
+      if (!searchStore.loaded) {
+        console.log('NOT LOADED!!!');
+        await wait(1000);
+      } else {
+        console.log('LOADED!!!');
+      }
+
       // Get 1st page from server ()
-      onRequest();
+      await onRequest();
     });
 
     // Show table in full view height - offset from top - provided margin

@@ -37,6 +37,8 @@ import { useRoute, useRouter } from 'vue-router';
 import { useBlockProductionStore } from 'stores/block-production';
 import { useTokensStore } from 'stores/tokens';
 import MobilePopupNavigation from '@mobile/components/mobile-popup-navigation.vue';
+import { wait } from '@koiner/utils';
+import { useSearchStore } from 'stores/search';
 
 export default defineComponent({
   name: 'MainLayout',
@@ -53,6 +55,7 @@ export default defineComponent({
     const bookmarkStore = useBookmarkStore();
     const onChainStore = useOnChainStore();
     const tokensStore = useTokensStore();
+    const searchStore = useSearchStore();
 
     const { width } = useWindowSize();
     const router = useRouter();
@@ -115,10 +118,14 @@ export default defineComponent({
       { deep: true }
     );
 
-    onMounted(() => {
+    onMounted(async () => {
       if (width.value >= 1024) {
         redirect();
       }
+
+      // Workaround for table-view-renderer where urql pagination doesn't work right away after page reload
+      await wait(1000);
+      searchStore.loaded = true;
     });
 
     return {

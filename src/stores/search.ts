@@ -21,6 +21,8 @@ export interface SearchStoreEntry<RequestType> {
 export const useSearchStore = defineStore({
   id: 'search',
   state: () => ({
+    loaded: false,
+
     // Chain
     addresses: {
       position: 0,
