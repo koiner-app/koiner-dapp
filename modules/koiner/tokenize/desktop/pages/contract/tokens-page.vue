@@ -73,7 +73,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref, Ref, watch } from 'vue';
+import { defineComponent, ref, Ref } from 'vue';
 import { useSearchStore } from 'stores/search';
 import { KoinerRenderers } from '@koiner/renderers';
 import schema from '../../../components/contract/search/token-contracts-search.schema.json';
