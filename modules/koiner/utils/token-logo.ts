@@ -58,5 +58,5 @@ export function tokenLogo(id: string, symbol: string): string | undefined {
     ext = 'svg';
   }
 
-  return `/tokens/${imageName}.${ext}`;
+  return `/token-logos/${imageName}.${ext}`;
 }
