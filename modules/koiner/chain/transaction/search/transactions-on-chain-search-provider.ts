@@ -83,4 +83,8 @@ export class TransactionsOnChainSearchProvider
       resolve(this._state);
     });
   }
+
+  public reset(): void {
+    this._state.reset();
+  }
 }

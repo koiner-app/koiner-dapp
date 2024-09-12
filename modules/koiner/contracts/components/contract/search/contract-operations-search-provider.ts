@@ -65,4 +65,8 @@ export class ContractOperationsSearchProvider
       resolve(this._state);
     });
   }
+
+  public reset(): void {
+    this._state.reset();
+  }
 }

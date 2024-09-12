@@ -79,4 +79,8 @@ export class ContractEventsOnChainSearchProvider
       resolve(this._state);
     });
   }
+
+  public reset(): void {
+    this._state.reset();
+  }
 }

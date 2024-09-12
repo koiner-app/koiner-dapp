@@ -51,4 +51,8 @@ export class BlocksGlobalSearchProvider
       resolve(this._state);
     });
   }
+
+  public reset(): void {
+    this._state.reset();
+  }
 }
