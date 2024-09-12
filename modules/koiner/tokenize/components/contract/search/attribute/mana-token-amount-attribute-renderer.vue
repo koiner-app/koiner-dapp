@@ -1,14 +1,14 @@
 <template>
   <attribute-wrapper
-    v-if="rawValue(result.node)"
+    v-if="rawValue(result)"
     v-bind="attributeWrapper"
     :styles="styles"
     :applied-options="appliedOptions"
   >
-    <span :class="`${rawValue(result.node)}`">
+    <span :class="`${rawValue(result)}`">
       {{
         formattedTokenAmount(
-          parseInt(rawValue(result.node)),
+          parseInt(rawValue(result)),
           koinerStore.koinContract.decimals,
           displayedDecimals
         )

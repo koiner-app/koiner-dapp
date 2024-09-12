@@ -1,14 +1,14 @@
 <template>
   <attribute-wrapper
-    v-if="rawValue(result.node)"
+    v-if="rawValue(result)"
     v-bind="attributeWrapper"
     :styles="styles"
     :applied-options="appliedOptions"
   >
-    <span :class="`${rawValue(result.node)}`">
+    <span :class="`${rawValue(result)}`">
       {{
         formattedTokenAmount(
-          parseInt(rawValue(result.node)),
+          parseInt(rawValue(result)),
           koinerStore.vhpContract.decimals,
           displayedDecimals
         )
@@ -17,7 +17,7 @@
         v-if="linkToken"
         :to="{
           name: isMobile ? 'mobile.token' : 'token',
-          params: { id: koinerStore.vhpContract.id  },
+          params: { id: koinerStore.vhpContract.id },
         }"
         :class="`${styles.attribute.link}`"
       >

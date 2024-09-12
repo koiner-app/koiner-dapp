@@ -6,13 +6,13 @@
   >
     <span>
       <router-link
-        :to="to(mappedValue(result.node, 'contract.id'))"
+        :to="to(mappedValue(result, 'node.contract.id'))"
         :class="`${styles.attribute.link}`"
       >
         <span>
-          {{ mappedValue(result.node, 'contract.name') }}
+          {{ mappedValue(result, 'node.contract.name') }}
           <q-tooltip :delay="500">{{
-            mappedValue(result.node, 'contract.symbol')
+            mappedValue(result, 'node.contract.symbol')
           }}</q-tooltip>
         </span>
       </router-link>

@@ -15,9 +15,8 @@
     :schema="schema"
     :uischema="uiSchema"
     :request="request"
-    :data="{}"
-    @change="onChange"
     :additional-renderers="renderers"
+    @custom-event="onCustomEvent"
   />
 </template>
 
@@ -28,7 +27,6 @@ import QJsonSearch from '@appvise/q-json-forms/QJsonSearch.vue';
 import schema from '../token-contracts-search.schema.json';
 import mobileUiSchema from './token-contracts-table.mobile-ui-schema.json';
 import desktopUiSchema from './token-contracts-table.ui-schema.json';
-import { TokenContractsConnection } from '@koiner/sdk';
 import { koinerConfig } from 'app/koiner.config';
 
 export default defineComponent({
@@ -53,17 +51,18 @@ export default defineComponent({
   emits: ['contractCountUpdated'],
 
   setup(props, { emit }) {
-    const onChange = async (data: TokenContractsConnection) => {
-      emit('contractCountUpdated', data?.edges ? data.edges.length : 0);
+    const onCustomEvent = (event: any) => {
+      if (event.totalCountUpdated) {
+        emit('contractCountUpdated', event.totalCountUpdated.count);
+      }
     };
 
     return {
-      onChange,
+      onCustomEvent,
       schema,
       uiSchema: props.mobile ? mobileUiSchema : desktopUiSchema,
       request: props.liquidityPools
         ? {
-            first: 250,
             filter: {
               AND: [
                 {
@@ -80,7 +79,6 @@ export default defineComponent({
             },
           }
         : {
-            first: 250,
             filter: {
               AND: [
                 {

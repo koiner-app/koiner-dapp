@@ -1246,6 +1246,7 @@ export type TokenOperationsConnection = {
 export type TokenOperationsFilter = {
   AND?: InputMaybe<Array<TokenOperationsFilter>>;
   OR?: InputMaybe<Array<TokenOperationsFilter>>;
+  blockHeight?: InputMaybe<NumericFilter>;
   contractId?: InputMaybe<StringFilter>;
   from?: InputMaybe<StringFilter>;
   id?: InputMaybe<StringFilter>;
@@ -1975,6 +1976,22 @@ export type BlockRewardsSearchQuery = {
       startCursor?: string | null;
       endCursor?: string | null;
     };
+  };
+};
+
+export type TokenContractsCountSearchQueryVariables = Exact<{
+  after?: InputMaybe<Scalars['String']>;
+  before?: InputMaybe<Scalars['String']>;
+  first?: InputMaybe<Scalars['Int']>;
+  filter?: InputMaybe<TokenContractsFilter>;
+  sort?: InputMaybe<Array<TokenContractsSortInput> | TokenContractsSortInput>;
+}>;
+
+export type TokenContractsCountSearchQuery = {
+  __typename?: 'Query';
+  tokenContracts: {
+    __typename?: 'TokenContractsConnection';
+    totalCount: number;
   };
 };
 
@@ -3016,6 +3033,37 @@ export function useBlockRewardsSearchQuery(
 ) {
   return Urql.useQuery<BlockRewardsSearchQuery>({
     query: BlockRewardsSearchDocument,
+    ...options,
+  });
+}
+export const TokenContractsCountSearchDocument = gql`
+  query TokenContractsCountSearch(
+    $after: String
+    $before: String
+    $first: Int
+    $filter: TokenContractsFilter
+    $sort: [TokenContractsSortInput!]
+  ) {
+    tokenContracts(
+      after: $after
+      before: $before
+      first: $first
+      filter: $filter
+      sort: $sort
+    ) {
+      totalCount
+    }
+  }
+`;
+
+export function useTokenContractsCountSearchQuery(
+  options: Omit<
+    Urql.UseQueryArgs<never, TokenContractsCountSearchQueryVariables>,
+    'query'
+  > = {}
+) {
+  return Urql.useQuery<TokenContractsCountSearchQuery>({
+    query: TokenContractsCountSearchDocument,
     ...options,
   });
 }

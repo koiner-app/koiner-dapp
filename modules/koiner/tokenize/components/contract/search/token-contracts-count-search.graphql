@@ -1,0 +1,17 @@
+query TokenContractsCountSearch(
+  $after: String
+  $before: String
+  $first: Int
+  $filter: TokenContractsFilter
+  $sort: [TokenContractsSortInput!]
+) {
+  tokenContracts(
+    after: $after
+    before: $before
+    first: $first
+    filter: $filter
+    sort: $sort
+  ) {
+    totalCount
+  }
+}

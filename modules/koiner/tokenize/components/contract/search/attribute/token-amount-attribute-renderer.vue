@@ -8,28 +8,28 @@
       <span
         >{{
           formattedTokenAmount(
-            parseInt(rawValue(result.node)),
-            mappedValue(result.node, 'contract.decimals'),
+            parseInt(rawValue(result)),
+            mappedValue(result, 'contract.decimals'),
             displayedDecimals
           )
         }}
       </span>
       <router-link
         v-if="linkToken"
-        :to="to(mappedValue(result.node, 'contract.id'))"
+        :to="to(mappedValue(result, 'contract.id'))"
         :class="`${styles.attribute.link} q-ml-xs`"
       >
         <span>
-          {{ mappedValue(result.node, 'contract.symbol') }}
+          {{ mappedValue(result, 'contract.symbol') }}
           <q-tooltip :delay="500">{{
-            mappedValue(result.node, 'contract.name')
+            mappedValue(result, 'contract.name')
           }}</q-tooltip>
         </span>
       </router-link>
       <span v-else>
-        {{ mappedValue(result.node, 'contract.symbol') }}
+        {{ mappedValue(result, 'contract.symbol') }}
         <q-tooltip :delay="500">{{
-          mappedValue(result.node, 'contract.name')
+          mappedValue(result, 'contract.name')
         }}</q-tooltip>
       </span>
     </span>

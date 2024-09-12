@@ -1,16 +1,18 @@
-import { watch } from 'vue';
-import { SearchProvider, SearchState } from '@appvise/search-manager';
+import { ref, Ref, watch } from 'vue';
+import { CountableSearchProvider, SearchState } from '@appvise/search-manager';
 import {
   QueryTokenContractsArgs,
   TokenContract,
   TokenContractEdge,
   TokenContractsConnection,
+  TokenContractsSortField,
+  useTokenContractsCountSearchQuery,
   useTokenContractsSearchQuery,
 } from '@koiner/sdk';
 
 export class TokenContractsSearchProvider
   implements
-    SearchProvider<
+    CountableSearchProvider<
       QueryTokenContractsArgs,
       TokenContract,
       TokenContractEdge,
@@ -23,6 +25,21 @@ export class TokenContractsSearchProvider
     TokenContractEdge,
     TokenContractsConnection
   >();
+
+  public _countState = SearchState.create<
+    any,
+    TokenContract,
+    TokenContractEdge,
+    TokenContractsConnection
+  >();
+
+  public get sortFields(): typeof TokenContractsSortField {
+    return this._sortFields;
+  }
+
+  private _totalCount: Ref<number | undefined> = ref();
+
+  public _sortFields = TokenContractsSortField;
 
   constructor() {
     const { data, fetching, error, isPaused } = useTokenContractsSearchQuery({
@@ -38,6 +55,25 @@ export class TokenContractsSearchProvider
     this._state.error = error;
     this._state.fetching = fetching;
     this._state.isPaused = isPaused;
+
+    // Counts query
+    const {
+      data: countData,
+      fetching: countFetching,
+      error: countError,
+      isPaused: countIsPaused,
+    } = useTokenContractsCountSearchQuery({
+      variables: this.state.request,
+      pause: true,
+    });
+
+    watch(countData, (updatedData) => {
+      this._totalCount.value = updatedData?.tokenContracts.totalCount;
+    });
+
+    this._countState.error = countError;
+    this._countState.fetching = countFetching;
+    this._countState.isPaused = countIsPaused;
   }
 
   public get state(): SearchState<
@@ -47,6 +83,10 @@ export class TokenContractsSearchProvider
     TokenContractsConnection
   > {
     return this._state;
+  }
+
+  public get totalCount(): Ref<number | undefined> {
+    return this._totalCount;
   }
 
   public search(
@@ -68,5 +108,6 @@ export class TokenContractsSearchProvider
 
   public reset(): void {
     this._state.reset();
+    this._countState.reset();
   }
 }

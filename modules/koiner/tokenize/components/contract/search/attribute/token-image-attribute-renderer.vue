@@ -1,6 +1,6 @@
 <template>
   <attribute-wrapper
-    v-if="rawValue(result.node)"
+    v-if="rawValue(result)"
     v-bind="attributeWrapper"
     :styles="styles"
     :applied-options="appliedOptions"
