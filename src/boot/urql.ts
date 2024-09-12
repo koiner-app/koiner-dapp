@@ -1,6 +1,6 @@
 import { boot } from 'quasar/wrappers';
 import { devtoolsExchange } from '@urql/devtools';
-import urql, { dedupExchange, fetchExchange } from '@urql/vue';
+import urql, { fetchExchange } from '@urql/vue';
 import { cacheExchange } from '@urql/exchange-graphcache';
 import { relayPagination } from '@urql/exchange-graphcache/extras';
 import { useKoinerStore } from 'stores/koiner';
@@ -13,7 +13,6 @@ export default boot(({ app }) => {
     requestPolicy: 'cache-and-network',
     exchanges: [
       devtoolsExchange,
-      dedupExchange,
       cacheExchange({
         resolvers: {
           Query: {
