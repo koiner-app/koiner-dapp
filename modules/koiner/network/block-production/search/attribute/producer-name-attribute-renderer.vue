@@ -5,12 +5,12 @@
     :applied-options="appliedOptions"
   >
     <router-link
-      :to="to(rawValue(result.node))"
+      :to="to(rawValue(result))"
       :class="`${styles.attribute.link} address-attribute`"
     >
       <q-icon v-if="appliedOptions.icon" :name="appliedOptions.icon" />
       <span v-if="!appliedOptions.icon">{{
-        blockProducersMap[rawValue(result.node)] ?? rawValue(result.node)
+        blockProducersMap[rawValue(result)] ?? rawValue(result)
       }}</span>
     </router-link>
   </attribute-wrapper>

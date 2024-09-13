@@ -1,14 +1,14 @@
 <template>
   <attribute-wrapper
-    v-if="rawValue(result.node)"
+    v-if="rawValue(result)"
     v-bind="attributeWrapper"
     :styles="styles"
     :applied-options="appliedOptions"
   >
-    <span v-for="(item, index) in entries(rawValue(result.node))" :key="index">
+    <span v-for="(item, index) in entries(rawValue(result))" :key="index">
       <span v-if="index < 1">
         <q-chip
-          @click="showDialog(rawValue(result.node))"
+          @click="showDialog(rawValue(result))"
           square
           dense
           :label="item.key"
@@ -18,17 +18,17 @@
       >
       <q-btn
         v-if="index === 1"
-        @click="showDialog(rawValue(result.node))"
+        @click="showDialog(rawValue(result))"
         flat
         class="q-pa-none q-ml-sm"
         style="min-height: 0.9375rem !important"
       >
         <q-chip
-          @click="showDialog(rawValue(result.node))"
+          @click="showDialog(rawValue(result))"
           square
           dense
           size="sm"
-          :label="`+${entries(rawValue(result.node)).length - 1}`"
+          :label="`+${entries(rawValue(result)).length - 1}`"
           class="q-ma-none"
         />
       </q-btn>

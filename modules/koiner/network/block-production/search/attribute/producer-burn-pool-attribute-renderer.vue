@@ -6,10 +6,10 @@
   >
     <a
       v-if="
-        blockProducersMap[rawValue(result.node)] &&
-        !blockProducersMap[rawValue(result.node)].includes('BurnKoin')
+        blockProducersMap[rawValue(result)] &&
+        !blockProducersMap[rawValue(result)].includes('BurnKoin')
       "
-      :href="`https://fogata.io/pools/${rawValue(result.node)}`"
+      :href="`https://fogata.io/pools/${rawValue(result)}`"
       target="_blank"
       :class="`${styles.attribute.link} address-attribute`"
     >
@@ -21,8 +21,8 @@
     </a>
     <a
       v-if="
-        blockProducersMap[rawValue(result.node)] &&
-        blockProducersMap[rawValue(result.node)].includes('BurnKoin')
+        blockProducersMap[rawValue(result)] &&
+        blockProducersMap[rawValue(result)].includes('BurnKoin')
       "
       :href="`https://burnkoin.com`"
       target="_blank"
@@ -37,8 +37,8 @@
     </a>
     <a
       v-if="
-        blockProducersMap[rawValue(result.node)] &&
-        blockProducersMap[rawValue(result.node)].includes('BurnKoin')
+        blockProducersMap[rawValue(result)] &&
+        blockProducersMap[rawValue(result)].includes('BurnKoin')
       "
       :href="`https://burnkoin.com`"
       target="_blank"

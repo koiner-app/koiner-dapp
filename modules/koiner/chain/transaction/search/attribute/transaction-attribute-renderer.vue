@@ -1,19 +1,17 @@
 <template>
   <attribute-wrapper
-    v-if="rawValue(result.node) != null"
+    v-if="rawValue(result) != null"
     v-bind="attributeWrapper"
     :styles="styles"
     :applied-options="appliedOptions"
   >
     <router-link
-      :to="to(rawValue(result.node))"
+      :to="to(rawValue(result))"
       :class="`${styles.attribute.link} transaction--attribute`"
     >
       <q-icon v-if="appliedOptions.icon" :name="appliedOptions.icon" />
-      <span v-if="!appliedOptions.icon">{{ rawValue(result.node) }}</span>
-      <q-tooltip>
-        Transaction: {{ rawValue(result.node) }}
-      </q-tooltip>
+      <span v-if="!appliedOptions.icon">{{ rawValue(result) }}</span>
+      <q-tooltip> Transaction: {{ rawValue(result) }} </q-tooltip>
     </router-link>
   </attribute-wrapper>
 </template>

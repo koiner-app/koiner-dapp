@@ -5,10 +5,10 @@
     :applied-options="appliedOptions"
   >
     <span>
-      <span>{{ vhpSize(mappedValue(result.node, 'vhpBalance')) }}%</span>
+      <span>{{ vhpSize(mappedValue(result, 'vhpBalance')) }}%</span>
       {{
         localizedTokenAmount(
-          parseInt(mappedValue(result.node, 'vhpBalance')),
+          parseInt(mappedValue(result, 'vhpBalance')),
           koinerStore.vhpContract.decimals,
           0
         )
