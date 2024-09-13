@@ -1,16 +1,18 @@
 <template>
   <attribute-wrapper
-    v-if="rawValue(result.node) != null"
+    v-if="rawValue(result) != null"
     v-bind="attributeWrapper"
     :styles="styles"
     :applied-options="appliedOptions"
   >
     <router-link
-      :to="to(rawValue(result.node))"
+      :to="to(rawValue(result))"
       :class="`${styles.attribute.link} address-attribute`"
     >
       <q-icon v-if="appliedOptions.icon" :name="appliedOptions.icon" />
-      <span v-if="!appliedOptions.icon">{{ rawValue(result.node) }}</span>
+      <span v-if="!appliedOptions.icon">{{
+        getContractName(rawValue(result))
+      }}</span>
     </router-link>
   </attribute-wrapper>
 </template>
@@ -24,9 +26,11 @@ import {
   useJsonAttribute,
   useQuasarAttribute,
 } from '@appvise/jsonsearch-quasar';
+import { getContractName } from '../../../../contracts/components/contract';
 
 export default defineComponent({
   name: 'AddressAttributeRenderer',
+  methods: { getContractName },
   components: {
     AttributeWrapper,
   },
