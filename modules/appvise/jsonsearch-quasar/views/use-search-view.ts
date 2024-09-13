@@ -293,7 +293,11 @@ const useSearchView = (props: SearchViewRendererProps, parentResult?: any) => {
     uischema?.options?.search?.additionalData;
 
   const results = computed(() => {
-    return searchManager.connection?.value?.edges?.map((edge, index) => {
+    if (!searchManager.connection?.value?.edges) {
+      return [];
+    }
+
+    return searchManager.connection.value.edges.map((edge, index) => {
       return {
         rowIndex: index,
         ...edge,
