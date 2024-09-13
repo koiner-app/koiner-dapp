@@ -4,7 +4,7 @@
     :styles="styles"
     :applied-options="appliedOptions"
   >
-    <q-icon v-if="rawValue(result.node)" :name="appliedOptions.icon">
+    <q-icon v-if="rawValue(result)" :name="appliedOptions.icon">
       <q-tooltip v-if="appliedOptions.tooltip">
         {{ t(appliedOptions.tooltip) }}
       </q-tooltip>

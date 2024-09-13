@@ -6,15 +6,11 @@
   >
     <q-linear-progress
       size="25px"
-      :value="parseInt(rawValue(result.node)) / 100"
+      :value="parseInt(rawValue(result)) / 100"
       color="accent"
     >
       <div class="absolute-full flex flex-center">
-        <q-badge
-          color="white"
-          text-color="accent"
-          :label="progressLabel"
-        />
+        <q-badge color="white" text-color="accent" :label="progressLabel" />
       </div>
     </q-linear-progress>
   </attribute-wrapper>
@@ -52,7 +48,7 @@ export default defineComponent({
         // TODO: Fix123
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        () => (controlFields.rawValue(props.result.node)).toFixed(2) + '%'
+        () => controlFields.rawValue(props.result).toFixed(2) + '%'
       ),
     };
   },

@@ -5,12 +5,12 @@
     :applied-options="appliedOptions"
   >
     <span :class="`${styles.attribute.age}`" v-if="accountStore.displayDate">
-      {{ date.formatDate(rawValue(result.node), 'YYYY-MM-DD HH:mm:ss.SSSZ') }}
+      {{ date.formatDate(rawValue(result), 'YYYY-MM-DD HH:mm:ss.SSSZ') }}
     </span>
     <span :class="`${styles.attribute.age}`" v-else>
-      {{ timeAgo(rawValue(result.node)) }} <span class="ago">ago</span>
+      {{ timeAgo(rawValue(result)) }} <span class="ago">ago</span>
       <q-tooltip>
-        {{ date.formatDate(rawValue(result.node), 'YYYY-MM-DD HH:mm:ss.SSSZ') }}
+        {{ date.formatDate(rawValue(result), 'YYYY-MM-DD HH:mm:ss.SSSZ') }}
       </q-tooltip>
     </span>
   </attribute-wrapper>

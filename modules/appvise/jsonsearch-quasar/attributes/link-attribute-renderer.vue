@@ -1,18 +1,19 @@
 <template>
   <attribute-wrapper
+    v-if="rawValue(result)"
     v-bind="attributeWrapper"
     :styles="styles"
     :applied-options="appliedOptions"
   >
-    <router-link :to="routerLink(result.node)" :class="`${styles.attribute.link}`">
+    <router-link :to="routerLink(result)" :class="`${styles.attribute.link}`">
       <q-icon v-if="appliedOptions.icon" :name="appliedOptions.icon" />
-      <span v-if="!appliedOptions.icon">{{ rawValue(result.node) }}</span>
+      <span v-if="!appliedOptions.icon">{{ rawValue(result) }}</span>
     </router-link>
   </attribute-wrapper>
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue';
+import { defineComponent, PropType, ref } from 'vue';
 import { rendererProps, RendererProps } from '@jsonforms/vue';
 import AttributeWrapper from './attribute-wrapper.vue';
 import {
@@ -22,18 +23,16 @@ import {
 } from '@appvise/jsonsearch-quasar';
 
 export default defineComponent({
-  name: 'LinkAttributeRenderer',
   components: {
     AttributeWrapper,
   },
   props: {
-    ...rendererProps<AttributeElement>(),
-
     result: {
       type: Object as PropType<any>,
       required: false,
       default: null,
     },
+    ...rendererProps<AttributeElement>(),
   },
   setup(props: RendererProps<AttributeElement>) {
     const attributeControl = useQuasarAttribute(useJsonAttribute(props));

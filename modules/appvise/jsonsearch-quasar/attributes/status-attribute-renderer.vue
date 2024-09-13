@@ -5,9 +5,7 @@
     :applied-options="appliedOptions"
   >
     <span
-      :class="`active-status ${
-        rawValue(result.node) ? 'active' : 'inactive'
-      }`"
+      :class="`active-status ${rawValue(result) ? 'active' : 'inactive'}`"
     />
   </attribute-wrapper>
 </template>

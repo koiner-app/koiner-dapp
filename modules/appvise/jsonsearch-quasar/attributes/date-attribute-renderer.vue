@@ -7,7 +7,7 @@
     <span :class="`${styles.attribute.age}`">
       {{
         date.formatDate(
-          rawValue(result.node),
+          rawValue(result),
           appliedOptions['dateFormat'] ?? 'YYYY-MM-DD HH:mm:ss.SSSZ'
         )
       }}

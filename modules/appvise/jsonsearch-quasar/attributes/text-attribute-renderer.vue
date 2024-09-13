@@ -4,9 +4,7 @@
     :styles="styles"
     :applied-options="appliedOptions"
   >
-    <span :class="`${styles.attribute.text}`">
-      {{ rawValue(result.node) }}
-    </span>
+    <span :class="`${styles.attribute.text}`" v-html="transformValue(result)" />
   </attribute-wrapper>
 </template>
 
@@ -19,9 +17,9 @@ import {
   useJsonAttribute,
   useQuasarAttribute,
 } from '@appvise/jsonsearch-quasar';
+import { useI18n } from 'vue-i18n';
 
 export default defineComponent({
-  name: 'TextAttributeRenderer',
   components: {
     AttributeWrapper,
   },
@@ -35,7 +33,40 @@ export default defineComponent({
     },
   },
   setup(props: RendererProps<AttributeElement>) {
-    return useQuasarAttribute(useJsonAttribute(props));
+    const input = useQuasarAttribute(useJsonAttribute(props));
+    const { t } = useI18n();
+
+    const transformValue = (result: any): string => {
+      const value = input.rawValue(result);
+
+      if (input.appliedOptions.value.translate) {
+        const i18nPrefix = input.appliedOptions.value.i18nPrefix;
+        const translation = t(
+          `${i18nPrefix ? i18nPrefix + '.' : ''}${value}`,
+          value
+        );
+
+        // Return original value if translation still contains the prefix.
+        // Then the translation is not found
+        return i18nPrefix && translation.includes(i18nPrefix)
+          ? value
+          : translation;
+      }
+
+      if (
+        (value == null || value === '') &&
+        input.appliedOptions.value.emptyValueText
+      ) {
+        return input.appliedOptions.value.emptyValueText;
+      }
+
+      return value;
+    };
+
+    return {
+      ...input,
+      transformValue,
+    };
   },
 });
 </script>

@@ -5,7 +5,7 @@
     :applied-options="appliedOptions"
   >
     <span :class="`${styles.attribute.numeric}`">
-      {{ rawValue(result.node) }}
+      {{ rawValue(result) }}
     </span>
   </attribute-wrapper>
 </template>

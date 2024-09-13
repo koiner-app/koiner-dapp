@@ -7,7 +7,7 @@
     <q-btn
       v-bind="buttonProps"
       :icon="appliedOptions.icon"
-      :to="routerLink(result.node)"
+      :to="routerLink(result)"
       :class="`${styles.attribute.button}`"
     >
       <span v-if="appliedOptions.i18n">{{ t(appliedOptions.i18n) }}</span>
@@ -27,9 +27,7 @@ import {
 import { useI18n } from 'vue-i18n';
 
 // TODO: Find better way to load props
-export const allowedButtonProps = [
-  'size', 'flat', 'dense', 'round'
-];
+export const allowedButtonProps = ['size', 'flat', 'dense', 'round'];
 
 export default defineComponent({
   name: 'ButtonAttributeRenderer',
@@ -48,10 +46,12 @@ export default defineComponent({
   setup(props: RendererProps<AttributeElement>) {
     const attributeControl = useQuasarAttribute(useJsonAttribute(props));
     const { t } = useI18n();
-    const buttonProps: any = {}
+    const buttonProps: any = {};
 
     if (attributeControl.appliedOptions.value.button) {
-      for (const [propKey, propValue] of Object.entries(attributeControl.appliedOptions.value.button)) {
+      for (const [propKey, propValue] of Object.entries(
+        attributeControl.appliedOptions.value.button
+      )) {
         if (allowedButtonProps.includes(propKey)) {
           buttonProps[propKey] = propValue;
         }
