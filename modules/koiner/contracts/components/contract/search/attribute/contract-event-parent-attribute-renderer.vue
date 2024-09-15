@@ -17,7 +17,7 @@
       :to="to(result.node.parentId, result.node.parentType)"
       :class="`${styles.attribute.link} block--attribute`"
     >
-      <q-icon name="receipt" />
+      <q-icon name="token" />
       <q-tooltip> Block: {{ result.node.parentId }} </q-tooltip>
     </router-link>
   </attribute-wrapper>

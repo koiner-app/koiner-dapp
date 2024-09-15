@@ -11,7 +11,7 @@
       "elements": [
         {
           "type": "AttributeGroup",
-          "label": "Age / Bx",
+          "label": "Age / Tx",
           "scope": "#/properties/group1",
           "options": {
             "class": "attribute-wrapper--group-1"
@@ -28,19 +28,23 @@
               }
             },
             {
-              "type": "Attribute",
-              "label": "Block",
-              "scope": "#/properties/blockHeight",
+              "type": "AttributeGroup",
+              "label": "",
+              "scope": "#/properties/links",
               "options": {
-                "class": "attribute-wrapper--block-height",
-                "route": "mobile.block",
-                "format": "link",
-                "linkParams": ["height"],
-                "mapping": "blockHeight",
-                "mappings": {
-                  "height": "blockHeight"
+                "class": "attribute-group--actions"
+              },
+              "elements": [
+                {
+                  "type": "Attribute",
+                  "scope": "#/properties/parentId",
+                  "options": {
+                    "format": "parent",
+                    "icon": "receipt",
+                    "class": "attribute-wrapper--parent"
+                  }
                 }
-              }
+              ]
             }
           ]
         },

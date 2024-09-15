@@ -20,6 +20,25 @@
           }
         },
         {
+          "type": "AttributeGroup",
+          "label": "Bx/Tx",
+          "scope": "#/properties/links",
+          "options": {
+            "class": "attribute-group--actions"
+          },
+          "elements": [
+            {
+              "type": "Attribute",
+              "scope": "#/properties/parentId",
+              "options": {
+                "format": "parent",
+                "icon": "receipt",
+                "class": "attribute-wrapper--parent"
+              }
+            }
+          ]
+        },
+        {
           "type": "Attribute",
           "label": "From",
           "scope": "#/properties/from",
@@ -77,25 +96,6 @@
             },
             "screenSize": "gt-md"
           }
-        },
-        {
-          "type": "AttributeGroup",
-          "label": "",
-          "scope": "#/properties/links",
-          "options": {
-            "class": "attribute-group--actions"
-          },
-          "elements": [
-            {
-              "type": "Attribute",
-              "scope": "#/properties/parentId",
-              "options": {
-                "format": "parent",
-                "icon": "receipt",
-                "class": "attribute-wrapper--parent"
-              }
-            }
-          ]
         }
       ]
     }

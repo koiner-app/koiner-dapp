@@ -11,7 +11,7 @@
       "elements": [
         {
           "type": "AttributeGroup",
-          "label": "Age / Bx",
+          "label": "Age / Tx",
           "scope": "#/properties/group1",
           "options": {
             "class": "attribute-wrapper--group-1"
@@ -29,16 +29,17 @@
             },
             {
               "type": "Attribute",
-              "label": "Block",
-              "scope": "#/properties/blockHeight",
+              "scope": "#/properties/transactionId",
               "options": {
-                "class": "attribute-wrapper--block-height",
-                "route": "mobile.block",
+                "route": "mobile.transaction",
                 "format": "link",
-                "linkParams": ["height"],
-                "mapping": "blockHeight",
+                "icon": "receipt",
+                "linkParams": [
+                  "id"
+                ],
+                "mapping": "transactionId",
                 "mappings": {
-                  "height": "blockHeight"
+                  "id": "transactionId"
                 }
               }
             }
