@@ -7,7 +7,7 @@
 
       <q-toolbar-title class="min-width: 150px">
         <span>
-          {{ id }}
+          {{ getContractName(contract.id, `${contract.id}`) }}
         </span>
       </q-toolbar-title>
 
@@ -45,6 +45,9 @@
               <q-card-section>
                 <div class="text-caption">Contract</div>
                 <div class="stat-title">
+                  <div v-if="getContractName(contract.id, '')">
+                    {{ getContractName(contract.id) }}
+                  </div>
                   <copy-to-clipboard
                     :source="contract.id"
                     :tooltip="'Copy contract id to clipboard'"
@@ -116,9 +119,11 @@ import BookmarkComponent from '@koiner/bookmarks/components/bookmark-component.v
 import ShareDialog from '@koiner/components/share-dialog.vue';
 import AccountMenuMobile from '@koiner/components/account-menu-mobile.vue';
 import BackButton from '@koiner/components/back-button.vue';
+import { getContractName } from '../../components/contract';
 
 export default defineComponent({
   name: 'ContractMobilePage',
+  methods: { getContractName },
   components: {
     BackButton,
     AccountMenuMobile,
