@@ -53,6 +53,7 @@
       <token-contracts-search :search="trimmedSearch" :mobile="mobile" />
       <projects-search :search="trimmedSearch" />
       <addresses-search :search="trimmedSearch" :mobile="mobile" />
+      <contracts-name-search :search="trimmedSearch" :mobile="mobile" />
       <contracts-search :search="trimmedSearch" :mobile="mobile" />
       <blocks-search :search="trimmedSearch" :mobile="mobile" />
       <transactions-search :search="trimmedSearch" :mobile="mobile" />
@@ -70,10 +71,12 @@ import TransactionsSearch from '@koiner/components/search/searches/transactions-
 import PagesSearch from '@koiner/components/search/searches/pages-search.vue';
 import posthog from 'posthog-js';
 import ProjectsSearch from '@koiner/components/search/searches/projects-search.vue';
+import ContractsNameSearch from '@koiner/components/search/searches/contracts-name-search.vue';
 
 export default defineComponent({
   name: 'SearchDialog',
   components: {
+    ContractsNameSearch,
     ProjectsSearch,
     AddressesSearch,
     BlocksSearch,
