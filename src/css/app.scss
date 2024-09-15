@@ -103,6 +103,12 @@ a {
   }
 }
 
+.mobile {
+  .data-attribute-field {
+    margin-left: 0;
+  }
+}
+
 // Color schemes
 @import 'schemes/light';
 @import 'schemes/dark';
