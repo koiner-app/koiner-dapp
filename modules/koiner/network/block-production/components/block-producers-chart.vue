@@ -136,11 +136,10 @@ export default defineComponent({
           font: {},
           formatter: (value, context) => {
             // Customize label formatting if needed
-            return value > 5
-              ? `${context.chart.data.labels[context.dataIndex].substring(
-                  0,
-                  props.labelMaxLength
-                )}
+            return value > 5 && context.chart.data.labels
+              ? `${(
+                  context.chart.data.labels[context.dataIndex] as any
+                ).substring(0, props.labelMaxLength)}
 ${value.toLocaleString(undefined, {
   maximumFractionDigits: 1,
 })}%`
