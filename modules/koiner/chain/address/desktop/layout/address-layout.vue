@@ -2,7 +2,7 @@
   <div class="koiner-topbar fixed-top" v-if="address">
     <q-icon class="topbar-icon" name="account_balance_wallet"></q-icon>
     <div class="topbar-header">
-      <span class="selected-item">{{ getContractName(address.id, '') }}</span>
+      <span class="selected-item">{{ getContractName(address.id) }}</span>
 
       <copy-to-clipboard
         :source="address.id"
