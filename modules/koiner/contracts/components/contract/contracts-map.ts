@@ -1,7 +1,7 @@
 export const contractsMap: Record<string, string> = {
   '1HGN9h47CzoFwU2bQZwe6BYoX4TM6pXc4b': 'Koinos Resources',
   '19qj51eTbSFJYU7ZagudkpxPgNSzPMfdPX': 'Koinos Governance',
-  '15DJN4a8SgrbGhhGksSBASiSYjGnMU8dGL': 'Koin',
+  '15DJN4a8SgrbGhhGksSBASiSYjGnMU8dGL': 'KOIN',
   '159myq5YUhhoVWu3wsHKHiJYKPKGUrGiyv': 'Koinos Proof-of-Burn',
   '18zw3ZokdfHtudzaWAUnU4tUvKzKiJeN76': 'Koinos Claim Koin',
   '19WxDJ9Kcvx4VqQFkpwVmwVEy1hMuwXtQE': 'Koinos Nameservice',

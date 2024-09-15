@@ -27,7 +27,9 @@
 
       <mobile-pages-search :search="trimmedSearch" :mobile="true" />
       <token-contracts-search :search="trimmedSearch" :mobile="true" />
+      <contracts-name-search :search="trimmedSearch" :mobile="true" />
       <addresses-search :search="trimmedSearch" :mobile="true" />
+      <contracts-search :search="trimmedSearch" :mobile="true" />
       <blocks-search :search="trimmedSearch" :mobile="true" />
       <transactions-search :search="trimmedSearch" :mobile="true" />
       <projects-mobile-search :search="trimmedSearch" />
@@ -45,10 +47,14 @@ import BlocksSearch from '@koiner/components/search/searches/blocks-search.vue';
 import TransactionsSearch from '@koiner/components/search/searches/transactions-search.vue';
 import MobilePagesSearch from '@koiner/components/search/searches/mobile/mobile-pages-search.vue';
 import TokenContractsSearch from '@koiner/components/search/searches/token-contracts-search.vue';
+import ContractsNameSearch from '@koiner/components/search/searches/contracts-name-search.vue';
+import ContractsSearch from '@koiner/components/search/searches/contracts-search.vue';
 
 export default defineComponent({
   name: 'MobileSearchPage',
   components: {
+    ContractsSearch,
+    ContractsNameSearch,
     TokenContractsSearch,
     MobilePagesSearch,
     TransactionsSearch,
