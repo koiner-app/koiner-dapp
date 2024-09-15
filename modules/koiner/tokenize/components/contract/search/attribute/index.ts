@@ -6,6 +6,7 @@ import {
 } from '@jsonforms/core';
 
 import TokenAttributeRenderer from './token-attribute-renderer.vue';
+import TokenContractNameAttributeRenderer from './token-contract-name-attribute-renderer.vue';
 import TokenAmountAttributeRenderer from './token-amount-attribute-renderer.vue';
 import KoinTokenAmountAttributeRenderer from './koin-token-amount-attribute-renderer.vue';
 import ManaTokenAmountAttributeRenderer from './mana-token-amount-attribute-renderer.vue';
@@ -22,6 +23,14 @@ const tokenAttributeRendererEntry: JsonFormsRendererRegistryEntry = {
   tester: rankWith(
     2,
     and(isStringAttributeControl, optionIs('format', 'token'))
+  ),
+};
+
+const tokenNameAttributeRendererEntry: JsonFormsRendererRegistryEntry = {
+  renderer: TokenContractNameAttributeRenderer,
+  tester: rankWith(
+    2,
+    and(isStringAttributeControl, optionIs('format', 'tokenContractName'))
   ),
 };
 
@@ -75,6 +84,7 @@ const tradeTokenAttributeRendererEntry: JsonFormsRendererRegistryEntry = {
 
 export {
   TokenAttributeRenderer,
+  TokenContractNameAttributeRenderer,
   TokenAmountAttributeRenderer,
   KoinTokenAmountAttributeRenderer,
   ManaTokenAmountAttributeRenderer,
@@ -84,6 +94,7 @@ export {
 
 export const contractAttributeRenderers = [
   tokenAttributeRendererEntry,
+  tokenNameAttributeRendererEntry,
   tokenAmountAttributeRendererEntry,
   koinTokenAmountAttributeRendererEntry,
   manaTokenAmountAttributeRendererEntry,

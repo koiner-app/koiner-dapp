@@ -28,15 +28,17 @@
           "elements": [
             {
               "type": "Attribute",
-              "label": "ID",
+              "label": "",
               "scope": "#/properties/id",
               "options": {
-                "route": "mobile.token",
-                "format": "link",
-                "linkParams": ["id"],
-                "mapping": "name",
+                "route": "token",
+                "format": "tokenContractName",
+                "linkParams": [
+                  "id"
+                ],
                 "mappings": {
-                  "id": "id"
+                  "id": "id",
+                  "name": "name"
                 }
               }
             },
@@ -73,7 +75,7 @@
                   "contract.symbol": "symbol",
                   "contract.decimals": "decimals"
                 },
-                "route": "mobile.token"
+                "route": "token"
               }
             },
             {

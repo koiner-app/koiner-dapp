@@ -4,24 +4,18 @@
     :styles="styles"
     :applied-options="appliedOptions"
   >
-    <span>
-      <router-link
-        :to="to(mappedValue(result, 'contract.id'))"
-        :class="`${styles.attribute.link}`"
-      >
-        <span>
-          {{
-            getTokenContractName(
-              rawValue(result),
-              mappedValue(result, 'contract.name')
-            )
-          }}
-          <q-tooltip :delay="500">{{
-            mappedValue(result, 'contract.symbol')
-          }}</q-tooltip>
-        </span>
-      </router-link>
-    </span>
+    <router-link
+      :to="to(mappedValue(result, 'id'))"
+      :class="`${styles.attribute.link} address-attribute`"
+    >
+      <q-icon v-if="appliedOptions.icon" :name="appliedOptions.icon" />
+      <span v-if="!appliedOptions.icon">{{
+        getTokenContractName(
+          mappedValue(result, 'id'),
+          mappedValue(result, 'name')
+        )
+      }}</span>
+    </router-link>
   </attribute-wrapper>
 </template>
 
@@ -34,11 +28,17 @@ import {
   useJsonAttribute,
   useQuasarAttribute,
 } from '@appvise/jsonsearch-quasar';
+import { tokenContractsMap } from '../../token-contracts-map';
 import { getTokenContractName } from '../../get-token-contract-name';
 
 export default defineComponent({
-  name: 'TokenAttributeRenderer',
+  name: 'TokenContractNameAttributeRenderer',
   methods: { getTokenContractName },
+  computed: {
+    contractsMap() {
+      return tokenContractsMap;
+    },
+  },
   components: {
     AttributeWrapper,
   },
@@ -55,7 +55,6 @@ export default defineComponent({
     const attributeControl = useQuasarAttribute(useJsonAttribute(props));
 
     const to = (data: Record<string, unknown>) => {
-      // Use route with params
       return {
         name: attributeControl.appliedOptions.value['route'] ?? 'token',
         params: { id: data },
