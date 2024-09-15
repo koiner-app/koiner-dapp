@@ -21,16 +21,24 @@
         },
         {
           "type": "Attribute",
-          "label": "Height",
-          "scope": "#/properties/blockHeight",
+          "label": "Tx",
+          "scope": "#/properties/parentType",
           "options": {
-            "route": "block",
-            "format": "link",
+            "format": "contractEventParent"
+          }
+        },
+        {
+          "type": "Attribute",
+          "label": "Height",
+          "scope": "#/properties/contractId",
+          "options": {
+            "route": "contract",
+            "format": "contractName",
             "linkParams": [
-              "height"
+              "id"
             ],
             "mappings": {
-              "height": "blockHeight"
+              "id": "contractId"
             }
           }
         },

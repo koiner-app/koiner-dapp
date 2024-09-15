@@ -5,12 +5,12 @@
     :applied-options="appliedOptions"
   >
     <router-link
-      :to="to(rawValue(result))"
+      :to="to(mappedValue(result, 'id'))"
       :class="`${styles.attribute.link} address-attribute`"
     >
       <q-icon v-if="appliedOptions.icon" :name="appliedOptions.icon" />
       <span v-if="!appliedOptions.icon">{{
-        getContractName(rawValue(result))
+        getContractName(mappedValue(result, 'id'))
       }}</span>
     </router-link>
   </attribute-wrapper>
@@ -29,7 +29,7 @@ import { contractsMap } from '../../contracts-map';
 import { getContractName } from '../../get-contract-name';
 
 export default defineComponent({
-  name: 'ProducerNameAttributeRenderer',
+  name: 'ContractNameAttributeRenderer',
   methods: { getContractName },
   computed: {
     contractsMap() {
@@ -54,7 +54,7 @@ export default defineComponent({
     const to = (data: Record<string, unknown>) => {
       // Use route with params
       return {
-        name: attributeControl.appliedOptions.value['route'] ?? 'address',
+        name: attributeControl.appliedOptions.value['route'] ?? 'contract',
         params: { id: data },
       };
     };

@@ -29,16 +29,10 @@
             },
             {
               "type": "Attribute",
-              "label": "Height",
-              "scope": "#/properties/blockHeight",
+              "label": "Tx",
+              "scope": "#/properties/parentType",
               "options": {
-                "route": "mobile.block",
-                "format": "link",
-                "linkParams": ["height"],
-                "mapping": "blockHeight",
-                "mappings": {
-                  "height": "blockHeight"
-                }
+                "format": "contractEventParent"
               }
             }
           ]
@@ -51,6 +45,21 @@
             "class": "attribute-wrapper--group-2"
           },
           "elements": [
+            {
+              "type": "Attribute",
+              "label": "",
+              "scope": "#/properties/contractId",
+              "options": {
+                "route": "contract",
+                "format": "contractName",
+                "linkParams": [
+                  "id"
+                ],
+                "mappings": {
+                  "id": "contractId"
+                }
+              }
+            },
             {
               "type": "Attribute",
               "label": "Name",
