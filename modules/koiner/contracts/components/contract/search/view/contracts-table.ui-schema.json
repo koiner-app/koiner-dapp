@@ -15,8 +15,10 @@
           "scope": "#/properties/id",
           "options": {
             "route": "contract.operations",
-            "format": "link",
-            "linkParams": ["id"],
+            "format": "contractName",
+            "linkParams": [
+              "id"
+            ],
             "mappings": {
               "id": "id"
             }

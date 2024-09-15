@@ -7,6 +7,9 @@
     "blockHeight": {
       "type": "number"
     },
+    "contractId": {
+      "type": "string"
+    },
     "name": {
       "type": "string"
     },

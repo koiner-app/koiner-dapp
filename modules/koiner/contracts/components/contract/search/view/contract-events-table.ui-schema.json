@@ -29,7 +29,7 @@
         },
         {
           "type": "Attribute",
-          "label": "Height",
+          "label": "Contract",
           "scope": "#/properties/contractId",
           "options": {
             "route": "contract",

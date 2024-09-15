@@ -21,6 +21,7 @@
         },
         {
           "type": "Attribute",
+          "label": "Tx",
           "scope": "#/properties/transactionId",
           "options": {
             "format": "transaction",
@@ -32,16 +33,16 @@
         },
         {
           "type": "Attribute",
-          "label": "Height",
-          "scope": "#/properties/blockHeight",
+          "label": "Contract",
+          "scope": "#/properties/contractId",
           "options": {
-            "route": "block",
-            "format": "link",
+            "route": "contract",
+            "format": "contractName",
             "linkParams": [
-              "height"
+              "id"
             ],
             "mappings": {
-              "height": "blockHeight"
+              "id": "contractId"
             }
           }
         },

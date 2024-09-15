@@ -11,7 +11,7 @@
       "elements": [
         {
           "type": "AttributeGroup",
-          "label": "Age / Bx",
+          "label": "Age / Tx",
           "scope": "#/properties/group1",
           "options": {
             "class": "attribute-wrapper--group-1"
@@ -39,20 +39,6 @@
                   "id": "transactionId"
                 }
               }
-            },
-            {
-              "type": "Attribute",
-              "label": "Height",
-              "scope": "#/properties/blockHeight",
-              "options": {
-                "route": "mobile.block",
-                "format": "link",
-                "linkParams": ["height"],
-                "mapping": "blockHeight",
-                "mappings": {
-                  "height": "blockHeight"
-                }
-              }
             }
           ]
         },
@@ -64,6 +50,21 @@
             "class": "attribute-wrapper--group-2"
           },
           "elements": [
+            {
+              "type": "Attribute",
+              "label": "Contract",
+              "scope": "#/properties/contractId",
+              "options": {
+                "route": "mobile.contract",
+                "format": "contractName",
+                "linkParams": [
+                  "id"
+                ],
+                "mappings": {
+                  "id": "contractId"
+                }
+              }
+            },
             {
               "type": "Attribute",
               "label": "Name",

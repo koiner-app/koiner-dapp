@@ -13,8 +13,8 @@
     "transactionId": {
       "type": "string"
     },
-    "blockHeight": {
-      "type": "number"
+    "contractId": {
+      "type": "string"
     },
     "timestamp": {
       "type": "number"

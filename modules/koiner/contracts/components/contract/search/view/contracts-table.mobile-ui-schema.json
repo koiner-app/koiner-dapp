@@ -51,9 +51,10 @@
               "scope": "#/properties/id",
               "options": {
                 "route": "mobile.contract",
-                "format": "link",
-                "linkParams": ["id"],
-                "mapping": "id",
+                "format": "contractName",
+                "linkParams": [
+                  "id"
+                ],
                 "mappings": {
                   "id": "id"
                 }

@@ -10,14 +10,14 @@ export const contractsMap: Record<string, string> = {
 
   // '': '',
 
-  '15zQzktjXHPRstPYB9dqs6jUuCUCVvMGB9': 'BTC Chainge',
-  '15twURbNdh6S7GVXhqVs6MoZAhCfDSdoyd': 'ETH Chainge',
-  '14MjxccMUZrtBPXnNkuAC5MLtPev2Zsk3N': 'USDT Chainge',
+  '15zQzktjXHPRstPYB9dqs6jUuCUCVvMGB9': 'Bitcoin [Chainge]',
+  '15twURbNdh6S7GVXhqVs6MoZAhCfDSdoyd': 'Ethereum [Chainge]',
+  '14MjxccMUZrtBPXnNkuAC5MLtPev2Zsk3N': 'Tether USD [Chainge]',
 
   '1Cg38hAHSFK9DynwMsbHUmP7EzeXSxy86o': 'KoinDX KOIN-ETH Staking Pool',
   '1FVmM3DoNeFvif4qFVBHm6BqMNMiDSigMu': 'KoinDX KOIN-VHP Staking Pool',
   '12X3zJ71EwmCsYhnbvsrUUkTB9LjWkvPUL': 'KoinDX KOIN-USDT Staking Pool',
-  '1mhgQXyvL5YWnzXHfkujDmvUZUhUj9YEe': 'KoinDX KOIN-BTC Staking Pool',
+  '1Ht9gnbiRLPsAJj7atQUC67LJzBL3cEuuR': 'KoinDX KOIN-BTC Staking Pool',
   '19DpgtbBqc5mpENEPiKvMQMvY9UWtmQj5X': 'KoinDX Points',
 
   '16tsFkc5RyuwQmXxVABzHHwS513Nu2B9S3': 'Kollection',
