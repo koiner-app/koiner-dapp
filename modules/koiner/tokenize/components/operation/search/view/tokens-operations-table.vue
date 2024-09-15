@@ -69,16 +69,12 @@
     :schema="schema"
     :uischema="uiSchema"
     :request="request"
-    :data="{}"
-    @on-scroll="onScroll"
-    :scroll-position="position"
     :additional-renderers="renderers"
   />
 </template>
 
 <script lang="ts">
 import { defineComponent, onMounted, PropType, ref, Ref, watch } from 'vue';
-import { useSearchStore } from 'stores/search';
 import { KoinerRenderers } from '@koiner/renderers';
 import QJsonSearch from '@appvise/q-json-forms/QJsonSearch.vue';
 import schema from '../token-operations-search.schema.json';
@@ -86,6 +82,7 @@ import mobileUiSchema from './token-operations-table.mobile-ui-schema.json';
 import desktopUiSchema from './token-operations-table.ui-schema.json';
 import SearchFilters from '@appvise/search-manager/search-filters.vue';
 import DisplayDateButton from '@koiner/components/display-date-button.vue';
+import { QueryTokenOperationsArgs } from '@koiner/sdk';
 
 export default defineComponent({
   name: 'TokensOperationsTable',
@@ -139,7 +136,7 @@ export default defineComponent({
   },
 
   setup(props) {
-    const searchStore = useSearchStore();
+    let request: Ref<QueryTokenOperationsArgs> = ref({});
 
     const burn: Ref<boolean> = ref(props.burnFilter);
     const mint: Ref<boolean> = ref(props.mintFilter);
@@ -175,11 +172,11 @@ export default defineComponent({
     };
 
     const updateFilters = () => {
-      if (!searchStore.tokenOperations.request.filter) {
-        searchStore.tokenOperations.request.filter = {};
+      if (!request.value.filter) {
+        request.value.filter = {};
       }
 
-      searchStore.tokenOperations.request.filter = { AND: [] };
+      request.value.filter = { AND: [] };
 
       if (props.heights && props.heights.length > 0) {
         heightsFilter = props.heights.map((height) => {
@@ -215,31 +212,31 @@ export default defineComponent({
 
       // Ignore when none or all are selected
       if (nameFilters.value.length === 1 || nameFilters.value.length === 2) {
-        searchStore.tokenOperations.request.filter.AND!.push({
+        request.value.filter.AND!.push({
           OR: [...nameFilters.value],
         });
       }
 
       if (heightsFilter) {
-        searchStore.tokenOperations.request.filter.AND!.push({
+        request.value.filter.AND!.push({
           OR: heightsFilter,
         });
       }
 
       if (addressFilter) {
-        searchStore.tokenOperations.request.filter.AND!.push({
+        request.value.filter.AND!.push({
           OR: addressFilter,
         });
       }
 
       if (contractsFilter) {
-        searchStore.tokenOperations.request.filter.AND!.push({
+        request.value.filter.AND!.push({
           OR: contractsFilter,
         });
       }
 
       if (transactionIdsFilter) {
-        searchStore.tokenOperations.request.filter.AND!.push({
+        request.value.filter.AND!.push({
           OR: transactionIdsFilter,
         });
       }
@@ -282,19 +279,13 @@ export default defineComponent({
       updateFilters();
     });
 
-    const onScroll = (newScrollPosition: number) => {
-      searchStore.tokenOperations.position = newScrollPosition;
-    };
-
     return {
       transfer,
       mint,
       burn,
-      onScroll,
       schema,
       uiSchema: uiSchema.value,
-      request: searchStore.tokenOperations.request,
-      position: searchStore.tokenOperations.position,
+      request,
       renderers: KoinerRenderers,
       nameFilters,
     };

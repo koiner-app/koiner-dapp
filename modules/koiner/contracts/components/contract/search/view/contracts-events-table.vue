@@ -20,23 +20,20 @@
     :schema="schema"
     :uischema="uiSchema"
     :request="request"
-    :data="{}"
-    @on-scroll="onScroll"
-    :scroll-position="position"
     :additional-renderers="renderers"
   />
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, PropType, ref, watch } from 'vue';
+import { defineComponent, onMounted, PropType, Ref, ref, watch } from 'vue';
 import { KoinerRenderers } from '@koiner/renderers';
 import SearchFilters from '@appvise/search-manager/search-filters.vue';
 import QJsonSearch from '@appvise/q-json-forms/QJsonSearch.vue';
 import schema from '../contract-events-search.schema.json';
 import mobileUiSchema from './contract-events-table.mobile-ui-schema.json';
 import desktopUiSchema from './contract-events-table.ui-schema.json';
-import { useSearchStore } from 'stores/search';
 import DisplayDateButton from '@koiner/components/display-date-button.vue';
+import { QueryContractEventsArgs } from '@koiner/sdk';
 
 export default defineComponent({
   name: 'ContractEventsTable',
@@ -75,7 +72,7 @@ export default defineComponent({
   },
 
   setup(props) {
-    const searchStore = useSearchStore();
+    let request: Ref<QueryContractEventsArgs> = ref({ filter: {} });
     let heightsFilter: any;
     let addressFilter: any;
     let contractsFilter: any;
@@ -88,16 +85,12 @@ export default defineComponent({
         'onChainContractEvents';
     }
 
-    const onScroll = (newScrollPosition: number) => {
-      searchStore.contractEvents.position = newScrollPosition;
-    };
-
     const updateFilters = () => {
-      if (!searchStore.contractEvents.request.filter) {
-        searchStore.contractEvents.request.filter = {};
+      if (!request.value.filter) {
+        request.value.filter = {};
       }
 
-      searchStore.contractEvents.request.filter = { AND: [] };
+      request.value.filter = { AND: [] };
 
       if (props.heights && props.heights.length > 0) {
         heightsFilter = props.heights.map((height) => {
@@ -124,25 +117,25 @@ export default defineComponent({
       }
 
       if (heightsFilter) {
-        searchStore.contractEvents.request.filter.AND!.push({
+        request.value.filter.AND!.push({
           OR: heightsFilter,
         });
       }
 
       if (addressFilter) {
-        searchStore.contractEvents.request.filter.AND!.push({
+        request.value.filter.AND!.push({
           OR: addressFilter,
         });
       }
 
       if (contractsFilter) {
-        searchStore.contractEvents.request.filter.AND!.push({
+        request.value.filter.AND!.push({
           OR: contractsFilter,
         });
       }
 
       if (props.parentId) {
-        searchStore.contractEvents.request.filter.AND!.push({
+        request.value.filter.AND!.push({
           parentId: {
             equals: props.parentId,
           },
@@ -164,11 +157,9 @@ export default defineComponent({
     });
 
     return {
-      onScroll,
       schema,
       uiSchema: uiSchema.value,
-      request: searchStore.contractEvents.request,
-      position: searchStore.contractEvents.position,
+      request,
       renderers: KoinerRenderers,
     };
   },

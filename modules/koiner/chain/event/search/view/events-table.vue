@@ -14,22 +14,19 @@
     :schema="schema"
     :uischema="uiSchema"
     :request="request"
-    :data="{}"
-    @on-scroll="onScroll"
-    :scroll-position="position"
     :additional-renderers="renderers"
   />
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import { useSearchStore } from 'stores/search';
+import { defineComponent, ref, Ref } from 'vue';
 import { KoinerRenderers } from '@koiner/renderers';
 import SearchFilters from '@appvise/search-manager/search-filters.vue';
 import QJsonSearch from '@appvise/q-json-forms/QJsonSearch.vue';
 import schema from '../events-search.schema.json';
 import mobileUiSchema from './events-table.mobile-ui-schema.json';
 import desktopUiSchema from './events-table.ui-schema.json';
+import { QueryEventsArgs } from '@koiner/sdk';
 
 export default defineComponent({
   name: 'EventsTable',
@@ -47,18 +44,12 @@ export default defineComponent({
   },
 
   setup(props) {
-    const searchStore = useSearchStore();
-
-    const onScroll = (newScrollPosition: number) => {
-      searchStore.events.position = newScrollPosition;
-    };
+    let request: Ref<QueryEventsArgs> = ref({});
 
     return {
-      onScroll,
       schema,
       uiSchema: props.mobile ? mobileUiSchema : desktopUiSchema,
-      request: searchStore.events.request,
-      position: searchStore.events.position,
+      request,
       renderers: KoinerRenderers,
     };
   },

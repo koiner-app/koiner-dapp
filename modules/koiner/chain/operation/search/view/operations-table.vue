@@ -14,22 +14,19 @@
     :schema="schema"
     :uischema="uiSchema"
     :request="request"
-    :data="{}"
-    @on-scroll="onScroll"
-    :scroll-position="position"
     :additional-renderers="renderers"
   />
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import { useSearchStore } from 'stores/search';
+import { defineComponent, ref, Ref } from 'vue';
 import { KoinerRenderers } from '@koiner/renderers';
 import SearchFilters from '@appvise/search-manager/search-filters.vue';
 import QJsonSearch from '@appvise/q-json-forms/QJsonSearch.vue';
 import schema from '../operations-search.schema.json';
 import mobileUiSchema from './operations-table.mobile-ui-schema.json';
 import desktopUiSchema from './operations-table.ui-schema.json';
+import { QueryOperationsArgs } from '@koiner/sdk';
 
 export default defineComponent({
   name: 'OperationsTable',
@@ -47,18 +44,12 @@ export default defineComponent({
   },
 
   setup(props) {
-    const searchStore = useSearchStore();
-
-    const onScroll = (newScrollPosition: number) => {
-      searchStore.operations.position = newScrollPosition;
-    };
+    let request: Ref<QueryOperationsArgs> = ref({});
 
     return {
-      onScroll,
       schema,
       uiSchema: props.mobile ? mobileUiSchema : desktopUiSchema,
-      request: searchStore.operations.request,
-      position: searchStore.operations.position,
+      request,
       renderers: KoinerRenderers,
     };
   },

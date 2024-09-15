@@ -9,7 +9,6 @@
     :schema="schema"
     :uischema="uiSchema"
     :request="request"
-    :data="{}"
     :additional-renderers="renderers"
     @change="onChange"
   />
@@ -23,7 +22,6 @@ import tokenHoldersSearchSchema from '../token-holders-search.schema.json';
 import tokenAddressBalancesSearchUiSchema from './address-token-balances-table.ui-schema.json';
 import tokenBalancesSearchUiSchema from './token-balances-table.ui-schema.json';
 import { QueryTokenHoldersArgs, TokenHoldersConnection } from '@koiner/sdk';
-import { useTokensStore } from 'stores/tokens';
 
 export default defineComponent({
   name: 'TokenBalancesTable',
@@ -50,8 +48,6 @@ export default defineComponent({
   emits: ['change'],
 
   setup(props, { emit }) {
-    const tokensStore = useTokensStore();
-
     let request: Ref<QueryTokenHoldersArgs> = ref({ filter: {} });
     let contractIdsFilter: any;
     let addressFilter: any;
@@ -106,7 +102,7 @@ export default defineComponent({
       uiSchema: !props.showAddress
         ? tokenAddressBalancesSearchUiSchema // Don't show address
         : tokenBalancesSearchUiSchema,
-      request: request,
+      request,
       renderers: KoinerRenderers,
       onChange: async (data: TokenHoldersConnection) => {
         emit('change', data);

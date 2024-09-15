@@ -1,7 +1,9 @@
 <template>
   <div class="row no-wrap items-center" v-if="showFilters || title">
     <div v-if="title" class="text-h6">{{ title }}</div>
+
     <q-space />
+
     <search-filters
       v-if="showFilters"
       :request="request"
@@ -13,22 +15,19 @@
     :schema="schema"
     :uischema="uiSchema"
     :request="request"
-    :data="{}"
-    @on-scroll="onScroll"
-    :scroll-position="position"
     :additional-renderers="renderers"
   />
 </template>
 
 <script lang="ts">
-import { defineComponent, watch } from 'vue';
-import { useSearchStore } from 'stores/search';
+import { defineComponent, ref, Ref, watch } from 'vue';
 import { KoinerRenderers } from '@koiner/renderers';
 import SearchFilters from '@appvise/search-manager/search-filters.vue';
 import QJsonSearch from '@appvise/q-json-forms/QJsonSearch.vue';
 import addressesSearchSchema from '@koiner/chain/address/search/addresses-search.schema.json';
 import mobileUiSchema from './addresses-table.mobile-ui-schema.json';
 import desktopUiSchema from './addresses-table.ui-schema.json';
+import { QueryAddressesArgs } from '@koiner/sdk';
 
 export default defineComponent({
   name: 'AddressesTable',
@@ -55,19 +54,15 @@ export default defineComponent({
   },
 
   setup(props) {
-    const searchStore = useSearchStore();
-
-    const onScroll = (newScrollPosition: number) => {
-      searchStore.addresses.position = newScrollPosition;
-    };
+    let request: Ref<QueryAddressesArgs> = ref({});
 
     const updateFilters = () => {
       if (props.search) {
-        if (!searchStore.addresses.request.filter) {
-          searchStore.addresses.request.filter = {};
+        if (!request.value.filter) {
+          request.value.filter = {};
         }
 
-        searchStore.addresses.request.filter.search = {
+        request.value.filter.search = {
           contains: props.search,
         };
       }
@@ -82,11 +77,9 @@ export default defineComponent({
     );
 
     return {
-      onScroll,
       schema: addressesSearchSchema,
       uiSchema: props.mobile ? mobileUiSchema : desktopUiSchema,
-      request: searchStore.addresses.request,
-      position: searchStore.addresses.position,
+      request,
       renderers: KoinerRenderers,
     };
   },

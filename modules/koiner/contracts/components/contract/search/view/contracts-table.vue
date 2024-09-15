@@ -2,32 +2,26 @@
   <div class="row no-wrap items-center">
     <div v-if="title" class="text-h6">{{ title }}</div>
     <q-space />
-    <search-filters
-      :request="request"
-      search-info="Search by contract id"
-    />
+    <search-filters :request="request" search-info="Search by contract id" />
   </div>
 
   <q-json-search
     :schema="schema"
     :uischema="uiSchema"
     :request="request"
-    :data="{}"
-    @on-scroll="onScroll"
-    :scroll-position="position"
     :additional-renderers="renderers"
   />
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import { useSearchStore } from 'stores/search';
+import { defineComponent, Ref, ref } from 'vue';
 import { KoinerRenderers } from '@koiner/renderers';
 import SearchFilters from '@appvise/search-manager/search-filters.vue';
 import QJsonSearch from '@appvise/q-json-forms/QJsonSearch.vue';
 import schema from '../contracts-search.schema.json';
 import mobileUiSchema from './contracts-table.mobile-ui-schema.json';
 import desktopUiSchema from './contracts-table.ui-schema.json';
+import { QueryContractsArgs } from '@koiner/sdk';
 
 export default defineComponent({
   name: 'ContractsTable',
@@ -45,18 +39,12 @@ export default defineComponent({
   },
 
   setup(props) {
-    const searchStore = useSearchStore();
-
-    const onScroll = (newScrollPosition: number) => {
-      searchStore.contracts.position = newScrollPosition;
-    };
+    let request: Ref<QueryContractsArgs> = ref({});
 
     return {
-      onScroll,
       schema,
       uiSchema: props.mobile ? mobileUiSchema : desktopUiSchema,
-      request: searchStore.contracts.request,
-      position: searchStore.contracts.position,
+      request,
       renderers: KoinerRenderers,
     };
   },

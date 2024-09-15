@@ -11,7 +11,6 @@
     :schema="schema"
     :uischema="uiSchema"
     :request="request"
-    :data="{}"
     :additional-renderers="renderers"
   />
 </template>

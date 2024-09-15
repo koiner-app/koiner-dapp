@@ -7,7 +7,6 @@
     :schema="schema"
     :uischema="uiSchema"
     :request="request"
-    :data="{}"
     :additional-renderers="renderers"
   />
 </template>
@@ -41,7 +40,7 @@ export default defineComponent({
       required: false,
       type: Boolean,
       default: false,
-    }
+    },
   },
 
   setup(props) {
@@ -97,7 +96,7 @@ export default defineComponent({
     return {
       schema: blockRewardsSearchSchema,
       uiSchema: props.mobile ? mobileUiSchema : desktopUiSchema,
-      request: request,
+      request,
       renderers: KoinerRenderers,
     };
   },

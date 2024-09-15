@@ -14,22 +14,19 @@
     :schema="schema"
     :uischema="uiSchema"
     :request="request"
-    :data="{}"
-    @on-scroll="onScroll"
-    :scroll-position="position"
     :additional-renderers="renderers"
   />
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import { useSearchStore } from 'stores/search';
+import { defineComponent, ref, Ref } from 'vue';
 import { KoinerRenderers } from '@koiner/renderers';
 import SearchFilters from '@appvise/search-manager/search-filters.vue';
 import QJsonSearch from '@appvise/q-json-forms/QJsonSearch.vue';
 import blocksSearchSchema from '../blocks-search.schema.json';
 import mobileUiSchema from './blocks-table.mobile-ui-schema.json';
 import desktopUiSchema from './blocks-table.ui-schema.json';
+import { QueryBlocksArgs } from '@koiner/sdk';
 
 export default defineComponent({
   name: 'BlocksTable',
@@ -47,18 +44,12 @@ export default defineComponent({
   },
 
   setup(props) {
-    const searchStore = useSearchStore();
-
-    const onScroll = (newScrollPosition: number) => {
-      searchStore.blocks.position = newScrollPosition;
-    };
+    let request: Ref<QueryBlocksArgs> = ref({});
 
     return {
-      onScroll,
       schema: blocksSearchSchema,
       uiSchema: props.mobile ? mobileUiSchema : desktopUiSchema,
-      request: searchStore.blocks.request,
-      position: searchStore.blocks.position,
+      request,
       renderers: KoinerRenderers,
     };
   },

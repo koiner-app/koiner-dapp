@@ -7,7 +7,6 @@
     :schema="schema"
     :uischema="uiSchema"
     :request="request"
-    :data="{}"
     :additional-renderers="renderers"
     @change="connectionUpdated"
   />
@@ -81,14 +80,16 @@ export default defineComponent({
       request.value.filter.AND?.push(addressFilter);
     }
 
-    const connectionUpdated = (connection: BlockProducersConnection) => {
-      emit('change', connection);
+    const connectionUpdated = (event: {
+      response: BlockProducersConnection;
+    }) => {
+      emit('change', event.response);
     };
 
     return {
       schema: blockProducersSearchSchema,
       uiSchema: props.mobile ? mobileUiSchema : desktopUiSchema,
-      request: request,
+      request,
       renderers: KoinerRenderers,
       connectionUpdated,
     };

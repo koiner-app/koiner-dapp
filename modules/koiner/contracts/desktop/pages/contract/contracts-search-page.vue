@@ -15,9 +15,6 @@
           :schema="schema"
           :uischema="uiSchema"
           :request="request"
-          :data="{}"
-          @on-scroll="onScroll"
-          :scroll-position="position"
           :additional-renderers="renderers"
         />
       </q-card-section>
@@ -26,13 +23,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, Ref, ref } from 'vue';
 import { useSearchStore } from 'stores/search';
 import { KoinerRenderers } from '@koiner/renderers';
 import SearchFilters from '@appvise/search-manager/search-filters.vue';
 import QJsonSearch from '@appvise/q-json-forms/QJsonSearch.vue';
 import schema from '../../../components/contract/search/contracts-search.schema.json';
 import uiSchema from '../../../components/contract/search/view/contracts-table.ui-schema.json';
+import { QueryContractsArgs } from '@koiner/sdk';
 
 export default defineComponent({
   name: 'ContractsIndexPage',
@@ -41,16 +39,13 @@ export default defineComponent({
   setup() {
     const searchStore = useSearchStore();
 
-    const onScroll = (newScrollPosition: number) => {
-      searchStore.contracts.position = newScrollPosition;
-    };
+    let request: Ref<QueryContractsArgs> = ref({});
 
     return {
-      onScroll,
       schema,
       uiSchema,
-      request: searchStore.contracts.request,
-      position: searchStore.contracts.position,
+      request,
+      searchStore,
       renderers: KoinerRenderers,
     };
   },
