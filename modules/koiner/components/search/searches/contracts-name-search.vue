@@ -18,10 +18,10 @@
           <q-item-label>{{ result.name }}</q-item-label>
         </q-item-section>
         <q-item-section v-if="!mobile">
-          <q-item-label>{{ result.id }}</q-item-label>
+          <q-item-label>{{ result.name }}</q-item-label>
         </q-item-section>
         <q-item-section side v-if="!mobile">
-          <q-item-label caption>{{ result.name }}</q-item-label>
+          <q-item-label caption>{{ result.id }}</q-item-label>
         </q-item-section>
       </q-item>
     </q-list>
