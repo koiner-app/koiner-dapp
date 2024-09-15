@@ -6,10 +6,10 @@
       <q-card-section>
         <q-tabs v-model="tab" dense align="left" style="width: 100%">
           <q-tab
-            class="text-overline lt-lg"
+            class="text-overline"
             :ripple="false"
-            label="Blocks"
-            name="blocks"
+            label="Contract Ops"
+            name="contract-operations"
           />
           <q-tab
             class="text-overline"
@@ -24,18 +24,18 @@
             name="transactions"
           />
           <q-tab
-            class="text-overline"
+            class="text-overline lt-lg"
             :ripple="false"
-            label="Contract Ops"
-            name="contract-operations"
+            label="Blocks"
+            name="blocks"
           />
         </q-tabs>
 
         <q-separator />
 
         <q-tab-panels v-model="tab" animated>
-          <q-tab-panel name="blocks">
-            <blocks-component />
+          <q-tab-panel name="contract-operations">
+            <contract-operations-table />
           </q-tab-panel>
           <q-tab-panel name="token-transfers" class="token-transfers">
             <tokens-operations-table
@@ -46,8 +46,8 @@
           <q-tab-panel name="transactions">
             <transactions-table />
           </q-tab-panel>
-          <q-tab-panel name="contract-operations">
-            <contract-operations-table />
+          <q-tab-panel name="blocks">
+            <blocks-component />
           </q-tab-panel>
         </q-tab-panels>
       </q-card-section>
@@ -87,13 +87,11 @@ export default defineComponent({
   setup() {
     const { width } = useWindowSize();
 
-    const tab: Ref<string> = ref(
-      width.value < 1440 ? 'blocks' : 'token-transfers'
-    );
+    const tab: Ref<string> = ref('contract-operations');
 
     watch(width, () => {
       if (width.value >= 1440 && tab.value === 'blocks') {
-        tab.value = 'token-transfers';
+        tab.value = 'contract-operations';
       }
     });
 
