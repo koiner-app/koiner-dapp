@@ -42,6 +42,7 @@ export const useStatsStore = defineStore({
       virtualTotalSupply: '' as string,
       fullyDilutedSupply: 0 as number,
       claimed: 0 as number,
+      outstanding: 0 as number,
       burned: 0 as number,
     },
     settings: {
@@ -136,7 +137,10 @@ export const useStatsStore = defineStore({
       return '?';
     },
     blockProductionApy: (state) => {
-      const virtualSupply = parseInt(state.totalSupply.virtualTotalSupply);
+      const virtualSupply =
+        parseInt(state.totalSupply.virtualTotalSupply) -
+        state.totalSupply.outstanding;
+
       const yearlyInflationAmount =
         virtualSupply * Math.pow(Math.E, 0.019802) - virtualSupply;
 
@@ -215,6 +219,7 @@ export const useStatsStore = defineStore({
             fullyDilutedSupply: koinResponse.data.fdv,
             burned: koinResponse.data.burnedPercentage,
             claimed: koinResponse.data.claimedPercentage,
+            outstanding: koinResponse.data.unclaimed,
           },
         });
       }
