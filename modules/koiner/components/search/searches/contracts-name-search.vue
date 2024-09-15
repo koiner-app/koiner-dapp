@@ -31,7 +31,10 @@
 <script lang="ts">
 import { computed, defineComponent } from 'vue';
 import { useRouter } from 'vue-router';
-import { contractsMap } from '@koiner/contracts/components/contract';
+import {
+  addressesMap,
+  contractsMap,
+} from '@koiner/contracts/components/contract';
 
 export default defineComponent({
   name: 'ContractsNameSearch',
@@ -50,11 +53,18 @@ export default defineComponent({
     const router = useRouter();
 
     const nameSearch = computed(() => {
-      return Object.entries(contractsMap)
-        .filter(([_, name]) =>
-          name.toLowerCase().includes(props.search.toLowerCase())
-        )
-        .map(([id, name]) => ({ id, name }));
+      return (
+        Object.entries(contractsMap)
+          .filter(([_, name]) =>
+            name.toLowerCase().includes(props.search.toLowerCase())
+          )
+          .map(([id, name]) => ({
+            id,
+            name,
+          }))
+          // Workaround to filter out exchanges
+          .filter((result) => !addressesMap[result.id])
+      );
     });
 
     return {
