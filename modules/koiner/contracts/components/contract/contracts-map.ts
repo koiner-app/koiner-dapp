@@ -69,3 +69,8 @@ export const contractsMap: Record<string, string> = {
   // '': 'Biconomy',
   // '': 'LCX',
 };
+
+export const addressesMap: Record<string, string> = {
+  '1LNFGjYybk5EvPCssAmPNSCRC5LYxv81Kb': 'MEXC',
+  '16oKBPiApEhjaoEGULwAouA11QckHQ1oZJ': 'Coinstore',
+};

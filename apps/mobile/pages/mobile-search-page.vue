@@ -25,6 +25,7 @@
         </q-input>
       </q-card-section>
 
+      <addresses-name-search :search="trimmedSearch" :mobile="true" />
       <mobile-pages-search :search="trimmedSearch" :mobile="true" />
       <token-contracts-search :search="trimmedSearch" :mobile="true" />
       <contracts-name-search :search="trimmedSearch" :mobile="true" />
@@ -49,10 +50,12 @@ import MobilePagesSearch from '@koiner/components/search/searches/mobile/mobile-
 import TokenContractsSearch from '@koiner/components/search/searches/token-contracts-search.vue';
 import ContractsNameSearch from '@koiner/components/search/searches/contracts-name-search.vue';
 import ContractsSearch from '@koiner/components/search/searches/contracts-search.vue';
+import AddressesNameSearch from '@koiner/components/search/searches/addresses-name-search.vue';
 
 export default defineComponent({
   name: 'MobileSearchPage',
   components: {
+    AddressesNameSearch,
     ContractsSearch,
     ContractsNameSearch,
     TokenContractsSearch,

@@ -49,6 +49,7 @@
         </q-input>
       </q-card-section>
 
+      <addresses-name-search :search="trimmedSearch" :mobile="mobile" />
       <pages-search :search="trimmedSearch" :mobile="mobile" />
       <token-contracts-search :search="trimmedSearch" :mobile="mobile" />
       <projects-search :search="trimmedSearch" />
@@ -72,10 +73,12 @@ import PagesSearch from '@koiner/components/search/searches/pages-search.vue';
 import posthog from 'posthog-js';
 import ProjectsSearch from '@koiner/components/search/searches/projects-search.vue';
 import ContractsNameSearch from '@koiner/components/search/searches/contracts-name-search.vue';
+import AddressesNameSearch from '@koiner/components/search/searches/addresses-name-search.vue';
 
 export default defineComponent({
   name: 'SearchDialog',
   components: {
+    AddressesNameSearch,
     ContractsNameSearch,
     ProjectsSearch,
     AddressesSearch,
