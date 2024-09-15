@@ -2,8 +2,16 @@
   <div class="koiner-topbar fixed-top" v-if="address">
     <q-icon class="topbar-icon" name="account_balance_wallet"></q-icon>
     <div class="topbar-header">
-      <span class="selected-item">{{ address.id }}</span>
+      <span class="selected-item">{{ getContractName(address.id, '') }}</span>
 
+      <copy-to-clipboard
+        :source="address.id"
+        :show-source="false"
+        :tooltip="'Copy address to clipboard'"
+        icon-size="0.875rem"
+        button-class="q-ml-sm"
+        :button-style="'min-width: 2rem; min-height: 2rem; margin-top: -0.25rem'"
+      />
       <bookmark-component
         :item="{ id: address.id, type: 'address' }"
         list-id="addresses"
@@ -47,10 +55,13 @@ import BookmarkComponent from '@koiner/bookmarks/components/bookmark-component.v
 import { ItemState } from '@appvise/search-manager';
 import { Address, useAddressLayoutQuery } from '@koiner/sdk';
 import ErrorView from 'components/error-view.vue';
+import { getContractName } from '@koiner/contracts/components/contract';
+import CopyToClipboard from '@koiner/components/copy-to-clipboard.vue';
 
 export default defineComponent({
   name: 'AddressLayout',
-  components: { ErrorView, BookmarkComponent },
+  methods: { getContractName },
+  components: { CopyToClipboard, ErrorView, BookmarkComponent },
   setup() {
     const route = useRoute();
 
