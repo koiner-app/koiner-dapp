@@ -91,7 +91,7 @@
           style="max-height: calc(100vh - 400px)"
         >
           <block-producers-chart
-            v-if="blockProducers?.edges"
+            v-if="blockProducers !== null && blockProducers?.edges"
             :block-producers="blockProducers"
           />
         </div>
