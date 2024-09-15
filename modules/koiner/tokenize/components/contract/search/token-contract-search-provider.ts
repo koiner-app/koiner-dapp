@@ -63,8 +63,7 @@ export class TokenContractsSearchProvider
       error: countError,
       isPaused: countIsPaused,
     } = useTokenContractsCountSearchQuery({
-      variables: this.state.request,
-      pause: true,
+      variables: this.countState.request,
     });
 
     watch(countData, (updatedData) => {
@@ -85,6 +84,15 @@ export class TokenContractsSearchProvider
     return this._state;
   }
 
+  public get countState(): SearchState<
+    QueryTokenContractsArgs,
+    TokenContract,
+    TokenContractEdge,
+    TokenContractsConnection
+  > {
+    return this._countState;
+  }
+
   public get totalCount(): Ref<number | undefined> {
     return this._totalCount;
   }
@@ -100,6 +108,10 @@ export class TokenContractsSearchProvider
     >
   > {
     this._state.request.value = request;
+
+    if (!request.after) {
+      this._countState.request.value = { filter: request.filter };
+    }
 
     return new Promise((resolve) => {
       resolve(this._state);
