@@ -7,7 +7,7 @@
       :class="buttonClass"
       @click="copy(source)"
       size="1rem"
-      style="min-width: 2rem; min-height: 2rem"
+      :style="buttonStyle"
     >
       <q-icon :name="copied ? 'done' : icon" :size="iconSize" />
     </q-btn>
@@ -60,6 +60,11 @@ export default defineComponent({
       type: String,
       required: false,
       default: '',
+    },
+    buttonStyle: {
+      type: String,
+      required: false,
+      default: 'min-width: 2rem; min-height: 2rem',
     },
   },
 
