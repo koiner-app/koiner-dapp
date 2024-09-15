@@ -12,22 +12,19 @@
     :schema="schema"
     :uischema="uiSchema"
     :request="request"
-    :data="{}"
-    @on-scroll="onScroll"
-    :scroll-position="position"
     :additional-renderers="renderers"
   />
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, PropType, ref, watch } from 'vue';
+import { defineComponent, onMounted, PropType, Ref, ref, watch } from 'vue';
 import { KoinerRenderers } from '@koiner/renderers';
 import SearchFilters from '@appvise/search-manager/search-filters.vue';
 import QJsonSearch from '@appvise/q-json-forms/QJsonSearch.vue';
 import schema from '../contract-operations-search.schema.json';
 import mobileUiSchema from './contract-operations-table.mobile-ui-schema.json';
 import desktopUiSchema from './contract-operations-table.ui-schema.json';
-import { useSearchStore } from 'stores/search';
+import { QueryContractOperationsArgs } from '@koiner/sdk';
 
 export default defineComponent({
   name: 'ContractOperationsTable',
@@ -66,7 +63,7 @@ export default defineComponent({
   },
 
   setup(props) {
-    const searchStore = useSearchStore();
+    let request: Ref<QueryContractOperationsArgs> = ref({ filter: {} });
     let heightsFilter: any;
     let addressFilter: any;
     let contractsFilter: any;
@@ -79,16 +76,12 @@ export default defineComponent({
         'onChainContractOperations';
     }
 
-    const onScroll = (newScrollPosition: number) => {
-      searchStore.contractOperations.position = newScrollPosition;
-    };
-
     const updateFilters = () => {
-      if (!searchStore.contractOperations.request.filter) {
-        searchStore.contractOperations.request.filter = {};
+      if (!request.value.filter) {
+        request.value.filter = {};
       }
 
-      searchStore.contractOperations.request.filter = { AND: [] };
+      request.value.filter = { AND: [] };
 
       if (props.heights && props.heights.length > 0) {
         heightsFilter = props.heights.map((height) => {
@@ -115,25 +108,25 @@ export default defineComponent({
       }
 
       if (heightsFilter) {
-        searchStore.contractOperations.request.filter.AND!.push({
+        request.value.filter.AND!.push({
           OR: heightsFilter,
         });
       }
 
       if (addressFilter) {
-        searchStore.contractOperations.request.filter.AND!.push({
+        request.value.filter.AND!.push({
           OR: addressFilter,
         });
       }
 
       if (contractsFilter) {
-        searchStore.contractOperations.request.filter.AND!.push({
+        request.value.filter.AND!.push({
           OR: contractsFilter,
         });
       }
 
       if (props.transactionId) {
-        searchStore.contractOperations.request.filter.AND!.push({
+        request.value.filter.AND!.push({
           transactionId: {
             equals: props.transactionId,
           },
@@ -155,11 +148,9 @@ export default defineComponent({
     });
 
     return {
-      onScroll,
       schema,
       uiSchema: uiSchema.value,
-      request: searchStore.contractOperations.request,
-      position: searchStore.contractOperations.position,
+      request,
       renderers: KoinerRenderers,
     };
   },
