@@ -10,7 +10,7 @@
     :uischema="uiSchema"
     :request="request"
     :additional-renderers="renderers"
-    @change="onChange"
+    @change="connectionUpdated"
   />
 </template>
 
@@ -97,6 +97,10 @@ export default defineComponent({
       { deep: true }
     );
 
+    const connectionUpdated = (event: { response: TokenHoldersConnection }) => {
+      emit('change', event.response);
+    };
+
     return {
       schema: tokenHoldersSearchSchema,
       uiSchema: !props.showAddress
@@ -104,9 +108,7 @@ export default defineComponent({
         : tokenBalancesSearchUiSchema,
       request,
       renderers: KoinerRenderers,
-      onChange: async (data: TokenHoldersConnection) => {
-        emit('change', data);
-      },
+      connectionUpdated,
     };
   },
 });
