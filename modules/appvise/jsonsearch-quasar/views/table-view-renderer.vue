@@ -1,6 +1,6 @@
 <template>
   <q-table
-    v-if="control.visible && results"
+    v-if="control.visible"
     ref="tableView"
     :class="cssClass"
     :rows-per-page-options="[0]"
@@ -17,11 +17,11 @@
     @virtual-scroll="onScroll"
     @request="onRequest"
     :pagination-label="
-      (firstRowIndex, endRowIndex, totalRowsNumber) =>
+      (firstRowIndex: number, endRowIndex: number, totalRowsNumber: number) =>
         `${totalRowsNumber} items`
     "
     :selected-rows-label="
-      (numberOfRows) => t('appvise.jsonSearch.view.selected', [numberOfRows])
+      (numberOfRows: number) => t('appvise.jsonSearch.view.selected', [numberOfRows])
     "
     :selection="appliedOptions.selection"
     v-model:selected="selectedItems"
@@ -181,16 +181,15 @@ export default defineComponent({
     const tableView = ref();
 
     const onRequest = async () => {
-      console.log({ request: request.value });
       await searchManager.search(request.value);
-
-      if (searchView.scrollPosition) {
-        tableView.value.scrollTo(searchView.scrollPosition, 'start-force');
-      }
     };
 
     const onScroll = (scroll: any) => {
       searchManager.saveScrollPosition(scroll.index);
+
+      searchView.emitEvent('scrollPosition', {
+        scrollPosition: scroll.index,
+      });
 
       const lastIndex =
         searchManager.connection.value && searchManager.connection.value?.edges
@@ -237,6 +236,12 @@ export default defineComponent({
 
       // Get 1st page from server ()
       await onRequest();
+
+      // TODO: Implement scroll to based on store values
+      // if (searchStore.contracts.position) {
+      //   await wait(1000);
+      //   tableView.value.scrollTo(searchStore.contracts.position, 'start-force');
+      // }
     });
 
     // Show table in full view height - offset from top - provided margin

@@ -166,8 +166,6 @@ export default defineComponent({
     const lastScrollPosition = ref(props.scrollPosition);
 
     const onChange = (event: JsonFormsChangeEvent) => {
-      // Propagate onScroll event
-      // TODO: Does onScroll still work?
       if (
         event.data?.scrollPosition &&
         lastScrollPosition.value !== event.data?.scrollPosition
