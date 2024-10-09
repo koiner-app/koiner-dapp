@@ -12,12 +12,14 @@ import { wallets } from './wallets';
 import { documentation } from './documentation';
 import { communities } from './communities';
 import { otherProjects } from './other';
+import { koinosNews } from '@koiner/ecosystem/projects/content/koinnews';
 
 export * from './project';
 export * from './tags';
 
 export const KoinosProjects = [
   koinosOfficial,
+  koinosNews,
   ...dappProjects,
   ...daos,
   ...games,
@@ -30,5 +32,4 @@ export const KoinosProjects = [
   ...codeProjects,
   ...contentProjects,
   ...marketingProjects,
-  ...otherProjects,
 ];
