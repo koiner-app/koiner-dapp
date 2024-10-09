@@ -67,7 +67,7 @@ export default defineComponent({
     watch(
       props,
       async () => {
-        if (props.search !== '' && props.search.length > 2) {
+        if (props.search !== '' && props.search.length > 1) {
           const request: SearchRequestType = {
             first: 10,
             filter: {
