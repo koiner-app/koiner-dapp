@@ -3,6 +3,7 @@
     <q-space />
 
     <search-filters
+      style="opacity: 0; visibility: hidden"
       :request="request"
       search-info="Search by block id or signer"
     />
