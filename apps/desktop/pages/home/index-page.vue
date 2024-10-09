@@ -35,19 +35,20 @@
 
         <q-tab-panels v-model="tab" animated>
           <q-tab-panel name="contract-operations">
-            <contract-operations-table />
+            <contract-operations-table :key="componentIndex" />
           </q-tab-panel>
           <q-tab-panel name="token-transfers" class="token-transfers">
             <tokens-operations-table
+              :key="componentIndex"
               :burn-filter="false"
               :mint-filter="false"
             />
           </q-tab-panel>
           <q-tab-panel name="transactions">
-            <transactions-table />
+            <transactions-table :key="componentIndex" />
           </q-tab-panel>
           <q-tab-panel name="blocks">
-            <blocks-component />
+            <blocks-component :key="componentIndex" />
           </q-tab-panel>
         </q-tab-panels>
       </q-card-section>
@@ -58,7 +59,7 @@
         <div class="text-overline">Blocks</div>
 
         <div class="search-card-content">
-          <blocks-component />
+          <blocks-component :key="componentIndex" />
         </div>
       </q-card-section>
     </q-card>
@@ -66,13 +67,21 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, Ref, ref, watch } from 'vue';
+import {
+  defineComponent,
+  onBeforeUnmount,
+  onMounted,
+  Ref,
+  ref,
+  watch,
+} from 'vue';
 import BlocksComponent from './components/blocks-component.vue';
 import KoinosHomeStatsComponent from './components/koin-home-stats-component.vue';
 import ContractOperationsTable from '@koiner/contracts/components/contract/search/view/contracts-operations-table.vue';
 import TransactionsTable from '@koiner/chain/transaction/search/view/transactions-table.vue';
 import TokensOperationsTable from '@koiner/tokenize/components/operation/search/view/tokens-operations-table.vue';
 import { useWindowSize } from '@vueuse/core';
+import { useRoute } from 'vue-router';
 
 export default defineComponent({
   name: 'DashboardIndexPage',
@@ -85,9 +94,11 @@ export default defineComponent({
   },
 
   setup() {
+    const route = useRoute();
     const { width } = useWindowSize();
 
     const tab: Ref<string> = ref('contract-operations');
+    const componentIndex = ref(0);
 
     watch(width, () => {
       if (width.value >= 1440 && tab.value === 'blocks') {
@@ -95,8 +106,32 @@ export default defineComponent({
       }
     });
 
+    let intervalId: any;
+
+    // Increment the key every minute
+    const startAutoReload = () => {
+      intervalId = setInterval(() => {
+        componentIndex.value += 1;
+      }, 60000);
+    };
+
+    onMounted(() => {
+      startAutoReload();
+    });
+
+    // Clean up the interval when the component is destroyed
+    onBeforeUnmount(() => {
+      clearInterval(intervalId);
+    });
+
+    // Watch for route changes and update the key to force re-render
+    watch(route, () => {
+      componentIndex.value += 1;
+    });
+
     return {
       tab,
+      componentIndex,
     };
   },
 });
