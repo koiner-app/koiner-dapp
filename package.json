@@ -24,7 +24,7 @@
     "@quasar/extras": "^1.16.9",
     "@roamin/koinos-pb-to-proto": "^0.0.2",
     "@urql/devtools": "^2.0.3",
-    "@urql/exchange-graphcache": "^7.1.3",
+    "@urql/exchange-graphcache": "^7.2.0",
     "@urql/vue": "^1.4.1",
     "@vueuse/core": "^9.1.1",
     "apollo-link-ws": "^1.0.20",
