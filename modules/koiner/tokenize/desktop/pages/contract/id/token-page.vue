@@ -72,7 +72,10 @@
         <div class="text-overline">Token Holders</div>
 
         <div class="search-card-content">
-          <token-holders-table :contract-id="tokenContract.id" />
+          <token-holders-table
+            :contract-id="tokenContract.id"
+            :key="componentIndex"
+          />
         </div>
       </q-card-section>
     </q-card>
@@ -80,7 +83,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref, Ref } from 'vue';
+import { defineComponent, PropType, ref, Ref, watch } from 'vue';
 import { useKoinerStore } from 'stores/koiner';
 import { useStatsStore } from 'stores/stats';
 import { TokenContract } from '@koiner/sdk';
@@ -109,11 +112,23 @@ export default defineComponent({
     const statsStore = useStatsStore();
 
     const tab: Ref<string> = ref('token-operations');
+    const componentIndex = ref(0);
+    const currentTokenId = ref(props.tokenContract);
+
+    watch(
+      () => props.tokenContract,
+      () => {
+        if (currentTokenId.value !== props.tokenContract) {
+          componentIndex.value++;
+        }
+      }
+    );
 
     return {
       tab,
       koinerStore,
       statsStore,
+      componentIndex,
     };
   },
 });
