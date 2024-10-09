@@ -86,9 +86,11 @@ const useSearchView = (props: SearchViewRendererProps, parentResult?: any) => {
   }
 
   const searchOptions: SearchOptions = merge(
+    {},
     SearchOptionsDefaults,
     uischema.options.search as UISchemaSearchOptions
   );
+
   const searchProvider = searchOptions.provider;
   let searchManager: SearchManager<
     SearchRequestType,
@@ -216,7 +218,9 @@ const useSearchView = (props: SearchViewRendererProps, parentResult?: any) => {
         selectedItems.value = results.value as any[];
       }
 
-      initialized.value = true;
+      setTimeout(() => {
+        initialized.value = true;
+      }, 2000);
     },
     { deep: true }
   );

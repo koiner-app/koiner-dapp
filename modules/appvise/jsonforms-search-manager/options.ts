@@ -19,6 +19,7 @@ export interface SearchOptions {
   minChars: number;
   filterName: string;
   autoSelectFirst: boolean;
+  autoload: boolean;
 }
 
 export const SearchOptionsDefaults = {
@@ -29,4 +30,5 @@ export const SearchOptionsDefaults = {
   minChars: 0,
   filterName: 'search',
   autoSelectFirst: false,
+  autoload: true,
 };

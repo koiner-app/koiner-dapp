@@ -181,7 +181,9 @@ export default defineComponent({
     const tableView = ref();
 
     const onRequest = async () => {
-      await searchManager.search(request.value);
+      if (searchOptions.autoload) {
+        await searchManager.search(request.value);
+      }
     };
 
     const onScroll = (scroll: any) => {
@@ -203,7 +205,9 @@ export default defineComponent({
         scroll.to > lastIndex - searchOptions.loadMoreThreshold &&
         width.value >= 1024
       ) {
-        searchManager.loadMore();
+        if (initialized.value) {
+          searchManager.loadMore();
+        }
       }
     };
 
