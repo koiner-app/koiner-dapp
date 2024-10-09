@@ -67,14 +67,7 @@
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  onBeforeUnmount,
-  onMounted,
-  Ref,
-  ref,
-  watch,
-} from 'vue';
+import { defineComponent, Ref, ref, watch } from 'vue';
 import BlocksComponent from './components/blocks-component.vue';
 import KoinosHomeStatsComponent from './components/koin-home-stats-component.vue';
 import ContractOperationsTable from '@koiner/contracts/components/contract/search/view/contracts-operations-table.vue';
@@ -104,24 +97,6 @@ export default defineComponent({
       if (width.value >= 1440 && tab.value === 'blocks') {
         tab.value = 'contract-operations';
       }
-    });
-
-    let intervalId: any;
-
-    // Increment the key every minute
-    const startAutoReload = () => {
-      intervalId = setInterval(() => {
-        componentIndex.value += 1;
-      }, 60000);
-    };
-
-    onMounted(() => {
-      startAutoReload();
-    });
-
-    // Clean up the interval when the component is destroyed
-    onBeforeUnmount(() => {
-      clearInterval(intervalId);
     });
 
     // Watch for route changes and update the key to force re-render
