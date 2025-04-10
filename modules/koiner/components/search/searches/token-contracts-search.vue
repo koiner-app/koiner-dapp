@@ -69,7 +69,7 @@ export default defineComponent({
       async () => {
         if (props.search !== '' && props.search.length > 1) {
           const request: SearchRequestType = {
-            first: 10,
+            first: 20,
             filter: {
               search: {
                 iContains: props.search,
