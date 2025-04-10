@@ -1,12 +1,14 @@
 export const contractsMap: Record<string, string> = {
   '1HGN9h47CzoFwU2bQZwe6BYoX4TM6pXc4b': 'Koinos Resources',
   '19qj51eTbSFJYU7ZagudkpxPgNSzPMfdPX': 'Koinos Governance',
-  '15DJN4a8SgrbGhhGksSBASiSYjGnMU8dGL': 'KOIN',
+  '19GYjDBVXU7keLbYvMLazsGQn3GTWHjHkK': 'KOIN',
+  '15DJN4a8SgrbGhhGksSBASiSYjGnMU8dGL': 'KOIN [deprecated]',
   '159myq5YUhhoVWu3wsHKHiJYKPKGUrGiyv': 'Koinos Proof-of-Burn',
   '18zw3ZokdfHtudzaWAUnU4tUvKzKiJeN76': 'Koinos Claim Koin',
   '19WxDJ9Kcvx4VqQFkpwVmwVEy1hMuwXtQE': 'Koinos Nameservice',
+  '12Y5vW6gk8GceH53YfRkRre2Rrcsgw7Naq': 'VHP',
   '1AdzuXSpC6K9qtXdCBgD5NUpDNwHjMgrc9': 'VHP [deprecated]',
-  '18tWNU7E4yuQzz7hMVpceb9ixmaWLVyQsr': 'VHP',
+  '18tWNU7E4yuQzz7hMVpceb9ixmaWLVyQsr': 'VHP [deprecated]',
 
   // '': '',
 
@@ -66,6 +68,8 @@ export const contractsMap: Record<string, string> = {
   // Exchanges
   '1LNFGjYybk5EvPCssAmPNSCRC5LYxv81Kb': 'MEXC',
   '16oKBPiApEhjaoEGULwAouA11QckHQ1oZJ': 'Coinstore',
+  '1Kq55nFXNjP8DefaG9vJYqVpNja5ij3j5C': 'Chainge Finance',
+  '1MHvKdUMvx4hHXUudmVAF6nr5ZU17Djp7C': 'BingX',
   // '': 'Biconomy',
   // '': 'LCX',
 };
@@ -73,4 +77,6 @@ export const contractsMap: Record<string, string> = {
 export const addressesMap: Record<string, string> = {
   '1LNFGjYybk5EvPCssAmPNSCRC5LYxv81Kb': 'MEXC',
   '16oKBPiApEhjaoEGULwAouA11QckHQ1oZJ': 'Coinstore',
+  '1Kq55nFXNjP8DefaG9vJYqVpNja5ij3j5C': 'Chainge Finance',
+  '1MHvKdUMvx4hHXUudmVAF6nr5ZU17Djp7C': 'BingX',
 };

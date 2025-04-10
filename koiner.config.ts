@@ -8,13 +8,19 @@ export const koinerConfig = {
     koinerAddress: '14mLxvouwdmV6vUoeBZMWsxejPKAPLy7yb',
     contracts: {
       koin: {
+        id: '19GYjDBVXU7keLbYvMLazsGQn3GTWHjHkK',
+        name: 'Koinos',
+        symbol: 'KOIN',
+        decimals: 8,
+      },
+      oldKoin: {
         id: '15DJN4a8SgrbGhhGksSBASiSYjGnMU8dGL',
         name: 'Koinos',
         symbol: 'KOIN',
         decimals: 8,
       },
       vhp: {
-        id: '18tWNU7E4yuQzz7hMVpceb9ixmaWLVyQsr',
+        id: '12Y5vW6gk8GceH53YfRkRre2Rrcsgw7Naq',
         name: 'Virtual Hashpower',
         symbol: 'VHP',
         decimals: 8,
@@ -22,6 +28,12 @@ export const koinerConfig = {
       oldVhp: {
         id: '1AdzuXSpC6K9qtXdCBgD5NUpDNwHjMgrc9',
         name: 'Virtual Hashpower V1',
+        symbol: 'VHP',
+        decimals: 8,
+      },
+      oldVhp2: {
+        id: '18tWNU7E4yuQzz7hMVpceb9ixmaWLVyQsr',
+        name: 'Virtual Hashpower',
         symbol: 'VHP',
         decimals: 8,
       },
